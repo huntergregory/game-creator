@@ -1,4 +1,4 @@
-package Launcher.src.Initial;
+package Launcher.Initial;
 
 import PlayerMain.GameLoop;
 

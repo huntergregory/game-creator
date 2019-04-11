@@ -96,16 +96,18 @@ public class CollisionHandler {
 
     private void checkCollision(Integer entity1, Integer entity2) {
         Pair<String>[] collisionTagPairs = findRelevantTagPairs(entity1, entity2);
-        if (collisionTagPairs.length == 0 || !myCollisionDetector.collides(entity1, entity2))
+        if (!myCollisionDetector.collides(entity1, entity2))
             return;
+        if (collisionTagPairs.length != 0 ) {
 
-        handleEnvironments(entity1, entity2);
-        handleEnvironments(entity2, entity1);
+            handleEnvironments(entity1, entity2);
+            handleEnvironments(entity2, entity1);
 
-        for (Pair<String> tagPair : collisionTagPairs) {
-            Pair<List<Event>> responseListPair = myCollisionResponses.get(tagPair);
-            activateEvents(entity1, entity2, responseListPair.getItem1());
-            activateEvents(entity2, entity1, responseListPair.getItem2());
+            for (Pair<String> tagPair : collisionTagPairs) {
+                Pair<List<Event>> responseListPair = myCollisionResponses.get(tagPair);
+                activateEvents(entity1, entity2, responseListPair.getItem1());
+                activateEvents(entity2, entity1, responseListPair.getItem2());
+            }
         }
 
         dealWithImpassable(entity1, entity2);
@@ -119,25 +121,27 @@ public class CollisionHandler {
             var motion = myEntityManager.getComponent(mover, MotionComponent.class);
             if (motion == null)
                 return;
-            if (myCollisionDetector.collideFromTop(mover, impassable) && motion.getYVelocity() > 0
+            motion.setYVelocity(0);
+            /*if (myCollisionDetector.collideFromTop(mover, impassable) && motion.getYVelocity() > 0
                     || myCollisionDetector.collideFromTop(impassable, mover) && motion.getYVelocity() < 0) {
                 motion.setYVelocity(0);
             }
             else if (myCollisionDetector.collideFromLeft(mover, impassable) && motion.getXVelocity() > 0
                     || myCollisionDetector.collideFromLeft(impassable, mover) && motion.getXVelocity() < 0) {
                 motion.setXVelocity(0);
-            }
+            }*/
         }
     }
 
     private Pair<String>[] findRelevantTagPairs(Integer entity1, Integer entity2) {
+        ArrayList<Pair<String>> tagPairs = new ArrayList<>();
+
         var tags1 = myEntityManager.getComponent(entity1, TagsComponent.class);
         var tags2 = myEntityManager.getComponent(entity2, TagsComponent.class);
 
         if (tags1 == null || tags2 == null)
-            return new Pair[]{new Pair("",""), new Pair("", "")};
+            return tagPairs.toArray(new Pair[0]);
 
-        ArrayList<Pair<String>> tagPairs = new ArrayList<>();
         for (String tag1 : tags1.getTags()) {
             for (String tag2 : tags2.getTags()) {
                 var tagPair = new Pair(tag1, tag2);
@@ -155,7 +159,7 @@ public class CollisionHandler {
         var currentMotionComponent = myEntityManager.getComponent(current, MotionComponent.class);
         var otherEnvironmentComponent = myEntityManager.getComponent(current, EnvironmentComponent.class);
 
-        if (currentMotionComponent == null)
+        if (currentMotionComponent == null || otherEnvironmentComponent == null)
             return;
 
         if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).contains(other))

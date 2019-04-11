@@ -33,7 +33,7 @@ public class PlayerStage {
     private final String TITLE_STYLESHEET = "titleRegion";
 
     public final String ST_TITLE = "Cracking Open a Scrolled One with the Boys";
-    public final double ST_WIDTH = 1200;
+    public final double ST_WIDTH = 8000;
     public final double ST_HEIGHT = 600;
     public final Paint ST_COLOR = Color.web("284376");
     public final double ST_SPACING = 20;
@@ -43,7 +43,7 @@ public class PlayerStage {
     public final double GAME_HEIGHT = 800;
     public final Paint GAME_BG = Color.BLACK;
 
-    public static final int FRAMES_PER_SECOND = 30;
+    public static final int FRAMES_PER_SECOND = 15;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
@@ -114,7 +114,7 @@ public class PlayerStage {
     }
 
     private void animate() {
-        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> { step(); scrollImageViews(); });
+        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
@@ -125,25 +125,6 @@ public class PlayerStage {
         myGameController.updateScene();
         addNewImageViews();
         updateOrRemoveImageViews();
-    }
-
-    private void scrollImageViews() {
-        for (Integer id : myImageViewMap.keySet()) {
-            ImageView imageView = myImageViewMap.get(id);
-
-            var entity = myGameEntityMap.get(id);
-            if (entity == null)
-                continue;
-
-            var basicComponent = (BasicComponent) entity.get(BasicComponent.class);
-            if (basicComponent == null)
-                continue;
-
-            imageView.setX(basicComponent.getX() - myGameController.getOffset()[0]);
-            imageView.setY(basicComponent.getY() - myGameController.getOffset()[1]);
-        }
-
-        System.out.println(myGameController.getOffset()[0]);
     }
 
     private void updateOrRemoveImageViews() {
@@ -177,8 +158,8 @@ public class PlayerStage {
     }
 
     private void moveAndResize(ImageView imageView, BasicComponent basicComponent) {
-        imageView.setX(basicComponent.getX());
-        imageView.setY(basicComponent.getY());
+        imageView.setX(basicComponent.getX() - myGameController.getOffset()[0]);
+        imageView.setY(basicComponent.getY() - myGameController.getOffset()[1]);
         imageView.setFitWidth(basicComponent.getWidth());
         imageView.setFitHeight(basicComponent.getHeight());
     }

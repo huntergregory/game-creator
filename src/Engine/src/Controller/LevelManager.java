@@ -63,9 +63,9 @@ public class LevelManager {
         if (userX <= .5 * screenWidth - .5 * userWidth) {
             offsetX = 0;
         }
-        else if (myLevelWidth - userX <= .5 * screenWidth + .5 * userWidth) {
+        /*else if (myLevelWidth - userX <= .5 * screenWidth + .5 * userWidth) {
             offsetX = myLevelWidth - screenWidth;
-        }
+        }*/ //FIXME restricting max scroll to very small even when level width is large...
         else {
             offsetX = userX + .5 * userWidth - .5 * screenWidth;
         }
@@ -80,6 +80,6 @@ public class LevelManager {
             offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
         }
 
-        return new double[]{offsetX, offsetY};
+        return new double[]{offsetX, 0}; //FIXME hardcoding 0 offset in y direction for demo
     }
 }

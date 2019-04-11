@@ -15,7 +15,7 @@ public class Deflect extends DirectionChange{
 
     @Override
     public void activate(EntityManager entityManager){
-        //entityManager.setYVelocity(myObject, 0);//FIXME using this to stop y velocity
+        entityManager.setYVelocity(myObject, -25);//FIXME modifiying for demo
         //entityManager.adjustDirection(myObject, myAdjustmentAngle);
     }
 }

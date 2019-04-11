@@ -70,6 +70,7 @@ public class Controller {
 
         setDefaultKeys();
         setDefaultTriggers();
+        myOffset = updateOffset();
     }
 
     //FIXME??
@@ -137,7 +138,7 @@ public class Controller {
         myOffset = updateOffset();
     }
 
-    public double[] updateOffset() {
+    private double[] updateOffset() {
         BasicComponent basic = (BasicComponent) myActiveObjects.get(myUserID).get(BasicComponent.class);
         double userX = basic.getX();
         double userY = basic.getY();

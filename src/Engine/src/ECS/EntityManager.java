@@ -87,6 +87,12 @@ public class EntityManager {
             motionComponent.setYVelocity(vel);
     }
 
+    public void setXVelocity(int entityID, double vel) {
+        var motionComponent = (MotionComponent) getComponent(entityID, MotionComponent.class);
+        if (motionComponent != null)
+            motionComponent.setXVelocity(vel);
+    }
+
     public void adjustHealth(int entityID, int delta) {
         var healthComponent = (HealthComponent) getComponent(entityID, HealthComponent.class);
         if (healthComponent != null) {

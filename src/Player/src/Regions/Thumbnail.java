@@ -1,4 +1,4 @@
-package Regions;
+package Player.src.Regions;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;

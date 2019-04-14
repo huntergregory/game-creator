@@ -1,6 +1,6 @@
-package Features;
+package Player.src.Features;
 
-import Features.ScrollableWindows.CommentSection;
+import Player.src.Features.ScrollableWindows.CommentSection;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;

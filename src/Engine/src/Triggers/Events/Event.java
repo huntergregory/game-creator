@@ -1,13 +1,13 @@
-package Triggers.Events;
+package Engine.src.Triggers.Events;
 
-import Triggers.Conditionals.Conditional;
-import Triggers.Conditionals.ObjectConditional;
-import ECS.EntityManager;
+import Engine.src.Triggers.Conditionals.Conditional;
+import Engine.src.Triggers.Conditionals.ObjectConditional;
+import Engine.src.ECS.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Event {
+public abstract class Event {
     protected List<Conditional> myConditionals;
 
     public Event(){
@@ -18,12 +18,14 @@ public class Event {
         myConditionals = conditionals;
     }
 
-    public Event copy(){
+    public abstract Event copy();
+
+    protected List<Conditional> copyConditionals(){
         List<Conditional> conditionalsCopy = new ArrayList<>();
         for(Conditional conditional: myConditionals){
             conditionalsCopy.add(conditional.copy());
         }
-        return new Event(conditionalsCopy);
+        return conditionalsCopy;
     }
 
     public void setConditionalObject(int obj){

@@ -1,8 +1,8 @@
-package Triggers.Conditionals;
+package Engine.src.Triggers.Conditionals;
 
-import Components.Component;
-import Components.HealthComponent;
-import ECS.EntityManager;
+import Engine.src.Components.Component;
+import Engine.src.Components.HealthComponent;
+import Engine.src.ECS.EntityManager;
 
 public class HealthComparison extends Comparison{
     public HealthComparison(boolean required, int obj, String comparisonOperator, Component compareTo){

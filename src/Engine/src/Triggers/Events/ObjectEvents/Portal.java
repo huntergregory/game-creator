@@ -1,7 +1,8 @@
-package Triggers.Events.ObjectEvents;
+package Engine.src.Triggers.Events.ObjectEvents;
 
-import ECS.EntityManager;
-import Triggers.Conditionals.Conditional;
+import Engine.src.ECS.EntityManager;
+import Engine.src.Triggers.Conditionals.Conditional;
+import Engine.src.Triggers.Events.Event;
 
 import java.util.List;
 
@@ -23,5 +24,10 @@ public class Portal extends ObjectEvent {
         else
             entityManager.setXVelocity(myObject, 0);
 
+    }
+
+    @Override
+    public Event copy() {
+        return new Portal(copyConditionals(), myShoot);
     }
 }

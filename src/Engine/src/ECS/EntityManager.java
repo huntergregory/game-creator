@@ -1,6 +1,6 @@
-package ECS;
+package Engine.src.ECS;
 
-import Components.*;
+import Engine.src.Components.*;
 
 import java.util.Map;
 

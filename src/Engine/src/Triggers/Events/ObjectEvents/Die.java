@@ -1,7 +1,8 @@
-package Triggers.Events.ObjectEvents;
+package Engine.src.Triggers.Events.ObjectEvents;
 
-import Triggers.Conditionals.Conditional;
-import ECS.EntityManager;
+import Engine.src.Triggers.Conditionals.Conditional;
+import Engine.src.ECS.EntityManager;
+import Engine.src.Triggers.Events.Event;
 
 import java.util.List;
 
@@ -18,6 +19,10 @@ import java.util.List;
         @Override
         public void activate(EntityManager entityManager) { entityManager.die(myObject);}
 
+        @Override
+        public Event copy() {
+            return new Die(copyConditionals(), myObject);
+        }
     }
 
 

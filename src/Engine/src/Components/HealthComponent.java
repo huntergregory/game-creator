@@ -1,4 +1,4 @@
-package Components;
+package Engine.src.Components;
 
 public class HealthComponent extends Component {
     private int myHealth;

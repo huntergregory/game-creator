@@ -1,4 +1,4 @@
-package Triggers;
+package Engine.src.Triggers;
 
 public class TimerManager {
 }

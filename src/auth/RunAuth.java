@@ -15,6 +15,15 @@ public class RunAuth extends Application {
 
     private Stage mainStage;
 
+    public RunAuth() {
+        mainStage = new CanvasScreen().createScreen(new Stage(), this);
+        //mainStage.setResizable(false);
+    }
+
+    public Stage getStage() {
+        return mainStage;
+    }
+
     @Override
     public void start (Stage stage) {
         // attach scene to the stage and display it

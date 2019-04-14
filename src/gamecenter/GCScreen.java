@@ -1,5 +1,7 @@
 package gamecenter;
 
+import Player.src.PlayerMain.PlayerStage;
+import auth.RunAuth;
 import demotests.RunDemo;
 import gamecenter.gamedata.DataParser;
 import gamecenter.gamedata.DataStruct;
@@ -53,15 +55,16 @@ public class GCScreen {
             gameData = DataParser.parseConfig("data/player_data.json");
             int i = 0;
             var sp = new ScrollPane();
-            sp.setMinWidth(THUMBNAIL_SIZE);
-            sp.setLayoutX(GC_RIGHT_PANE_WIDTH/2 - THUMBNAIL_SIZE/2);
+            sp.setMinWidth(THUMBNAIL_SIZE + 40);
+            sp.setPrefWidth(THUMBNAIL_SIZE + 40);
+            sp.setLayoutX(GC_RIGHT_PANE_WIDTH/2 - THUMBNAIL_SIZE/2 - 20);
             sp.setPrefHeight(GC_RIGHT_PANE_HEIGHT);
             sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            var scrollContents = new VBox(25);
+            var scrollContents = new VBox(20);
             sp.setContent(scrollContents);
             sp.setStyle("-fx-background: #333333;\n" +
-                    "   -fx-border-color: #333333;" +
+                    "   -fx-border-color: transparent;" +
                     "-fx-background-color: #33333300;");
             for(var d : gameData) {
                 var thumbnail = new Thumbnail(new Image(GCScreen.class.getResourceAsStream("/img/"+d.imagePath)));
@@ -70,9 +73,11 @@ public class GCScreen {
                 final int index = i;
                 thumbnail.getView().setOnMouseClicked(e -> thumbnailClicked(index));
                 if (i == 0) {
-                    VBox.setMargin(thumbnail.getView(), new Insets(25, 0, 0, 0));
+                    VBox.setMargin(thumbnail.getView(), new Insets(20, 0, 0, 17.5));
                 } else if (i == gameData.size()-1) {
-                    VBox.setMargin(thumbnail.getView(), new Insets(0, 0, 25, 0));
+                    VBox.setMargin(thumbnail.getView(), new Insets(0, 0, 20, 17.5));
+                } else {
+                    VBox.setMargin(thumbnail.getView(), new Insets(0, 0, 0, 17.5));
                 }
                 i ++;
             }
@@ -128,6 +133,9 @@ public class GCScreen {
         // TODO: Open player for this game
         if (index == 0) {
             new RunDemo().run();
+        } else if (index == 3) {
+            new PlayerStage().run("mario");  //COMMENT to show player and run mario from there
+            //new PlayerStage().makeStage().show();    UNCOMMENT to show player
         }
     }
 
@@ -239,6 +247,7 @@ public class GCScreen {
         button.setLayoutX(GC_TITLE_PANE_X + GC_PERMA_PANE_WIDTH/2 - button.getLayoutBounds().getWidth()/2 + BUTTON_OFFSET_CORRECTION);
         button.setLayoutY(GC_PERMA_PANE_Y + GC_PERMA_PANE_HEIGHT/2 - button.getLayoutBounds().getHeight()/2
         + GC_PERMA_CONTENT_OFFSET);
+        button.setOnMouseClicked(e -> {new RunAuth().start(new Stage());});
 
         parent.getChildren().addAll(defaultPermaText, button);
     }

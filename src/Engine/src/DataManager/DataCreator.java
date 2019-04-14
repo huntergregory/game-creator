@@ -1,5 +1,5 @@
 
-package DataManager;
+package Engine.src.DataManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,14 +10,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class DataCreator implements DataManager.DataInterface {
+public class DataCreator implements DataInterface {
     private Gson myGson;
 
     public DataCreator(){
         myGson = new GsonBuilder().setPrettyPrinting().create();
     }
 
-    public void saveGame(String fileName, DataManager.GameInformation gameInformation){
+    public void saveGame(String fileName, GameInformation gameInformation){
         try {
             myGson.toJson(gameInformation, new FileWriter("./" + fileName));
         } catch (IOException e) {
@@ -25,13 +25,13 @@ public class DataCreator implements DataManager.DataInterface {
         }
     }
 
-    public DataManager.GameInformation loadGame(String fileName){
+    public GameInformation loadGame(String fileName){
         try {
-            DataManager.GameInformation gameInformation = myGson.fromJson(new FileReader(fileName), DataManager.GameInformation.class);
+            GameInformation gameInformation = myGson.fromJson(new FileReader(fileName), GameInformation.class);
             return gameInformation;
         } catch (FileNotFoundException e) {
             System.out.println("Unable to load Engine.src.DataManager.GameInformation from JSON file " + fileName);
         }
-        return new DataManager.GameInformation(null, null, null);
+        return new GameInformation(null, null, null);
     }
 }

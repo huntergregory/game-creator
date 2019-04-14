@@ -1,7 +1,7 @@
-package Triggers.Conditionals;
+package Engine.src.Triggers.Conditionals;
 
-import Components.Component;
-import ECS.EntityManager;
+import Engine.src.Components.Component;
+import Engine.src.ECS.EntityManager;
 
 public abstract class Comparison extends ObjectConditional{
 

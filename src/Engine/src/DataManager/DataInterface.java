@@ -1,8 +1,8 @@
 
-package DataManager;
+package Engine.src.DataManager;
 
 public interface DataInterface {
-    void saveGame(String fileName, DataManager.GameInformation gameInformation);
+    void saveGame(String fileName, Engine.src.DataManager.GameInformation gameInformation);
 
-    DataManager.GameInformation loadGame(String fileName);
+    Engine.src.DataManager.GameInformation loadGame(String fileName);
 }

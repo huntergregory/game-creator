@@ -1,4 +1,4 @@
-package Components;
+package Engine.src.Components;
 
 public class EnvironmentComponent extends Component{
     private double myAccelX;

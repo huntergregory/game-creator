@@ -1,4 +1,4 @@
-package Components;
+package Engine.src.Components;
 
 public class JumpComponent extends Component {
     public double myJumpVelocity;

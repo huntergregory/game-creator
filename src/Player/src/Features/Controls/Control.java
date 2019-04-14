@@ -1,13 +1,13 @@
-package Features.Controls;
+package Player.src.Features.Controls;
 
-import PlayerMain.PlayerStage;
+import Player.src.PlayerMain.PlayerStage;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 /**
- * Abstract superclass to serve as template for all buttons/controls. Should be used for creating new Button objects.
+ * Abstract superclass to serve as template for all buttons/controls. Should be used for creating new Button gameObjects.
  *
  * @author Januario Carreiro
  */

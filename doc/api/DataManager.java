@@ -2,7 +2,7 @@ package Player;
 
 public interface DataManager {
     /**
-     * Saves the initial state of all of the objects in the game, as well as the rules and any special circumstances
+     * Saves the initial state of all of the gameObjects in the game, as well as the rules and any special circumstances
      * that apply to the game to a .json file
      */
     void saveGame(GameInformation gameInformation);

@@ -1,7 +1,8 @@
-package Triggers.Events.ObjectEvents;
+package Engine.src.Triggers.Events.ObjectEvents;
 
-import Triggers.Conditionals.Conditional;
-import ECS.EntityManager;
+import Engine.src.Triggers.Conditionals.Conditional;
+import Engine.src.ECS.EntityManager;
+import Engine.src.Triggers.Events.Event;
 
 import java.util.List;
 
@@ -31,4 +32,8 @@ public class GainScore extends ObjectEvent {
         entityManager.increaseScore(myObject, myGain);
     }
 
+    @Override
+    public Event copy() {
+        return new GainScore(copyConditionals(), myObject, myGain);
+    }
 }

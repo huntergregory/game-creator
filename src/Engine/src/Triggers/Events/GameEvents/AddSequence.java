@@ -1,8 +1,8 @@
-package Triggers.Events.GameEvents;
+package Engine.src.Triggers.Events.GameEvents;
 
-import Triggers.Conditionals.Conditional;
-import Controller.LevelManager;
-import Triggers.Events.Event;
+import Engine.src.Triggers.Conditionals.Conditional;
+import Engine.src.Controller.LevelManager;
+import Engine.src.Triggers.Events.Event;
 
 import java.util.List;
 import java.util.Map;
@@ -26,5 +26,10 @@ public class AddSequence extends GameEvent {
     @Override
     public void activate(LevelManager levelManager) {
         levelManager.addSequence(myEventsWhileOn, myEventsAfter, myDurations, IsLoop);
+    }
+
+    @Override
+    public Event copy() {
+        return new AddSequence(copyConditionals(), myEventsWhileOn, myEventsAfter, myDurations, IsLoop);
     }
 }

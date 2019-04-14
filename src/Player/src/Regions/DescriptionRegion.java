@@ -1,6 +1,6 @@
-package Regions;
+package Player.src.Regions;
 
-import PlayerMain.PlayerStage;
+import Player.src.PlayerMain.PlayerStage;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;

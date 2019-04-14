@@ -1,6 +1,6 @@
-package Components;
+package Engine.src.Components;
 
-import Entity.IEntity;
+import Engine.src.Entity.IEntity;
 
 public abstract class Component implements IEntity {
     private int entityID;

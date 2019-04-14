@@ -1,0 +1,47 @@
+[
+  {
+    "name" : "add_scene",
+    "tooltip" : "Create new scene",
+    "handler" :  "handleNewScene"
+  },
+  {
+    "name" : "add_object",
+    "tooltip" : "Create new object",
+    "handler" :  "handleNewObject"
+  },
+  {
+    "name" : "add_img_res",
+    "tooltip" : "Import image resource",
+    "handler" : "handleNewImgRes"
+  },
+  {
+    "name" : "add_audio_res",
+    "tooltip" : "Import audio resource",
+    "handler" : "handleNewAudioRes"
+  },
+  {
+    "name" : "color_palette",
+    "tooltip" : "Add new color to palette",
+    "handler" : "handleNewColor"
+  },
+  {
+    "name" : "delete",
+    "tooltip" : "Delete current selection",
+    "handler" : "handleDeleteCurrentSelection"
+  },
+  {
+    "name" : "run",
+    "tooltip": "Run game",
+    "handler" : "handleRunGame"
+  },
+  {
+    "name" : "debug",
+    "tooltip" : "Debug game",
+    "handler" : "handleDebugGame"
+  },
+  {
+    "name" : "export",
+    "tooltip" : "Export game",
+    "handler" : "handleExportGame"
+  }
+]

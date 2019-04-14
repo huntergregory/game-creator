@@ -1,6 +1,6 @@
-package Features.Sliders;
+package Player.src.Features.Sliders;
 
-import Features.Feature;
+import Player.src.Features.Feature;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
 

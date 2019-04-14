@@ -1,6 +1,6 @@
-package Features.ScrollableWindows;
+package Player.src.Features.ScrollableWindows;
 
-import Features.Feature;
+import Player.src.Features.Feature;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;

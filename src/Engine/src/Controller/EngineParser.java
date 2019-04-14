@@ -1,7 +1,7 @@
-package Controller;
+package Engine.src.Controller;
 
-import Components.Component;
-import Triggers.Timer;
+import Engine.src.Components.Component;
+import Engine.src.Triggers.Timer;
 
 
 import java.util.Map;

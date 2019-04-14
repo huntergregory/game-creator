@@ -1,6 +1,6 @@
-package Triggers.Conditionals;
+package Engine.src.Triggers.Conditionals;
 
-import ECS.EntityManager;
+import Engine.src.ECS.EntityManager;
 
 public abstract class Conditional {
 

@@ -1,4 +1,4 @@
-package ECS;
+package Engine.src.ECS;
 
 public abstract class EngineException extends Exception {
     private String myMessage;

@@ -1,6 +1,6 @@
-package Features.Selectors;
+package Player.src.Features.Selectors;
 
-import Features.Feature;
+import Player.src.Features.Feature;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;

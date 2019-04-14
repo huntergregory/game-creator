@@ -1,12 +1,12 @@
-package PlayerMain;
+package Player.src.PlayerMain;
 
-import Components.BasicComponent;
-import Components.Component;
-import Controller.Controller;
-import Regions.DescriptionRegion;
-import Regions.GamesRegion;
-import Regions.Thumbnail;
-import Regions.TitleRegion;
+import Engine.src.Components.BasicComponent;
+import Engine.src.Components.Component;
+import Engine.src.Controller.Controller;
+import Player.src.Regions.DescriptionRegion;
+import Player.src.Regions.GamesRegion;
+import Player.src.Regions.Thumbnail;
+import Player.src.Regions.TitleRegion;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -33,7 +33,7 @@ public class PlayerStage {
     private final String TITLE_STYLESHEET = "titleRegion";
 
     public final String ST_TITLE = "Cracking Open a Scrolled One with the Boys";
-    public final double ST_WIDTH = 8000;
+    public final double ST_WIDTH = 800;
     public final double ST_HEIGHT = 600;
     public final Paint ST_COLOR = Color.web("284376");
     public final double ST_SPACING = 20;
@@ -99,12 +99,13 @@ public class PlayerStage {
         Stage gameStage = new Stage();
         myGameRoot = new Group();
         myImageViewMap = new HashMap<>();                   //FIXME go full screen
-        myGameController = new Controller(STEP_TIME, myScene.getWidth(), myScene.getHeight(), GAME_WIDTH, GAME_HEIGHT);
+        myGameController = new Controller(STEP_TIME, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT);
         myGameEntityMap = myGameController.getEntities();
 
         addNewImageViews();
 
         Scene gameScene = new Scene(myGameRoot, GAME_BG);
+        //gameScene.getStylesheets().add("style.css");
         gameStage.setScene(gameScene);
         gameStage.show();
 
@@ -185,7 +186,7 @@ public class PlayerStage {
 //        System.out.println("Rating for " + gameName + " is being changed!");
     }
 
-    protected Stage makeStage() {
+    public Stage makeStage() {
         Stage ret = new Stage();
         ret.setTitle(ST_TITLE);
         ret.setScene(myScene);

@@ -1,8 +1,8 @@
-package ECS;
+package Engine.src.ECS;
 
-import Components.BasicComponent;
-import Components.ImpassableComponent;
-import Components.MotionComponent;
+import Engine.src.Components.BasicComponent;
+import Engine.src.Components.ImpassableComponent;
+import Engine.src.Components.MotionComponent;
 
 import java.util.ArrayList;
 import java.util.Set;

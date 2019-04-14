@@ -1,10 +1,10 @@
-package Triggers;
+package Engine.src.Triggers;
 
-import ECS.EntityManager;
-import Controller.LevelManager;
-import Triggers.Events.Event;
-import Triggers.Events.GameEvents.GameEvent;
-import Triggers.Events.ObjectEvents.ObjectEvent;
+import Engine.src.ECS.EntityManager;
+import Engine.src.Controller.LevelManager;
+import Engine.src.Triggers.Events.Event;
+import Engine.src.Triggers.Events.GameEvents.GameEvent;
+import Engine.src.Triggers.Events.ObjectEvents.ObjectEvent;
 
 import java.util.List;
 

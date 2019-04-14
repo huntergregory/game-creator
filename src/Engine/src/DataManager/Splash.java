@@ -1,4 +1,4 @@
-package DataManager;
+package Engine.src.DataManager;
 
 public class Splash {
 }

@@ -1,10 +1,10 @@
-package Controller;
+package Engine.src.Controller;
 
-import Components.*;
-import ECS.Pair;
-import Triggers.Events.Event;
-import Triggers.Events.ObjectEvents.Deflect;
-import Triggers.Events.ObjectEvents.Portal;
+import Engine.src.Components.*;
+import Engine.src.ECS.Pair;
+import Engine.src.Triggers.Events.Event;
+import Engine.src.Triggers.Events.ObjectEvents.Deflect;
+import Engine.src.Triggers.Events.ObjectEvents.Portal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 public class DefaultGame {
-    private static final String BLOCK_IMAGE = "block.jpg";
-    private static final String USER_IMAGE = "mario.png";
-    private static final String PORTAL_IMAGE = "portal.jpg";
+    private static final String BLOCK_IMAGE = "/img/block.jpg";
+    private static final String USER_IMAGE = "/img/mario.png";
+    private static final String PORTAL_IMAGE = "/img/portal.jpg";
     private static final double USER_WIDTH = 30;
     private static final double USER_HEIGHT = 50;
     private static final double USER_MOVEMENT_VELOCITY = 10;
@@ -66,7 +66,7 @@ public class DefaultGame {
 
     private void includeTrampoline(double x, double y, double width) {
         Map<Class<? extends Component>, Component> trampoline = new HashMap<>();
-        trampoline.put(BasicComponent.class, new BasicComponent("/images/" + BLOCK_IMAGE, x, y,width, 75));
+        trampoline.put(BasicComponent.class, new BasicComponent(BLOCK_IMAGE, x, y,width, 75));
         List<String> trampolineTag = new ArrayList<>();
         trampolineTag.add("TRAMPOLINE");
         trampoline.put(TagsComponent.class, new TagsComponent(trampolineTag));
@@ -75,7 +75,7 @@ public class DefaultGame {
 
     private void includeShooter(double x, double y, double width, boolean shoot) {
         Map<Class<? extends Component>, Component> trampoline = new HashMap<>();
-        trampoline.put(BasicComponent.class, new BasicComponent("/images/" + PORTAL_IMAGE, x, y,width, 75));
+        trampoline.put(BasicComponent.class, new BasicComponent(PORTAL_IMAGE, x, y,width, 75));
         List<String> trampolineTag = new ArrayList<>();
         if (shoot)
             trampolineTag.add("SHOOTER");
@@ -90,7 +90,7 @@ public class DefaultGame {
     private void addBlock(double x, double y, double width) {
         Map<Class<? extends Component>, Component> block = new HashMap<>();
         myBlocks.add(block);
-        block.put(BasicComponent.class, new BasicComponent("/images/" + BLOCK_IMAGE, x, y,width, 75));
+        block.put(BasicComponent.class, new BasicComponent(BLOCK_IMAGE, x, y,width, 75));
     }
 
     private List<String> addImpassableAndTags() {
@@ -105,7 +105,7 @@ public class DefaultGame {
 
     private void makeUser() {
         Map<Class<? extends Component>, Component> user = new HashMap<>();
-        user.put(BasicComponent.class, new BasicComponent("/images/" + USER_IMAGE, 50, 50, USER_WIDTH, USER_HEIGHT));
+        user.put(BasicComponent.class, new BasicComponent(USER_IMAGE, 50, 50, USER_WIDTH, USER_HEIGHT));
         user.put(MotionComponent.class, new MotionComponent(0, 0, 0, GRAVITY, 0, USER_MOVEMENT_VELOCITY, 0));
         user.put(JumpComponent.class, new JumpComponent(USER_JUMP_VELOCITY));
         List<String> userTag = new ArrayList<>();

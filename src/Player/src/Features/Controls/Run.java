@@ -1,6 +1,6 @@
-package Features.Controls;
+package Player.src.Features.Controls;
 
-import PlayerMain.PlayerStage;
+import Player.src.PlayerMain.PlayerStage;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 

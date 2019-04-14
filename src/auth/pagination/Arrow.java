@@ -17,7 +17,7 @@ public abstract class Arrow implements UIElement {
         this.arrowImage = new ImageView(arrowImage);
         this.arrowImage.setFitHeight(ARROW_SIZE);
         this.arrowImage.setFitWidth(ARROW_SIZE);
-        this.arrowImage.setCursor(Cursor.HAND);;
+        this.arrowImage.setCursor(Cursor.HAND);
     }
     public void onClick(Callback callback) {
         arrowImage.setOnMouseClicked(e -> {
@@ -27,6 +27,7 @@ public abstract class Arrow implements UIElement {
                 // Do nothing on arrow click if a valid method is not provided
             }
         });
+        arrowImage.setPickOnBounds(true);
     }
 
     @Override

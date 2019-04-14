@@ -1,4 +1,4 @@
-package Regions;
+package Player.src.Regions;
 
 import javafx.geometry.Insets;
 import javafx.scene.Group;

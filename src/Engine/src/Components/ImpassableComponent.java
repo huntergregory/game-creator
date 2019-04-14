@@ -1,4 +1,4 @@
-package Components;
+package Engine.src.Components;
 
 public class ImpassableComponent extends Component {
     private boolean myImpassable;

@@ -1,8 +1,8 @@
-package Triggers.Events.GameEvents;
+package Engine.src.Triggers.Events.GameEvents;
 
-import Triggers.Conditionals.Conditional;
-import Controller.LevelManager;
-import Triggers.Events.Event;
+import Engine.src.Triggers.Conditionals.Conditional;
+import Engine.src.Controller.LevelManager;
+import Engine.src.Triggers.Events.Event;
 
 import java.util.List;
 
@@ -17,4 +17,7 @@ public abstract class GameEvent extends Event {
     }
 
     public abstract void activate(LevelManager gameManager);
+
+    @Override
+    public abstract Event copy();
 }

@@ -1,7 +1,7 @@
-package Triggers.Conditionals;
+package Engine.src.Triggers.Conditionals;
 
-import ECS.CollisionDetector;
-import ECS.EntityManager;
+import Engine.src.ECS.CollisionDetector;
+import Engine.src.ECS.EntityManager;
 
 public class CollideFromRight extends ObjectConditional{
 

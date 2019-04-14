@@ -1,4 +1,4 @@
-package Features.ScrollableWindows;
+package Player.src.Features.ScrollableWindows;
 
 public class GameStatusInfo extends ScrollableWindow {
 

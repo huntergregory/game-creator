@@ -555,7 +555,6 @@ public class ScreenHelpers {
     }
 
     public static void refreshCanvas(CanvasScreen context) {
-        // TODO complete this
         var x = context.getUIElementById("CANVAS_ITEM");
         while (x != null) {
             context.removeUIElement(x);
@@ -568,10 +567,10 @@ public class ScreenHelpers {
             view.setOnMouseClicked(e -> {
                 if(iui.selected) {
                     iui.deselect();
-                    context.selectedType = null;
-                    context.selectedID = null;
-                    context.currentlySelected = null;
+                    clearSelection(context);
                 } else {
+                    if (context.currentlySelected != null)
+                        context.currentlySelected.deselect();
                     iui.select();
                     context.selectedType = Instance.class;
                     context.selectedID = i.instanceID;

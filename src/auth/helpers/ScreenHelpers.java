@@ -483,11 +483,11 @@ public class ScreenHelpers {
             var newInstance = new Instance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
             newInstance.instanceID = "instance_"+game.scenes.get(context.getCurrentScene()).instances.size();
-            newInstance.x = absoluteX - CONSOLE_HORIZONTAL_OFFSET;
-            newInstance.y = absoluteY - CANVAS_VERTICAL_OFFSET;
             newInstance.zIndex = 1;
             newInstance.width = (instanceOf.width > 0 ? instanceOf.width : 60);
             newInstance.height = (instanceOf.height > 0 ? instanceOf.height : 60);
+            newInstance.x = absoluteX - newInstance.width/2 - CONSOLE_HORIZONTAL_OFFSET;
+            newInstance.y = absoluteY - newInstance.height/2 - CANVAS_VERTICAL_OFFSET;
             game.scenes.get(context.getCurrentScene()).instances.add(newInstance);
             System.out.println("Instance created requested for " + instanceOf.objectID +" at ("+absoluteX+","+absoluteY+")");
             refreshCanvas(context);

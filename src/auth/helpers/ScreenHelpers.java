@@ -21,9 +21,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import org.json.JSONArray;
 import uiutils.panes.*;
 import auth.screens.CanvasScreen;
@@ -575,6 +577,27 @@ public class ScreenHelpers {
         while (x != null) {
             context.removeUIElement(x);
             x = context.getUIElementById("CANVAS_ITEM");
+        }
+
+
+        if (!context.getGame().scenes.get(context.getCurrentScene()).bgImage.isEmpty()) {
+            context.getUIElementById(CANVAS_ID).getView().setStyle("-fx-background-image: url('"+
+                    getImageById(context.getGame(), context.getGame().scenes.get(context.getCurrentScene()).bgImage).getUrl()+"');" +
+                    "-fx-border-radius: 5 5 5 5;" +
+                    "-fx-background-radius: 5 5 5 5;");
+            Rectangle clip = new Rectangle(
+                    context.getUIElementById(CANVAS_ID).getView().getLayoutBounds().getWidth(), context.getUIElementById(CANVAS_ID).getView().getLayoutBounds().getHeight()
+            );
+            clip.setArcWidth(10);
+            clip.setArcHeight(10);
+            context.getUIElementById(CANVAS_ID).getView().setClip(clip);
+        } else {
+            if (!context.getGame().scenes.get(context.getCurrentScene()).bgColor.isEmpty()) {
+                context.getUIElementById(CANVAS_ID).getView().setStyle("-fx-background-color: #"+
+                        getColorByID(context.getGame(), context.getGame().scenes.get(context.getCurrentScene()).bgColor).toString().substring(2)+";");
+            } else {
+                context.getUIElementById(CANVAS_ID).getView().setStyle(CANVAS_STYLE);
+            }
         }
 
         for (var i : context.getGame().scenes.get(context.getCurrentScene()).instances) {

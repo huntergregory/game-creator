@@ -277,8 +277,12 @@ public class ScreenHelpers {
                         repopulatePropertiesPane(context);
                     }
                 });
-                if(context.selectedType == Color.class && context.selectedID.equals(r.resourceID))
+                if(context.selectedType == Color.class && context.selectedID.equals(r.resourceID)) {
+                    context.currentlySelected = icon;
+                    context.selectedID = r.resourceID;
+                    context.selectedType = Color.class;
                     icon.select();
+                }
                 row.getChildren().add(icon.getView());
             }
         }
@@ -326,8 +330,12 @@ public class ScreenHelpers {
                         repopulatePropertiesPane(context);
                     }
                 }, true);
-                if(context.selectedType == AudioClip.class && context.selectedID.equals(r.resourceID))
+                if(context.selectedType == AudioClip.class && context.selectedID.equals(r.resourceID)) {
+                    context.currentlySelected = icon;
+                    context.selectedID = r.resourceID;
+                    context.selectedType = AudioClip.class;
                     icon.select();
+                }
                 row.getChildren().add(icon.getView());
             }
         }
@@ -369,8 +377,12 @@ public class ScreenHelpers {
                         repopulatePropertiesPane(context);
                     }
                 });
-                if(context.selectedType == Image.class && context.selectedID.equals(r.resourceID))
+                if(context.selectedType == Image.class && context.selectedID.equals(r.resourceID)) {
+                    context.currentlySelected = icon;
+                    context.selectedID = r.resourceID;
+                    context.selectedType = Image.class;
                     icon.select();
+                }
                 row.getChildren().add(icon.getView());
             }
         }
@@ -400,15 +412,15 @@ public class ScreenHelpers {
                 public void onCallback(Object... optionalArgs) {
                     // TODO
                     var thisIcon = (Selectable) optionalArgs[0];
-                    if(context.currentlySelected != null) {
-                        context.currentlySelected.deselect();
-                    }
                     if (context.currentlySelected != null && context.currentlySelected != thisIcon) {
                         context.currentlySelected.deselect();
                         clearSelection(context);
                         repopulatePropertiesPane(context);
                     }
                     if (context.currentlySelected != thisIcon) {
+                        if(context.currentlySelected != null) {
+                            context.currentlySelected.deselect();
+                        }
                         context.currentlySelected = thisIcon;
                         thisIcon.select();
                         context.selectedID = o.objectID;
@@ -431,8 +443,12 @@ public class ScreenHelpers {
                 icon = new ImageIcon(getImageById(context.getGame(), o.bgImage), o.objectID, callback);
                 duplicate = new ImageIcon(getImageById(context.getGame(), o.bgImage), "", e -> {});
             }
-            if(context.selectedType == GameObject.class && context.selectedID.equals(o.objectID))
+            if(context.selectedType == GameObject.class && context.selectedID.equals(o.objectID)) {
+                context.currentlySelected = icon;
+                context.selectedID = o.objectID;
+                context.selectedType = GameObject.class;
                 icon.select();
+            }
 
             icon.getView().setOnMousePressed(t -> {
                 orgSceneX = t.getSceneX();
@@ -579,6 +595,12 @@ public class ScreenHelpers {
                 repopulatePropertiesPane(context);
             });
             context.registerNewUIElement(new UIElementWrapper(view, "CANVAS_ITEM"));
+            if(context.selectedType == Instance.class && context.selectedID.equals(i.instanceID)) {
+                context.currentlySelected = iui;
+                context.selectedID = i.instanceID;
+                context.selectedType = Instance.class;
+                iui.select();
+            }
         }
     }
 }

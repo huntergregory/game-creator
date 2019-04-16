@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.File;
 
 import static auth.Colors.DEFAULT_TEXT_COLOR;
-import static auth.helpers.ScreenHelpers.initialiseGrids;
+import static auth.helpers.ScreenHelpers.*;
 import static gamecenter.RunGameCenter.bebasKaiMedium;
 
 /**
@@ -42,7 +42,7 @@ public class ToolClickHandlers {
             r.resourceID = "color_"+(context.getResourcesCount(Resource.ResourceType.COLOR_RESOURCE)+1);
             r.src = c.toString();
             context.getGame().resources.add(r);
-            initialiseGrids(context);
+            initialiseColorGrid(context);
         });
         var scene = new Scene(colorPicker);
         stage.setScene(scene);
@@ -62,7 +62,7 @@ public class ToolClickHandlers {
         r.resourceID = "audio_"+(context.getResourcesCount(Resource.ResourceType.AUDIO_RESOURCE)+1);
         r.src = file.getAbsolutePath();
         context.getGame().resources.add(r);
-        initialiseGrids(context);
+        initialiseAudioGrid(context);
     }
 
     public static void handleNewImgRes(CanvasScreen context) {
@@ -77,15 +77,16 @@ public class ToolClickHandlers {
         r.resourceID = "img_"+(context.getResourcesCount(Resource.ResourceType.IMAGE_RESOURCE)+1);
         r.src = file.getAbsolutePath();
         context.getGame().resources.add(r);
-        initialiseGrids(context);
+        initialiseImagesGrid(context);
     }
 
     public static void handleNewObject (CanvasScreen context) {
         var object = new GameObject();
         object.objectID = "object_"+(context.getGame().gameObjects.size()+1);
         context.getGame().gameObjects.add(object);
-        initialiseGrids(context);
+        initialiseObjectsGrid(context);
         System.out.println("Created new object");
+        System.out.println("Currently selected: " + (context.currentlySelected == null));
     }
 
 }

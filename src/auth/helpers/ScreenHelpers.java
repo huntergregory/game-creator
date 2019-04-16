@@ -572,13 +572,14 @@ public class ScreenHelpers {
         populateObLibPane(context, objLibPane);
     }
 
+    private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;
+
     public static void refreshCanvas(CanvasScreen context) {
         var x = context.getUIElementById("CANVAS_ITEM");
         while (x != null) {
             context.removeUIElement(x);
             x = context.getUIElementById("CANVAS_ITEM");
         }
-
 
         if (!context.getGame().scenes.get(context.getCurrentScene()).bgImage.isEmpty()) {
             context.getUIElementById(CANVAS_ID).getView().setStyle("-fx-background-image: url('"+
@@ -594,7 +595,9 @@ public class ScreenHelpers {
         } else {
             if (!context.getGame().scenes.get(context.getCurrentScene()).bgColor.isEmpty()) {
                 context.getUIElementById(CANVAS_ID).getView().setStyle("-fx-background-color: #"+
-                        getColorByID(context.getGame(), context.getGame().scenes.get(context.getCurrentScene()).bgColor).toString().substring(2)+";");
+                        getColorByID(context.getGame(), context.getGame().scenes.get(context.getCurrentScene()).bgColor).toString().substring(2)+";"+
+                        "-fx-border-radius: 5 5 5 5;" +
+                        "-fx-background-radius: 5 5 5 5;");
             } else {
                 context.getUIElementById(CANVAS_ID).getView().setStyle(CANVAS_STYLE);
             }
@@ -617,6 +620,33 @@ public class ScreenHelpers {
                 }
                 repopulatePropertiesPane(context);
             });
+
+            final double xDistToCanvasCorner = i.x;
+            final double yDistToCanvasCorner = i.y;
+
+            iui.getView().setOnMousePressed(t -> {
+                orgSceneXInstance = t.getSceneX();
+                orgSceneYInstance = t.getSceneY();
+                orgTranslateXInstance = ((Node)(t.getSource())).getTranslateX();
+                orgTranslateYInstance = ((Node)(t.getSource())).getTranslateY();
+            });
+
+            iui.getView().setOnMouseDragged(t -> {
+                double offsetX = t.getSceneX() - orgSceneXInstance;
+                double offsetY = t.getSceneY() - orgSceneYInstance;
+                double newTranslateX = orgTranslateXInstance + offsetX;
+                double newTranslateY = orgTranslateYInstance + offsetY;
+
+                if (Math.sqrt(Math.pow(newTranslateX,2)+Math.pow(newTranslateY, 2)) > 30) {
+                    // If they're actually dragging (i.e. going beyond the size of the icon)
+                    view.setLayoutX(t.getSceneX() - 30 - CONSOLE_HORIZONTAL_OFFSET - xDistToCanvasCorner);
+                    view.setLayoutY(t.getSceneY() - 30 - CANVAS_VERTICAL_OFFSET - yDistToCanvasCorner);
+                }
+            });
+            iui.getView().setOnMouseReleased(t -> {
+                // TODO if released in bounds, just update position, else revert to old position
+            });
+
             context.registerNewUIElement(new UIElementWrapper(view, "CANVAS_ITEM"));
             if(context.selectedType == Instance.class && context.selectedID.equals(i.instanceID)) {
                 context.currentlySelected = iui;

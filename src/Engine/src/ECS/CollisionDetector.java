@@ -1,6 +1,8 @@
 package Engine.src.ECS;
 
 import Engine.src.Components.BasicComponent;
+import Engine.src.Components.MotionComponent;
+import Engine.src.Components.TagsComponent;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -8,6 +10,10 @@ import java.util.Set;
 public class CollisionDetector {
 
     private EntityManager myEntityManager;
+
+    // TODO Remove these later
+    private final double BUFFER_HORIZ = 6;
+    private final double BUFFER_VERT = 10;
 
     // data for a specific collision, where 1 is the collider and 2 is the target
     private double x1;
@@ -37,6 +43,21 @@ public class CollisionDetector {
     }
 
     public boolean collides(Integer collider, Integer target) {
+
+        // TODO Remove these if statements
+        if (collideFromLeft(collider, target)) {
+            System.out.println("left");
+        }
+        if (collideFromTop(collider, target)) {
+            System.out.println("top");
+        }
+        if (collideFromLeft(target, collider)) {
+            System.out.println("right");
+        }
+        if (collideFromTop(target, collider)) {
+            System.out.println("bottom");
+        }
+
         return collideFromLeft(collider, target) ||
                 collideFromLeft(target, collider) ||
                 collideFromTop(collider, target) ||
@@ -55,16 +76,16 @@ public class CollisionDetector {
     public boolean collideFromLeft(Integer collider, Integer target) {
         setCurrCollisionValues(collider, target);
 
-        boolean overlapsFromLeft = x2 <= x1 + width1 && x1 + width1 <= x2 + width2;
-        boolean overlapsVertically = !(y1 + height1 < y2 || y1 > y2 + height2);
+        boolean overlapsFromLeft = x1 < x2 && x2 <= x1 + width1 && x1 + width1 <= x2 + width2;
+        boolean overlapsVertically = !(y1 + height1 < y2 - BUFFER_VERT || y1 > y2 + height2 - BUFFER_VERT);
         return overlapsFromLeft && overlapsVertically;
     }
 
     public boolean collideFromTop(Integer collider, Integer target) {
         setCurrCollisionValues(collider, target);
 
-        boolean overlapsFromTop = y2 <= y1 + height1 && y1 + height1 <= y2 + height2;
-        boolean overlapsHorizontally = !(x1 + width1 < x2 || x1 > x2 + width2);
+        boolean overlapsFromTop = y1 < y2 && y2 <= y1 + height1 && y1 + height1 <= y2 + height2;
+        boolean overlapsHorizontally = !(x1 + width1 < x2 - BUFFER_HORIZ|| x1 > x2 + width2 - BUFFER_HORIZ);
         return overlapsFromTop && overlapsHorizontally;
     }
 

@@ -3,6 +3,7 @@ package auth.helpers;
 import auth.Callback;
 import auth.UIElement;
 import auth.UIElementWrapper;
+import auth.auth_fxml_controllers.InsPropsController;
 import auth.auth_fxml_controllers.ObjPropsController;
 import auth.auth_fxml_controllers.ResPropsController;
 import auth.auth_fxml_controllers.ScenePropsController;
@@ -209,7 +210,7 @@ public class ScreenHelpers {
                 ((Text) ((BorderPane) propsPane.getChildren().get(0)).getTop()).setText(INSTANCE_PROPERTIES_TITLE);
                 FXMLLoader loader = new FXMLLoader(ScreenHelpers.class.getResource("/properties_pane_fxml/insprops.fxml"));
                 var fxmlPane = (javafx.scene.layout.Pane) loader.load();
-                // loader.<ObjPropsController>getController().initData(propsPane, context);
+                loader.<InsPropsController>getController().initData(propsPane, context);
                 contentPane.getChildren().add(fxmlPane);
             }
         } catch (IOException e) {
@@ -496,11 +497,11 @@ public class ScreenHelpers {
     }
 
     private static void createNewInstance(CanvasScreen context, Game game, GameObject instanceOf, double absoluteX, double absoluteY) {
-        if (absoluteX >= CONSOLE_HORIZONTAL_OFFSET && absoluteX <= CONSOLE_HORIZONTAL_OFFSET + CANVAS_WIDTH &&
-        absoluteY >= CANVAS_VERTICAL_OFFSET && absoluteY <= CANVAS_VERTICAL_OFFSET + CANVAS_HEIGHT) {
+        if (absoluteX-30 >= CONSOLE_HORIZONTAL_OFFSET && absoluteX-30 <= CONSOLE_HORIZONTAL_OFFSET + CANVAS_WIDTH &&
+        absoluteY-30 >= CANVAS_VERTICAL_OFFSET && absoluteY <= CANVAS_VERTICAL_OFFSET-30 + CANVAS_HEIGHT) {
             var newInstance = new Instance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
-            newInstance.instanceID = "instance_"+game.scenes.get(context.getCurrentScene()).instances.size();
+            newInstance.instanceID = "instance_"+(game.scenes.get(context.getCurrentScene()).instances.size()+1);
             newInstance.zIndex = 1;
             newInstance.width = (instanceOf.width > 0 ? instanceOf.width : 60);
             newInstance.height = (instanceOf.height > 0 ? instanceOf.height : 60);
@@ -573,7 +574,7 @@ public class ScreenHelpers {
     }
 
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;
-
+    private static boolean actuallyDragging = false;
     public static void refreshCanvas(CanvasScreen context) {
         var x = context.getUIElementById("CANVAS_ITEM");
         while (x != null) {
@@ -639,12 +640,28 @@ public class ScreenHelpers {
 
                 if (Math.sqrt(Math.pow(newTranslateX,2)+Math.pow(newTranslateY, 2)) > 30) {
                     // If they're actually dragging (i.e. going beyond the size of the icon)
+                    actuallyDragging = true;
                     view.setLayoutX(t.getSceneX() - 30 - CONSOLE_HORIZONTAL_OFFSET - xDistToCanvasCorner);
                     view.setLayoutY(t.getSceneY() - 30 - CANVAS_VERTICAL_OFFSET - yDistToCanvasCorner);
                 }
             });
             iui.getView().setOnMouseReleased(t -> {
-                // TODO if released in bounds, just update position, else revert to old position
+                // if released in bounds, just update position, else revert to old position
+                if (actuallyDragging) {
+                    if (t.getSceneY() - 30 < CANVAS_VERTICAL_OFFSET + CANVAS_HEIGHT &&
+                            t.getSceneY() - 30 > CANVAS_VERTICAL_OFFSET &&
+                            t.getSceneX() - 30 > CONSOLE_HORIZONTAL_OFFSET &&
+                            t.getSceneX() - 30 < CONSOLE_HORIZONTAL_OFFSET + CANVAS_WIDTH) {
+                        i.x = t.getSceneX() - 30 - CONSOLE_HORIZONTAL_OFFSET;
+                        i.y = t.getSceneY() - 30 - CANVAS_VERTICAL_OFFSET;
+                        refreshCanvas(context);
+                        repopulatePropertiesPane(context);
+                    } else {
+                        refreshCanvas(context);
+                        repopulatePropertiesPane(context);
+                    }
+                    actuallyDragging = false;
+                }
             });
 
             context.registerNewUIElement(new UIElementWrapper(view, "CANVAS_ITEM"));

@@ -45,19 +45,26 @@ public class ToolClickHandlers {
         } else if (context.selectedType == Image.class) {
             // Delete img res
             deleteImgRes(game, context, currentScene);
+            initialiseImagesGrid(context);
         } else if (context.selectedType == AudioClip.class) {
             // Delete audio res
             game.resources.removeIf(n -> n.resourceType.equals(AUDIO_RESOURCE) && n.resourceID.equals(context.selectedID));
+            initialiseAudioGrid(context);
         } else if (context.selectedType == Color.class) {
             // Delete color res
             deleteColorResource(game, context, currentScene);
+            initialiseColorGrid(context);
         } else if (context.selectedType == GameObject.class) {
             // Delete object
             deleteObject(game, context, currentScene);
+            initialiseObjectsGrid(context);
         } else if (context.selectedType == Instance.class) {
             // Delete instance
             deleteInstance(game, context, currentScene);
         }
+
+        repopulatePropertiesPane(context);
+        clearSelection(context);
     }
 
     private static void deleteScene(Game game, CanvasScreen context, gamedata.Scene currentScene) {

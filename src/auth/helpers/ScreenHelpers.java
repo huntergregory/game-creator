@@ -293,7 +293,7 @@ public class ScreenHelpers {
         context.getColorGrid().getChildren().add(row);
     }
 
-    private static void clearSelection(CanvasScreen context) {
+    public static void clearSelection(CanvasScreen context) {
         context.currentlySelected = null;
         context.selectedID = null;
         context.selectedType = null;

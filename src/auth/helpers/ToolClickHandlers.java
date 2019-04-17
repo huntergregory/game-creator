@@ -46,6 +46,7 @@ public class ToolClickHandlers {
             // Delete img res
             deleteImgRes(game, context, currentScene);
             initialiseImagesGrid(context);
+            initialiseObjectsGrid(context);
         } else if (context.selectedType == AudioClip.class) {
             // Delete audio res
             game.resources.removeIf(n -> n.resourceType.equals(AUDIO_RESOURCE) && n.resourceID.equals(context.selectedID));
@@ -54,6 +55,7 @@ public class ToolClickHandlers {
             // Delete color res
             deleteColorResource(game, context, currentScene);
             initialiseColorGrid(context);
+            initialiseObjectsGrid(context);
         } else if (context.selectedType == GameObject.class) {
             // Delete object
             deleteObject(game, context, currentScene);

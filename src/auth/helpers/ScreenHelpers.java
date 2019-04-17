@@ -689,9 +689,15 @@ public class ScreenHelpers {
         var webView = new WebView();
         webView.getEngine().load(
                 ScreenHelpers.class.getResource("/groovy_editor/index.html").toString());
-        webView.setPrefWidth(CONSOLE_PANE_WIDTH - 20);
-        webView.setPrefHeight(CONSOLE_PANE_HEIGHT - 20);
-        webView.setLayoutX(10); webView.setLayoutY(10);
+        webView.setPrefWidth(CONSOLE_PANE_WIDTH);
+        webView.setPrefHeight(CONSOLE_PANE_HEIGHT - 10);
+        webView.setLayoutX(0); webView.setLayoutY(10);
+        Rectangle clip = new Rectangle(
+                CONSOLE_PANE_WIDTH, CONSOLE_PANE_HEIGHT
+        );
+        clip.setArcWidth(25);
+        clip.setArcHeight(25);
+        webView.setClip(clip);
         webView.getChildrenUnmodifiable().addListener(new ListChangeListener<Node>() {
             @Override public void onChanged(Change<? extends Node> change) {
 

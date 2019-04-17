@@ -63,8 +63,8 @@ public class ToolClickHandlers {
             deleteInstance(game, context, currentScene);
         }
 
-        repopulatePropertiesPane(context);
         clearSelection(context);
+        repopulatePropertiesPane(context);
     }
 
     private static void deleteScene(Game game, CanvasScreen context, gamedata.Scene currentScene) {

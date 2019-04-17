@@ -712,8 +712,7 @@ public class ScreenHelpers {
                     }
                 }
 
-                webView.getEngine().executeScript("ace.edit(\"editor\").setValue(\""+StringEscapeUtils.escapeJava(code)+"\");");
-                System.out.println("Code: " + StringEscapeUtils.escapeJava(code));
+                System.out.println(webView.getEngine().executeScript("ace.edit(\"editor\").setValue(\""+StringEscapeUtils.escapeJava(code)+"\");"));
                 webView.setOnKeyPressed(e -> {
                     String newScript = (String) webView.getEngine().executeScript("ace.edit(\"editor\").getValue();");
                     if (context.selectedType == null) {

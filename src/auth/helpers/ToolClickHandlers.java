@@ -77,6 +77,7 @@ public class ToolClickHandlers {
         }
         int current = game.scenes.indexOf(currentScene);
         game.scenes.remove(currentScene);
+        context.getPagination().removePage(current);
         if (game.scenes.size() == current) {
             context.switchToScene(current - 1, true);
         } else {

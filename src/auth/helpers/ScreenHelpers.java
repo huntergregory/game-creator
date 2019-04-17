@@ -282,7 +282,6 @@ public class ScreenHelpers {
                         context.selectedID = r.resourceID;
                         context.selectedType = Color.class;
                         repopulatePropertiesPane(context);
-                        System.out.println("Color icon clicked for " + r.resourceID);
                     } else {
                         thisIcon.deselect();
                         clearSelection(context);
@@ -335,7 +334,6 @@ public class ScreenHelpers {
                         context.selectedID = r.resourceID;
                         context.selectedType = AudioClip.class;
                         repopulatePropertiesPane(context);
-                        System.out.println("Audio icon clicked for " + r.resourceID);
                     } else {
                         thisIcon.deselect();
                         clearSelection(context);
@@ -382,7 +380,6 @@ public class ScreenHelpers {
                         context.selectedID = r.resourceID;
                         context.selectedType = Image.class;
                         repopulatePropertiesPane(context);
-                        System.out.println("Image icon clicked for " + r.resourceID);
                     } else {
                         thisIcon.deselect();
                         clearSelection(context);
@@ -438,7 +435,6 @@ public class ScreenHelpers {
                         context.selectedID = o.objectID;
                         context.selectedType = GameObject.class;
                         repopulatePropertiesPane(context);
-                        System.out.println("Object icon clicked for "+o.objectID);
                     } else {
                         thisIcon.deselect();
                         clearSelection(context);
@@ -518,7 +514,7 @@ public class ScreenHelpers {
             newInstance.x = absoluteX - newInstance.width/2 - CONSOLE_HORIZONTAL_OFFSET;
             newInstance.y = absoluteY - newInstance.height/2 - CANVAS_VERTICAL_OFFSET;
             game.scenes.get(context.getCurrentScene()).instances.add(newInstance);
-            System.out.println("Instance created requested for " + instanceOf.objectID +" at ("+absoluteX+","+absoluteY+")");
+            // System.out.println("Instance created requested for " + instanceOf.objectID +" at ("+absoluteX+","+absoluteY+")");
             refreshCanvas(context);
         }
     }
@@ -718,7 +714,7 @@ public class ScreenHelpers {
                     }
                 }
 
-                System.out.println(webView.getEngine().executeScript("ace.edit(\"editor\").setValue(\""+StringEscapeUtils.escapeJava(code)+"\");"));
+                webView.getEngine().executeScript("ace.edit(\"editor\").setValue(\""+StringEscapeUtils.escapeJava(code)+"\");");
                 webView.setOnKeyPressed(e -> {
                     String newScript = (String) webView.getEngine().executeScript("ace.edit(\"editor\").getValue();");
                     if (context.selectedType == null) {

@@ -1,10 +1,15 @@
 package auth.helpers;
 
+import auth.auth_ui_components.SimpleMessageDialog;
 import auth.screens.CanvasScreen;
+import gamedata.Game;
 import gamedata.GameObject;
+import gamedata.Instance;
 import gamedata.Resource;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -15,6 +20,7 @@ import java.io.File;
 import static auth.Colors.DEFAULT_TEXT_COLOR;
 import static auth.helpers.ScreenHelpers.*;
 import static gamecenter.RunGameCenter.bebasKaiMedium;
+import static gamedata.Resource.ResourceType.*;
 
 /**
  * Author: Anshu Dwibhashi
@@ -28,6 +34,104 @@ public class ToolClickHandlers {
         sceneText.setFont(bebasKaiMedium);
         sceneText.setFill(DEFAULT_TEXT_COLOR);
         context.getPagination().addPage(sceneText);
+    }
+
+    public static void handleDeleteCurrentSelection(CanvasScreen context) {
+        var game = context.getGame();
+        var currentScene = game.scenes.get(context.getCurrentScene());
+        if (context.selectedType == null) {
+            // Delete current scene
+            deleteScene(game, context, currentScene);
+        } else if (context.selectedType == Image.class) {
+            // Delete img res
+            deleteImgRes(game, context, currentScene);
+        } else if (context.selectedType == AudioClip.class) {
+            // Delete audio res
+            game.resources.removeIf(n -> n.resourceType.equals(AUDIO_RESOURCE) && n.resourceID.equals(context.selectedID));
+        } else if (context.selectedType == Color.class) {
+            // Delete color res
+            deleteColorResource(game, context, currentScene);
+        } else if (context.selectedType == GameObject.class) {
+            // Delete object
+            deleteObject(game, context, currentScene);
+        } else if (context.selectedType == Instance.class) {
+            // Delete instance
+            deleteInstance(game, context, currentScene);
+        }
+    }
+
+    private static void deleteScene(Game game, CanvasScreen context, gamedata.Scene currentScene) {
+        if (game.scenes.size() == 1) {
+            // Don't delete scene bc it's the last one left.
+            new SimpleMessageDialog("You can't delete your last remaining scene").show();
+            return;
+        }
+        int current = game.scenes.indexOf(currentScene);
+        game.scenes.remove(currentScene);
+        if (game.scenes.size() == current) {
+            context.switchToScene(current - 1, true);
+        } else {
+            context.switchToScene(current, true);
+        }
+    }
+
+    private static void deleteInstance(Game game, CanvasScreen context, gamedata.Scene currentScene) {
+        for (var scene : game.scenes) {
+            scene.instances.removeIf(n -> n.instanceID.equals(context.selectedID));
+            if (scene == currentScene)
+                refreshCanvas(context);
+        }
+    }
+
+    private static void deleteObject(Game game, CanvasScreen context, gamedata.Scene currentScene) {
+        game.gameObjects.removeIf(n -> n.objectID.equals(context.selectedID));
+        for (var scene : game.scenes) {
+            scene.instances.removeIf(n -> n.instanceOf.equals(context.selectedID));
+            if (scene == currentScene)
+                refreshCanvas(context);
+        }
+    }
+
+    private static void deleteImgRes(Game game, CanvasScreen context, gamedata.Scene currentScene) {
+        for (var scene : game.scenes) {
+            if (scene.bgImage.equals(context.selectedID)) {
+                scene.bgImage = "";
+            }
+            for (var instance : scene.instances) {
+                if (instance.bgImage.equals(context.selectedID)) {
+                    instance.bgImage = "";
+                }
+            }
+            if (scene == currentScene)
+                refreshCanvas(context);
+        }
+        for (var obj : game.gameObjects) {
+            if (obj.bgImage.equals(context.selectedID)) {
+                obj.bgImage = "";
+            }
+        }
+        game.resources.removeIf(n -> n.resourceType.equals(IMAGE_RESOURCE) && n.resourceID.equals(context.selectedID));
+    }
+
+    private static void deleteColorResource(Game game, CanvasScreen context, gamedata.Scene currentScene) {
+        for (var scene : game.scenes) {
+            if (scene.bgColor.equals(context.selectedID)) {
+                scene.bgColor = "";
+            }
+            for (var instance : scene.instances) {
+                if (instance.bgColor.equals(context.selectedID)) {
+                    instance.bgColor = "";
+                }
+            }
+            if (scene == currentScene)
+                refreshCanvas(context);
+        }
+        for (var obj : game.gameObjects) {
+            if (obj.bgColor.equals(context.selectedID)) {
+                obj.bgColor = "";
+            }
+        }
+        game.resources.removeIf(n -> n.resourceType.equals(COLOR_RESOURCE) && n.resourceID.equals(context.selectedID));
     }
 
     public static void handleNewColor(CanvasScreen context) {
@@ -73,8 +177,8 @@ public class ToolClickHandlers {
         );
         File file = fileChooser.showOpenDialog(new Stage());
         var r = new Resource();
-        r.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
-        r.resourceID = "img_"+(context.getResourcesCount(Resource.ResourceType.IMAGE_RESOURCE)+1);
+        r.resourceType = IMAGE_RESOURCE;
+        r.resourceID = "img_"+(context.getResourcesCount(IMAGE_RESOURCE)+1);
         r.src = file.getAbsolutePath();
         context.getGame().resources.add(r);
         initialiseImagesGrid(context);

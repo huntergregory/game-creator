@@ -32,7 +32,9 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.web.WebView;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
+import org.w3c.dom.Document;
 import uiutils.panes.*;
 import auth.screens.CanvasScreen;
 import javafx.scene.Group;
@@ -184,6 +186,7 @@ public class ScreenHelpers {
         var propsPane = (javafx.scene.layout.Pane) ((Group)context.getUIElementById(RIGHT_PANES_GROUP_ID).getView()).getChildren().get(0);
         var contentPane = (javafx.scene.layout.Pane) ((ScrollPane) ((BorderPane) propsPane.getChildren().get(0)).getCenter()).getContent();
         contentPane.getChildren().clear();
+        populateConsolePane(context, (BottomPane)context.getUIElementById(CONSOLE_PANE_ID));
         try {
             if (context.currentlySelected == null) {
                 // Show props for scene
@@ -508,6 +511,7 @@ public class ScreenHelpers {
             var newInstance = new Instance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
             newInstance.instanceID = "instance_"+(game.scenes.get(context.getCurrentScene()).instances.size()+1);
+            newInstance.instanceLogic = "// Type your Groovy scripts for " + newInstance.instanceID + " here";
             newInstance.zIndex = 1;
             newInstance.width = (instanceOf.width > 0 ? instanceOf.width : 60);
             newInstance.height = (instanceOf.height > 0 ? instanceOf.height : 60);
@@ -571,7 +575,7 @@ public class ScreenHelpers {
         var rightPanesGroup = new Group(propsPane.getView(), objLibPane.getView());
         rightPanesGroup.setLayoutY(centreVertical(rightPanesGroup.getLayoutBounds().getHeight()));
 
-        var consolePane = new BottomPane(CONSOLE_HORIZONTAL_OFFSET, CONSOLE_PANE_WIDTH, CONSOLE_PANE_HEIGHT);
+        var consolePane = new BottomPane(CONSOLE_HORIZONTAL_OFFSET, CONSOLE_PANE_WIDTH, CONSOLE_PANE_HEIGHT, CONSOLE_PANE_ID);
         context.registerNewUIElement(toolsPane, new UIElementWrapper(rightPanesGroup, RIGHT_PANES_GROUP_ID), consolePane);
 
         populateToolsPane(context, toolsPane);
@@ -681,7 +685,7 @@ public class ScreenHelpers {
         }
     }
 
-    private static void populateConsolePane(CanvasScreen context, Pane consolePane) {
+    public static void populateConsolePane(CanvasScreen context, Pane consolePane) {
         var webView = new WebView();
         webView.getEngine().load(
                 ScreenHelpers.class.getResource("/groovy_editor/index.html").toString());
@@ -690,6 +694,43 @@ public class ScreenHelpers {
         webView.setLayoutX(10); webView.setLayoutY(10);
         webView.getChildrenUnmodifiable().addListener(new ListChangeListener<Node>() {
             @Override public void onChanged(Change<? extends Node> change) {
+
+                // TO GET CODE FROM EDITOR:
+                // System.out.println((String) webView.getEngine().executeScript("ace.edit(\"editor\").getValue();"));
+                String code = "// Select a scene, instance or object to write some Groovy scripts for them here";
+                if (context.selectedType == null) {
+                    code = context.getGame().scenes.get(context.getCurrentScene()).sceneLogic;
+                } else if (context.selectedType == Instance.class) {
+                    for (var i : context.getGame().scenes.get(context.getCurrentScene()).instances) {
+                        if (i.instanceID.equals(context.selectedID))
+                            code = i.instanceLogic;
+                    }
+                } else if (context.selectedType == GameObject.class) {
+                    for (var o : context.getGame().gameObjects) {
+                        if (o.objectID.equals(context.selectedID))
+                            code = o.objectLogic;
+                    }
+                }
+
+                webView.getEngine().executeScript("ace.edit(\"editor\").setValue(\""+StringEscapeUtils.escapeJava(code)+"\");");
+                System.out.println("Code: " + StringEscapeUtils.escapeJava(code));
+                webView.setOnKeyPressed(e -> {
+                    String newScript = (String) webView.getEngine().executeScript("ace.edit(\"editor\").getValue();");
+                    if (context.selectedType == null) {
+                        context.getGame().scenes.get(context.getCurrentScene()).sceneLogic = newScript;
+                    } else if (context.selectedType == Instance.class) {
+                        for (var i : context.getGame().scenes.get(context.getCurrentScene()).instances) {
+                            if (i.instanceID.equals(context.selectedID))
+                                i.instanceLogic = newScript;
+                        }
+                    } else if (context.selectedType == GameObject.class) {
+                        for (var o : context.getGame().gameObjects) {
+                            if (o.objectID.equals(context.selectedID))
+                                o.objectID = newScript;
+                        }
+                    }
+                });
+
                 Set<Node> deadSeaScrolls = webView.lookupAll(".scroll-bar");
                 for (Node scroll : deadSeaScrolls) {
                     scroll.setVisible(false);

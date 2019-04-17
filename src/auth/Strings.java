@@ -21,4 +21,5 @@ public class Strings {
     public static String AUD_RES_PROPERTIES_TITLE = "Audio Resource Properties";
     public static String COL_RES_PROPERTIES_TITLE = "Color Resource Properties";
     public static String INSTANCE_PROPERTIES_TITLE = "Instance Properties";
+    public static String CONSOLE_PANE_ID = "CONSOLE_PANE_ID";
 }

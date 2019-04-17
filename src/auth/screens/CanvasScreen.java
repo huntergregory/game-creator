@@ -13,6 +13,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import uiutils.panes.BottomPane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,7 @@ public class CanvasScreen extends Screen {
         System.out.println("Current scene is "+currentScene+" and it has "+game.scenes.get(currentScene).instances.size()+" instances.");
         refreshCanvas(this);
         repopulatePropertiesPane(this);
+        populateConsolePane(this, (BottomPane)getUIElementById(CONSOLE_PANE_ID));
     }
 
     public int getCurrentScene() {

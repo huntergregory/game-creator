@@ -7,6 +7,7 @@ public class DataHelpers {
     public static Scene createNewScene(int number) {
         var scene = new Scene();
         scene.sceneID = "scene_"+number;
+        scene.sceneLogic = "// Type your Groovy scripts for " + scene.sceneID + " here";
         return scene;
     }
 

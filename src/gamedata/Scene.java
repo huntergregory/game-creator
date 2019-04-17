@@ -8,8 +8,8 @@ public class Scene {
 
     public Scene() {
         instances = new ArrayList<>();
-        sceneLogic = "";
         bgColor = "";
+        sceneLogic = "";
         sceneID = "";
         bgColor = "";
         bgImage = "";

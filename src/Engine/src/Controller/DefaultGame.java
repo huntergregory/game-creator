@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class DefaultGame {
     private static final String BLOCK_IMAGE = "/img/block.jpg";
-    private static final String USER_IMAGE = "/img/mario.png";
+    private static final String USER_IMAGE = "/img/mario.jpg";
     private static final String PORTAL_IMAGE = "/img/portal.jpg";
     private static final double USER_WIDTH = 30;
     private static final double USER_HEIGHT = 50;

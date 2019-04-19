@@ -77,7 +77,7 @@ public class CollisionDetector {
         setCurrCollisionValues(collider, target);
 
         boolean overlapsFromLeft = x1 < x2 && x2 <= x1 + width1 && x1 + width1 <= x2 + width2;
-        boolean overlapsVertically = !(y1 + height1 < y2 + BUFFER_VERT || y1 > y2 + height2 - BUFFER_VERT);
+        boolean overlapsVertically = !(y1 + height1 < y2 - BUFFER_VERT || y1 > y2 + height2 - BUFFER_VERT);
         return overlapsFromLeft && overlapsVertically;
     }
 
@@ -85,7 +85,7 @@ public class CollisionDetector {
         setCurrCollisionValues(collider, target);
 
         boolean overlapsFromTop = y1 < y2 && y2 <= y1 + height1 && y1 + height1 <= y2 + height2;
-        boolean overlapsHorizontally = !(x1 + width1 < x2 + BUFFER_HORIZ || x1 > x2 + width2 - BUFFER_HORIZ);
+        boolean overlapsHorizontally = !(x1 + width1 < x2 - BUFFER_HORIZ|| x1 > x2 + width2 - BUFFER_HORIZ);
         return overlapsFromTop && overlapsHorizontally;
     }
 

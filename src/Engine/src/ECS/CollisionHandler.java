@@ -26,6 +26,7 @@ public class CollisionHandler {
     private Map<Integer, Set<Integer>> myPreviousCollisions;
     private Map<Integer, Set<Integer>> myCurrentCollisions;
     private Map<Integer, EnvironmentComponent> myEntityCurrentEnvironments;
+    private Binding mySetter;
 
     //FIXME
     private static final double MY_DEFAULT_ACCEL_Y = 5;
@@ -40,6 +41,10 @@ public class CollisionHandler {
         myCurrentCollisions = new HashMap<>();
         myEntityCurrentEnvironments = new HashMap<>();
         myCollisionDetector = new CollisionDetector(myEntityManager);
+        mySetter = new Binding();
+        mySetter.setProperty("entityManager", myEntityManager);
+        mySetter.setProperty("levelManager", myLevelManager);
+        mySetter.setProperty("collisionDetector", myCollisionDetector);
     }
 
     //assumes collisionResponses and entities are nonnull
@@ -177,12 +182,9 @@ public class CollisionHandler {
     //TODO fix if Triggers.Events are changed
     private void activateEvents(Integer current, Integer other, String responses) {
             //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
-            Binding objectSetter = new Binding();
-            GroovyShell shell = new GroovyShell(objectSetter);
-            objectSetter.setProperty("ID", current);
-            objectSetter.setProperty("otherID", other);
-            objectSetter.setProperty("entityManager", myEntityManager);
-            objectSetter.setProperty("levelManager", myLevelManager);
+            GroovyShell shell = new GroovyShell(mySetter);
+            mySetter.setProperty("ID", current);
+            mySetter.setProperty("otherID", other);
             Script script = shell.parse(responses);
             script.run();
     }

@@ -42,8 +42,8 @@ public class Controller {
     private final double myScreenHeight;
 
     private Map<String, String> myHotKeys;
-    private List<TimerSequence> myTimerSequences;
-    private List<Timer> myTimers;
+    //private List<TimerSequence> myTimerSequences;
+    //private List<Timer> myTimers;
     private Map<Pair<String>, Pair<String>> myCollisionResponses;
     private Map<Integer, Map<Class<? extends Component>, Component>> myActiveObjects;
     private String myTriggers;

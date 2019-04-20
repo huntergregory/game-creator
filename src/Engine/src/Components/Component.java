@@ -8,4 +8,5 @@ public abstract class Component implements IEntity {
     public int getID() {
         return entityID;
     }
+
 }

@@ -44,7 +44,7 @@ public class Controller {
     private LevelManager myLevelManager;
     private AI myAI;
 
-    private GroovyShell myGroovyShell;
+    private Binding myBinding;
 
     public Controller(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight){
         myHotKeys = new HashMap<>();
@@ -83,6 +83,7 @@ public class Controller {
                 break;
             }
         }
+        myBinding.setProperty("entityManager", myEntityManager);
     }
 
     private void setDefaultKeys() {
@@ -107,10 +108,8 @@ public class Controller {
     public void processKey(String key){
         if (myHotKeys.containsKey(key)){
             String event = myHotKeys.get(key);
-            Binding binding = new Binding();
-            GroovyShell shell = new GroovyShell(binding);
-            binding.setProperty("ID", myUserID);
-            binding.setProperty("entityManager", myEntityManager);
+            GroovyShell shell = new GroovyShell(myBinding);
+            myBinding.setProperty("ID", myUserID);
             Script script = shell.parse(event);
             script.run();
         }
@@ -129,12 +128,11 @@ public class Controller {
     }
 
     private void executeEntityLogic() {
-        Binding objectSetter = new Binding();
-        GroovyShell shell = new GroovyShell(objectSetter);
+        GroovyShell shell = new GroovyShell(myBinding);
         for(int entityID : myActiveObjects.keySet()){
             LogicComponent logicComponent = myEntityManager.getComponent(entityID, LogicComponent.class);
             String logic = logicComponent.getLogic();
-            objectSetter.setProperty("ID", entityID);
+            myBinding.setProperty("ID", entityID);
             Script script = shell.parse(logic);
             script.run();
         }

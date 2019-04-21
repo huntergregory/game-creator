@@ -14,19 +14,47 @@ import java.util.Random;
 public class AI {
 
     private EntityManager myEntityManager;
+    private final double myCorrectionAngle = 2;
+    private final double myCorrectionDistance = 150;
 
     public AI(EntityManager entityManager) {
         myEntityManager = entityManager;
     }
 
-    public void follow(int referenceID, int targetID) {
+    private void movementResponse(int referenceID, int targetID, String movementType) {
         LOSComponent LOSComp = myEntityManager.getComponent(referenceID, LOSComponent.class);
         double[] distanceVec = findDistanceVector(referenceID, targetID);
         double magnitude = calculateMagnitude(distanceVec);
         if (LOSComp == null || isInLOS(targetID, referenceID, magnitude, LOSComp.getLOS())) {
-            myEntityManager.moveInDirection(referenceID, findDirection(distanceVec));
+            double[] direction = findDirection(distanceVec);
+            if(movementType.equals("FLEE")) {
+                direction[0] = direction[0] * -1;
+                direction[1] = direction[1] * -1;
+                BasicComponent basic = myEntityManager.getComponent(referenceID, BasicComponent.class);
+                double currentX = basic.getX();
+                double currentY = basic.getY();
+                double[] targetLocation = {currentX + (myCorrectionDistance * direction[0]), currentY + (myCorrectionDistance * direction[1])};
+                while(myEntityManager.targetPointObscured(targetLocation[0], targetLocation[1], referenceID)){
+                    double angle = Math.atan(currentY / currentX);
+                    angle += myCorrectionAngle;
+                    direction[0] = Math.cos(angle);
+                    direction[1] = Math.sin(angle);
+                    double[] newDirection = {currentX + (myCorrectionDistance * direction[0]), currentY + (myCorrectionDistance * direction[1])};
+                    targetLocation = newDirection;
+                }
+            }
+            myEntityManager.moveInDirection(referenceID, direction);
         }
     }
+
+    public void flee(int referenceID, int targetID){
+        movementResponse(referenceID, targetID, "FLEE");
+    }
+
+    public void follow(int referenceID, int targetID) {
+        movementResponse(referenceID, targetID, "FOLLOW");
+    }
+
 
     public void patrol(int entityID, ArrayList<Point2D> patrolRoute) {
         int patrolStage = findPatrolStage(entityID, patrolRoute);
@@ -54,7 +82,7 @@ public class AI {
     }
 
     private boolean isInLOS(int targetID, int referenceID, double distance, double LOS) {
-        return (LOS > distance && !myEntityManager.obscured(targetID, referenceID));
+        return (LOS > distance && !myEntityManager.targetEntityObscured(targetID, referenceID));
     }
 
     private double[] findDistanceVector(int referenceID, int targetID) {

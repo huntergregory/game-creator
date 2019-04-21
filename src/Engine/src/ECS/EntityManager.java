@@ -237,30 +237,6 @@ public class EntityManager {
         return myStepTime;
     }
 
-    public boolean obscured(int targetID, int referenceID) {
-
-            BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);
-            double targetX = targetBasic.getX();
-            double targetY = targetBasic.getY();
-            BasicComponent referenceBasic = getComponent(referenceID, BasicComponent.class);
-            double referenceX = referenceBasic.getX();
-            double referenceY = referenceBasic.getY();
-
-            for (int ID : myEntityMap.keySet()){
-                if (ID != targetID && ID != referenceID){
-                    BasicComponent basic = getComponent(ID, BasicComponent.class);
-                    double[] topLeftCorner = {basic.getX(), basic.getY()};
-                    double[] bottomRightCorner = {basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight()};
-                    if (Line2D.linesIntersect(targetX, targetY, referenceX, referenceY,
-                                              topLeftCorner[0], topLeftCorner[1], bottomRightCorner[0], bottomRightCorner[1])){
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-    }
-
     public void moveInDirection(int entityID, double[] direction){
         MotionComponent motion = getComponent(entityID, MotionComponent.class);
         double tempVel = motion.getMovementVelocity();
@@ -269,4 +245,36 @@ public class EntityManager {
         setX(entityID, tempXVel * getStepTime());
         setY(entityID, tempYVel * getStepTime());
     }
+
+    public boolean targetEntityObscured(int targetID, int referenceID) {
+        BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);
+        double targetX = targetBasic.getX();
+        double targetY = targetBasic.getY();
+        return obscured(targetX, targetY, targetID, referenceID);
+    }
+
+    public boolean targetPointObscured(double targetLocationX, double targetLocationY, int referenceID){
+        return obscured(targetLocationX, targetLocationY, -1, referenceID);
+    }
+
+    private boolean obscured(double targetLocationX, double targetLocationY, double targetID, int referenceID) {
+        BasicComponent referenceBasic = getComponent(referenceID, BasicComponent.class);
+        double referenceX = referenceBasic.getX();
+        double referenceY = referenceBasic.getY();
+
+        for (int ID : myEntityMap.keySet()){
+            if (ID != targetID && ID != referenceID){
+                BasicComponent basic = getComponent(ID, BasicComponent.class);
+                double[] topLeftCorner = {basic.getX(), basic.getY()};
+                double[] bottomRightCorner = {basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight()};
+                if (Line2D.linesIntersect(targetLocationX, targetLocationY, referenceX, referenceY,
+                        topLeftCorner[0], topLeftCorner[1], bottomRightCorner[0], bottomRightCorner[1])){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

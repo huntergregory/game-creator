@@ -2,6 +2,7 @@ package Engine.src.ECS;
 
 import Engine.src.Components.*;
 
+import java.awt.geom.Line2D;
 import java.util.Map;
 
 import static java.lang.Math.atan;
@@ -183,7 +184,7 @@ public class EntityManager {
     }
 
     //TODO remove duplication between setY and also in collision handler and detector
-    private void setX(int obj, double newX){
+    public void setX(int obj, double newX){
         BasicComponent basic = getComponent(obj, BasicComponent.class);
         double currentX = basic.getX();
         double finalX = newX;
@@ -199,7 +200,7 @@ public class EntityManager {
     }
 
     //TODO remove duplication between setY and also in collision handler and detector
-    private void setY(int obj, double newY){
+    public void setY(int obj, double newY){
         BasicComponent basic = getComponent(obj, BasicComponent.class);
         double currentY = basic.getY();
         double finalY = newY;
@@ -228,9 +229,44 @@ public class EntityManager {
         double newAngle;
         if(direction.equals("CLOCKWISE")) newAngle = currentAngle + aim.getRotationRate();
         else newAngle = currentAngle - aim.getRotationRate();
-        aim.setXDirection(Math.cos(newAngle));
-        aim.setYDirection(Math.sin(newAngle));
-
+        aim.setXAim(Math.cos(newAngle));
+        aim.setYAim(Math.sin(newAngle));
     }
 
+    public double getStepTime() {
+        return myStepTime;
+    }
+
+    public boolean obscured(int targetID, int referenceID) {
+
+            BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);
+            double targetX = targetBasic.getX();
+            double targetY = targetBasic.getY();
+            BasicComponent referenceBasic = getComponent(referenceID, BasicComponent.class);
+            double referenceX = referenceBasic.getX();
+            double referenceY = referenceBasic.getY();
+
+            for (int ID : myEntityMap.keySet()){
+                if (ID != targetID && ID != referenceID){
+                    BasicComponent basic = getComponent(ID, BasicComponent.class);
+                    double[] topLeftCorner = {basic.getX(), basic.getY()};
+                    double[] bottomRightCorner = {basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight()};
+                    if (Line2D.linesIntersect(targetX, targetY, referenceX, referenceY,
+                                              topLeftCorner[0], topLeftCorner[1], bottomRightCorner[0], bottomRightCorner[1])){
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+    }
+
+    public void moveInDirection(int entityID, double[] direction){
+        MotionComponent motion = getComponent(entityID, MotionComponent.class);
+        double tempVel = motion.getMovementVelocity();
+        double tempXVel = tempVel * direction[0];
+        double tempYVel = tempVel * direction[1];
+        setX(entityID, tempXVel * getStepTime());
+        setY(entityID, tempYVel * getStepTime());
+    }
 }

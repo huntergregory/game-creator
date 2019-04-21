@@ -28,7 +28,7 @@ public class AimComponent extends Component{
         myXAim = xAim;
     }
 
-    public void setXYAim(double yAim){
+    public void setYAim(double yAim){
         myXAim = yAim;
     }
 

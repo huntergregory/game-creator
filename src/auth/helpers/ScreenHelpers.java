@@ -44,8 +44,8 @@ import static auth.Strings.*;
 import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.*;
 import static auth.helpers.RectangleHelpers.createStyledRectangle;
-import static gamecenter.RunGameCenter.bebasKai;
-import static gamecenter.RunGameCenter.bebasKaiMedium;
+import static auth.RunAuth.bebasKai;
+import static auth.RunAuth.bebasKaiMedium;
 
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";

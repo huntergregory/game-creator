@@ -7,6 +7,7 @@ import Engine.src.ECS.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public abstract class Event {
     protected List<Conditional> myConditionals;
 

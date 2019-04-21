@@ -1,32 +1,26 @@
 {
   "games" : [
     {
-      "name" :  "Bounce",
-      "img" : "bounce.png",
-      "desc" : "An attempt to recreate the good ol' bounce game found on old Nokia phones.",
-      "game_source" : ""
-    },
-    {
       "name" :  "Doodle Jump",
-      "img" : "doodle-jump.jpeg",
+      "img" : "/img/doodle-jump.jpeg",
       "desc" : "A game where you have a doodle on the screen, and you make it jump. Nothing more than the name conveys.",
       "game_source" : ""
     },
     {
       "name" :  "Flappy Bird",
-      "img" : "flappybird.jpg",
+      "img" : "/img/flappybird.jpg",
       "desc" : "A really stupid game. Don't waste your time, and your money when you ultimately have to buy a new computer after you smash this one to pieces.",
       "game_source" : ""
     },
     {
       "name" :  "Mario",
-      "img" : "mario.jpg",
+      "img" : "/img/mario.jpg",
       "desc" : "Really? You need a description for Mario?",
       "game_source" : ""
     },
     {
       "name" :  "Metroid",
-      "img" : "metroid.jpg",
+      "img" : "/img/metroid.jpg",
       "desc" : "Metroid follows space-faring bounty hunter Samus Aran, who protects the galaxy from the Space Pirates and their attempts to harness the power of the parasitic Metroid creatures.",
       "game_source" : ""
     }

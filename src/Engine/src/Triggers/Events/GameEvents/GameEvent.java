@@ -6,6 +6,7 @@ import Engine.src.Triggers.Events.Event;
 
 import java.util.List;
 
+@Deprecated
 public abstract class GameEvent extends Event {
 
     public GameEvent(){

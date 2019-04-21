@@ -11,45 +11,55 @@ import java.util.Map;
 
 public class LevelManager {
     private boolean levelPassed;
-    private List<TimerSequence> myTimers;
+    private List<Timer> myTimers;
+    private List<TimerSequence> myTimerSequences;
     private EntityManager myEntityManager;
     double myCount;
     double myLevelWidth;
     double myLevelHeight;
 
-    public LevelManager(List<TimerSequence> timers, EntityManager entityManager, double count, double width, double height){
+    public LevelManager(List<Timer> timers, List<TimerSequence> timerSequences, EntityManager entityManager, double count, double width, double height){
         levelPassed = false;
         myEntityManager = entityManager;
         myTimers = timers;
         myCount = count;
         myLevelWidth = width;
         myLevelHeight = height;
+        myTimerSequences = timerSequences;
     }
 
-    public void addSequence(Map<Integer, List<Event>> eventsWhileOn, Map<Integer, List<Event>> eventsAfter,
-                            Map<Integer, Double> durations, boolean isLoop) {
-        List<Timer> timerList = new ArrayList<>();
-        for(Integer key: eventsWhileOn.keySet()){
-            timerList.add(new Timer(eventsWhileOn.get(key), eventsAfter.get(key), durations.get(key)));
-        }
-        myTimers.add(new TimerSequence(timerList, isLoop));
+    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
+        myTimers.add(new Timer(eventsWhileOn, eventsAfter, duration, myCount));
     }
 
-    public void updateTimer() {
-        for (TimerSequence sequence : myTimers) {
+    public void updateSequences() {
+        for (TimerSequence sequence : myTimerSequences) {
             Timer currentTimer = sequence.getCurrentTimer();
             if (currentTimer.getCount() >= currentTimer.getEndTime()){
                 currentTimer.activateEvents(currentTimer.getMyEventsAfterTimer(), myEntityManager, this);
                 sequence.setNextTimer(myCount);
             }
             else {
-                currentTimer.activateEvents(currentTimer.getEventsWhileOn(), myEntityManager, this);
+                currentTimer.activateEvents(currentTimer.getStateWhileTimerIsOn(), myEntityManager, this);
                 currentTimer.increment();
             }
             if (sequence.completed() && sequence.isLoop()) sequence.reset(myCount);
             else myTimers.remove(sequence);
         }
     }
+
+    public void updateTimers() {
+        for (Timer timer : myTimers) {
+            if (timer.getCount() >= timer.getEndTime()){
+                timer.activateEvents(timer.getMyEventsAfterTimer(), myEntityManager, this);
+            }
+            else {
+                timer.activateEvents(timer.getStateWhileTimerIsOn(), myEntityManager, this);
+                timer.increment();
+            }
+        }
+    }
+
 
     public void setLevelPass() {
         levelPassed = true;

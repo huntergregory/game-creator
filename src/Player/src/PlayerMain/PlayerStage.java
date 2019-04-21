@@ -190,7 +190,6 @@ public class PlayerStage {
         Stage ret = new Stage();
         ret.setTitle(ST_TITLE);
         ret.setScene(myScene);
-        myScene.getStylesheets().add("style.css");
         return ret;
     }
 }

@@ -80,6 +80,14 @@ public class MotionComponent extends Component {
         return myAngle;
     }
 
+    public double getVelocity(){
+        return Math.pow(Math.pow(myXVelocity, 2) + Math.pow(myYVelocity, 2), .5);
+    }
+
+    public double getMovementVelocity(){
+        return Math.pow(Math.pow(myMovementXVelocity, 2) + Math.pow(myMovementYVelocity, 2), .5);
+    }
+
     //Should put the three methods below into entitymanager?
     public void updateVelocity() {
         myXVelocity = Math.min(myXVelocity += myXAcceleration, myMaxXVelocity);

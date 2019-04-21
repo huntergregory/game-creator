@@ -1,4 +1,4 @@
-package gamecenter;
+package gameCenter.utilities;
 
 public class Dimensions {
     public static final double GC_WINDOW_WIDTH = 750;
@@ -19,7 +19,8 @@ public class Dimensions {
     public static final double GC_PERMA_PANE_WIDTH = GC_WINDOW_WIDTH - GC_RIGHT_PANE_WIDTH - (3 * GC_MARGIN);
     public static final double GC_PERMA_CONTENT_OFFSET = 25;
     public static final double BUTTON_OFFSET_CORRECTION = 8;
-    public static final double THUMBNAIL_SIZE = 200;
+    public static final double THUMBNAIL_WIDTH = 225;
+    public static final double THUMBNAIL_HEIGHT = 180;
     public static final double THUMBNAIL_MARGIN = 25;
     public static final double GC_DESC_TEXT_X = GC_TITLE_PANE_X + GC_PERMA_PANE_WIDTH/2;
     public static final double GC_DESC_TEXT_Y = GC_PERMA_PANE_Y + GC_PERMA_PANE_HEIGHT/2;

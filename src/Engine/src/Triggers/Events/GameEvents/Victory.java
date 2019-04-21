@@ -22,3 +22,4 @@ public class Victory extends GameEvent{
         return new Victory(copyConditionals());
     }
 }
+

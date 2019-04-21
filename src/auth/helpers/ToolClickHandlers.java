@@ -14,7 +14,7 @@ import java.io.File;
 
 import static auth.Colors.DEFAULT_TEXT_COLOR;
 import static auth.helpers.ScreenHelpers.initialiseGrids;
-import static gamecenter.RunGameCenter.bebasKaiMedium;
+import static auth.RunAuth.bebasKaiMedium;
 
 /**
  * Author: Anshu Dwibhashi

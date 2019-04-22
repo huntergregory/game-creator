@@ -156,7 +156,7 @@ public class ScreenHelpers {
         containerPane.setTop(titleText);
         BorderPane.setAlignment(titleText, Pos.CENTER);
 
-        var pagination = new PaginationUIElement(wrapInScrollView(context.getObjectGrid()), (arg) -> {
+        var pagination = new PaginationUIElement(wrapInScrollView(context.getObjectGrid()), arg -> {
             final int index = (Integer) arg[0];
             titleText.setText(titles[index]);
         }, SCENE_PAGINATION);

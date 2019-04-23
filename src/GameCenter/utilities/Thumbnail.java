@@ -1,4 +1,4 @@
-package gameCenter.utilities;
+package GameCenter.utilities;
 
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
-import static gameCenter.utilities.Dimensions.*;
+import static GameCenter.utilities.Dimensions.*;
 import static javafx.scene.paint.Color.WHITE;
 
 public class Thumbnail {

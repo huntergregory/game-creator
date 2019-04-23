@@ -15,11 +15,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="parentPane" prefHeight="525.0" prefWidth="983.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="gameCenter.main.GameCenterController">
+<AnchorPane id="parentPane" prefHeight="525.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameCenter.main.GameCenterController">
 
     <padding><Insets bottom="25" left="25" right="25" top="25" /></padding>
 
-    <stylesheets><URL value="@GameCenter.css" /></stylesheets>
+    <stylesheets><URL value="@GUIStyle.css" /></stylesheets>
 
     <!-- Thumbnail Pane -->
     <Pane layoutX="700" layoutY="25" prefHeight="450" prefWidth="250" styleClass="centerPane">
@@ -53,7 +53,7 @@
       </children></HBox>
 
     <!-- Title pane -->
-    <HBox alignment="CENTER" layoutX="250.0" layoutY="25.0" styleClass="centerPane">
+    <HBox alignment="CENTER" layoutX="250.0" layoutY="25.0" prefHeight="45.0" prefWidth="50.0" styleClass="centerPane">
         <padding>
          <Insets bottom="5" left="5" right="5" top="5" />
       </padding>
@@ -68,7 +68,10 @@
       <children>
           <Pane fx:id="newGamePane" prefHeight="390" prefWidth="425" styleClass="centerPane">
             <children>
-                 <Button fx:id="newGameButton" layoutX="114.0" layoutY="173.0" onAction="#launchAuthEnv" styleClass="button" text="Create a new game" />
+                 <Button fx:id="newGameButton" layoutX="103.0" layoutY="173.0" onAction="#launchAuthEnv" styleClass="largeButton" text="Create a new game">
+                  <font>
+                     <Font name="Impact" size="24.0" />
+                  </font></Button>
             </children>
           </Pane>
          <Pane fx:id="descriptionPane" prefHeight="200.0" prefWidth="200.0" styleClass="descriptionPane" visible="false">
@@ -76,9 +79,9 @@
                 <VBox layoutX="20" layoutY="150" prefWidth="385" styleClass="descriptionTextPane">
                     <Text fx:id="descriptionText" layoutX="5" layoutY="5" styleClass="descText" textAlignment="CENTER" wrappingWidth="385" />
                 </VBox>
-                <Button fx:id="editButton" layoutX="85.0" layoutY="264.0" mnemonicParsing="false" text="Edit" />
-                <Button fx:id="playButton" layoutX="181.0" layoutY="264.0" mnemonicParsing="false" onAction="#launchPlayer" text="Play" />
-                <Button fx:id="rateButton" layoutX="277.0" layoutY="264.0" mnemonicParsing="false" onAction="#rateGame" text="Rate" />
+                <Button fx:id="editButton" layoutX="85.0" layoutY="264.0" mnemonicParsing="false" styleClass="largeButton" text="Edit" />
+                <Button fx:id="playButton" layoutX="176.0" layoutY="264.0" mnemonicParsing="false" onAction="#launchPlayer" styleClass="largeButton" text="Play" />
+                <Button fx:id="rateButton" layoutX="269.0" layoutY="264.0" mnemonicParsing="false" onAction="#rateGame" styleClass="largeButton" text="Rate" />
             </children>
          </Pane>
           <!-- Where rating pane will go -->

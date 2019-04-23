@@ -1,4 +1,4 @@
-package gameCenter.utilities;
+package GameCenter.utilities;
 
 public class Strings {
     public static final String GC_WINDOW_TITLE = "Game Center";

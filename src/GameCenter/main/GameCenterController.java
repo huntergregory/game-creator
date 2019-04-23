@@ -1,8 +1,8 @@
-package gameCenter.main;
+package GameCenter.main;
 
-import gameCenter.gameData.DataParser;
-import gameCenter.gameData.DataStruct;
-import gameCenter.utilities.Thumbnail;
+import GameCenter.gameData.DataParser;
+import GameCenter.gameData.DataStruct;
+import GameCenter.utilities.Thumbnail;
 import Player.src.PlayerMain.PlayerStage;
 import auth.RunAuth;
 

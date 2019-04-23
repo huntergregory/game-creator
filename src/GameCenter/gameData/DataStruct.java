@@ -1,4 +1,4 @@
-package gameCenter.gameData;
+package GameCenter.gameData;
 
 public class DataStruct {
     private String name, imagePath, description, sourcePath;

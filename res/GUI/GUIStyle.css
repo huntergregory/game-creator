@@ -12,14 +12,13 @@
 
 .paneText {
     -fx-fill: #DDDDDD;
-    -fx-font-size: 25;
-    -fx-font-family: "Bebas Kai";
+    -fx-font-family: Impact;
+    -fx-font-size: 24;
 }
 
 .descText {
     -fx-fill: #DDDDDD;
     -fx-font-size: 15;
-    -fx-font-family: "Sofia Pro";
 }
 
 .permaPane {
@@ -77,13 +76,26 @@
     -fx-background-radius: 15 15 0 0;
 }
 
-.button {
+.largeButton {
     -fx-background-color: ghostwhite;
-    -fx-text-alignment: center;
-    -fx-text-fill: #333333;
-    -fx-font-size: 20;
-    -fx-font-family: "Bebas Kai";
+    -fx-font-family: Impact;
+    -fx-font-size: 24;
     -fx-effect: dropshadow(three-pass-box, lightgray, 10, 0, 0, 0);
     -fx-background-radius: 20 20 20 20;
     -fx-cursor: hand;
+}
+
+.smallButton {
+    -fx-background-color: ghostwhite;
+    -fx-font-family: Impact;
+    -fx-font-size: 16;
+    -fx-background-radius: 20 20 20 20;
+}
+
+.smallButton:pressed{
+    -fx-effect: dropshadow(three-pass-box, lightgray, 10, 0, 0, 0);
+}
+
+.smallButton:hover{
+    -fx-background-color: #d3d3da;
 }

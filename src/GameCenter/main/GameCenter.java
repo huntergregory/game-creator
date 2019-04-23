@@ -1,9 +1,8 @@
-package gameCenter.main;
+package GameCenter.main;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
@@ -12,10 +11,10 @@ import javafx.fxml.FXMLLoader;
  * Authoring Environment to edit games, do several actions to the game, and interact with other users through the
  * social hub.
  *
- * GameCenter.java works in conjunction with GameCenter.fxml and GameCenter.css, both found in the resources folder, as
+ * GameCenter.java works in conjunction with GameCenter.fxml and GUIStyle.css, both found in the resources folder, as
  * well as GameCenterController.
  *
- * GameCenter.java, GameCenter.fxml & GameCenter.css, and GameCenterController.java are the model, view, and controller,
+ * GameCenter.java, GameCenter.fxml & GUIStyle.css, and GameCenterController.java are the model, view, and controller,
  * respectively. Keep this in mind when refactoring/writing new code.
  *
  * TODO: Figure out how to use custom fonts in .fxml or .css
@@ -26,7 +25,6 @@ import javafx.fxml.FXMLLoader;
  * 14 April 2019
  */
 public class GameCenter extends Application {
-    public static Font sofiaPro, sofiaProSmall, bebasKai, bebasKaiMedium;
     private Parent myRoot;
     private GameCenterController myGCC;
 
@@ -45,21 +43,12 @@ public class GameCenter extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/gameCenter/GameCenter.fxml"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/GameCenter.fxml"));
 
         this.myRoot = loader.load();
         this.myGCC = loader.getController();
 
-        try {
-            sofiaPro = Font.loadFont(this.getClass().getResourceAsStream("/fonts/sofiapro-light.otf"),30);
-            sofiaProSmall = Font.loadFont(this.getClass().getResourceAsStream("/fonts/sofiapro-light.otf"),15);
-            bebasKai = Font.loadFont(this.getClass().getResourceAsStream("/fonts/bebaskai.otf"),15);
-            bebasKaiMedium = Font.loadFont(this.getClass().getResourceAsStream("/fonts/bebaskai.otf"),25);
-        } catch (Exception e) {
-            System.out.println("A problem occurred when loading resources.");
-        }
-
-        myRoot.getStylesheets().add(this.getClass().getResource("/gameCenter/GameCenter.css").toString());
+        myRoot.getStylesheets().add(this.getClass().getResource("/GUI/GUIStyle.css").toString());
         myGCC.initGameCenter();
 
         Scene scene = new Scene(myRoot, 975, 500);

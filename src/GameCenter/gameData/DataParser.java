@@ -1,4 +1,4 @@
-package gameCenter.gameData;
+package GameCenter.gameData;
 import org.json.*;
 
 import java.io.File;

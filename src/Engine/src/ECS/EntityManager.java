@@ -126,14 +126,31 @@ public class EntityManager {
     }
 
     //Not sure if done here and how states would be referenced non-specifically
-    public void changeState(int entityID, String state) {
-
-    }
 
     public void increaseScore(int entityID, double gain) {
-
+        ScoreComponent score = getComponent(entityID, ScoreComponent.class);
+        score.setScore(score.getScore() + gain);
     }
 
+    public boolean hasState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        return states.hasState(state);
+    }
+
+    public void addState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        states.addState(state);
+    }
+
+    public void removeState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        states.removeState(state);
+    }
+
+    public boolean healthBelow(int entityID, double threshhold){
+        HealthComponent health = getComponent(entityID, HealthComponent.class);
+        return health.getHealth() < threshhold;
+    }
 
     public void addPowerup(int entityID, int otherEntityID) {
 

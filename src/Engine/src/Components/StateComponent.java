@@ -3,11 +3,22 @@ package Engine.src.Components;
 import java.util.List;
 
 public class StateComponent extends Component {
-    private List<String> myPossibleStates;
-    private String myState;
+    private List<String> myStates;
 
-    public StateComponent(List<String> states, String state) {
-        myPossibleStates = states;
-        myState = state;
+    public StateComponent(List<String> states) {
+        myStates = states;
     }
+
+    public boolean hasState(String state){
+        return myStates.contains(state);
+    }
+
+    public void addState(String state){
+        myStates.add(state);
+    }
+
+    public void removeState(String state){
+        myStates.remove(state);
+    }
+
 }

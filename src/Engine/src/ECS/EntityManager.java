@@ -1,6 +1,9 @@
 package Engine.src.ECS;
 
 import Engine.src.Components.*;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
 
 import java.awt.geom.Line2D;
 import java.util.Map;
@@ -44,6 +47,10 @@ public class EntityManager {
         }
     }
 
+    private boolean hasComponent(int entityID, Class<?> componentClass){
+        return myEntityMap.containsKey(componentClass);
+    }
+
     private Map<Class<? extends Component>, Component> getAllComponents(int entityID) throws NoEntityException {
         Map<Class<? extends Component>, Component> components = myEntityMap.get(entityID);
         if (components == null)
@@ -53,7 +60,31 @@ public class EntityManager {
 
     public void die(int entityID) {
         //TODO error checking, does removing a non-existent Entity work
-        myEntityMap.remove(entityID);
+        if(hasComponent(entityID, LivesComponent.class)){
+            LivesComponent lives = getComponent(entityID, LivesComponent.class);
+            if (lives.expired()) myEntityMap.remove(entityID);
+            else {
+                respawn(entityID, lives.getRespawnInstructions());
+                lives.removeLife();
+            }
+        }
+        else myEntityMap.remove(entityID);
+    }
+
+    private void respawn(int entityID, String respawnInstructions){
+        Binding binding = new Binding();
+        binding.setProperty("ID", entityID);
+        binding.setProperty("entityManager", this);
+        GroovyShell shell = new GroovyShell(binding);
+        Script instructions = shell.parse(respawnInstructions);
+        instructions.run();
+    }
+
+    public void setToCheckpoint(int entityID){
+        CheckpointComponent checkpoint = getComponent(entityID, CheckpointComponent.class);
+        BasicComponent basic = getComponent(entityID, BasicComponent.class);
+        basic.setX(checkpoint.getX());
+        basic.setY(checkpoint.getY());
     }
 
     public void create(int entityID, Map<Class<? extends Component>, Component> components) {

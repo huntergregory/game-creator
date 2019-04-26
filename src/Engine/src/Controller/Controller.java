@@ -46,7 +46,7 @@ public class Controller {
 
     private Binding myBinding;
 
-    public Controller(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight){
+    public Controller(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight) {
         myHotKeys = new HashMap<>();
         myTimers = new ArrayList<>();
         myCollisionResponses = new HashMap<>();
@@ -67,7 +67,7 @@ public class Controller {
     }
 
     //FIXME??
-    public void initializeDataVariables(){
+    public void initializeDataVariables() {
         myActiveObjects = new DefaultGame().getActiveObjects(); //FIXME remove for non default, hardcoded game
         //myCollisionResponses = new DefaultGame().getCollisionMap();
         //myActiveObjects = myDataManager.loadDefaultObjects();
@@ -76,9 +76,9 @@ public class Controller {
         //myTimers = myDataManager.loadTimerMap();
         //myTriggers = myDataManager.loadTriggers();
         myAI = new AI(myEntityManager);
-        for(int id : myActiveObjects.keySet()){
-            Component type =  myActiveObjects.get(id).get(TagsComponent.class);
-            if(((TagsComponent) type).contains("USER")){
+        for (int id : myActiveObjects.keySet()) {
+            Component type = myActiveObjects.get(id).get(TagsComponent.class);
+            if (((TagsComponent) type).contains("USER")) {
                 myUserID = id;
                 break;
             }
@@ -92,7 +92,7 @@ public class Controller {
         //myHotKeys.put("SPACE", new Jump(myUserID));
     }
 
-    private void setDefaultTriggers(){
+    private void setDefaultTriggers() {
         /*
         for(Integer id : myActiveObjects.keySet()) {
             Component health = myEntityManager.getComponent(id, HealthComponent.class);
@@ -105,22 +105,21 @@ public class Controller {
         */
     }
 
-    public void processKey(String key){
-        if (myHotKeys.containsKey(key)){
+    public void processKey(String key) {
+        if (myHotKeys.containsKey(key)) {
             String event = myHotKeys.get(key);
             GroovyShell shell = new GroovyShell(myBinding);
             myBinding.setProperty("ID", myUserID);
             Script script = shell.parse(event);
             script.run();
-        }
-        else; //TODO:error
+        } else ; //TODO:error
     }
 
-    public void updateScene(){
-            GroovyShell shell = new GroovyShell();
-            Script script = shell.parse(myTriggers);
-            script.run();
-            executeEntityLogic();
+    public void updateScene() {
+        GroovyShell shell = new GroovyShell();
+        Script script = shell.parse(myTriggers);
+        script.run();
+        executeEntityLogic();
         myLevelManager.updateTimers();
         myLevelManager.updateSequences();
         myCollisionHandler.handleCollisions(myActiveObjects.keySet(), myCollisionResponses);
@@ -129,7 +128,7 @@ public class Controller {
 
     private void executeEntityLogic() {
         GroovyShell shell = new GroovyShell(myBinding);
-        for(int entityID : myActiveObjects.keySet()){
+        for (int entityID : myActiveObjects.keySet()) {
             LogicComponent logicComponent = myEntityManager.getComponent(entityID, LogicComponent.class);
             String logic = logicComponent.getLogic();
             myBinding.setProperty("ID", entityID);
@@ -150,8 +149,17 @@ public class Controller {
     public double[] getOffset() {
         return myOffset;
     }
-    public Map<Integer, Map<Class<? extends Component>, Component>> getEntities(){
+
+    public Map<Integer, Map<Class<? extends Component>, Component>> getEntities() {
         return myActiveObjects;
     }
 
+    public double getScore(int entityID) {
+        ScoreComponent score = myEntityManager.getComponent(entityID, ScoreComponent.class);
+        return score.getScore();
+    }
+
+    public int getUserID(){
+        return myUserID;
+    }
 }

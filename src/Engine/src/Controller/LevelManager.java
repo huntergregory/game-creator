@@ -11,14 +11,14 @@ import java.util.Map;
 
 public class LevelManager {
     private boolean levelPassed;
-    private List<Timer> myTimers;
+    private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
     private EntityManager myEntityManager;
     double myCount;
     double myLevelWidth;
     double myLevelHeight;
 
-    public LevelManager(List<Timer> timers, List<TimerSequence> timerSequences, EntityManager entityManager, double count, double width, double height){
+    public LevelManager(Map<Integer, Timer> timers, List<TimerSequence> timerSequences, EntityManager entityManager, double count, double width, double height){
         levelPassed = false;
         myEntityManager = entityManager;
         myTimers = timers;
@@ -29,7 +29,11 @@ public class LevelManager {
     }
 
     public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
-        myTimers.add(new Timer(eventsWhileOn, eventsAfter, duration, myCount));
+        int max = 0;
+        for(int ID : myTimers.keySet()){
+            if (ID > max) max = ID;
+        }
+        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, myCount));
     }
 
     public void updateSequences() {
@@ -49,7 +53,8 @@ public class LevelManager {
     }
 
     public void updateTimers() {
-        for (Timer timer : myTimers) {
+        for (int timerID : myTimers.keySet()) {
+            Timer timer = myTimers.get(timerID);
             if (timer.getCount() >= timer.getEndTime()){
                 timer.activateEvents(timer.getMyEventsAfterTimer(), myEntityManager, this);
             }

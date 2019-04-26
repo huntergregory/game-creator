@@ -5,12 +5,15 @@ import Engine.src.ECS.AI;
 import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;
+import Engine.src.Triggers.Timer;
+import Engine.src.Triggers.TimerSequence;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Controller {
@@ -28,8 +31,8 @@ public class Controller {
     private final double myScreenHeight;
 
     private Map<String, String> myHotKeys;
-    //private List<TimerSequence> myTimerSequences;
-    //private List<Timer> myTimers;
+    private List<TimerSequence> myTimerSequences;
+    private Map<Integer, Timer> myTimers;
     private Map<Pair<String>, Pair<String>> myCollisionResponses;
     private Map<Integer, Map<Class<? extends Component>, Component>> myActiveObjects;
     private String myTriggers;
@@ -48,7 +51,7 @@ public class Controller {
 
     public Controller(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight) {
         myHotKeys = new HashMap<>();
-        myTimers = new ArrayList<>();
+        myTimers = new HashMap<>();
         myCollisionResponses = new HashMap<>();
         myTriggers = "";
         myStepTime = stepTime;

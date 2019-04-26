@@ -1,6 +1,5 @@
 package Launcher;
 
-import Engine.src.Triggers.Events.Event;
 import GameCenter.main.GameCenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,8 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;

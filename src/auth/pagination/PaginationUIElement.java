@@ -3,11 +3,9 @@ package auth.pagination;
 import auth.Callback;
 import auth.UIElement;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 

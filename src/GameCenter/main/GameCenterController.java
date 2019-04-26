@@ -5,13 +5,13 @@ import GameCenter.gameData.DataStruct;
 import GameCenter.utilities.Thumbnail;
 import Player.src.PlayerMain.PlayerStage;
 import auth.RunAuth;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;

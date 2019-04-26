@@ -1,21 +1,18 @@
 package Engine.src.Controller;
 
-import Engine.src.Triggers.Conditionals.Conditional;
-import Engine.src.Triggers.Conditionals.HealthComparison;
-import Engine.src.ECS.CollisionDetector;
 import Engine.src.Components.BasicComponent;
 import Engine.src.Components.Component;
 import Engine.src.Components.HealthComponent;
 import Engine.src.Components.TagsComponent;
+import Engine.src.ECS.CollisionDetector;
+import Engine.src.ECS.CollisionHandler;
 import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;
-import Engine.src.Triggers.Events.ObjectEvents.Jump;
-import Engine.src.Triggers.Events.ObjectEvents.MoveLeft;
-import Engine.src.Triggers.Events.ObjectEvents.ObjectEvent;
+import Engine.src.Triggers.Conditionals.Conditional;
+import Engine.src.Triggers.Conditionals.HealthComparison;
+import Engine.src.Triggers.Events.Event;
 import Engine.src.Triggers.Events.GameEvents.GameEvent;
 import Engine.src.Triggers.Events.ObjectEvents.*;
-import Engine.src.ECS.CollisionHandler;
-import Engine.src.Triggers.Events.Event;
 import Engine.src.Triggers.TimerSequence;
 
 import java.util.ArrayList;

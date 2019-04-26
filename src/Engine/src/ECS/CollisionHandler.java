@@ -4,12 +4,12 @@ import Engine.src.Components.EnvironmentComponent;
 import Engine.src.Components.ImpassableComponent;
 import Engine.src.Components.MotionComponent;
 import Engine.src.Components.TagsComponent;
+import Engine.src.Controller.LevelManager;
 import Engine.src.Triggers.Conditionals.Conditional;
 import Engine.src.Triggers.Conditionals.ObjectConditional;
-import Engine.src.Controller.LevelManager;
+import Engine.src.Triggers.Events.Event;
 import Engine.src.Triggers.Events.GameEvents.GameEvent;
 import Engine.src.Triggers.Events.ObjectEvents.ObjectEvent;
-import Engine.src.Triggers.Events.Event;
 
 import java.util.*;
 

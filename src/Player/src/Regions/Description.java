@@ -1,13 +1,15 @@
 package Player.src.Regions;
 
-import Player.src.Features.Controls.*;
+import Player.src.Features.Controls.Edit;
+import Player.src.Features.Controls.Rate;
+import Player.src.Features.Controls.Run;
 import Player.src.PlayerMain.PlayerStage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 
 import java.util.HashMap;
 import java.util.Map;

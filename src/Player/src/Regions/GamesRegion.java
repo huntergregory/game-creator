@@ -1,16 +1,11 @@
 package Player.src.Regions;
 
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Paint;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;

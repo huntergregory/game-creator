@@ -1,7 +1,7 @@
 package Engine.src.Triggers;
 
-import Engine.src.ECS.EntityManager;
 import Engine.src.Controller.LevelManager;
+import Engine.src.ECS.EntityManager;
 import Engine.src.Triggers.Events.Event;
 import Engine.src.Triggers.Events.GameEvents.GameEvent;
 import Engine.src.Triggers.Events.ObjectEvents.ObjectEvent;

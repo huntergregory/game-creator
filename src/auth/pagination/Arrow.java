@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import static auth.Dimensions.ARROW_SIZE;
-import static auth.Strings.*;
+import static auth.Strings.DEFAULT_ID;
 
 
 public abstract class Arrow implements UIElement {

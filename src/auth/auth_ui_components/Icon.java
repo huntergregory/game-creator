@@ -4,15 +4,13 @@ import auth.Callback;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.Tooltip;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import uiutils.panes.Pane;
 
-import static auth.helpers.ScreenHelpers.*;
+import static auth.helpers.ScreenHelpers.makeShadow;
+import static auth.helpers.ScreenHelpers.makeShadowSelected;
 
 public abstract class Icon implements Selectable {
     private Group view;

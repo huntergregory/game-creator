@@ -1,0 +1,55 @@
+.borderPane{
+    -fx-background-color: #808080;
+    -fx-padding: 30;
+    -fx-spacing: 30;
+}
+
+.button{
+    -fx-pref-width: 200;
+    -fx-pref-heigh: 20;
+    -fx-background-color: GHOSTWHITE;
+    -fx-text-fill: black;
+    -fx-background-radius: 20 20 20 20;
+    -fx-font-family: Impact;
+    -fx-effect: dropshadow( gaussian , GHOSTWHITE , 0,0,0,2 );
+}
+
+.errorLabel{
+    -fx-font-size: 18;
+    -fx-text-fill: red;
+    -fx-font-style: italic;
+}
+
+.gridPane{
+    -fx-background-color: #333333;
+    -fx-background-radius: 18 18 18 18;
+}
+
+.prompt{
+    -fx-text-fill: white;
+    -fx-font-family: Impact;
+    -fx-font-size: 20;
+    -fx-fill: white;
+}
+
+.textfieldLabel {
+    -fx-font-size: 20;
+    -fx-font-family: Impact;
+    -fx-text-fill: white;
+}
+.textfield {
+    -fx-max-width: 300;
+    -fx-padding: 5 15 5 15;
+    -fx-text-fill: white;
+    -fx-background-radius: 100px;
+    -fx-background-color: black;
+    -fx-border-color: transparent;
+    -fx-border-radius: 100px;
+    -fx-effect: none;
+}
+
+.titleLabel{
+    -fx-text-fill: white;
+    -fx-font-family: Impact;
+    -fx-font-size: 32;
+}

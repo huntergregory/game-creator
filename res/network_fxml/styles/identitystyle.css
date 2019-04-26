@@ -1,0 +1,24 @@
+.borderPane{
+    -fx-background-color: grey;
+    -fx-padding: 20;
+    -fx-spacing: 20;
+}
+
+.gridPane{
+    -fx-background-color: #333333;
+    -fx-background-radius: 18 18 18 18;
+    -fx-padding: 10;
+}
+
+.innerGridPane{
+    -fx-background-color: #333333;
+    -fx-background-radius: 18 18 18 18;
+    -fx-padding: 10;
+}
+
+.usernameLabel{
+    -fx-text-fill: ghostwhite;
+    -fx-font-size: 18;
+    -fx-translate-y: -60;
+    -fx-font-family: "Sofia Pro";
+}

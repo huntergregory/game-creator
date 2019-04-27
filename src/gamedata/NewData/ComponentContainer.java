@@ -9,9 +9,15 @@ public abstract class ComponentContainer {
     private String myID;
     private Map<Class<? extends Component>, Component> myComponents;
 
-    public ComponentContainer(String id) {
+    ComponentContainer(String id) {
         myID = id;
         myComponents = new HashMap<>();
+    }
+
+    ComponentContainer(String id, Map<Class<? extends Component>, Component> components) {
+        this(id);
+        if (components != null)
+            myComponents = components;
     }
 
     public void addComponent(Component component) {
@@ -38,5 +44,9 @@ public abstract class ComponentContainer {
 
     public String getID() {
         return myID;
+    }
+
+    protected Map<Class<? extends Component>, Component> getComponents() {
+        return myComponents;
     }
 }

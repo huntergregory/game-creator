@@ -14,7 +14,7 @@ public class CommentSection extends ScrollableWindow {
     }
 
     @Override
-    protected void refreshWindow() {
+    protected void update() {
         commentHistory = "";
         addText(commentHistory);
     }

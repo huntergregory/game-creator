@@ -14,6 +14,11 @@ public abstract class PlayerSlider extends Feature {
         if (minMaxCurrent == null || minMaxCurrent.length != 3)
             minMaxCurrent = DEFAULT_MIN_MAX_CURRENT;
         mySlider = new Slider(minMaxCurrent[0], minMaxCurrent[1], minMaxCurrent[2]);
+        mySlider.setMinorTickCount(0);
+        mySlider.setMajorTickUnit(1.0f);
+        mySlider.setSnapToTicks(true);
+        mySlider.setShowTickLabels(true);
+        mySlider.setShowTickMarks(true);
         mySlider.valueProperty().addListener((ov, old_val, new_val) -> handleItemSelected(new_val));
     }
 

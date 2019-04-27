@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="parentPane" prefHeight="525.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameCenter.main.GameCenterController">
+
+    <padding><Insets bottom="25" left="25" right="25" top="25" /></padding>
+
+    <stylesheets><URL value="@GUIStyle.css" /></stylesheets>
+
+    <!-- Thumbnail Pane -->
+    <Pane layoutX="700" layoutY="25" prefHeight="450" prefWidth="250" styleClass="centerPane">
+        <ScrollPane fx:id="thumbPane" layoutX="10" layoutY="10" prefHeight="430" prefWidth="230" styleClass="thumbPane">
+            <VBox fx:id="thumbPaneContent" spacing="25">
+            </VBox>
+        </ScrollPane>
+    </Pane>
+
+    <!-- Social Pane -->
+    <Pane fx:id="socialPane" layoutX="25" layoutY="85.0" prefHeight="390.0" prefWidth="200" styleClass="centerPane" />
+
+    <!-- Username Box -->
+    <HBox alignment="CENTER_LEFT" layoutX="25.0" layoutY="25.0" prefHeight="44.0" prefWidth="200.0" styleClass="centerPane">
+      <children>
+         <Circle radius="22.0" stroke="BLACK" strokeType="INSIDE">
+            <fill>
+               <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                  <stops>
+                     <Stop color="BLACK" />
+                     <Stop color="WHITE" offset="1.0" />
+                  </stops>
+               </RadialGradient>
+            </fill>
+         </Circle>
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="paneText" text="username" textAlignment="CENTER" wrappingWidth="150.0">
+            <font>
+               <Font size="25.0" />
+            </font>
+         </Text>
+      </children></HBox>
+
+    <!-- Title pane -->
+    <HBox alignment="CENTER" layoutX="250.0" layoutY="25.0" prefHeight="45.0" prefWidth="50.0" styleClass="centerPane">
+        <padding>
+         <Insets bottom="5" left="5" right="5" top="5" />
+      </padding>
+        <Text fx:id="titleText" styleClass="paneText" text="Game Center" />
+    </HBox>
+
+    <!-- Favorite Pane -->
+   <Pane layoutX="631.0" layoutY="25.0" prefHeight="44.0" prefWidth="44.0" styleClass="centerPane" />
+
+    <!-- Description Pane -->
+   <StackPane layoutX="250.0" layoutY="85.0" prefHeight="390.0" prefWidth="425.0" styleClass="centerPane">
+      <children>
+          <Pane fx:id="newGamePane" prefHeight="390" prefWidth="425" styleClass="centerPane">
+            <children>
+                 <Button fx:id="newGameButton" layoutX="103.0" layoutY="173.0" onAction="#launchAuthEnv" styleClass="largeButton" text="Create a new game">
+                  <font>
+                     <Font name="Impact" size="24.0" />
+                  </font></Button>
+            </children>
+          </Pane>
+         <Pane fx:id="descriptionPane" prefHeight="200.0" prefWidth="200.0" styleClass="descriptionPane" visible="false">
+            <children>
+                <VBox layoutX="20" layoutY="150" prefWidth="385" styleClass="descriptionTextPane">
+                    <Text fx:id="descriptionText" layoutX="5" layoutY="5" styleClass="descText" textAlignment="CENTER" wrappingWidth="385" />
+                </VBox>
+                <Button fx:id="editButton" layoutX="85.0" layoutY="264.0" mnemonicParsing="false" styleClass="largeButton" text="Edit" />
+                <Button fx:id="playButton" layoutX="176.0" layoutY="264.0" mnemonicParsing="false" onAction="#launchPlayer" styleClass="largeButton" text="Play" />
+                <Button fx:id="rateButton" layoutX="269.0" layoutY="264.0" mnemonicParsing="false" onAction="#rateGame" styleClass="largeButton" text="Rate" />
+            </children>
+         </Pane>
+          <!-- Where rating pane will go -->
+         <Pane fx:id="ratingPane" prefHeight="390.0" prefWidth="425.0" styleClass="centerPane" visible="false">
+         </Pane>
+      </children>
+   </StackPane>
+
+</AnchorPane>

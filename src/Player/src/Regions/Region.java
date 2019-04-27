@@ -12,7 +12,7 @@ public abstract class Region {
         myComponents = new ArrayList<>();
     }
 
-//    public Group getNode() {
+//    public Group getMainComponent() {
 //        return myGroup;
 //    }
 

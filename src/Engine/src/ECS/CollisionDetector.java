@@ -51,7 +51,7 @@ public class CollisionDetector {
                 collideFromTop(collider, target) ||
                 collideFromTop(target, collider);
     }
-    
+
     public boolean collideFromLeft(Integer collider, Integer target) {
         setCurrCollisionValues(collider, target);
 

@@ -1,9 +1,9 @@
 package gamedata.NewData;
 
-public abstract class EngineException extends Exception {
+public abstract class InstanceException extends RuntimeException {
     private String myMessage;
 
-    public EngineException(String message, String error){
+    public InstanceException(String message, String error){
         super(error);
         this.myMessage = message;
     }

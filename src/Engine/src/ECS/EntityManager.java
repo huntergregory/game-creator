@@ -1,5 +1,6 @@
 package Engine.src.ECS;
 
+import NoEntityException;
 import gamedata.Components.*;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;

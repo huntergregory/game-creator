@@ -1,4 +1,4 @@
-package Engine.src.ECS;
+package gamedata.NewData;
 
 public abstract class EngineException extends Exception {
     private String myMessage;

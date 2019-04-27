@@ -7,11 +7,13 @@ module voogasalad.crackingopen {
     requires javafx.web;
     requires javafx.fxml;
     requires org.json;
+    requires java.desktop;
+    requires org.codehaus.groovy;
+
     requires gson;
 
     opens Launcher to javafx.fxml;
     opens GameCenter.main to javafx.fxml;
-
     exports auth.screens;
     exports Launcher;
     exports auth.auth_fxml_controllers;

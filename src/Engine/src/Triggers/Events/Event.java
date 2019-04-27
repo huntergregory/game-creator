@@ -7,6 +7,7 @@ import Engine.src.Triggers.Conditionals.ObjectConditional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public abstract class Event {
     protected List<Conditional> myConditionals;
 

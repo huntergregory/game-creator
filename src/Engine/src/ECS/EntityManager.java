@@ -1,7 +1,11 @@
 package Engine.src.ECS;
 
 import Engine.src.Components.*;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
 
+import java.awt.geom.Line2D;
 import java.util.Map;
 
 public class EntityManager {
@@ -41,6 +45,10 @@ public class EntityManager {
         }
     }
 
+    private boolean hasComponent(int entityID, Class<?> componentClass){
+        return myEntityMap.containsKey(componentClass);
+    }
+
     private Map<Class<? extends Component>, Component> getAllComponents(int entityID) throws NoEntityException {
         Map<Class<? extends Component>, Component> components = myEntityMap.get(entityID);
         if (components == null)
@@ -50,7 +58,31 @@ public class EntityManager {
 
     public void die(int entityID) {
         //TODO error checking, does removing a non-existent Entity work
-        myEntityMap.remove(entityID);
+        if(hasComponent(entityID, LivesComponent.class)){
+            LivesComponent lives = getComponent(entityID, LivesComponent.class);
+            if (lives.expired()) myEntityMap.remove(entityID);
+            else {
+                respawn(entityID, lives.getRespawnInstructions());
+                lives.removeLife();
+            }
+        }
+        else myEntityMap.remove(entityID);
+    }
+
+    private void respawn(int entityID, String respawnInstructions){
+        Binding binding = new Binding();
+        binding.setProperty("ID", entityID);
+        binding.setProperty("entityManager", this);
+        GroovyShell shell = new GroovyShell(binding);
+        Script instructions = shell.parse(respawnInstructions);
+        instructions.run();
+    }
+
+    public void setToCheckpoint(int entityID){
+        CheckpointComponent checkpoint = getComponent(entityID, CheckpointComponent.class);
+        BasicComponent basic = getComponent(entityID, BasicComponent.class);
+        basic.setX(checkpoint.getX());
+        basic.setY(checkpoint.getY());
     }
 
     public void create(int entityID, Map<Class<? extends Component>, Component> components) {
@@ -59,8 +91,8 @@ public class EntityManager {
     }
 
     public void move(int entityID) {
-        var motionComponent = (MotionComponent) getComponent(entityID, MotionComponent.class);
-        var basicComponent = (BasicComponent) getComponent(entityID, BasicComponent.class);
+        var motionComponent = getComponent(entityID, MotionComponent.class);
+        var basicComponent = getComponent(entityID, BasicComponent.class);
         if (motionComponent != null && basicComponent != null) {
             double newX = motionComponent.getNewX(basicComponent.getX());
             double newY = motionComponent.getNewY(basicComponent.getY());
@@ -70,31 +102,31 @@ public class EntityManager {
     }
 
     public void adjustDirection(int entityID, double delta) {
-        var motionComponent = (MotionComponent) getComponent(entityID, MotionComponent.class);
+        var motionComponent = getComponent(entityID, MotionComponent.class);
         if (motionComponent != null)
             motionComponent.adjustDirection(delta);
     }
 
     public void setDirection(int entityID, double angle){
-        var motionComponent = (MotionComponent) getComponent(entityID, MotionComponent.class);
+        var motionComponent = getComponent(entityID, MotionComponent.class);
         if (motionComponent != null)
             motionComponent.setDirection(angle);
     }
 
     public void setYVelocity(int entityID, double vel) {
-        var motionComponent = (MotionComponent) getComponent(entityID, MotionComponent.class);
+        var motionComponent = getComponent(entityID, MotionComponent.class);
         if (motionComponent != null)
             motionComponent.setYVelocity(vel);
     }
 
     public void setXVelocity(int entityID, double vel) {
-        var motionComponent = (MotionComponent) getComponent(entityID, MotionComponent.class);
+        var motionComponent = getComponent(entityID, MotionComponent.class);
         if (motionComponent != null)
             motionComponent.setXVelocity(vel);
     }
 
     public void adjustHealth(int entityID, int delta) {
-        var healthComponent = (HealthComponent) getComponent(entityID, HealthComponent.class);
+        var healthComponent = getComponent(entityID, HealthComponent.class);
         if (healthComponent != null) {
             int currentHealth = healthComponent.getHealth();
             int maxHealth = healthComponent.getMaxHealth();
@@ -109,7 +141,7 @@ public class EntityManager {
     }
 
     public void setHealth(int entityID, int health) {
-        var healthComponent = (HealthComponent) getComponent(entityID, HealthComponent.class);
+        var healthComponent = getComponent(entityID, HealthComponent.class);
         if (healthComponent != null) {
             int maxHealth = healthComponent.getMaxHealth();
             if (health < maxHealth) {
@@ -123,14 +155,31 @@ public class EntityManager {
     }
 
     //Not sure if done here and how states would be referenced non-specifically
-    public void changeState(int entityID, String state) {
-
-    }
 
     public void increaseScore(int entityID, double gain) {
-
+        ScoreComponent score = getComponent(entityID, ScoreComponent.class);
+        score.setScore(score.getScore() + gain);
     }
 
+    public boolean hasState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        return states.hasState(state);
+    }
+
+    public void addState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        states.addState(state);
+    }
+
+    public void removeState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        states.removeState(state);
+    }
+
+    public boolean healthBelow(int entityID, double threshhold){
+        HealthComponent health = getComponent(entityID, HealthComponent.class);
+        return health.getHealth() < threshhold;
+    }
 
     public void addPowerup(int entityID, int otherEntityID) {
 
@@ -181,9 +230,9 @@ public class EntityManager {
     }
 
     //TODO remove duplication between setY and also in collision handler and detector
-    private void setX(int obj, double newX){
-        Component basic = getComponent(obj, BasicComponent.class);
-        double currentX = ((BasicComponent) basic).getX();
+    public void setX(int obj, double newX){
+        BasicComponent basic = getComponent(obj, BasicComponent.class);
+        double currentX = basic.getX();
         double finalX = newX;
         CollisionDetector collisionDetector = new CollisionDetector(this);
         Integer[] impassableColliders = collisionDetector.getImpassableColliders(obj, myEntityMap.keySet());
@@ -193,13 +242,13 @@ public class EntityManager {
                 finalX = currentX;
             }
         }
-        ((BasicComponent) basic).setX(finalX);
+        basic.setX(finalX);
     }
 
     //TODO remove duplication between setY and also in collision handler and detector
-    private void setY(int obj, double newY){
-        Component basic = getComponent(obj, BasicComponent.class);
-        double currentY = ((BasicComponent) basic).getY();
+    public void setY(int obj, double newY){
+        BasicComponent basic = getComponent(obj, BasicComponent.class);
+        double currentY = basic.getY();
         double finalY = newY;
         CollisionDetector collisionDetector = new CollisionDetector(this);
         Integer[] impassableColliders = collisionDetector.getImpassableColliders(obj, myEntityMap.keySet());
@@ -209,6 +258,74 @@ public class EntityManager {
                 finalY = currentY;
             }
         }
-        ((BasicComponent) basic).setY(finalY);
+        basic.setY(finalY);
     }
+
+    public void rotateAimClockwise(int obj){
+        rotateAim(obj, "CLOCKWISE");
+    }
+
+    public void rotateAimCClockwise(int obj){
+        rotateAim(obj, "CCLOCKWISE");
+    }
+
+    private void rotateAim(int obj, String direction){
+        AimComponent aim = getComponent(obj, AimComponent.class);
+        double currentAngle = Math.atan(aim.getYAim()/aim.getXAim());
+        double newAngle;
+        if(direction.equals("CLOCKWISE")) newAngle = currentAngle + aim.getRotationRate();
+        else newAngle = currentAngle - aim.getRotationRate();
+        aim.setXAim(Math.cos(newAngle));
+        aim.setYAim(Math.sin(newAngle));
+    }
+
+    public double getStepTime() {
+        return myStepTime;
+    }
+
+    public void moveInDirection(int entityID, double[] direction){
+        MotionComponent motion = getComponent(entityID, MotionComponent.class);
+        double tempVel = motion.getMovementVelocity();
+        double tempXVel = tempVel * direction[0];
+        double tempYVel = tempVel * direction[1];
+        setX(entityID, tempXVel * getStepTime());
+        setY(entityID, tempYVel * getStepTime());
+    }
+
+    public boolean targetEntityObscured(int targetID, int referenceID) {
+        BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);
+        double targetX = targetBasic.getX();
+        double targetY = targetBasic.getY();
+        return obscured(targetX, targetY, targetID, referenceID);
+    }
+
+    public boolean targetPointObscured(double targetLocationX, double targetLocationY, int referenceID){
+        return obscured(targetLocationX, targetLocationY, -1, referenceID);
+    }
+
+    private boolean obscured(double targetLocationX, double targetLocationY, double targetID, int referenceID) {
+        BasicComponent referenceBasic = getComponent(referenceID, BasicComponent.class);
+        double referenceX = referenceBasic.getX();
+        double referenceY = referenceBasic.getY();
+
+        for (int ID : myEntityMap.keySet()){
+            if (ID != targetID && ID != referenceID){
+                BasicComponent basic = getComponent(ID, BasicComponent.class);
+                double[] topLeftCorner = {basic.getX(), basic.getY()};
+                double[] bottomRightCorner = {basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight()};
+                if (Line2D.linesIntersect(targetLocationX, targetLocationY, referenceX, referenceY,
+                        topLeftCorner[0], topLeftCorner[1], bottomRightCorner[0], bottomRightCorner[1])){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void addLogic(int entityID, String additionalLogic) {
+        LogicComponent logic = getComponent(entityID, LogicComponent.class);
+        logic.setLogic(logic.getLogic() + additionalLogic);
+    }
+
 }

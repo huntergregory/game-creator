@@ -1,0 +1,36 @@
+/* CSS inspired by Januario's and Anshu's for the Player and GameCenter */
+
+.label {
+    -fx-font-family: "Trebuchet MS";
+    -fx-text-fill: white;
+    -fx-padding: 3;
+}
+
+.data-label {
+    -fx-font-size: 10;
+}
+
+#hud-title {
+    -fx-font-size: 30;
+}
+
+.scroll-pane {
+    -fx-padding: 5 5 5 5;
+    -fx-background: #333333;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
+    -fx-background-radius: 5;
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+.button {
+    -fx-padding: 3;
+    -fx-background-color: ghostwhite;
+    -fx-text-alignment: center;
+    -fx-text-fill: #333333;
+    -fx-font-size: 15;
+    -fx-font-family: "Bebas Kai";
+    -fx-effect: dropshadow(three-pass-box, lightgray, 5, 0, 0, 0);
+    -fx-background-radius: 15 15 15 15;
+    -fx-cursor: hand;
+}

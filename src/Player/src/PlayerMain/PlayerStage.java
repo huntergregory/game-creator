@@ -2,45 +2,35 @@ package Player.src.PlayerMain;
 
 import Engine.src.Components.BasicComponent;
 import Engine.src.Components.Component;
+import Engine.src.Components.HealthComponent;
+import Engine.src.Components.MotionComponent;
 import Engine.src.Controller.Controller;
-import Player.src.GameStats.DeathTracker;
-import Player.src.GameStats.EnemyTracker;
-import Player.src.GameStats.PositionTracker;
-import Player.src.Regions.DescriptionRegion;
-import Player.src.Regions.GamesRegion;
-import Player.src.Regions.Thumbnail;
-import Player.src.Regions.TitleRegion;
+import hud.DataTracker;
+import hud.HUDView;
+import hud.NumericalDataTracker;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerStage {
     private final String STYLESHEET = "style.css";
-    private final String GRIDPANE_STYLESHEET = "gridPane";
-    private final String GAMES_STYLESHEET = "gamesRegion";
-    private final String DESC_STYLESHEET = "descRegion";
-    private final String TITLE_STYLESHEET = "titleRegion";
+    private final double HUD_WIDTH = 300;
 
     public final String ST_TITLE = "Cracking Open a Scrolled One with the Boys";
-    public final double ST_WIDTH = 8000;
+    public final double ST_WIDTH = 800;
     public final double ST_HEIGHT = 600;
     public final Paint ST_COLOR = Color.web("284376");
-    public final double ST_SPACING = 20;
 
     public final double STEP_TIME = 5;
     public final double GAME_WIDTH = 1400;
@@ -50,88 +40,80 @@ public class PlayerStage {
     public static final int FRAMES_PER_SECOND = 15;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private static final int HUD_UPDATE_DELAY = 10;
+    private static final boolean HUD_INCLUDES_PLOTTER = true;
 
     private Scene myScene;
     private GridPane myVisualRoot;
-    private ArrayList<String> myGames;
-    private ArrayList<String> myImageFiles;
+    private BorderPane myBorderPane;
+    private HUDView myHud;
 
     private Controller myGameController;
-    private Group myGameRoot;
+    private Pane myGameRoot;
     private Map<Integer, Map<Class<? extends Component>, Component>> myGameEntityMap;
     private Map<Integer, ImageView> myImageViewMap;
 
-    private PositionTracker myXPosTracker;
-    private PositionTracker myYPosTracker;
-    private DeathTracker myDeathTracker;
-    private EnemyTracker myEnemyTracker;
+    private NumericalDataTracker<Double> myXPosTracker;
+    private NumericalDataTracker<Double> myYPosTracker;
+    private NumericalDataTracker<Double> myYVelocity;
+    private NumericalDataTracker<Double> myTimeTracker;
+    private NumericalDataTracker<Integer> myLivesTracker;
+    private NumericalDataTracker<Integer> myScoreTracker;
+    private DataTracker<String> myPowerupTracker;
 
-    private double startTime;
-    private double currentTime;
+    private int myCount;
+    private int gamePaused;
 
     public PlayerStage() {
-
-        myVisualRoot = buildRoot();
+        myVisualRoot = new GridPane();
+        //mySidePanelWidth = ST_WIDTH / 3.0;
+        //myLeftPanel = new SidePanel(mySidePanelWidth);
+        //myBorderPane = new BorderPane();
+        //myBorderPane.setLeft(myLeftPanel.getPane());
         myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, ST_COLOR);
+        //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
         myScene.getStylesheets().add(STYLESHEET);
-
-    }
-
-    public GridPane buildRoot() {
-
-        GridPane base = new GridPane();
-        base.getStyleClass().add(GRIDPANE_STYLESHEET);
-        base.setVgap(ST_SPACING);
-        base.setHgap(ST_SPACING);
-
-        GamesRegion gamesRegion = new GamesRegion(GAMES_STYLESHEET);
-        DescriptionRegion descRegion = new DescriptionRegion(DESC_STYLESHEET, this);
-        TitleRegion titleRegion = new TitleRegion(TITLE_STYLESHEET);
-
-        ScrollPane gamesPane = gamesRegion.getPane();
-        setLambdas(gamesRegion.getThumbnails(), descRegion);
-        ScrollPane descPane = descRegion.getPane();
-        GridPane titlePane = titleRegion.getPane();
-
-        base.add(titlePane, 0, 0, 1, 1);
-        base.add(descPane, 0, 1, 1, 1);
-        base.add(gamesPane, 1, 0, 1, 2);
-
-        return base;
-    }
-
-    private void setLambdas(ArrayList<Thumbnail> thumbnails, DescriptionRegion descRegion) {
-        for (Thumbnail thumb : thumbnails) {
-            StackPane thumbPane = thumb.getPane();
-            thumbPane.setOnMouseClicked(e -> descRegion.updateRegion(thumb.getName()));
-        }
     }
 
     public void run(String gameName) {
         Stage gameStage = new Stage();
-        myGameRoot = new Group();
+
         myImageViewMap = new HashMap<>(); //FIXME go full screen
-        myXPosTracker = new PositionTracker();
-        myYPosTracker = new PositionTracker();
-        myDeathTracker = new DeathTracker();
-        myEnemyTracker = new EnemyTracker();
-        myGameController = new Controller(STEP_TIME, myScene.getWidth(), myScene.getHeight(), GAME_WIDTH, GAME_HEIGHT);
+        myGameController = new Controller(STEP_TIME, myScene.getWidth(), myScene.getHeight(), GAME_WIDTH / 3.0, GAME_HEIGHT);
         myGameEntityMap = myGameController.getEntities();
+
+        initDataTrackers();
+        initBorderPane();
 
         addNewImageViews();
 
-        Scene gameScene = new Scene(myGameRoot, GAME_BG);
+        Scene gameScene = new Scene(myBorderPane, GAME_BG);
         //gameScene.getStylesheets().add("style.css");
+        gameScene.getStylesheets().add("hud.css");
         gameStage.setScene(gameScene);
         gameStage.show();
-
         gameScene.setOnKeyPressed(e -> myGameController.processKey(e.getCode().toString()));
-
         animate();
     }
 
+    private void setHud() {
+        myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "Level 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
+                                                                                        myYPosTracker,
+                                                                                        myYVelocity,
+                                                                                        myTimeTracker,
+                                                                                        myLivesTracker,
+                                                                                        myPowerupTracker);
+    }
+
+    private void initBorderPane() {
+        myBorderPane = new BorderPane();
+        myGameRoot = new Pane();
+        myBorderPane.setCenter(myGameRoot);
+        setHud();
+        myBorderPane.setLeft(myHud.getNode());
+    }
+
     private void animate() {
-        startTime = (double)(java.lang.System.currentTimeMillis() / 1000);
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step());
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
@@ -140,10 +122,18 @@ public class PlayerStage {
     }
 
     private void step() {
-        currentTime = (double)(java.lang.System.currentTimeMillis() / 1000) - startTime;
-        myGameController.updateScene();
-        addNewImageViews();
-        updateOrRemoveImageViews();
+        setGamePaused();
+        if (gamePaused == 0) {
+            myGameController.updateScene();
+            addNewImageViews();
+            updateOrRemoveImageViews();
+
+            if (myCount % HUD_UPDATE_DELAY == 0) {
+                updateDataTrackers();
+                myHud.update();
+            }
+            myCount++;
+        }
     }
 
     private void updateOrRemoveImageViews() {
@@ -167,21 +157,14 @@ public class PlayerStage {
 
     private void updateImageView(int id) {
         BasicComponent basicComponent = (BasicComponent) myGameEntityMap.get(id).get(BasicComponent.class);
+        MotionComponent motionComponent = (MotionComponent) myGameEntityMap.get(id).get(MotionComponent.class);
+        HealthComponent healthComponent = (HealthComponent) myGameEntityMap.get(id).get(HealthComponent.class);
         if (basicComponent == null)
             return;
-
-        if (id == 0) {
-            storeHeroData(basicComponent);
-        }
 
         ImageView imageView = myImageViewMap.get(id);
         moveAndResize(imageView, basicComponent);
         setImageIfNecessary(imageView, basicComponent);
-    }
-
-    private void storeHeroData(BasicComponent basicComponent) {
-        myXPosTracker.storeData(currentTime, basicComponent.getX());
-        myYPosTracker.storeData(currentTime, basicComponent.getY());
     }
 
     private void moveAndResize(ImageView imageView, BasicComponent basicComponent) {
@@ -201,6 +184,28 @@ public class PlayerStage {
             imageView.setImage(newImage);
     }
 
+    private void initDataTrackers() {
+        myXPosTracker = new NumericalDataTracker<>("X Position");
+        myYPosTracker = new NumericalDataTracker<>("Y Position");
+        myTimeTracker = new NumericalDataTracker<>("Time");
+        myYVelocity = new NumericalDataTracker<>("Y Velocity");
+        myLivesTracker = new NumericalDataTracker<>("Lives");
+        myScoreTracker = new NumericalDataTracker<>("Score");
+        myPowerupTracker = new DataTracker<>("Powerup");
+    }
+
+    private void updateDataTrackers() {
+        BasicComponent basicComponent = (BasicComponent) myGameEntityMap.get(0).get(BasicComponent.class);
+        MotionComponent motionComponent = (MotionComponent) myGameEntityMap.get(0).get(MotionComponent.class);
+        myTimeTracker.storeData(myCount * 1.0); //TODO get actual time
+        myXPosTracker.storeData(basicComponent.getX());
+        myYPosTracker.storeData(basicComponent.getY());
+        myYVelocity.storeData(motionComponent.getYVelocity());
+        myLivesTracker.storeData(2); //FIXME
+        myScoreTracker.storeData(0); //FIXME
+        myPowerupTracker.storeData("Flower"); //FIXME
+    }
+
     /**
      *    edit(), rate() currently placeholder. Update these methods.
      */
@@ -218,4 +223,13 @@ public class PlayerStage {
         ret.setScene(myScene);
         return ret;
     }
+
+    private void setGamePaused() {
+        gamePaused = myHud.getGamePaused();
+    }
+
+    public int getGamePaused() {
+        return gamePaused;
+    }
+
 }

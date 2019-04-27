@@ -5,13 +5,12 @@ import Engine.src.Components.ImpassableComponent;
 import Engine.src.Components.MotionComponent;
 import Engine.src.Components.TagsComponent;
 import Engine.src.Controller.LevelManager;
-import Engine.src.Triggers.Conditionals.Conditional;
-import Engine.src.Triggers.Conditionals.ObjectConditional;
-import Engine.src.Triggers.Events.Event;
-import Engine.src.Triggers.Events.GameEvents.GameEvent;
-import Engine.src.Triggers.Events.ObjectEvents.ObjectEvent;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
 
 import java.util.*;
+
 
 /**
  * FIXME
@@ -22,28 +21,33 @@ public class CollisionHandler {
     private EntityManager myEntityManager;
     private LevelManager myLevelManager;
     private CollisionDetector myCollisionDetector;
-    private Map<Pair<String>, Pair<List<Event>>> myCollisionResponses;
+    private Map<Pair<String>, Pair<String>> myCollisionResponses;
     private Map<Integer, Set<Integer>> myPreviousCollisions;
     private Map<Integer, Set<Integer>> myCurrentCollisions;
     private Map<Integer, EnvironmentComponent> myEntityCurrentEnvironments;
+    private Binding mySetter;
 
     //FIXME
     private static final double MY_DEFAULT_ACCEL_Y = 5;
     private static final double MY_DEFAULT_ACCEL_X = 0;
     //FIXME
 
-    public CollisionHandler(EntityManager objectManager, LevelManager levelManager, CollisionDetector collisionDetector) {
+    public CollisionHandler(EntityManager objectManager, LevelManager levelManager) {
         myEntityManager = objectManager;
         myLevelManager = levelManager;
-        myCollisionDetector = collisionDetector;
         myCollisionResponses = new HashMap<>();
         myPreviousCollisions = new HashMap<>();
         myCurrentCollisions = new HashMap<>();
         myEntityCurrentEnvironments = new HashMap<>();
+        myCollisionDetector = new CollisionDetector(myEntityManager);
+        mySetter = new Binding();
+        mySetter.setProperty("entityManager", myEntityManager);
+        mySetter.setProperty("levelManager", myLevelManager);
+        mySetter.setProperty("collisionDetector", myCollisionDetector);
     }
 
     //assumes collisionResponses and entities are nonnull
-    public void dealWithCollisions(Set<Integer> entities, Map<Pair<String>, Pair<List<Event>>> collisionResponses) {
+    public void handleCollisions(Set<Integer> entities, Map<Pair<String>, Pair<String>> collisionResponses) {
         myCollisionResponses = collisionResponses;
         myCurrentCollisions = new HashMap<>();
 
@@ -104,7 +108,7 @@ public class CollisionHandler {
             handleEnvironments(entity2, entity1);
 
             for (Pair<String> tagPair : collisionTagPairs) {
-                Pair<List<Event>> responseListPair = myCollisionResponses.get(tagPair);
+                Pair<String> responseListPair = myCollisionResponses.get(tagPair);
                 activateEvents(entity1, entity2, responseListPair.getItem1());
                 activateEvents(entity2, entity1, responseListPair.getItem2());
             }
@@ -175,31 +179,16 @@ public class CollisionHandler {
     }
 
     //TODO fix if Triggers.Events are changed
-    private void activateEvents(Integer current, Integer other, List<Event> responseList) {
-        for (Event e : responseList) {
-            /*if (event instanceof ObjectEvent) {                 //only include other if necessary for conditionals
-                ((ObjectEvent) event).activate(current, other, myEntityManager);
-            }
-            if (event instanceof GameEvent) {
-                ((GameEvent) event).activate(current, other, myLevelManager);
-            }*/
+    private void activateEvents(Integer current, Integer other, String responses) {
             //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
-            Event event = e.copy();
-            List<Conditional> conditionals = event.getConditionals();
-            for (Conditional conditional : conditionals) {
-                if (conditional instanceof ObjectConditional) {
-                    event.setConditionalObject(current);
-                }
-            }
-            if (event.conditionsSatisfied(other, myEntityManager)) {
-                if (event instanceof ObjectEvent) {
-                    ((ObjectEvent) event).setEventObject(current);
-                    ((ObjectEvent) event).setOther(other);
-                    ((ObjectEvent) event).activate(myEntityManager);
-                }
-                    else
-                    ((GameEvent) event).activate(myLevelManager);
-            }
-        }
+            GroovyShell shell = new GroovyShell(mySetter);
+            mySetter.setProperty("ID", current);
+            mySetter.setProperty("otherID", other);
+            Script script = shell.parse(responses);
+            script.run();
+    }
+
+    public void addCollision(String type1, String type2, String response1, String response2){
+        myCollisionResponses.put(new Pair<>(type1, type2), new Pair<>(response1, response2));
     }
 }

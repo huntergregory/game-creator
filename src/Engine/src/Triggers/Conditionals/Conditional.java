@@ -2,6 +2,7 @@ package Engine.src.Triggers.Conditionals;
 
 import Engine.src.ECS.EntityManager;
 
+@Deprecated
 public abstract class Conditional {
 
     protected boolean Required;

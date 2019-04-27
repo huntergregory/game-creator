@@ -5,7 +5,18 @@
   },
   {
     "name" : "Load From File",
-    "tooltip" : "Create new object",
     "handler" :  "handleLoadFromFile"
+  },
+  {
+    "name" : "Save To Cloud",
+    "handler" :  "handleSaveToCloud"
+  },
+  {
+    "name" : "Load From Cloud",
+    "handler" :  "handleLoadFromCloud"
+  },
+  {
+    "name" : "Add Collaborators",
+    "handler" : "handleAddCollaborators"
   }
 ]

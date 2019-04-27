@@ -635,7 +635,7 @@ public class ScreenHelpers {
                 var nameText = new Text(name); nameText.setFont(bebasKaiMedium); nameText.setFill(Color.WHITE);
                 nameText.setCursor(Cursor.HAND); nameText.setOnMouseClicked(e -> {
                     try {
-                        var method = ToolClickHandlers.class.getMethod(handler, CanvasScreen.class);
+                        var method = MenuClickHandlers.class.getMethod(handler, CanvasScreen.class);
                         method.invoke(null, context);
                     } catch (Exception ex) {
                         // Would never happen

@@ -1,6 +1,4 @@
-package Engine.src.Components;
-
-import java.io.File;
+package gamedata.Components;
 
 public class BasicComponent extends Component {
     private double myWidth;
@@ -8,6 +6,8 @@ public class BasicComponent extends Component {
     private double myXPos;
     private double myYPos;
     private String myFilename;
+    private String myColor;
+    private String myID;
     private int myZIndex;
 
     public BasicComponent(String filename, double xPos, double yPos, double width, double height, int zIndex) {

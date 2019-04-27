@@ -1,4 +1,4 @@
-package Engine.src.Components;
+package gamedata.Components;
 
 public abstract class Component {
     private int entityID;

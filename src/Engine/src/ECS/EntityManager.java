@@ -1,15 +1,12 @@
 package Engine.src.ECS;
 
-import Engine.src.Components.*;
+import gamedata.Components.*;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 import java.awt.geom.Line2D;
 import java.util.Map;
-
-import static java.lang.Math.atan;
-import static java.lang.Math.log;
 
 public class EntityManager {
     private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;

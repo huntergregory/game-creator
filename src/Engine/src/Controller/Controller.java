@@ -1,6 +1,6 @@
 package Engine.src.Controller;
 
-import Engine.src.Components.*;
+import gamedata.Components.*;
 import Engine.src.ECS.AI;
 import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;

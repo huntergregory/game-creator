@@ -1,6 +1,8 @@
 package Engine.src.Components;
 
-public abstract class Component {
+import Engine.src.Entity.IEntity;
+
+public abstract class Component implements IEntity {
     private int entityID;
 
     public int getID() {

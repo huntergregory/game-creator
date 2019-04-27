@@ -1,7 +1,7 @@
 package Engine.src.DataManager;
 
 import Engine.src.Components.Component;
-import Engine.src.DeprecatedTriggers.Events.Event;
+import Engine.src.Triggers.Events.Event;
 
 import java.util.Collections;
 import java.util.List;

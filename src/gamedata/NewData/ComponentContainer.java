@@ -9,7 +9,7 @@ public abstract class ComponentContainer {
     private String myID;
     private Map<Class<? extends Component>, Component> myComponents;
 
-    public ComponentContainer(String type, String id) {
+    public ComponentContainer(String id) {
         myID = id;
         myComponents = new HashMap<>();
     }

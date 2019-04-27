@@ -100,6 +100,15 @@ public class CanvasScreen extends Screen {
         return count;
     }
 
+    public String getLoggedInUsername() {
+        // TODO: Softcode this
+        return "anshudwibhashi";
+    }
+
+    public String getLoggedInName() {
+        return "Anshu";
+    }
+
     public void switchToScene(int index, boolean deselect) {
         currentScene = index;
         if (deselect) {

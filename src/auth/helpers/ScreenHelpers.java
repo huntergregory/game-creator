@@ -183,7 +183,7 @@ public class ScreenHelpers {
     }
 
     public static void repopulatePropertiesPane(CanvasScreen context) {
-        var propsPane = (javafx.scene.layout.Pane) ((Group)context.getUIElementById(RIGHT_PANES_GROUP_ID).getView()).getChildren().get(0);
+        var propsPane = (javafx.scene.layout.Pane) ((VBox)context.getUIElementById(RIGHT_PANES_GROUP_ID).getView()).getChildren().get(1);
         var contentPane = (javafx.scene.layout.Pane) ((ScrollPane) ((BorderPane) propsPane.getChildren().get(0)).getCenter()).getContent();
         contentPane.getChildren().clear();
         populateConsolePane(context, (BottomPane)context.getUIElementById(CONSOLE_PANE_ID));
@@ -565,14 +565,18 @@ public class ScreenHelpers {
 
     private static void placePanes(CanvasScreen context) {
         var toolsPane = new LeftPane(centreVertical(TOOLS_PANE_HEIGHT), TOOLS_PANE_WIDTH, TOOLS_PANE_HEIGHT, TOOLS_PANE_ID);
+        var namePane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, NAME_PANE_HEIGHT, NAME_PANE_ID);
         var propsPane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT, PROPS_PANE_ID);
-        var objLibPane = new RightPane(computeMarginToBottomEdge((Region) propsPane.getView(), RIGHT_PANE_MARGIN), RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT, OBJ_LIB_PANE_ID);
+        var objLibPane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT, OBJ_LIB_PANE_ID);
 
-        var rightPanesGroup = new Group(propsPane.getView(), objLibPane.getView());
-        rightPanesGroup.setLayoutY(centreVertical(rightPanesGroup.getLayoutBounds().getHeight()));
+        var rightPanesGroup = new VBox(RIGHT_PANE_MARGIN);
+        rightPanesGroup.getChildren().addAll(namePane.getView(), propsPane.getView(), objLibPane.getView());
+        rightPanesGroup.setLayoutX(ENV_WINDOW_WIDTH - RIGHT_PANE_WIDTH);
 
         var consolePane = new BottomPane(CONSOLE_HORIZONTAL_OFFSET, CONSOLE_PANE_WIDTH, CONSOLE_PANE_HEIGHT, CONSOLE_PANE_ID);
         context.registerNewUIElement(toolsPane, new UIElementWrapper(rightPanesGroup, RIGHT_PANES_GROUP_ID), consolePane);
+
+        rightPanesGroup.setLayoutY(centreVertical(RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN*2+NAME_PANE_HEIGHT));
 
         populateToolsPane(context, toolsPane);
         populatePropsPane(context, propsPane);

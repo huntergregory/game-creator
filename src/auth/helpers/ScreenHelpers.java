@@ -35,6 +35,7 @@ import javafx.scene.web.WebView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.w3c.dom.Document;
+import uiutils.components.TextGenerator;
 import uiutils.panes.*;
 import auth.screens.CanvasScreen;
 import javafx.scene.Group;
@@ -55,8 +56,7 @@ import static auth.Strings.*;
 import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.*;
 import static auth.helpers.RectangleHelpers.createStyledRectangle;
-import static gamecenter.RunGameCenter.bebasKai;
-import static gamecenter.RunGameCenter.bebasKaiMedium;
+import static gamecenter.RunGameCenter.*;
 
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";
@@ -578,10 +578,23 @@ public class ScreenHelpers {
 
         rightPanesGroup.setLayoutY(centreVertical(RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN*2+NAME_PANE_HEIGHT));
 
+        populateNamePane(context, namePane);
         populateToolsPane(context, toolsPane);
         populatePropsPane(context, propsPane);
         populateObLibPane(context, objLibPane);
         populateConsolePane(context, consolePane);
+    }
+
+    private static void populateNamePane(CanvasScreen context, Pane namePane) {
+        var nameText = new Text("Hey, "+context.getLoggedInName()+"!");
+        nameText.setFont(sofiaPro); nameText.setFill(Color.WHITE);
+        nameText.setX(RIGHT_PANE_MARGIN); nameText.setY(NAME_PANE_HEIGHT/2 + 7.5);
+        var menuIcon = new ToolIcon("menu", "Menu", callback -> {
+            // TODO: Open Menu
+        });
+        menuIcon.getView().setLayoutY(12.5);
+        menuIcon.getView().setLayoutX(RIGHT_PANE_WIDTH - 62.5);
+        namePane.getView().getChildren().addAll(nameText, menuIcon.getView());
     }
 
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;

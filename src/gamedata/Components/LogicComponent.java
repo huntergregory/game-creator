@@ -8,9 +8,4 @@ public class LogicComponent extends Component{
         myLogic = logic;
     }
 
-    public String getLogic(){
-        return myLogic;
-    }
-
-    public void setLogic(String logic) { myLogic = logic; }
 }

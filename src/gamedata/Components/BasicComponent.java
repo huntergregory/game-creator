@@ -9,15 +9,7 @@ public class BasicComponent extends Component {
     private String myColor;
     private String myID;
     private int myZIndex;
-
-    public BasicComponent(String filename, double xPos, double yPos, double width, double height, int zIndex) {
-        myFilename = filename;
-        myXPos = xPos;
-        myYPos = yPos;
-        myWidth = width;
-        myHeight = height;
-        myZIndex = zIndex;
-    }
+    private String myLogic;
 
     public BasicComponent(String filename, double xPos, double yPos, double width, double height) {
         myFilename = filename;
@@ -25,7 +17,13 @@ public class BasicComponent extends Component {
         myYPos = yPos;
         myWidth = width;
         myHeight = height;
+        myLogic = "";
+        myZIndex = 0;
+    }
 
+    public BasicComponent(String filename, double xPos, double yPos, double width, double height, int zIndex) {
+        this(filename, xPos, yPos, width, height);
+        myZIndex = zIndex;
     }
 
 
@@ -68,4 +66,10 @@ public class BasicComponent extends Component {
     public void setMyZIndex(int myZIndex) {
         this.myZIndex = myZIndex;
     }
+
+    public String getLogic(){
+        return myLogic;
+    }
+
+    public void setLogic(String logic) { myLogic = logic; }
 }

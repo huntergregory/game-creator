@@ -9,7 +9,7 @@ module voogasalad.crackingopen {
     requires org.json;
     requires org.apache.commons.lang3;
     requires java.scripting;
-    requires groovy.all;
+    requires org.codehaus.groovy;
 
     exports auth.screens;
     exports Launcher.src.Initial;

@@ -1,5 +1,7 @@
 package gamedata.GameObjects;
 
+import gamedata.GameObjects.ComponentExceptions.BasicComponentException;
+import gamedata.GameObjects.ComponentExceptions.NoComponentException;
 import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.Component;
 

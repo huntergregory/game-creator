@@ -1,5 +1,7 @@
 package gamedata;
 
+import gamedata.GameObjects.Instance;
+
 import java.util.ArrayList;
 
 public class Scene {

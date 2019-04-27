@@ -1,5 +1,6 @@
 package gamedata.NewData;
 
+import gamedata.Components.BasicComponent;
 import gamedata.Components.Component;
 
 import java.util.HashMap;
@@ -12,11 +13,12 @@ public abstract class ComponentContainer {
     ComponentContainer(String id) {
         myID = id;
         myComponents = new HashMap<>();
+        addComponent(new BasicComponent("", 0,0,0,0)); //FIXME add default properties file
     }
 
     ComponentContainer(String id, Map<Class<? extends Component>, Component> components) {
         this(id);
-        if (components != null)
+        if (components != null && components.containsKey(BasicComponent.class))
             myComponents = components;
     }
 
@@ -34,7 +36,9 @@ public abstract class ComponentContainer {
         }*/
     }
 
-    public <T extends Component> void removeComponent(Class<T> componentClass) {
+    public <T extends Component> void removeComponent(Class<T> componentClass) throws BasicComponentException {
+        if (componentClass.equals(BasicComponent.class))
+            throw new BasicComponentException();
         myComponents.remove(componentClass);
     }
 

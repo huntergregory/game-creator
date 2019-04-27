@@ -10,7 +10,7 @@ public class DebugLog {
     private List<String> myLog;
 
     public DebugLog() {
-        myLog = new ArrayList<String>();
+        myLog = new ArrayList<>();
     }
 
     private void addToLog(String debugLine) {

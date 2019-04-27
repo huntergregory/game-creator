@@ -77,9 +77,6 @@ public class PlayerStage {
 
     public void run(String gameName) {
         Stage gameStage = new Stage();
-
-        myImageViewMap = new HashMap<>(); //FIXME go full screen
-        myGameController = new Controller(STEP_TIME, myScene.getWidth(), myScene.getHeight(), GAME_WIDTH / 3.0, GAME_HEIGHT);
         myGameEntityMap = myGameController.getEntities();
 
         initDataTrackers();

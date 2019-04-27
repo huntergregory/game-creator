@@ -50,9 +50,7 @@ public class AI {
         movementResponse(referenceID, targetID, "FLEE");
     }
 
-    public void follow(int referenceID, int targetID) {
-        movementResponse(referenceID, targetID, "FOLLOW");
-    }
+    public void follow(int referenceID, int targetID) { movementResponse(referenceID, targetID, "FOLLOW"); }
 
     public void patrol(int entityID, ArrayList<Point2D> patrolRoute) {
         int patrolStage = findPatrolStage(entityID, patrolRoute);

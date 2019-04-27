@@ -2,9 +2,9 @@ package Engine.src.Controller;
 
 import Engine.src.Components.*;
 import Engine.src.ECS.Pair;
-import Engine.src.Triggers.Events.Event;
-import Engine.src.Triggers.Events.ObjectEvents.Deflect;
-import Engine.src.Triggers.Events.ObjectEvents.Portal;
+import Engine.src.DeprecatedTriggers.Events.Event;
+import Engine.src.DeprecatedTriggers.Events.ObjectEvents.Deflect;
+import Engine.src.DeprecatedTriggers.Events.ObjectEvents.Portal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class DefaultGame {
     private static final String BLOCK_IMAGE = "/img/block.jpg";
-    private static final String USER_IMAGE = "/img/mario.png";
+    private static final String USER_IMAGE = "/img/mario.jpg";
     private static final String PORTAL_IMAGE = "/img/portal.jpg";
     private static final double USER_WIDTH = 30;
     private static final double USER_HEIGHT = 50;

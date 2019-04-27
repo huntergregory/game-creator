@@ -1,6 +1,6 @@
 package Engine.src.ECS;
 
-import Engine.src.Components.*;
+import gamedata.Components.*;
 
 import Engine.src.Controller.LevelManager;
 

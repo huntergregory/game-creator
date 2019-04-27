@@ -1,4 +1,4 @@
-package Engine.src.Components;
+package gamedata.Components;
 
 /**
  * Assumes time step is 1 (multiplies velocity by 1 when returning new position or acceleration by 1 when updating velocity)

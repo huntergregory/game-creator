@@ -5,7 +5,6 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.awt.geom.Line2D;
 import java.util.Map;
 
 
@@ -312,12 +311,13 @@ public class EntityManager {
         for (int ID : myEntityMap.keySet()){
             if (ID != targetID && ID != referenceID){
                 BasicComponent basic = getComponent(ID, BasicComponent.class);
-                double[] topLeftCorner = {basic.getX(), basic.getY()};
-                double[] bottomRightCorner = {basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight()};
-                if (Line2D.linesIntersect(targetLocationX, targetLocationY, referenceX, referenceY,
-                        topLeftCorner[0], topLeftCorner[1], bottomRightCorner[0], bottomRightCorner[1])){
-                    return true;
-                }
+                Pair<Double> topLeftCorner = new Pair(basic.getX(), basic.getY());
+                Pair<Double> bottomRightCorner = new Pair(basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight());
+
+                Line line1 = new Line(targetLocationX, targetLocationY, referenceX, referenceY);
+                Line line2 = new Line(topLeftCorner.getItem1(), topLeftCorner.getItem2(), bottomRightCorner.getItem1(), bottomRightCorner.getItem2());
+
+                return line1.intersects(line2);
             }
         }
 

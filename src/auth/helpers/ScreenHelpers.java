@@ -587,14 +587,17 @@ public class ScreenHelpers {
 
     private static void populateNamePane(CanvasScreen context, Pane namePane) {
         var nameText = new Text("Hey, "+context.getLoggedInName()+"!");
-        nameText.setFont(sofiaPro); nameText.setFill(Color.WHITE);
-        nameText.setX(RIGHT_PANE_MARGIN); nameText.setY(NAME_PANE_HEIGHT/2 + 7.5);
+        nameText.setFont(bebasKai); nameText.setFill(Color.WHITE);
+        nameText.setX(RIGHT_PANE_MARGIN); nameText.setY(30);
+        var unameText = new Text("@"+context.getLoggedInUsername());
+        unameText.setFont(sofiaProSmall); unameText.setFill(Color.WHITE);
+        unameText.setX(RIGHT_PANE_MARGIN); unameText.setY(50);
         var menuIcon = new ToolIcon("menu", "Menu", callback -> {
             // TODO: Open Menu
         });
         menuIcon.getView().setLayoutY(12.5);
         menuIcon.getView().setLayoutX(RIGHT_PANE_WIDTH - 62.5);
-        namePane.getView().getChildren().addAll(nameText, menuIcon.getView());
+        namePane.getView().getChildren().addAll(nameText, unameText, menuIcon.getView());
     }
 
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;

@@ -5,7 +5,6 @@ import Engine.src.Components.BasicComponent;
 import Engine.src.Components.LOSComponent;
 import Engine.src.Components.MotionComponent;
 
-import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -54,7 +53,6 @@ public class AI {
     public void follow(int referenceID, int targetID) {
         movementResponse(referenceID, targetID, "FOLLOW");
     }
-
 
     public void patrol(int entityID, ArrayList<Point2D> patrolRoute) {
         int patrolStage = findPatrolStage(entityID, patrolRoute);

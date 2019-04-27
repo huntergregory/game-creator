@@ -1,6 +1,5 @@
 package Launcher;
 
-import Engine.src.Triggers.Events.Event;
 import GameCenter.main.GameCenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

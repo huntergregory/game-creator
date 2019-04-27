@@ -1,6 +1,6 @@
 package Engine.src.Controller;
 
-import Engine.src.Components.*;
+import gamedata.Components.*;
 import Engine.src.ECS.AI;
 import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;
@@ -45,6 +45,7 @@ public class Controller {
     private EntityManager myEntityManager;
     private LevelManager myLevelManager;
     private AI myAI;
+    private DebugLog myDebugLog;
 
     private Binding myBinding;
 
@@ -62,7 +63,7 @@ public class Controller {
         myEntityManager = new EntityManager(myActiveObjects, myStepTime);
         myCollisionHandler = new CollisionHandler(myEntityManager, myLevelManager);
         myIterationCounter = 0;
-
+        myDebugLog = new DebugLog();
         setDefaultKeys();
         setDefaultTriggers();
         myOffset = updateOffset();
@@ -87,6 +88,7 @@ public class Controller {
         }
         myBinding.setProperty("entityManager", myEntityManager);
         myBinding.setProperty("collisionHandler", myCollisionHandler);
+        myBinding.setProperty("debugLogger", myDebugLog);
     }
 
     private void setDefaultKeys() {

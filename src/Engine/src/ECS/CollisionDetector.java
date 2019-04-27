@@ -1,6 +1,6 @@
 package Engine.src.ECS;
 
-import Engine.src.Components.BasicComponent;
+import gamedata.Components.BasicComponent;
 
 import java.util.ArrayList;
 import java.util.Set;

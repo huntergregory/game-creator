@@ -1,11 +1,10 @@
 package Engine.src.ECS;
 
-import Engine.src.Components.AimComponent;
-import Engine.src.Components.BasicComponent;
-import Engine.src.Components.LOSComponent;
-import Engine.src.Components.MotionComponent;
+import gamedata.Components.AimComponent;
+import gamedata.Components.BasicComponent;
+import gamedata.Components.LOSComponent;
+import gamedata.Components.MotionComponent;
 
-import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -53,26 +52,27 @@ public class AI {
 
     public void follow(int referenceID, int targetID) { movementResponse(referenceID, targetID, "FOLLOW"); }
 
-
-    public void patrol(int entityID, ArrayList<Point2D> patrolRoute) {
+    public void patrol(int entityID, ArrayList<Pair> patrolRoute) {
         int patrolStage = findPatrolStage(entityID, patrolRoute);
         BasicComponent basic = myEntityManager.getComponent(entityID, BasicComponent.class);
-        double[] distance = findDistanceVector(new Point2D.Double(basic.getX(), basic.getY()), patrolRoute.get(patrolStage));
+        double[] distance = findDistanceVector(new Pair(basic.getX(), basic.getY()), patrolRoute.get(patrolStage));
         myEntityManager.moveInDirection(entityID, findDirection(distance));
     }
 
-    private int findPatrolStage(int entityID, ArrayList<Point2D> patrolRoute) {
+    private int findPatrolStage(int entityID, ArrayList<Pair> patrolRoute) {
         BasicComponent basic = myEntityManager.getComponent(entityID, BasicComponent.class);
-        double[] topLeftCorner = {basic.getX(), basic.getY()};
-        double[] bottomRightCorner = {basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight()};
-        Point2D earlierPoint;
-        Point2D nextPoint;
+        Pair<Double> topLeftCorner = new Pair(basic.getX(), basic.getY());
+        Pair<Double> bottomRightCorner = new Pair(basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight());
+        Pair<Double> earlierPoint;
+        Pair<Double> nextPoint;
 
         for (int currentPatrolPathIndex = 0; currentPatrolPathIndex < patrolRoute.size(); currentPatrolPathIndex++) {
             earlierPoint = patrolRoute.get(currentPatrolPathIndex);
             nextPoint = patrolRoute.get(currentPatrolPathIndex + 1);
-            if (Line2D.linesIntersect(earlierPoint.getX(), earlierPoint.getY(), nextPoint.getX(), nextPoint.getY(),
-                    topLeftCorner[0], topLeftCorner[1], bottomRightCorner[0], bottomRightCorner[1])) {
+            Line line1 = new Line(earlierPoint.getItem1(), earlierPoint.getItem2(), nextPoint.getItem1(), nextPoint.getItem2());
+            Line line2 = new Line(topLeftCorner.getItem1(), topLeftCorner.getItem2(), bottomRightCorner.getItem1(), bottomRightCorner.getItem2());
+
+            if (line1.intersects(line2)) {
                 return currentPatrolPathIndex + 1;
             }
         }
@@ -92,9 +92,9 @@ public class AI {
         return vector;
     }
 
-    private double[] findDistanceVector(Point2D reference, Point2D target) {
-        double deltaX = reference.getX() - reference.getX();
-        double deltaY = target.getY() - target.getY();
+    private double[] findDistanceVector(Pair<Double> referencePoint, Pair<Double> targetPoint) {
+        double deltaX = targetPoint.getItem1() - referencePoint.getItem1();
+        double deltaY = targetPoint.getItem2() - referencePoint.getItem2();
         double[] vector = {deltaX, deltaY};
         return vector;
     }

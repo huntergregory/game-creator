@@ -1,9 +1,9 @@
 package Player.src.PlayerMain;
 
-import Engine.src.Components.BasicComponent;
-import Engine.src.Components.Component;
-import Engine.src.Components.HealthComponent;
-import Engine.src.Components.MotionComponent;
+import gamedata.Components.BasicComponent;
+import gamedata.Components.Component;
+import gamedata.Components.HealthComponent;
+import gamedata.Components.MotionComponent;
 import Engine.src.Controller.Controller;
 import hud.HUDView;
 import hud.DataTracker;
@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerStage {

@@ -1,6 +1,6 @@
-package gamedata.NewData;
+package gamedata.GameObjects;
 
-import gamedata.Components.Component;
+import gamedata.GameObjects.Components.Component;
 
 import java.util.Map;
 

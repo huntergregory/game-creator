@@ -1,6 +1,6 @@
 package Engine.src.Controller;
 
-import gamedata.Components.*;
+import gamedata.GameObjects.Components.*;
 import Engine.src.ECS.Pair;
 import Engine.src.DeprecatedTriggers.Events.Event;
 import Engine.src.DeprecatedTriggers.Events.ObjectEvents.Deflect;

@@ -1,12 +1,10 @@
 package Engine.src.ECS;
 
-import gamedata.Components.AimComponent;
-import gamedata.Components.BasicComponent;
-import gamedata.Components.LOSComponent;
-import gamedata.Components.MotionComponent;
+import gamedata.GameObjects.Components.AimComponent;
+import gamedata.GameObjects.Components.BasicComponent;
+import gamedata.GameObjects.Components.LOSComponent;
+import gamedata.GameObjects.Components.MotionComponent;
 
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 

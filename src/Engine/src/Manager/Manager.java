@@ -1,8 +1,8 @@
 package Engine.src.Manager;
 
 import NoEntityException;
-import gamedata.Components.Component;
-import gamedata.Components.LivesComponent;
+import gamedata.GameObjects.Components.Component;
+import gamedata.GameObjects.Components.LivesComponent;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;

@@ -1,6 +1,4 @@
-package gamedata.Components;
-
-import groovy.lang.GroovyShell;
+package gamedata.GameObjects.Components;
 
 public class LivesComponent extends Component{
     private int myLives;

@@ -1,4 +1,4 @@
-package gamedata.Components;
+package gamedata.GameObjects.Components;
 
 public class BasicComponent extends Component {
     private double myWidth;

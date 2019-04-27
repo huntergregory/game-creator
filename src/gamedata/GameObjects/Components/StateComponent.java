@@ -1,4 +1,4 @@
-package gamedata.Components;
+package gamedata.GameObjects.Components;
 
 import java.util.List;
 

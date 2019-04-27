@@ -1,7 +1,7 @@
-package gamedata.NewData;
+package gamedata.GameObjects;
 
-import gamedata.Components.BasicComponent;
-import gamedata.Components.Component;
+import gamedata.GameObjects.Components.BasicComponent;
+import gamedata.GameObjects.Components.Component;
 
 import java.util.HashMap;
 import java.util.Map;

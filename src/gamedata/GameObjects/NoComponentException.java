@@ -1,4 +1,4 @@
-package gamedata.NewData;
+package gamedata.GameObjects;
 
 
 public class NoComponentException extends ComponentException {

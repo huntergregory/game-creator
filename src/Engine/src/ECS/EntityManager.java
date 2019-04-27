@@ -9,6 +9,7 @@ import java.awt.geom.Line2D;
 import java.util.Map;
 
 import static java.lang.Math.atan;
+import static java.lang.Math.log;
 
 public class EntityManager {
     private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
@@ -323,6 +324,11 @@ public class EntityManager {
         }
 
         return false;
+    }
+
+    public void addLogic(int entityID, String additionalLogic) {
+        LogicComponent logic = getComponent(entityID, LogicComponent.class);
+        logic.setLogic(logic.getLogic() + additionalLogic);
     }
 
 }

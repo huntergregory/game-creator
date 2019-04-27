@@ -87,6 +87,7 @@ public class Controller {
             }
         }
         myBinding.setProperty("entityManager", myEntityManager);
+        myBinding.setProperty("collisionHandler", myCollisionHandler);
     }
 
     private void setDefaultKeys() {

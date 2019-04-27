@@ -228,4 +228,8 @@ public class CollisionHandler {
             Script script = shell.parse(responses);
             script.run();
     }
+
+    public void addCollision(String type1, String type2, String response1, String response2){
+        myCollisionResponses.put(new Pair<>(type1, type2), new Pair<>(response1, response2));
+    }
 }

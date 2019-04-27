@@ -11,4 +11,6 @@ public class LogicComponent extends Component{
     public String getLogic(){
         return myLogic;
     }
+
+    public void setLogic(String logic) { myLogic = logic; }
 }

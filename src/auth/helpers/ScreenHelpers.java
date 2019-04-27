@@ -21,16 +21,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.web.WebView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
@@ -577,15 +581,16 @@ public class ScreenHelpers {
         context.registerNewUIElement(toolsPane, new UIElementWrapper(rightPanesGroup, RIGHT_PANES_GROUP_ID), consolePane);
 
         rightPanesGroup.setLayoutY(centreVertical(RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN*2+NAME_PANE_HEIGHT));
-
-        populateNamePane(context, namePane);
+        populateNamePane(context, namePane, propsPane, objLibPane, rightPanesGroup);
         populateToolsPane(context, toolsPane);
         populatePropsPane(context, propsPane);
         populateObLibPane(context, objLibPane);
         populateConsolePane(context, consolePane);
     }
 
-    private static void populateNamePane(CanvasScreen context, Pane namePane) {
+    private static boolean isMenuOpen = false;
+
+    private static void populateNamePane(CanvasScreen context, Pane namePane, Pane propsPane, Pane objLibPane, VBox rightPanesGroup) {
         var nameText = new Text("Hey, "+context.getLoggedInName()+"!");
         nameText.setFont(bebasKai); nameText.setFill(Color.WHITE);
         nameText.setX(RIGHT_PANE_MARGIN); nameText.setY(30);
@@ -593,11 +598,63 @@ public class ScreenHelpers {
         unameText.setFont(sofiaProSmall); unameText.setFill(Color.WHITE);
         unameText.setX(RIGHT_PANE_MARGIN); unameText.setY(50);
         var menuIcon = new ToolIcon("menu", "Menu", callback -> {
-            // TODO: Open Menu
+            if (isMenuOpen) {
+                closeMenu(context, propsPane, objLibPane, rightPanesGroup, namePane);
+            } else {
+                openMenu(context, propsPane, objLibPane, rightPanesGroup, namePane);
+            }
         });
         menuIcon.getView().setLayoutY(12.5);
         menuIcon.getView().setLayoutX(RIGHT_PANE_WIDTH - 62.5);
         namePane.getView().getChildren().addAll(nameText, unameText, menuIcon.getView());
+    }
+
+    private static void closeMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
+        var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
+        imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/menu.png")));
+        a.getView().setVisible(true); b.getView().setVisible(true);
+        paneContainer.getChildren().remove(1);
+        isMenuOpen = false;
+    }
+
+    private static void openMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
+        var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
+        imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/close.png")));
+        a.getView().setVisible(false); b.getView().setVisible(false);
+        var menuPane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN, "MENU_PANE_ID");
+        paneContainer.getChildren().add(1, menuPane.getView());
+        var vboxParent = new VBox(15);
+        vboxParent.setPrefWidth(RIGHT_PANE_WIDTH);
+        try {
+            JSONArray menuItems = new JSONArray(new Scanner(new File(MENU_CONFIG_FILE_PATH)).useDelimiter("\\Z").next());
+            for (int i = 0; i < menuItems.length(); i++) {
+                var menuItem = menuItems.getJSONObject(i);
+                var name = menuItem.getString("name");
+                var handler = menuItem.getString("handler");
+
+                var nameText = new Text(name); nameText.setFont(bebasKaiMedium); nameText.setFill(Color.WHITE);
+                nameText.setCursor(Cursor.HAND); nameText.setOnMouseClicked(e -> {
+                    try {
+                        var method = ToolClickHandlers.class.getMethod(handler, CanvasScreen.class);
+                        method.invoke(null, context);
+                    } catch (Exception ex) {
+                        // Would never happen
+                    }
+                });
+
+                nameText.setTextAlignment(TextAlignment.CENTER);
+                nameText.setWrappingWidth(RIGHT_PANE_WIDTH);
+                vboxParent.getChildren().add(nameText);
+            }
+            var numChild = vboxParent.getChildren().size();
+            var vBoxHeight = numChild*30 + (numChild-1)*15;
+            vboxParent.setLayoutY((RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN)/2 - (vBoxHeight)/2);
+            menuPane.getView().getChildren().add(vboxParent);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        isMenuOpen = true;
     }
 
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;

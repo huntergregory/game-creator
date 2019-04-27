@@ -2,9 +2,9 @@ package Engine.src.Controller;
 
 import Engine.src.Components.*;
 import Engine.src.ECS.Pair;
-import Engine.src.Triggers.Events.Event;
-import Engine.src.Triggers.Events.ObjectEvents.Deflect;
-import Engine.src.Triggers.Events.ObjectEvents.Portal;
+import Engine.src.DeprecatedTriggers.Events.Event;
+import Engine.src.DeprecatedTriggers.Events.ObjectEvents.Deflect;
+import Engine.src.DeprecatedTriggers.Events.ObjectEvents.Portal;
 
 import java.util.ArrayList;
 import java.util.HashMap;

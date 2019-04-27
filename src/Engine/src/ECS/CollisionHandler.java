@@ -218,7 +218,7 @@ public class CollisionHandler {
         motion.setYVelocity(scaleFactor * motion.getYVelocity());
     }
 
-    //TODO fix if Triggers.Events are changed
+    //TODO fix if Timers.Events are changed
     private void activateEvents(Integer current, Integer other, String responses) {
         //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
 
@@ -227,6 +227,7 @@ public class CollisionHandler {
         mySetter.setProperty("otherID", other);
         Script script = shell.parse(responses);
         script.run();
+
     }
 
     public void addCollision(String type1, String type2, String response1, String response2){

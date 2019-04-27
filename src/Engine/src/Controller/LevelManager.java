@@ -1,11 +1,9 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.EntityManager;
-import Engine.src.Triggers.Events.Event;
-import Engine.src.Triggers.Timer;
-import Engine.src.Triggers.TimerSequence;
+import Engine.src.Timers.Timer;
+import Engine.src.Timers.TimerSequence;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

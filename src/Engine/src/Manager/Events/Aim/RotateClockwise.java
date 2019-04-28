@@ -4,9 +4,10 @@ import gamedata.GameObjects.Instance;
 
 import java.util.Set;
 
-public class RotateClockwise extends AimModifierEvent {
-    public RotateClockwise(Set<Instance> instances) {
-        super(instances);
+public class RotateClockwise extends AimModifierEvent{
+
+    public RotateClockwise(Set<Instance> instanceSet){
+        super(instanceSet);
     }
 
     @Override

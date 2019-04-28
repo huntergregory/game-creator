@@ -33,8 +33,7 @@ public abstract class Comparison extends ObjectConditional{
     }
 
     protected boolean checkOperator(String value1, String value2) {
-        if (value1.equals(value2) && myComparisonOperator.contains("=")) return true;
-        return false;
+        return (value1.equals(value2) && myComparisonOperator.contains("="));
     }
 
     protected boolean checkOperator(double value1, double value2) {

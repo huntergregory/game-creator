@@ -19,7 +19,7 @@ public class IdentityController {
     public ImageView avatarImageView;
 
     public IdentityController(){
-        myScores = new ArrayList<Label>();
+        myScores = new ArrayList<>();
         myScores.add(score1);
         myScores.add(score2);
         myScores.add(score3);

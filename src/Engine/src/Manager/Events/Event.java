@@ -1,22 +1,20 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";
 
-    protected Game myGame;
-    protected HashSet<Instance> myInstances;
-    private Class<?>[] myParameters;
+    protected Set<Instance> myInstances;
+    private Class[] myParameters;
     //private String myConditionalScript;
 
-    public Event(Game game, Class<?> ... parameterTypes) {
-        myGame = game;
+    public Event(Set<Instance> instances, Class ... parameterTypes) {
+        myInstances = instances;
         myParameters = parameterTypes;
-        myInstances = myGame.currentScene.instances;
         //myConditionalScript = "";
     }
 
@@ -28,8 +26,8 @@ public abstract class Event {
      */
     protected abstract void execute(Instance instance, Object ... args);
 
-    public int getNumberOfNonInstanceParameters() {
-        return myParameters.length;
+    public Class[] getNonInstanceParameters() {
+        return myParameters;
     }
 
     public void activate(Instance instance, Object ... args) throws IllegalArgumentException {

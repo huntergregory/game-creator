@@ -10,6 +10,7 @@ import gamedata.GameObjects.Instance;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public abstract class AIEvent extends ComponentDependentEvent {
 
@@ -17,8 +18,8 @@ public abstract class AIEvent extends ComponentDependentEvent {
     private final double CORRECTION_DISTANCE = 150;
 
 
-    public AIEvent(Game game, Class<?>... parameterTypes) {
-        super(game, BasicComponent.class, parameterTypes);
+    public AIEvent(Set<Instance> instanceSet, Class<?>... parameterTypes) {
+        super(instanceSet, BasicComponent.class, parameterTypes);
     }
 
     private boolean targetEntityObscured(Instance targetInstance, Instance referenceInstance) {

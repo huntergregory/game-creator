@@ -4,11 +4,12 @@ import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
 import java.util.List;
+import java.util.Set;
 
 public class Patrol extends AIEvent{
 
-    public Patrol(Game game){
-        super(game, List.class, Double.class);
+    public Patrol(Set<Instance> instanceSet){
+        super(instanceSet, List.class, Double.class);
     }
 
     @Override

@@ -1,11 +1,12 @@
 package Engine.src.Manager.Events.Health;
 
-import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class SetHealth extends HealthModifierEvent {
-    public SetHealth(Game game) {
-        super(game, Integer.class);
+    public SetHealth(Set<Instance> instances) {
+        super(instances, Integer.class);
     }
 
     @Override

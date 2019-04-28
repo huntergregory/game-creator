@@ -3,10 +3,12 @@ package Engine.src.Manager.Events.AI;
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class Follow extends AIEvent{
 
-        public Follow(Game game) {
-            super(game, Instance.class, Double.class);
+        public Follow(Set<Instance> instanceSet) {
+            super(instanceSet, Instance.class, Double.class);
         }
 
         @Override

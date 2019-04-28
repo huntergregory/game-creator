@@ -1,24 +1,21 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Instance;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 public abstract class ComponentDependentEvent extends InstanceDependentEvent {
-    private List<Class<? extends Component>> myComponentClasses;
+    private Class<? extends Component>[] myComponentClasses;
 
-    public ComponentDependentEvent(Game game, Class<? extends Component> componentClass, Class<?>... parameterTypes) {
-        super(game, parameterTypes);
-        myComponentClasses = new ArrayList<>();
-        myComponentClasses.add(componentClass);
+    public ComponentDependentEvent(Set<Instance> instances, Class<? extends Component> componentClass, Class ... parameterTypes) {
+        super(instances, parameterTypes);
+        myComponentClasses = new Class[] {componentClass};
     }
 
-    public ComponentDependentEvent(Game game, List<Class<? extends Component>> componentClasses, Class<?>... parameterTypes) {
-        super(game, parameterTypes);
-        this.myComponentClasses = componentClasses;
+    public ComponentDependentEvent(Set<Instance> instances, Class<? extends Component>[] componentClasses, Class ... parameterTypes) {
+        super(instances, parameterTypes);
+        myComponentClasses = componentClasses;
     }
 
     /**
@@ -31,8 +28,8 @@ public abstract class ComponentDependentEvent extends InstanceDependentEvent {
 
     @Override
     protected void modifyInstance(Instance instance, Object ... args) {
-        for(Class<? extends Component> myComponentClass : myComponentClasses) {
-            if (!instance.hasComponent(myComponentClass)) return;
+        for (Class<? extends Component> componentClass : myComponentClasses) {
+            if (!instance.hasComponent(componentClass)) return;
         }
         modifyComponents(instance, args);
     }

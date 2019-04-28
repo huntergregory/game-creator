@@ -1,12 +1,12 @@
 package Engine.src.Manager.Events;
 
-import Engine.src.Manager.Events.Event;
-import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public abstract class InstanceDependentEvent extends Event {
-    public InstanceDependentEvent(Game game, Class<?>... parameterTypes) {
-        super(game, parameterTypes);
+    public InstanceDependentEvent(Set<Instance> instances, Class<?>... parameterTypes) {
+        super(instances, parameterTypes);
     }
 
     protected abstract void modifyInstance(Instance instance, Object ... args);

@@ -1,12 +1,13 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.StateComponent;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class RemoveState extends ComponentDependentEvent {
-    public RemoveState(Game game) {
-        super(game, StateComponent.class, String.class);
+    public RemoveState(Set<Instance> instances) {
+        super(instances, StateComponent.class, String.class);
     }
 
     @Override

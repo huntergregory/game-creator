@@ -74,7 +74,7 @@ public class Manager {
 
     public void call(String eventClass, Instance instance, Object ... args) {
         try {
-            var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + eventClass, myGame);
+            var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + eventClass, myGame.currentScene.instances);
             event.activate(instance, args);
         }
         catch (ReflectionException e) {

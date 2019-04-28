@@ -1,13 +1,14 @@
 package Engine.src.Manager.Events.Aim;
 
 import Engine.src.Manager.Events.ComponentDependentEvent;
-import gamedata.Game;
 import gamedata.GameObjects.Components.AimComponent;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public abstract class AimModifierEvent extends ComponentDependentEvent {
-    public AimModifierEvent(Game game, Class<?> ... parameterTypes) {
-        super(game, AimComponent.class, parameterTypes);
+    public AimModifierEvent(Set<Instance> instances, Class<?> ... parameterTypes) {
+        super(instances, AimComponent.class, parameterTypes);
     }
 
     protected void rotateAim(Instance instance, boolean clockwise){

@@ -1,12 +1,13 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.LogicComponent;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class AddLogic extends ComponentDependentEvent {
-    public AddLogic(Game game) {
-        super(game, LogicComponent.class, String.class);
+    public AddLogic(Set<Instance> instances) {
+        super(instances, LogicComponent.class, String.class);
     }
 
     @Override

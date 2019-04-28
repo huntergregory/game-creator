@@ -3,10 +3,12 @@ package Engine.src.Manager.Events.AI;
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class BaseAim extends AIEvent{
 
-    public BaseAim(Game game){
-        super(game, Instance.class, Double.class);
+    public BaseAim(Set<Instance> instanceSet){
+        super(instanceSet, Instance.class, Double.class);
     }
 
     @Override

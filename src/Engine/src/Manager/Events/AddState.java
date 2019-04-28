@@ -1,13 +1,14 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.LogicComponent;
 import gamedata.GameObjects.Components.StateComponent;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class AddState extends ComponentDependentEvent {
-    public AddState(Game game) {
-        super(game, LogicComponent.class, String.class);
+    public AddState(Set<Instance> instances) {
+        super(instances, LogicComponent.class, String.class);
     }
 
     @Override

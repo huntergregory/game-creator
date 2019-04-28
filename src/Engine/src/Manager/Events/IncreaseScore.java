@@ -1,12 +1,13 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.ScoreComponent;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class IncreaseScore extends ComponentDependentEvent {
-    public IncreaseScore(Game game) {
-        super(game, ScoreComponent.class, Double.class);
+    public IncreaseScore(Set<Instance> instances) {
+        super(instances, ScoreComponent.class, Double.class);
     }
 
     @Override

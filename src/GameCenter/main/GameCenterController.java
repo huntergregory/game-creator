@@ -3,7 +3,7 @@ package GameCenter.main;
 import GameCenter.gameData.DataParser;
 import GameCenter.gameData.DataStruct;
 import GameCenter.utilities.Thumbnail;
-import Player.src.PlayerMain.PlayerStage;
+import Player.PlayerMain.PlayerStage;
 import auth.RunAuth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -229,13 +229,9 @@ public class GameCenterController {
     }
 
     @FXML
-    private void login() {
-        // TODO: integrate with Ian's login
-    }
-
-    @FXML
     private void returnToDescription() {
         ratingPane.setVisible(false);
         descriptionPane.setVisible(true);
+        gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
     }
 }

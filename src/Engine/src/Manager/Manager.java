@@ -4,13 +4,13 @@ import Engine.src.Manager.Events.Event;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
 import gamedata.Game;
-import gamedata.GameObjects.Components.BasicComponent;
-import gamedata.GameObjects.Components.EnvironmentComponent;
-import gamedata.GameObjects.Components.HealthComponent;
-import gamedata.GameObjects.Components.MotionComponent;
+import gamedata.GameObjects.Components.*;
 import gamedata.GameObjects.GameObject;
 import gamedata.GameObjects.Instance;
 import gamedata.Scene;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
 import voogasalad.util.reflection.Reflection;
 import voogasalad.util.reflection.ReflectionException;
 
@@ -35,6 +35,9 @@ public class Manager {
     private List<TimerSequence> myTimerSequences;
     HashSet<Instance> myInstances;
     private double myCount;
+    private Binding myBinding;
+    private GroovyShell myShell;
+    boolean levelPassed;
 
     public static void main(String[] args) {
         var defaultEnvironment = new EnvironmentComponent(0,0,0,0);
@@ -56,14 +59,17 @@ public class Manager {
         var game = new Game();
         game.currentScene = scene;
 
-        var manager = new Manager(game, 0);
+        var manager = new Manager(game, 0, new Binding());
         manager.call("AddToHealth", instance1, 2);
     }
 
-    public Manager(Game game, double stepTime) {
+    public Manager(Game game, double stepTime, Binding binding) {
         myGame = game;
         myInstances = myGame.currentScene.instances;
         myStepTime = stepTime;
+        myBinding = binding;
+        myShell = new GroovyShell(myBinding);
+        levelPassed = false;
     }
 
     public void call(String eventClass, Instance instance, Object ... args) {
@@ -90,16 +96,17 @@ public class Manager {
         myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, myCount));
     }
 
-/*    //FIXME should not be public/open to author
     public void updateSequences() {
         for (TimerSequence sequence : myTimerSequences) {
             Timer currentTimer = sequence.getCurrentTimer();
             if (currentTimer.getCount() >= currentTimer.getEndTime()){
-                currentTimer.activateEvents(currentTimer.getMyEventsAfterTimer(), myEntityManager, this);
+                Script script = myShell.parse(currentTimer.getMyEventsAfterTimer());
+                script.run();
                 sequence.setNextTimer(myCount);
             }
             else {
-                currentTimer.activateEvents(currentTimer.getStateWhileTimerIsOn(), myEntityManager, this);
+                Script script = myShell.parse(currentTimer.getStateWhileTimerIsOn());
+                script.run();
                 currentTimer.increment();
             }
             if (sequence.completed() && sequence.isLoop()) sequence.reset(myCount);
@@ -112,16 +119,33 @@ public class Manager {
         for (int timerID : myTimers.keySet()) {
             Timer timer = myTimers.get(timerID);
             if (timer.getCount() >= timer.getEndTime()){
-                timer.activateEvents(timer.getMyEventsAfterTimer(), this);
+                Script script = myShell.parse(timer.getMyEventsAfterTimer());
+                script.run();
             }
             else {
-                timer.activateEvents(timer.getStateWhileTimerIsOn(), this);
+                Script script = myShell.parse(timer.getStateWhileTimerIsOn());
+                script.run();
                 timer.increment();
             }
         }
-    }*/
+    }
+
+    public void executeEntityLogic() {
+        for (Instance instance : myInstances) {
+            LogicComponent logicComponent = instance.getComponent(LogicComponent.class);
+            String logic = logicComponent.getLogic();
+            myBinding.setProperty("instance", instance);
+            Script script = myShell.parse(logic);
+            script.run();
+        }
+    }
+
 
     public double getMyStepTime() {
         return myStepTime;
+    }
+
+    public void setLevelPass() {
+        levelPassed = true;
     }
 }

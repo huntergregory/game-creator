@@ -1,4 +1,4 @@
-package Engine.src.Manager;
+package Engine.src.Manager.Events.InstanceDependentEvents.ComponentDependentEvents;
 
 import Engine.src.Manager.Events.InstanceDependentEvents.InstanceDependentEvent;
 import gamedata.Game;

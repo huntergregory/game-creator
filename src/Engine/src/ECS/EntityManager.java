@@ -1,6 +1,5 @@
 package Engine.src.ECS;
 
-import NoEntityException;
 import gamedata.GameObjects.Components.*;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -8,6 +7,7 @@ import groovy.lang.Script;
 
 import java.util.Map;
 
+@Deprecated
 public class EntityManager {
     private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
     private double myStepTime;

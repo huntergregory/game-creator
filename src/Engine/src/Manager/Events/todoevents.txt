@@ -15,11 +15,6 @@
         states.removeState(state);
     }
 
-
-
-    ///ABOVE ARE EASY
-
-
     public void setToCheckpoint(int entityID){
         CheckpointComponent checkpoint = getComponent(entityID, CheckpointComponent.class);
         BasicComponent basic = getComponent(entityID, BasicComponent.class);
@@ -29,7 +24,7 @@
 
 
 
-//these can be made private methods in AI
+//////// these can be made private methods in AI
 
     public boolean targetEntityObscured(int targetID, int referenceID) {
         BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);
@@ -61,11 +56,6 @@
         }
 
         return false;
-    }
-
-    public void addLogic(int entityID, String additionalLogic) {
-        LogicComponent logic = getComponent(entityID, LogicComponent.class);
-        logic.setLogic(logic.getLogic() + additionalLogic);
     }
 
 

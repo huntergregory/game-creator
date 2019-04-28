@@ -1,14 +1,22 @@
 package network_account;
 
+import GameCenter.main.GameCenter;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +24,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.regex.Pattern;
 
 /**
  * FXML controller for the pane that allows users to create their own account. Links with the Google App Engine backend
@@ -25,7 +34,7 @@ public class CreateAccountController {
     @FXML
     public TextField emailTextField, usernameTextField, displayNameTextField, passwordField1, passwordField2;
     public Label failLabel;
-    public Button createAccountButton;
+    public Button createAccountButton, loginButton;
 
     /**
      * Creates an account with all of the information requisite to form a user identity if all of the entered
@@ -35,7 +44,10 @@ public class CreateAccountController {
         failLabel.setText("Invalid account info");
         try {
             if(!passwordField1.getText().equals(passwordField2.getText())){
-                throw new RuntimeException("Password error");
+                throw new AccountException("Passwords must match");
+            }
+            else if(!isValidEmail(emailTextField.getText())){
+                throw new AccountException("Not a valid email");
             }
             String createRequest = "http://tmtp-spec.appspot.com/register?username=" + usernameTextField.getText() +
                     "&name=" + displayNameTextField.getText() + "&password=" + passwordField1.getText() + "&email=" +
@@ -52,8 +64,8 @@ public class CreateAccountController {
             failLabel.setText("Server unavailable");
         } catch (IOException e) {
             failLabel.setText("Couldn't connect");
-        } catch(RuntimeException e){
-            failLabel.setText("Passwords must match");
+        } catch(AccountException e){
+            failLabel.setText(e.getMessage());
         }
 
     }
@@ -84,5 +96,26 @@ public class CreateAccountController {
         if(e.getCode() == KeyCode.ENTER){
             createAccount();
         }
+    }
+
+    public void returnToLogin(ActionEvent event){
+        try {
+            new RunAccount().start(new Stage());
+            ((Node) event.getSource()).getScene().getWindow().hide();
+        } catch(Exception e) {
+            System.out.println("Could not open Login");
+        }
+    }
+
+    private boolean isValidEmail(String email){
+        String possibleEmails = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        Pattern pat = Pattern.compile(possibleEmails);
+        if(email == null){
+            return false;
+        }
+        return pat.matcher(email).matches();
     }
 }

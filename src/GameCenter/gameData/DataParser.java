@@ -15,10 +15,13 @@ public class DataParser {
         var games = obj.getJSONArray("games");
         for(Object o : games) {
             var game = (JSONObject) o;
-            var gameStruct = new DataStruct(game.getString("name"),
+            var gameStruct = new DataStruct(
+                    game.getString("name"),
                     game.getString("img"),
                     game.getString("desc"),
-                    game.getString("game_source"));
+                    game.getString("game_source"),
+                    game.getString("rating"),
+                    game.getString("favorite"));
             gamesList.add(gameStruct);
         }
         return gamesList;

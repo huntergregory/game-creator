@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Deprecated
 public class Level {
     // TODO: Establish what must be passed with the new entity based backend
     private Map<Integer, Map<String, Component>> myActiveObjects;

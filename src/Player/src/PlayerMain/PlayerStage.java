@@ -5,6 +5,10 @@ import Engine.src.Components.Component;
 import Engine.src.Components.HealthComponent;
 import Engine.src.Components.MotionComponent;
 import Engine.src.Controller.Controller;
+<<<<<<< HEAD
+=======
+import gamedata.Game;
+>>>>>>> 12971e857c563cf85f8a484789e4329b852a80bb
 import hud.DataTracker;
 import hud.HUDView;
 import hud.NumericalDataTracker;
@@ -73,6 +77,12 @@ public class PlayerStage {
         myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, ST_COLOR);
         //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
         myScene.getStylesheets().add(STYLESHEET);
+    }
+
+    public void run(Game game, Boolean debug) {
+        if (debug) {
+            // TODO: make method, adding console for debug mode
+        }
     }
 
     public void run(String gameName) {

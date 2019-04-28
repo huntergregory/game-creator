@@ -9,7 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
+@Deprecated
 public class DataCreator implements DataInterface {
     private Gson myGson;
 

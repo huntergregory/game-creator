@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class IdentityController {
     private List<Label> myScores;
+    private String myCurrentGame;
 
     @FXML
     public Label usernameText, score1, score2, score3;
@@ -23,18 +24,25 @@ public class IdentityController {
         myScores.add(score1);
         myScores.add(score2);
         myScores.add(score3);
+        myCurrentGame = "mygame1";
     }
 
     public void updateSocial(){
-
+//        updateIdentity(myCurrentGame);
     }
 
-    private void updateIdentity(UserIdentity userIdentity, String gameName){
-        usernameText.setText(userIdentity.getUsername());
-        int scoreCounter = 0;
-        for(Label score:myScores) {
-            score.setText(Integer.toString(userIdentity.getHighScores(gameName)));
-            scoreCounter++;
-        }
-    }
+//    private void updateIdentity(String gameName){
+//        List<String> highScores = userIdentity.getHighScores(gameName);
+//        for(int k = 0; k < 3; k++) {
+//            try {
+//                myScores.get(k).setText(highScores.get(k));
+//            } catch (NullPointerException e){
+//                myScores.get(k).setText("");
+//            }
+//        }
+//    }
+//
+//    public void setGame(String game){
+//        myCurrentGame = game;
+//    }
 }

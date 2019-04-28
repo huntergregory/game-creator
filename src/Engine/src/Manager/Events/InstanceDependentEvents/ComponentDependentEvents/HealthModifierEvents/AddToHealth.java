@@ -4,8 +4,8 @@ import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
 public class AddToHealth extends HealthModifierEvent {
-    public AddToHealth(Game game, int numParameters) {
-        super(game, numParameters);
+    public AddToHealth(Game game) {
+        super(game, Integer.class);
     }
 
     @Override

@@ -5,7 +5,7 @@ import gamedata.GameObjects.Instance;
 
 public class RotateCounterClockwise extends AimModifierEvent {
     public RotateCounterClockwise(Game game, int numParameters) {
-        super(game, numParameters);
+        super(game);
     }
 
     @Override

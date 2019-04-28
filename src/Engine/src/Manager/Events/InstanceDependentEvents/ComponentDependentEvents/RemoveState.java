@@ -4,9 +4,9 @@ import gamedata.Game;
 import gamedata.GameObjects.Components.StateComponent;
 import gamedata.GameObjects.Instance;
 
-public class RemoveState extends ComponentModifierEvent {
-    public RemoveState(Game game, int numParameters) {
-        super(game, numParameters, StateComponent.class);
+public class RemoveState extends ComponentDependentEvent {
+    public RemoveState(Game game) {
+        super(game, StateComponent.class, String.class);
     }
 
     @Override

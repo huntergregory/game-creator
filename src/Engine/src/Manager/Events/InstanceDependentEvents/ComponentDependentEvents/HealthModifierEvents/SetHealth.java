@@ -4,8 +4,8 @@ import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
 public class SetHealth extends HealthModifierEvent {
-    public SetHealth(Game game, int numParameters) {
-        super(game, numParameters);
+    public SetHealth(Game game) {
+        super(game, Integer.class);
     }
 
     @Override

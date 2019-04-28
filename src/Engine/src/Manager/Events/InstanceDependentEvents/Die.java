@@ -9,10 +9,9 @@ import groovy.lang.Script;
 
 //FIXME
 public class Die extends InstanceDependentEvent {
-    private static final int NUM_ARGS = 0;
 
     public Die(Game game) {
-        super(game, NUM_ARGS);
+        super(game);
     }
 
     @Override

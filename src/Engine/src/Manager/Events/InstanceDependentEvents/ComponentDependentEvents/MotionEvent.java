@@ -8,11 +8,7 @@ public abstract class MotionEvent extends ComponentDependentEvent {
         super(game, MotionComponent.class, parameterTypes);
     }
 
-    public MotionEvent(Game game, int numParameters) {
-        super(game, numParameters);
-    }
-
-    private double getAngle() {
+/*    private double getAngle() {
         return Math.toDegrees(Math.tan(myMovementYVelocity / myMovementXVelocity));
     }
 
@@ -60,5 +56,5 @@ public abstract class MotionEvent extends ComponentDependentEvent {
         directionVec[0] = Math.cos(Math.toRadians(angle));
         directionVec[1] = Math.sin(Math.toRadians(angle));
         return directionVec;
-    }
+    }*/
 }

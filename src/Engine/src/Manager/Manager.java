@@ -25,6 +25,7 @@ public class Manager {
     private static final String REFLECTION_ERROR = "Event doesn't exist.";
     private static final String CAST_ERROR = "Class created is not an Event.";
     private static final String ILLEGAL_ARGS_ERROR = "Arguments for event did not match.";
+    private static final String EVENTS_FILE_PATH = "Engine.src.Manager.Events.";
 
     private Game myGame;
 
@@ -62,7 +63,7 @@ public class Manager {
 
     public void call(String eventClass, Instance instance, Object ... args) {
         try {
-            var event = (Event) Reflection.createInstance(eventClass, myGame);
+            var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + eventClass, myGame);
             event.activate(instance, args);
         }
         catch (ReflectionException e) {

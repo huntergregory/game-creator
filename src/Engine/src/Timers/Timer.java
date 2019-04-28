@@ -2,6 +2,7 @@ package Engine.src.Timers;
 
 import Engine.src.ECS.EntityManager;
 import Engine.src.Controller.LevelManager;
+import Engine.src.Manager.Manager;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -27,16 +28,6 @@ public class Timer {
         myDuration = duration;
         myStateWhileTimerIsOn = eventsWhileOn;
         myEventsAfterTimer = eventsAfterTimer;
-    }
-
-    //FIXME
-    public void activateEvents(String events, EntityManager entityManager, LevelManager levelManager) {
-        Binding managerSetter = new Binding();
-        GroovyShell shell = new GroovyShell();
-        managerSetter.setProperty("entityManager", entityManager);
-        managerSetter.setProperty("levelManager", levelManager);
-        Script script = shell.parse(events);
-        script.run();
     }
 
     public void setCount(double currentCount){myCount = currentCount;}

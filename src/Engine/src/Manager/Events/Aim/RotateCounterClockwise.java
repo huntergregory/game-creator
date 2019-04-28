@@ -1,4 +1,4 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Aim;
 
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
@@ -9,7 +9,7 @@ public class RotateCounterClockwise extends AimModifierEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object... args) {
+    protected void modifyComponents(Instance instance, Object... args) {
         rotateAim(instance, false);
     }
 }

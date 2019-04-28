@@ -11,7 +11,7 @@ public class AddState extends ComponentDependentEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object... args) {
+    protected void modifyComponents(Instance instance, Object... args) {
         instance.getComponent(StateComponent.class).addState((String) args[0]);
     }
 }

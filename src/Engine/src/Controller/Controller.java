@@ -1,5 +1,6 @@
 package Engine.src.Controller;
 
+import Engine.src.ECS.CollisionDetector;
 import Engine.src.Manager.Manager;
 import gamedata.Game;
 import gamedata.GameObjects.Components.*;
@@ -53,7 +54,7 @@ public class Controller {
 
     public Controller(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
                       Game game, Map<Pair<String>, Pair<String>> collisionResponses, Map<String, String> hotkeys,
-                      List<TimerSequence> myTimerSequences, Map<Integer, Timer> timers) {
+                      List<TimerSequence> timerSequences, Map<Integer, Timer> timers) {
 
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
@@ -66,7 +67,7 @@ public class Controller {
         mySceneLogic = game.currentScene.sceneLogic;
         myCollisionResponses = collisionResponses;
         myHotKeys = hotkeys;
-        myTimerSequences = myTimerSequences;
+        myTimerSequences = timerSequences;
         myTimers = timers;
 
         myIterationCounter = 0;
@@ -84,6 +85,7 @@ public class Controller {
         myBinding = new Binding();
         myBinding.setProperty("manager", myManager);
         myBinding.setProperty("collisionHandler", myCollisionHandler);
+        myBinding.setProperty("collisionDetector", new CollisionDetector());
         myBinding.setProperty("debugLogger", myDebugLog);
         myShell = new GroovyShell(myBinding);
     }

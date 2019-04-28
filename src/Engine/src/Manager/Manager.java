@@ -27,6 +27,7 @@ public class Manager {
     private static final String CAST_ERROR = "Class created is not an Event.";
     private static final String ILLEGAL_ARGS_ERROR = "Arguments for event did not match.";
     private static final String EVENTS_FILE_PATH = "Engine.src.Manager.Events.";
+    private static final String[] SUBFOLDERS = {"", "AI", "Aim", "Health"};
 
     private Game myGame;
     private double myStepTime;
@@ -73,18 +74,17 @@ public class Manager {
     }
 
     public void call(String eventClass, Instance instance, Object ... args) {
-        try {
-            var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + eventClass, myGame.currentScene.instances);
-            event.activate(instance, args);
-        }
-        catch (ReflectionException e) {
-            System.out.println(REFLECTION_ERROR);
-        }
-        catch (ClassCastException e) {
-            System.out.println(CAST_ERROR);
-        }
-        catch (IllegalArgumentException e) {
-            System.out.println(ILLEGAL_ARGS_ERROR);
+        for(String subfolder : SUBFOLDERS) {
+            try {
+                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + eventClass, myGame.currentScene.instances);
+                event.activate(instance, args);
+            } catch (ReflectionException e) {
+                System.out.println(REFLECTION_ERROR);
+            } catch (ClassCastException e) {
+                System.out.println(CAST_ERROR);
+            } catch (IllegalArgumentException e) {
+                System.out.println(ILLEGAL_ARGS_ERROR);
+            }
         }
     }
 

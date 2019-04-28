@@ -11,6 +11,7 @@ public abstract class Event {
     protected Set<Instance> myInstances;
     private Class[] myParameters;
     //private String myConditionalScript;
+    private final String SUBFOLDER = "";
 
     public Event(Set<Instance> instances, Class ... parameterTypes) {
         myInstances = instances;
@@ -44,5 +45,9 @@ public abstract class Event {
                 return false;
         }
         return true;
+    }
+
+    private String getSubfolder(){
+        return SUBFOLDER;
     }
 }

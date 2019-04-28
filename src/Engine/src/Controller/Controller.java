@@ -46,6 +46,7 @@ public class Controller {
     private LevelManager myLevelManager;
     private AI myAI;
     private DebugLog myDebugLog;
+    private Sounds mySounds;
 
     private Binding myBinding;
 
@@ -88,6 +89,7 @@ public class Controller {
         }
         myBinding.setProperty("entityManager", myEntityManager);
         myBinding.setProperty("collisionHandler", myCollisionHandler);
+        //Is this valid?
         myBinding.setProperty("debugLogger", myDebugLog);
     }
 
@@ -164,7 +166,18 @@ public class Controller {
         return score.getScore();
     }
 
-    public int getUserID(){
+    public int getUserID() {
         return myUserID;
     }
+
+//    public List<String> debugLog() {
+//        return myDebugLog.getLog();
+//    }
+
+//    public Map<String, Boolean> playSound(String audioFilename) {
+//        Map<String, Boolean> temp = mySounds.getSounds();
+//        mySounds.clearSounds();
+//        return temp;
+//    }
+
 }

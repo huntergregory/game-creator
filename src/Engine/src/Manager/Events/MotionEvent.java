@@ -36,16 +36,16 @@ public abstract class MotionEvent extends ComponentDependentEvent {
         return Math.pow(Math.pow(xVel, 2) + Math.pow(yVel, 2), .5);
     }
 
-    protected double getNewX(Instance instance, double x) {
+    protected double getNewX(Instance instance, double x, double stepTime) {
         var motionComponent = instance.getComponent(MotionComponent.class);
         double xVel = motionComponent.getXVelocity();
-        return x + xVel;
+        return x + xVel * stepTime;
     }
 
-    protected double getNewY(Instance instance, double y) {
+    protected double getNewY(Instance instance, double y, double stepTime) {
         var motionComponent = instance.getComponent(MotionComponent.class);
         double yVel = motionComponent.getYVelocity();
-        return y + yVel;
+        return y + yVel * stepTime;
     }
 
     protected void adjustVelocitiesByAngle(Instance instance, double angle) {

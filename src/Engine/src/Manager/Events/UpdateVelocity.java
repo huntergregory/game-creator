@@ -4,9 +4,11 @@ import gamedata.Game;
 import gamedata.GameObjects.Components.MotionComponent;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class UpdateVelocity extends MotionEvent {
-    public UpdateVelocity(Game game) {
-        super(game);
+    public UpdateVelocity(Set<Instance> instances) {
+        super(instances);
     }
 
     @Override

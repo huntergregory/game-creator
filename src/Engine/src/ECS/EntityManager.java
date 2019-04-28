@@ -205,7 +205,7 @@ public class EntityManager {
     }*/
 
     //TODO remove duplication between horizontal and vertical
-    public void moveVertical(Integer entity, boolean down) {
+    /*public void moveVertical(Integer entity, boolean down) {
         var basic = getComponent(entity, BasicComponent.class);
         var motion = getComponent(entity, MotionComponent.class);
         if (basic == null || motion == null)
@@ -228,10 +228,10 @@ public class EntityManager {
         double xVel = motion.getMovementXVelocity();
         int direction = right ? 1 : -1;
         setX(entity, xPos + direction * xVel * myStepTime);
-    }
+    }*/
 
     //TODO remove duplication between setY and also in collision handler and detector
-    public void setX(int obj, double newX){
+    /*public void setX(int obj, double newX){
         BasicComponent basic = getComponent(obj, BasicComponent.class);
         double currentX = basic.getX();
         double finalX = newX;
@@ -260,7 +260,7 @@ public class EntityManager {
             }
         }
         basic.setY(finalY);
-    }
+    }*/
 
     /*public void rotateAimClockwise(int obj){
         rotateAim(obj, "CLOCKWISE");
@@ -291,7 +291,7 @@ public class EntityManager {
         double tempYVel = tempVel * direction[1];
         setX(entityID, tempXVel * getStepTime());
         setY(entityID, tempYVel * getStepTime());
-    }
+    } 
 
     /*public boolean targetEntityObscured(int targetID, int referenceID) {
         BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);

@@ -1,7 +1,7 @@
 package Engine.src.DeprecatedTriggers.Conditionals;
 
-import gamedata.Components.Component;
-import gamedata.Components.HealthComponent;
+import gamedata.GameObjects.Components.Component;
+import gamedata.GameObjects.Components.HealthComponent;
 import Engine.src.ECS.EntityManager;
 
 public class HealthComparison extends Comparison{

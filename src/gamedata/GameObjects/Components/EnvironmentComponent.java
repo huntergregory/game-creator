@@ -1,4 +1,4 @@
-package gamedata.Components;
+package gamedata.GameObjects.Components;
 
 public class EnvironmentComponent extends Component{
     private double myAccelX;

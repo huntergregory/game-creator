@@ -1,7 +1,7 @@
 package Engine.src.ECS;
 
-import gamedata.Components.BasicComponent;
-import gamedata.Components.ImpassableComponent;
+import gamedata.GameObjects.Components.BasicComponent;
+import gamedata.GameObjects.Components.ImpassableComponent;
 
 import java.util.ArrayList;
 import java.util.Set;

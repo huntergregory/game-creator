@@ -1,6 +1,6 @@
 package Engine.src.DataManager;
 
-import gamedata.Components.Component;
+import gamedata.GameObjects.Components.Component;
 import Engine.src.DeprecatedTriggers.Events.Event;
 
 import java.util.Collections;

@@ -1,9 +1,9 @@
 package Player.src.PlayerMain;
 
-import gamedata.Components.BasicComponent;
-import gamedata.Components.Component;
-import gamedata.Components.HealthComponent;
-import gamedata.Components.MotionComponent;
+import gamedata.GameObjects.Components.BasicComponent;
+import gamedata.GameObjects.Components.Component;
+import gamedata.GameObjects.Components.HealthComponent;
+import gamedata.GameObjects.Components.MotionComponent;
 import Engine.src.Controller.Controller;
 import hud.HUDView;
 import hud.DataTracker;

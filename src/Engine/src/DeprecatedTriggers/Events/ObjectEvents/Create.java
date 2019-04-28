@@ -1,7 +1,7 @@
 package Engine.src.DeprecatedTriggers.Events.ObjectEvents;
 
 import Engine.src.DeprecatedTriggers.Conditionals.Conditional;
-import gamedata.Components.Component;
+import gamedata.GameObjects.Components.Component;
 import Engine.src.ECS.EntityManager;
 import Engine.src.DeprecatedTriggers.Events.Event;
 

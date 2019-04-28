@@ -1,6 +1,7 @@
 package Engine.src.ECS;
 
-import gamedata.Components.*;
+import NoEntityException;
+import gamedata.GameObjects.Components.*;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;

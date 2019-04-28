@@ -1,13 +1,13 @@
 package Engine.src.Manager;
 
+import Engine.src.Manager.Events.Event;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
+import gamedata.Game;
 import gamedata.GameObjects.Components.Component;
-import gamedata.GameObjects.Components.LivesComponent;
-import gamedata.Scene;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
+import gamedata.GameObjects.Instance;
+import voogasalad.util.reflection.Reflection;
+import voogasalad.util.reflection.ReflectionException;
 
 import java.util.List;
 import java.util.Map;
@@ -16,21 +16,34 @@ import java.util.Map;
  * Combines the old LevelManager and EntityManager
  */
 public class Manager {
-    private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
+    private static final String REFLECTION_ERROR = "Event doesn't exist.";
+    private static final String CAST_ERROR = "Class created is not an Event.";
+    private static final String ILLEGAL_ARGS_ERROR = "Arguments for event did not match.";
+
+    private Game myGame;
 
     private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
     private double myCount;
 
-    public Manager(Map<Integer, Map<Class<? extends Component>, Component>> entityMap, double stepTime) {
-        myEntityMap = entityMap;
+    public Manager(Game game, double stepTime) {
+        myGame = game;
     }
 
-    public void call(String eventClass, String instanceID, Object ... args) {
+    public void call(String eventClass, Instance instance, Object ... args) {
         try {
-
+            var event = (Event) Reflection.createInstance(eventClass, myGame);
+            event.activate(instance, args);
         }
-        catch (
+        catch (ReflectionException e) {
+            System.out.println(REFLECTION_ERROR);
+        }
+        catch (ClassCastException e) {
+            System.out.println(CAST_ERROR);
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(ILLEGAL_ARGS_ERROR);
+        }
     }
 
     public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {

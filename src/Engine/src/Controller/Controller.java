@@ -3,7 +3,6 @@ package Engine.src.Controller;
 import Engine.src.Manager.Manager;
 import gamedata.Game;
 import gamedata.GameObjects.Components.*;
-import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;
 import Engine.src.Timers.Timer;

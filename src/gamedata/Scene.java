@@ -1,17 +1,22 @@
 package gamedata;
 
-import java.util.ArrayList;
+import gamedata.GameObjects.Components.EnvironmentComponent;
+import gamedata.GameObjects.Instance;
+
+import java.util.HashSet;
 
 public class Scene {
-    public ArrayList<Instance> instances;
+    public HashSet<Instance> instances;
+    public EnvironmentComponent defaultEnvironment;
     public String sceneLogic, sceneID, bgColor, bgImage;
 
     public Scene() {
-        instances = new ArrayList<>();
+        instances = new HashSet<>();
         sceneLogic = "";
         bgColor = "";
         sceneID = "";
         bgColor = "";
         bgImage = "";
+        defaultEnvironment = new EnvironmentComponent(0, 5, 0, 0); //FIXME defaults
     }
 }

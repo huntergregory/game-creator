@@ -29,6 +29,7 @@ public class Timer {
         myEventsAfterTimer = eventsAfterTimer;
     }
 
+    //FIXME
     public void activateEvents(String events, EntityManager entityManager, LevelManager levelManager) {
         Binding managerSetter = new Binding();
         GroovyShell shell = new GroovyShell();

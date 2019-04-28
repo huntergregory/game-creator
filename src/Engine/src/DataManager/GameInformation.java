@@ -3,6 +3,7 @@ package Engine.src.DataManager;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class GameInformation {
     private List<Level> myLevels;
     private Map<String, Integer> myScoreboard;

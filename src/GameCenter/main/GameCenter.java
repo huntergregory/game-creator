@@ -3,8 +3,12 @@ package GameCenter.main;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import network_account.UserIdentity;
+
+import java.util.List;
 
 /**
  * GameCenter.java is the launcher for the Game Center, where a user can launch games through the Player, launch the
@@ -17,7 +21,6 @@ import javafx.fxml.FXMLLoader;
  * GameCenter.java, GameCenter.fxml & GUIStyle.css, and GameCenterController.java are the model, view, and controller,
  * respectively. Keep this in mind when refactoring/writing new code.
  *
- * TODO: Figure out how to use custom fonts in .fxml or .css
  * TODO: Implement Social Hub
  * TODO: Add login items/user picture in conjunction with the data team
  *
@@ -27,6 +30,7 @@ import javafx.fxml.FXMLLoader;
 public class GameCenter extends Application {
     private Parent myRoot;
     private GameCenterController myGCC;
+    private UserIdentity myIdentity;
 
     /**
      * Method to launch the application. Required when extending Application.
@@ -50,12 +54,30 @@ public class GameCenter extends Application {
 
         myRoot.getStylesheets().add(this.getClass().getResource("/GUI/GUIStyle.css").toString());
         myGCC.initGameCenter();
+        myGCC.nameLabel.setText("Hello " + myIdentity.getName() + "!");
 
+        for(String s:myIdentity.getFriends()){
+            Label friendName = new Label(s);
+            friendName.getStyleClass().add("socialScoreLabel");
+            myGCC.friendPane.getChildren().add(friendName);
+        }
+        Label[] scores = new Label[]{myGCC.score1, myGCC.score2, myGCC.score3};
+        for(int k = 0; k < 3; k++){
+            try {
+                scores[k].setText(myIdentity.getHighScores("mygame1").get(k));
+            }
+            catch(Exception e){
+                scores[k].setText("No High Score");
+            }
+        }
         Scene scene = new Scene(myRoot, 975, 500);
-
         stage.setTitle("Game Center");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void setIdentity(UserIdentity userIdentity){
+        myIdentity = userIdentity;
     }
 }

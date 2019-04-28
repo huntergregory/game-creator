@@ -1,9 +1,9 @@
 package Engine.src.ECS;
 
-import Engine.src.Components.AimComponent;
-import Engine.src.Components.BasicComponent;
-import Engine.src.Components.LOSComponent;
-import Engine.src.Components.MotionComponent;
+import gamedata.GameObjects.Components.AimComponent;
+import gamedata.GameObjects.Components.BasicComponent;
+import gamedata.GameObjects.Components.LOSComponent;
+import gamedata.GameObjects.Components.MotionComponent;
 
 import java.util.ArrayList;
 import java.util.Random;

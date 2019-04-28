@@ -1,9 +1,12 @@
 package gamedata;
 
+import gamedata.GameObjects.GameObject;
+
 import java.util.ArrayList;
 
 public class Game {
     public ArrayList<Scene> scenes;
+    public Scene currentScene;
     public ArrayList<GameObject> gameObjects;
     public ArrayList<Resource> resources;
 

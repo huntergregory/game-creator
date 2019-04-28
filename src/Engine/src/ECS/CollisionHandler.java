@@ -1,6 +1,6 @@
 package Engine.src.ECS;
 
-import Engine.src.Components.*;
+import gamedata.GameObjects.Components.*;
 
 import Engine.src.Controller.LevelManager;
 
@@ -220,13 +220,14 @@ public class CollisionHandler {
 
     //TODO fix if Timers.Events are changed
     private void activateEvents(Integer current, Integer other, String responses) {
-            //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
+        //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
 
-            GroovyShell shell = new GroovyShell(mySetter);
-            mySetter.setProperty("ID", current);
-            mySetter.setProperty("otherID", other);
-            Script script = shell.parse(responses);
-            script.run();
+        GroovyShell shell = new GroovyShell(mySetter);
+        mySetter.setProperty("ID", current);
+        mySetter.setProperty("otherID", other);
+        Script script = shell.parse(responses);
+        script.run();
+
     }
 
     public void addCollision(String type1, String type2, String response1, String response2){

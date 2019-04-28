@@ -1,6 +1,6 @@
 package Engine.src.Controller;
 
-import Engine.src.Components.*;
+import gamedata.GameObjects.Components.*;
 import Engine.src.ECS.AI;
 import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;
@@ -45,6 +45,8 @@ public class Controller {
     private EntityManager myEntityManager;
     private LevelManager myLevelManager;
     private AI myAI;
+    private DebugLog myDebugLog;
+    private Sounds mySounds;
 
     private Binding myBinding;
 
@@ -62,7 +64,7 @@ public class Controller {
         myEntityManager = new EntityManager(myActiveObjects, myStepTime);
         myCollisionHandler = new CollisionHandler(myEntityManager, myLevelManager);
         myIterationCounter = 0;
-
+        myDebugLog = new DebugLog();
         setDefaultKeys();
         setDefaultTriggers();
         myOffset = updateOffset();
@@ -87,6 +89,8 @@ public class Controller {
         }
         myBinding.setProperty("entityManager", myEntityManager);
         myBinding.setProperty("collisionHandler", myCollisionHandler);
+        //Is this valid?
+        myBinding.setProperty("debugLogger", myDebugLog);
     }
 
     private void setDefaultKeys() {
@@ -162,7 +166,18 @@ public class Controller {
         return score.getScore();
     }
 
-    public int getUserID(){
+    public int getUserID() {
         return myUserID;
     }
+
+//    public List<String> debugLog() {
+//        return myDebugLog.getLog();
+//    }
+
+//    public Map<String, Boolean> playSound(String audioFilename) {
+//        Map<String, Boolean> temp = mySounds.getSounds();
+//        mySounds.clearSounds();
+//        return temp;
+//    }
+
 }

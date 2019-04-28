@@ -1,21 +1,25 @@
 package Engine.src.ECS;
 
-import Engine.src.Components.BasicComponent;
-import Engine.src.Components.MotionComponent;
-import Engine.src.Components.TagsComponent;
+import gamedata.GameObjects.Components.ImpassableComponent;
+import gamedata.GameObjects.Components.BasicComponent;
 
 import java.util.ArrayList;
 import java.util.Set;
 
 public class CollisionDetector {
 
-    private EntityManager myEntityManager;
-
-    // TODO Remove these later
+    /**
+     * Used for more precise directional collision detection when colliding at a corner (avoid colliding from two
+     * directions at the same time)
+     */
     private final double BUFFER_HORIZ = 6;
     private final double BUFFER_VERT = 10;
 
-    // data for a specific collision, where 1 is the collider and 2 is the target
+    private EntityManager myEntityManager;
+
+    /**
+     * Position and dimension data for a specific collision, where 1 is the collider and 2 is the target
+     */
     private double x1;
     private double x2;
     private double y1;
@@ -32,47 +36,23 @@ public class CollisionDetector {
     public Integer[] getImpassableColliders(Integer entity, Set<Integer> allEntities) {
         ArrayList<Integer> impassables = new ArrayList<>();
 
-        /*for (Integer other : allEntities) {
+        for (Integer other : allEntities) {
             if (other.equals(entity))
                 continue;
             var impassableComponent = myEntityManager.getComponent(other, ImpassableComponent.class);
             if (impassableComponent != null && impassableComponent.getImpassable())
                 impassables.add(other);
-        }*/
+        }
         return impassables.toArray(new Integer[0]);
     }
 
     public boolean collides(Integer collider, Integer target) {
-
-        // TODO Remove these if statements
-        if (collideFromLeft(collider, target)) {
-            System.out.println("left");
-        }
-        if (collideFromTop(collider, target)) {
-            System.out.println("top");
-        }
-        if (collideFromLeft(target, collider)) {
-            System.out.println("right");
-        }
-        if (collideFromTop(target, collider)) {
-            System.out.println("bottom");
-        }
-
         return collideFromLeft(collider, target) ||
                 collideFromLeft(target, collider) ||
                 collideFromTop(collider, target) ||
                 collideFromTop(target, collider);
-
-        // TODO Remove commented lines after checking that the above works
-        /*var basic1 = myEntityManager.getComponent(collider, BasicComponent.class);
-        var basic2 = myEntityManager.getComponent(target, BasicComponent.class);
-        return basic1.getX() < basic2.getX() + basic2.getWidth() &&
-                basic1.getX() + basic2.getWidth() > basic2.getX() &&
-                basic1.getY() < basic2.getY() + basic2.getHeight() &&
-                basic1.getY() + basic1.getHeight() > basic2.getY();*/
     }
 
-    // TODO Any way to avoid duplicate code here?
     public boolean collideFromLeft(Integer collider, Integer target) {
         setCurrCollisionValues(collider, target);
 
@@ -90,7 +70,7 @@ public class CollisionDetector {
     }
 
     private void setCurrCollisionValues(Integer collider, Integer target) {
-        var colliderComponent = myEntityManager.getComponent(collider, BasicComponent.class); //FIXME these two lines duplicated in all collision methods
+        var colliderComponent = myEntityManager.getComponent(collider, BasicComponent.class);
         var targetComponent = myEntityManager.getComponent(target, BasicComponent.class);
         x1 = colliderComponent.getX();
         x2 = targetComponent.getX();

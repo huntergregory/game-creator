@@ -1,15 +1,16 @@
+
 package Engine.src.ECS;
 
-import Engine.src.Components.*;
+import gamedata.GameObjects.Components.*;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 import java.util.Map;
 
-
+@Deprecated
 public class EntityManager {
-    private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
+   /*private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
     private double myStepTime;
 
     public EntityManager(Map<Integer, Map<Class<? extends Component>, Component>> entityMap, double stepTime) {
@@ -237,8 +238,8 @@ public class EntityManager {
         CollisionDetector collisionDetector = new CollisionDetector(this);
         Integer[] impassableColliders = collisionDetector.getImpassableColliders(obj, myEntityMap.keySet());
         for(Integer impassable : impassableColliders){
-            if ((collisionDetector.collideFromLeft(impassable, obj) && newX > currentX) ||
-                (collisionDetector.collideFromLeft(obj, impassable) && newX < currentX)) {
+            if ((collisionDetector.collideFromLeft(impassable, obj) && newX < currentX) ||
+                (collisionDetector.collideFromLeft(obj, impassable) && newX > currentX)) {
                 finalX = currentX;
             }
         }
@@ -253,8 +254,8 @@ public class EntityManager {
         CollisionDetector collisionDetector = new CollisionDetector(this);
         Integer[] impassableColliders = collisionDetector.getImpassableColliders(obj, myEntityMap.keySet());
         for(Integer impassable : impassableColliders){
-            if ((collisionDetector.collideFromTop(impassable, obj) && newY > currentY) ||
-                    (collisionDetector.collideFromTop(impassable, obj) && newY < currentY)) {
+            if ((collisionDetector.collideFromTop(impassable, obj) && newY < currentY) ||
+                    (collisionDetector.collideFromTop(obj, impassable) && newY > currentY)) {
                 finalY = currentY;
             }
         }
@@ -329,4 +330,5 @@ public class EntityManager {
         logic.setLogic(logic.getLogic() + additionalLogic);
     }
 
+*/
 }

@@ -8,6 +8,7 @@ import auth.RunAuth;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -70,18 +71,18 @@ public class GameCenterController {
     }
 
     private void placeThumbnails() {
+        thumbPaneContent.getChildren().removeAll(thumbPaneContent.getChildren());
         try {
             gameData = DataParser.parseConfig("data/player_data.json");
         } catch (FileNotFoundException e) {
             System.out.println("Error occurred when reading in thumbnails");
         }
-        // this sets favoriteGames int list
+        // this resets favoriteGames int list
+        favoriteGames = new ArrayList<>();
         for (int i = 0; i < gameData.size(); i ++) {
             DataStruct game = gameData.get(i);
-            if (!favoriteGames.contains(i) && game.getFavorite()) {
+            if (game.getFavorite()) {
                 favoriteGames.add(i);
-            } else if (favoriteGames.contains(i) && !game.getFavorite()) {
-                favoriteGames.remove(i);
             }
         }
         // make labels
@@ -120,14 +121,6 @@ public class GameCenterController {
         favoriteButton.setGraphic(heart);
     }
 
-    public void editFavorites(int gameInt) {
-        if (favoriteGames.contains(gameInt)) {
-            favoriteGames.remove(gameInt);
-        } else {
-            favoriteGames.add(gameInt);
-        }
-    }
-
     @FXML
     private void favoriteGame() {
         if (gameData.get(myIndex).getFavorite()) {
@@ -138,6 +131,7 @@ public class GameCenterController {
             gameData.get(myIndex).setFavorite(true, myIndex);
             setFavoriteImage(true);
         }
+        placeThumbnails();
     }
 
     private void thumbnailClicked(int index) {

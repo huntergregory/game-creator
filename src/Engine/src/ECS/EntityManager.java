@@ -12,12 +12,12 @@ import java.util.Map;
 public class EntityManager {
    private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
     private double myStepTime;
-
+    /*
     public EntityManager(Map<Integer, Map<Class<? extends Component>, Component>> entityMap, double stepTime) {
         myEntityMap = entityMap;
         myStepTime = stepTime;
     }
-
+    */
     /*public void addComponent(int entityID, Component component) {
         try {
             var components = getAllComponents(entityID);
@@ -279,7 +279,7 @@ public class EntityManager {
         aim.setXAim(Math.cos(newAngle));
         aim.setYAim(Math.sin(newAngle));
     }*/
-
+    /*
     public double getStepTime() {
         return myStepTime;
     }
@@ -291,7 +291,7 @@ public class EntityManager {
         double tempYVel = tempVel * direction[1];
         setX(entityID, tempXVel * getStepTime());
         setY(entityID, tempYVel * getStepTime());
-    }
+    }*/
 
     /*public boolean targetEntityObscured(int targetID, int referenceID) {
         BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);

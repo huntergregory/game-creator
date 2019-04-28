@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class KeyMoveDown extends MotionEvent {
     public KeyMoveDown(Set<Instance> instances, Class<? extends Component>[] componentClasses) {
-        super(instances, componentClasses);
+        super(instances, componentClasses, Double.class);
     }
 
     @Override

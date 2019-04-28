@@ -3,6 +3,8 @@ package Engine.src.Manager.Events.AI;
 import Engine.src.ECS.Line;
 import Engine.src.ECS.Pair;
 import Engine.src.Manager.Events.ComponentDependentEvent;
+import Engine.src.Manager.Events.Motion.SetXPosition;
+import Engine.src.Manager.Events.Motion.SetYPosition;
 import gamedata.Game;
 import gamedata.GameObjects.Components.*;
 import gamedata.GameObjects.Instance;
@@ -149,8 +151,9 @@ public abstract class AIEvent extends ComponentDependentEvent {
         double tempVel = motion.getMovementVelocity();
         double tempXVel = tempVel * direction[0];
         double tempYVel = tempVel * direction[1];
-        SetX setX = new setX(myGame);
-        SetY setY = new setY(myGame);
+        Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
+        SetXPosition setX = new SetXPosition(myInstances, components);
+        SetYPosition setY = new SetYPosition(myInstances, components);
         setX.activate(instance, tempXVel * stepTime);
         setY.activate(instance, tempYVel * stepTime);
     }

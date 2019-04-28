@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class Move extends MotionEvent {
     public Move(Set<Instance> instances, Class<? extends Component>[] componentClasses) {
-        super(instances, componentClasses);
+        super(instances, componentClasses, Double.class);
     }
 
     @Override

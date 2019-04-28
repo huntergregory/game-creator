@@ -1,15 +1,23 @@
 package ez_engine;
 
+import dummy_player.Player;
 import gamedata.Game;
+import gamedata.GameObject;
+import gamedata.Instance;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import static auth.Dimensions.CANVAS_VERTICAL_OFFSET;
+import static auth.Dimensions.CONSOLE_HORIZONTAL_OFFSET;
 import static ez_engine.RenderingHelpers.*;
 
 public class Engine {
     private Stage mainStage;
     private Game game;
     private int currentScene = 0;
+    public KeyCode keyBeingPressed = null;
 
     public int getCurrentScene() {
         return currentScene;
@@ -31,6 +39,13 @@ public class Engine {
         }
         mainStage.setScene(renderScene(game.scenes.get(sceneIndex)));
         currentScene = sceneIndex;
+        mainStage.getScene().setOnKeyPressed(e -> {
+            Engine.this.keyBeingPressed = e.getCode();
+        });
+
+        mainStage.getScene().setOnKeyReleased(e -> {
+            Engine.this.keyBeingPressed = null;
+        });
     }
 
     public void loadSceneById(String id, InstanceView ...instances) {
@@ -46,5 +61,28 @@ public class Engine {
 
     public InstanceView getInstanceById(String id) {
         return RenderingHelpers.getInstanceById(id);
+    }
+
+    public InstanceView createInstanceOf(String instanceOfId, double x, double y) {
+        var newInstance = new Instance();
+        GameObject instanceOf = null;
+        for (var o : game.gameObjects) {
+            if (o.objectID.equals(instanceOfId)) {
+                instanceOf = o;
+                break;
+            }
+        }
+        newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
+        newInstance.instanceID = "instance_"+(game.scenes.get(currentScene).instances.size()+1);
+        newInstance.instanceLogic = "// Type your Groovy scripts for " + newInstance.instanceID + " here";
+        newInstance.zIndex = 1;
+        newInstance.width = (instanceOf.width > 0 ? instanceOf.width : 60);
+        newInstance.height = (instanceOf.height > 0 ? instanceOf.height : 60);
+        newInstance.x = x;
+        newInstance.y = y;
+
+        var pane = renderInstance(newInstance);
+        ((Pane) mainStage.getScene().getRoot()).getChildren().add(pane);
+        return new InstanceView(newInstance, pane);
     }
 }

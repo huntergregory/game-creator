@@ -72,10 +72,14 @@ public class Player {
         mainStage.show();
     }
 
-    private boolean unevaluated = true;
+    private int waitToLoad = 50; // How many cycles
     private void step (double elapsedTime) {
-        String sceneScript = game.scenes.get(gameEngine.getCurrentScene()).sceneLogic;
-        sharedData.setProperty("elapsedTime", elapsedTime);
-        groovyEngine.evaluate(sceneScript);
+        if (waitToLoad-- < 0) {
+            String sceneScript = game.scenes.get(gameEngine.getCurrentScene()).sceneLogic;
+            sharedData.setProperty("elapsedTime", elapsedTime);
+            groovyEngine.evaluate(sceneScript);
+        } else {
+            // TODO Show a spinner
+        }
     }
 }

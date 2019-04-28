@@ -1,11 +1,13 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.MotionComponent;
+import gamedata.GameObjects.Instance;
+
+import java.util.Set;
 
 public abstract class MotionEvent extends ComponentDependentEvent {
-    public MotionEvent(Game game, Class<?>... parameterTypes) {
-        super(game, MotionComponent.class, parameterTypes);
+    public MotionEvent(Set<Instance> instances, Class<?> parameterTypes) {
+        super(instances, MotionComponent.class, parameterTypes);
     }
 
 /*    private double getAngle() {

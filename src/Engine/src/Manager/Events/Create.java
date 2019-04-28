@@ -1,16 +1,17 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Instance;
+
+import java.util.Set;
 
 public class Create extends Event {
 
-    public Create(Game game) {
-        super(game);
+    public Create(Set<Instance> instances) {
+        super(instances);
     }
 
     @Override
     protected void execute(Instance instance, Object... args) {
-        myInstances.currentScene.instances.add(instance);
+        myInstances.add(instance);
     }
 }

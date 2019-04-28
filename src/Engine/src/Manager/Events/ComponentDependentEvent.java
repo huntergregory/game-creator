@@ -1,19 +1,20 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Instance;
+
+import java.util.Set;
 
 public abstract class ComponentDependentEvent extends InstanceDependentEvent {
     private Class<? extends Component>[] myComponentClasses;
 
-    public ComponentDependentEvent(Game game, Class<? extends Component> componentClass, Class<?>... parameterTypes) {
-        super(game, parameterTypes);
+    public ComponentDependentEvent(Set<Instance> instances, Class<? extends Component> componentClass, Class ... parameterTypes) {
+        super(instances, parameterTypes);
         myComponentClasses = new Class[] {componentClass};
     }
 
-    public ComponentDependentEvent(Game game, Class<? extends Component>[] componentClasses, Class<?>... parameterTypes) {
-        super(game, parameterTypes);
+    public ComponentDependentEvent(Set<Instance> instances, Class<? extends Component>[] componentClasses, Class ... parameterTypes) {
+        super(instances, parameterTypes);
         myComponentClasses = componentClasses;
     }
 

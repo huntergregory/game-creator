@@ -24,19 +24,27 @@ public class Engine {
         RenderingHelpers.initGame(game);
     }
 
-    public void loadScene(int sceneIndex) {
+    public void loadScene(int sceneIndex, InstanceView ...instances) {
         if (game == null) throw new RuntimeException("Need to setGame() before using engine") ;
+        for (var i : instances) {
+            game.scenes.get(sceneIndex).instances.add(i.getInstance());
+        }
         mainStage.setScene(renderScene(game.scenes.get(sceneIndex)));
+        currentScene = sceneIndex;
     }
 
-    public void loadSceneById(String id) {
+    public void loadSceneById(String id, InstanceView ...instances) {
         int index = 0;
         for (var scene : game.scenes) {
             if (scene.sceneID.equals(id)) {
-                loadScene(index);
+                loadScene(index, instances);
                 return;
             }
             index++;
         }
+    }
+
+    public InstanceView getInstanceById(String id) {
+        return RenderingHelpers.getInstanceById(id);
     }
 }

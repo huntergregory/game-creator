@@ -27,6 +27,7 @@ public class Player {
     private Stage mainStage;
     private Engine gameEngine;
     private GroovyShell groovyEngine;
+    private Binding sharedData;
 
     public Player(String title) {
         mainStage = new Stage();
@@ -36,8 +37,10 @@ public class Player {
         mainStage.setHeight(CANVAS_HEIGHT);
 
         gameEngine = new Engine(mainStage);
-        var sharedData = new Binding();
+        sharedData = new Binding();
         sharedData.setProperty("engine", gameEngine);
+        sharedData.setProperty("ENV_WIDTH", CANVAS_WIDTH);
+        sharedData.setProperty("ENV_HEIGHT", CANVAS_HEIGHT);
         groovyEngine = new GroovyShell(sharedData);
     }
 
@@ -69,8 +72,10 @@ public class Player {
         mainStage.show();
     }
 
+    private boolean unevaluated = true;
     private void step (double elapsedTime) {
         String sceneScript = game.scenes.get(gameEngine.getCurrentScene()).sceneLogic;
+        sharedData.setProperty("elapsedTime", elapsedTime);
         groovyEngine.evaluate(sceneScript);
     }
 }

@@ -59,4 +59,8 @@ public class RenderingHelpers {
 
         return pane;
     }
+
+    public static InstanceView getInstanceById(String id) {
+        return instanceMap.get(id);
+    }
 }

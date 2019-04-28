@@ -51,4 +51,8 @@ public class InstanceView {
         instance.height = height;
         setBg(view, instance.bgColor, instance.bgImage, instance.width, height);
     }
+
+    public Instance getInstance() {
+        return instance;
+    }
 }

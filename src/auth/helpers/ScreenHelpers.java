@@ -271,7 +271,7 @@ public class ScreenHelpers {
                 context.getColorGrid().getChildren().add(row);
                 row = new HBox(5);
             }
-            if (r.resourceType == Resource.ResourceType.COLOR_RESOURCE) {
+            if (r.resourceType.equals(Resource.ResourceType.COLOR_RESOURCE)) {
                 var icon = new ColorIcon(getColorByID(context.getGame(), r.resourceID), r.resourceID, e -> {
                     // TODO
                     var thisIcon = (Selectable) e[0];
@@ -323,7 +323,7 @@ public class ScreenHelpers {
                 context.getAudioGrid().getChildren().add(row);
                 row = new HBox(5);
             }
-            if (r.resourceType == Resource.ResourceType.AUDIO_RESOURCE) {
+            if (r.resourceType.equals(Resource.ResourceType.AUDIO_RESOURCE)) {
                 var icon = new ToolIcon("audio", r.resourceID, e -> {
                     // TODO
                     var thisIcon = (Selectable) e[0];
@@ -369,7 +369,7 @@ public class ScreenHelpers {
                 context.getImageGrid().getChildren().add(row);
                 row = new HBox(5);
             }
-            if (r.resourceType == Resource.ResourceType.IMAGE_RESOURCE) {
+            if (r.resourceType.equals(Resource.ResourceType.IMAGE_RESOURCE)) {
                 var icon = new ImageIcon(getImageById(context.getGame(), r.resourceID), r.resourceID, e -> {
                     // TODO
                     var thisIcon = (Selectable) e[0];
@@ -526,19 +526,20 @@ public class ScreenHelpers {
     public static Image getImageById(Game game, String id) {
         try {
             for (var r : game.resources) {
-                if (r.resourceType == Resource.ResourceType.IMAGE_RESOURCE && r.resourceID.equals(id)) {
+                if (r.resourceType.equals(Resource.ResourceType.IMAGE_RESOURCE) && r.resourceID.equals(id)) {
                     return new Image(new File(r.src).toURI().toURL().toExternalForm());
                 }
             }
             return null;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public static Color getColorByID(Game game, String id) {
         for (var r : game.resources) {
-            if (r.resourceType == Resource.ResourceType.COLOR_RESOURCE && r.resourceID.equals(id)) {
+            if (r.resourceType.equals(Resource.ResourceType.COLOR_RESOURCE) && r.resourceID.equals(id)) {
                 return Color.valueOf(r.src);
             }
         }
@@ -671,6 +672,7 @@ public class ScreenHelpers {
             context.getUIElementById(CANVAS_ID).getView().setStyle("-fx-background-image: url('"+
                     getImageById(context.getGame(), context.getGame().scenes.get(context.getCurrentScene()).bgImage).getUrl()+"');" +
                     "-fx-border-radius: 5 5 5 5;" +
+                    "-fx-background-size: cover;" +
                     "-fx-background-radius: 5 5 5 5;");
             Rectangle clip = new Rectangle(
                     context.getUIElementById(CANVAS_ID).getView().getLayoutBounds().getWidth(), context.getUIElementById(CANVAS_ID).getView().getLayoutBounds().getHeight()

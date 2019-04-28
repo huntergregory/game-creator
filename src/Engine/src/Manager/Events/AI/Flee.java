@@ -1,16 +1,17 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.AI;
 
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
-public class BaseAim extends AIEvent{
+public class Flee extends AIEvent{
 
-    public BaseAim(Game game){
+    public Flee(Game game) {
         super(game, Instance.class, Double.class);
     }
 
     @Override
     protected void modifyComponents(Instance instance, Object... args) {
-        baseAim(instance, (Instance) args[0], (Double) args[1]);
+        flee(instance, (Instance) args[0], (Double) args[1]) ;
     }
-}
+
+   }

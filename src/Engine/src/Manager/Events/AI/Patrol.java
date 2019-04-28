@@ -1,10 +1,8 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.AI;
 
-import Engine.src.ECS.Pair;
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Patrol extends AIEvent{

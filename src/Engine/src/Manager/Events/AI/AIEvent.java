@@ -1,7 +1,8 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.AI;
 
 import Engine.src.ECS.Line;
 import Engine.src.ECS.Pair;
+import Engine.src.Manager.Events.ComponentDependentEvent;
 import gamedata.Game;
 import gamedata.GameObjects.Components.*;
 import gamedata.GameObjects.Instance;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class AIEvent extends ComponentDependentEvent{
+public abstract class AIEvent extends ComponentDependentEvent {
 
     private final double CORRECTION_ANGLE = 2;
     private final double CORRECTION_DISTANCE = 150;

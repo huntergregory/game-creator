@@ -1,5 +1,6 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Aim;
 
+import Engine.src.Manager.Events.ComponentDependentEvent;
 import gamedata.Game;
 import gamedata.GameObjects.Components.AimComponent;
 import gamedata.GameObjects.Instance;

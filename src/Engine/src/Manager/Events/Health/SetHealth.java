@@ -1,10 +1,10 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Health;
 
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
-public class AddToHealth extends HealthModifierEvent {
-    public AddToHealth(Game game) {
+public class SetHealth extends HealthModifierEvent {
+    public SetHealth(Game game) {
         super(game, Integer.class);
     }
 

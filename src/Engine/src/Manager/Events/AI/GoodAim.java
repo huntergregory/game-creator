@@ -1,4 +1,4 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.AI;
 
 import gamedata.Game;
 import gamedata.GameObjects.Instance;

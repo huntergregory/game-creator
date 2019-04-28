@@ -1,4 +1,4 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Health;
 
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Instance;
@@ -11,7 +11,7 @@ public class AddToHealth extends HealthModifierEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         var healthComponent = instance.getComponent(HealthComponent.class);
         int health = healthComponent.getHealth();
         setHealth(instance, (int) args[0] + health);

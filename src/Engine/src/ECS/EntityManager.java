@@ -177,10 +177,10 @@ public class EntityManager {
         states.removeState(state);
     }*/
 
-    public boolean healthBelow(int entityID, double threshhold){
+    /*public boolean healthBelow(int entityID, double threshhold){
         HealthComponent health = getComponent(entityID, HealthComponent.class);
         return health.getHealth() < threshhold;
-    }
+    }*/
 
     /*public void addPowerup(int entityID, int otherEntityID) {
 
@@ -291,7 +291,7 @@ public class EntityManager {
         double tempYVel = tempVel * direction[1];
         setX(entityID, tempXVel * getStepTime());
         setY(entityID, tempYVel * getStepTime());
-    } 
+    }
 
     /*public boolean targetEntityObscured(int targetID, int referenceID) {
         BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);

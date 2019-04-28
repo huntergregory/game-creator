@@ -1,5 +1,6 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Motion;
 
+import Engine.src.Manager.Events.Motion.MotionEvent;
 import gamedata.GameObjects.Instance;
 
 import java.util.Set;
@@ -10,7 +11,7 @@ public class SetDirection extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         double angle = (double) args[0];
         adjustVelocitiesByAngle(instance, angle);
     }

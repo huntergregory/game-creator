@@ -1,4 +1,4 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Motion;
 
 import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.Component;
@@ -13,11 +13,14 @@ public class KeyMoveRight extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         var motionComponent = instance.getComponent(MotionComponent.class);
         var basicComponent = instance.getComponent(BasicComponent.class);
         double xVel = motionComponent.getMovementXVelocity();
         double xPos = basicComponent.getX();
-        setX(xPos + xVel * myStepTime);
+        double stepTime = (double) args[0];
+        Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
+        SetXPosition setX = new SetXPosition(myInstances, components);
+        setX.activate(instance, xPos - xVel * stepTime);
     }
 }

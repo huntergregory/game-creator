@@ -2,6 +2,7 @@ package Engine.src.Manager.Events;
 
 import gamedata.GameObjects.Instance;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Event {

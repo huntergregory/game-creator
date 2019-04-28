@@ -1,4 +1,4 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Motion;
 
 import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.Component;
@@ -13,11 +13,14 @@ public class KeyMoveUp extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         var basicComponent = instance.getComponent(BasicComponent.class);
         var motionComponent = instance.getComponent(MotionComponent.class);
+        double stepTime = (double) args[0];
         double yVel = motionComponent.getMovementYVelocity();
         double yPos = basicComponent.getY();
-        setX(yPos - yVel * myStepTime);
+        Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
+        SetYPosition setY = new SetYPosition(myInstances, components);
+        setY.activate(instance,yPos - yVel * stepTime);
     }
 }

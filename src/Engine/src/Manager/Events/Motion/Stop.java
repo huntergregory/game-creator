@@ -1,5 +1,6 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Motion;
 
+import Engine.src.Manager.Events.Motion.MotionEvent;
 import gamedata.GameObjects.Components.MotionComponent;
 import gamedata.GameObjects.Instance;
 
@@ -11,7 +12,7 @@ public class Stop extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         var motionComponent = instance.getComponent(MotionComponent.class);
         motionComponent.setXVelocity(0);
         motionComponent.setYVelocity(0);

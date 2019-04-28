@@ -1,5 +1,6 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Motion;
 
+import Engine.src.Manager.Events.ComponentDependentEvent;
 import gamedata.Game;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Components.MotionComponent;

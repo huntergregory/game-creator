@@ -1,5 +1,6 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Motion;
 
+import Engine.src.Manager.Events.Motion.MotionEvent;
 import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Instance;
@@ -12,10 +13,11 @@ public class Move extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         var basicComponent = instance.getComponent(BasicComponent.class);
-        double newX = getNewX(instance, basicComponent.getX());
-        double newY = getNewY(instance, basicComponent.getY());
+        double stepTime = (double) args[0];
+        double newX = getNewX(instance, basicComponent.getX(), stepTime);
+        double newY = getNewY(instance, basicComponent.getY(), stepTime);
         basicComponent.setX(newX);
         basicComponent.setY(newY);
     }

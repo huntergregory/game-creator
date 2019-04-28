@@ -1,6 +1,6 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Motion;
 
-import gamedata.Game;
+import Engine.src.Manager.Events.Motion.MotionEvent;
 import gamedata.GameObjects.Components.MotionComponent;
 import gamedata.GameObjects.Instance;
 
@@ -12,7 +12,7 @@ public class UpdateVelocity extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         var motionComponent = instance.getComponent(MotionComponent.class);
         var environmentComponent = motionComponent.getEnvironmentImmersedIn();
         double xVel = motionComponent.getXVelocity();

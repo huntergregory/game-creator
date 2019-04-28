@@ -1,5 +1,6 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Motion;
 
+import Engine.src.Manager.Events.Motion.MotionEvent;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Components.JumpComponent;
 import gamedata.GameObjects.Components.MotionComponent;
@@ -13,7 +14,7 @@ public class Jump extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         var jumpComponent = instance.getComponent(JumpComponent.class);
         var motionComponent = instance.getComponent(MotionComponent.class);
         double jumpVelocity = jumpComponent.getJumpVelocity();

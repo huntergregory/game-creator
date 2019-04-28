@@ -17,18 +17,18 @@ public class Die extends InstanceDependentEvent {
 
     @Override
     protected void modifyInstance(Instance instance, Object... args) {
-        var instances = myInstances;
+
         if(instance.hasComponent(LivesComponent.class)){
             LivesComponent lives = instance.getComponent(LivesComponent.class);
             if (lives.expired())
-                instances.remove(instance);
+                myInstances.remove(instance);
             else {
                 respawn(instance, lives.getRespawnInstructions());
                 lives.removeLife();
             }
         }
         else
-            instances.remove(instance);
+            myInstances.remove(instance);
     }
 
     //FIXME - should be another event

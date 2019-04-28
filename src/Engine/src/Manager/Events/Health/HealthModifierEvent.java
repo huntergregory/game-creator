@@ -1,5 +1,6 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Health;
 
+import Engine.src.Manager.Events.ComponentDependentEvent;
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Instance;
 

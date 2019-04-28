@@ -1,13 +1,14 @@
-package Engine.src.Manager;
+package Engine.src.Manager.Events.InstanceDependentEvents.ComponentDependentEvents;
 
+import Engine.src.Manager.Events.InstanceDependentEvents.InstanceDependentEvent;
 import gamedata.Game;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Instance;
 
-public abstract class ComponentModifierEvent extends InstanceModifierEvent {
+public abstract class ComponentDependentEvent extends InstanceDependentEvent {
     private Class<? extends Component>[] myComponentClasses;
 
-    public ComponentModifierEvent(Game game, int numParameters, Class<? extends Component> ... componentClasses) {
+    public ComponentDependentEvent(Game game, int numParameters, Class<? extends Component> ... componentClasses) {
         super(game, numParameters);
         myComponentClasses = componentClasses;
     }

@@ -1,10 +1,11 @@
-package Engine.src.Manager;
+package Engine.src.Manager.Events.InstanceDependentEvents.ComponentDependentEvents.HealthModifierEvents;
 
+import Engine.src.Manager.Events.InstanceDependentEvents.ComponentDependentEvents.ComponentDependentEvent;
 import gamedata.Game;
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Instance;
 
-public abstract class HealthModifierEvent extends ComponentModifierEvent {
+public abstract class HealthModifierEvent extends ComponentDependentEvent {
 
     public HealthModifierEvent(Game game, int numParameters) {
         super(game, numParameters, HealthComponent.class);

@@ -1,4 +1,4 @@
-package Engine.src.Manager;
+package Engine.src.Manager.Events.InstanceDependentEvents;
 
 import gamedata.Game;
 import gamedata.GameObjects.Components.LivesComponent;

@@ -1,10 +1,11 @@
-package Engine.src.Manager;
+package Engine.src.Manager.Events.InstanceDependentEvents;
 
+import Engine.src.Manager.Events.Event;
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
-public abstract class InstanceModifierEvent extends Event{
-    public InstanceModifierEvent(Game game, int numParameters) {
+public abstract class InstanceDependentEvent extends Event {
+    public InstanceDependentEvent(Game game, int numParameters) {
         super(game, numParameters);
     }
 

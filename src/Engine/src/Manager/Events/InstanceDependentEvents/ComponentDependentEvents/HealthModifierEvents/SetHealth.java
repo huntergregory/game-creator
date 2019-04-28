@@ -1,9 +1,9 @@
-package Engine.src.Manager;
+package Engine.src.Manager.Events.InstanceDependentEvents.ComponentDependentEvents.HealthModifierEvents;
 
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
-public class SetHealth extends HealthModifier {
+public class SetHealth extends HealthModifierEvent {
     public SetHealth(Game game, int numParameters) {
         super(game, numParameters);
     }

@@ -9,6 +9,11 @@ import static ez_engine.RenderingHelpers.*;
 public class Engine {
     private Stage mainStage;
     private Game game;
+    private int currentScene = 0;
+
+    public int getCurrentScene() {
+        return currentScene;
+    }
 
     public Engine (Stage mainStage) {
         this.mainStage = mainStage;
@@ -22,5 +27,16 @@ public class Engine {
     public void loadScene(int sceneIndex) {
         if (game == null) throw new RuntimeException("Need to setGame() before using engine") ;
         mainStage.setScene(renderScene(game.scenes.get(sceneIndex)));
+    }
+
+    public void loadSceneById(String id) {
+        int index = 0;
+        for (var scene : game.scenes) {
+            if (scene.sceneID.equals(id)) {
+                loadScene(index);
+                return;
+            }
+            index++;
+        }
     }
 }

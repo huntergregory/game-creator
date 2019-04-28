@@ -1,13 +1,14 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public abstract class HealthModifierEvent extends ComponentDependentEvent {
 
-    public HealthModifierEvent(Game game, Class<?> parameterTypes) {
-        super(game, HealthComponent.class, parameterTypes);
+    public HealthModifierEvent(Set<Instance> instances, Class<?> parameterTypes) {
+        super(instances, HealthComponent.class, parameterTypes);
     }
 
     protected void setHealth(Instance instance, int health) {

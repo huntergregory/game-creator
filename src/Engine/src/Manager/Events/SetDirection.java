@@ -1,11 +1,12 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class SetDirection extends MotionEvent {
-    public SetDirection(Game game) {
-        super(game, Double.class);
+    public SetDirection(Set<Instance> instances) {
+        super(instances, Double.class);
     }
 
     @Override

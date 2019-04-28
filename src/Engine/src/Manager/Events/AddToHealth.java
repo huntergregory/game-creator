@@ -1,11 +1,12 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
+import java.util.Set;
+
 public class AddToHealth extends HealthModifierEvent {
-    public AddToHealth(Game game) {
-        super(game, Integer.class);
+    public AddToHealth(Set<Instance> instances) {
+        super(instances, Integer.class);
     }
 
     //TODO: This sets the health, but doesn't add to it???

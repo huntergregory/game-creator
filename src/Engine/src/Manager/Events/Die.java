@@ -1,22 +1,23 @@
 package Engine.src.Manager.Events;
 
-import gamedata.Game;
 import gamedata.GameObjects.Components.LivesComponent;
 import gamedata.GameObjects.Instance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
+import java.util.Set;
+
 //FIXME
 public class Die extends InstanceDependentEvent {
 
-    public Die(Game game) {
-        super(game);
+    public Die(Set<Instance> instances) {
+        super(instances);
     }
 
     @Override
     protected void modifyInstance(Instance instance, Object... args) {
-        var instances = myGame.currentScene.instances;
+        var instances = myInstances;
         if(instance.hasComponent(LivesComponent.class)){
             LivesComponent lives = instance.getComponent(LivesComponent.class);
             if (lives.expired())

@@ -24,8 +24,9 @@ public abstract class ComponentContainer {
             myComponents = components;
     }
 
-    public void addComponent(Component component) {
-        myComponents.put(component.getClass(), component);
+    public void addComponent(Component ... components) {
+        for (Component component : components)
+            myComponents.put(component.getClass(), component);
     }
 
     public <T extends Component> T getComponent(Class<T> componentClass) throws NoComponentException {

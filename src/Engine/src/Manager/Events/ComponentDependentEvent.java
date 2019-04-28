@@ -4,12 +4,21 @@ import gamedata.Game;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Instance;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class ComponentDependentEvent extends InstanceDependentEvent {
-    private Class<? extends Component> myComponentClass;
+    private List<Class<? extends Component>> myComponentClasses;
 
     public ComponentDependentEvent(Game game, Class<? extends Component> componentClass, Class<?>... parameterTypes) {
         super(game, parameterTypes);
-        this.myComponentClass = componentClass;
+        myComponentClasses = new ArrayList<>();
+        myComponentClasses.add(componentClass);
+    }
+
+    public ComponentDependentEvent(Game game, List<Class<? extends Component>> componentClasses, Class<?>... parameterTypes) {
+        super(game, parameterTypes);
+        this.myComponentClasses = componentClasses;
     }
 
     /**
@@ -22,8 +31,10 @@ public abstract class ComponentDependentEvent extends InstanceDependentEvent {
 
     @Override
     protected void modifyInstance(Instance instance, Object ... args) {
-        if (!instance.hasComponent(myComponentClass))
-            return;
-        modifyComponent(instance, args);
+        for(Class<? extends Component> myComponentClass : myComponentClasses) {
+            if (!instance.hasComponent(myComponentClass))
+                return;
+            modifyComponent(instance, args);
+        }
     }
 }

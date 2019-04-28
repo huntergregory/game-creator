@@ -17,6 +17,7 @@ import voogasalad.util.reflection.ReflectionException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Combines the old LevelManager and EntityManager
@@ -31,6 +32,7 @@ public class Manager {
 
     private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
+    HashSet<Instance> myInstances;
     private double myCount;
 
     public static void main(String[] args) {
@@ -59,6 +61,7 @@ public class Manager {
 
     public Manager(Game game, double stepTime) {
         myGame = game;
+        myInstances = myGame.currentScene.instances;
     }
 
     public void call(String eventClass, Instance instance, Object ... args) {

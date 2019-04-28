@@ -1,4 +1,4 @@
-package Engine.src.Manager.Events.InstanceDependentEvents.ComponentDependentEvents.AimModifierEvents;
+package Engine.src.Manager.Events;
 
 import gamedata.Game;
 import gamedata.GameObjects.Instance;

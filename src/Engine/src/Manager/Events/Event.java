@@ -7,12 +7,12 @@ public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";
 
     protected Game myGame;
-    private int myNonInstanceParameters;
+    private Class<?>[] myParameters;
     //private String myConditionalScript;
 
-    public Event(Game game, int numParameters) {
+    public Event(Game game, Class<?> ... parameters) {
         myGame = game;
-        myNonInstanceParameters = numParameters;
+        myParameters = parameters;
         //myConditionalScript = "";
     }
 
@@ -25,19 +25,22 @@ public abstract class Event {
     protected abstract void execute(Instance instance, Object ... args);
 
     public int getNumberOfNonInstanceParameters() {
-        return myNonInstanceParameters;
+        return myParameters.length;
     }
 
-    public void activate(Instance instance, Object ... args) {
-        if (args.length != myNonInstanceParameters)
+    public void activate(Instance instance, Object ... args) throws IllegalArgumentException {
+        if (!parametersMatch(args))
             throw new IllegalArgumentException(ERROR_MESSAGE);
         execute(instance, args);
-        /*if (conditional) {
-            execute(instance, args);
-        }*/
     }
 
-    /*public void setConditional(String script) {
-        myConditionalScript = script;
-    }*/
+    private boolean parametersMatch(Object ... args) {
+        if (args.length != myParameters.length)
+            return false;
+        for (int k=0; k<args.length; k++) {
+            if (!myParameters[k].isInstance(args[0]))
+                return false;
+        }
+        return true;
+    }
 }

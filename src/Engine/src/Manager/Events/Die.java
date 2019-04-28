@@ -16,7 +16,7 @@ public class Die extends InstanceDependentEvent {
 
     @Override
     protected void modifyInstance(Instance instance, Object... args) {
-        var instances = myGame.currentScene.instances;
+        var instances = myInstances.currentScene.instances;
         if(instance.hasComponent(LivesComponent.class)){
             LivesComponent lives = instance.getComponent(LivesComponent.class);
             if (lives.expired())

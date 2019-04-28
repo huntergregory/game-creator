@@ -11,6 +11,6 @@ public class Create extends Event {
 
     @Override
     protected void execute(Instance instance, Object... args) {
-        myGame.currentScene.instances.add(instance);
+        myInstances.currentScene.instances.add(instance);
     }
 }

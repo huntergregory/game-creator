@@ -4,8 +4,8 @@ import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
 public abstract class InstanceModifierEvent extends Event{
-    public InstanceModifierEvent(Game game) {
-        super(game);
+    public InstanceModifierEvent(Game game, int numParameters) {
+        super(game, numParameters);
     }
 
     protected boolean sceneContainsInstance(Instance instance) {

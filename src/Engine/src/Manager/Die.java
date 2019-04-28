@@ -8,8 +8,10 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 public class Die extends InstanceModifierEvent {
+    private static final int NUM_ARGS = 0;
+
     public Die(Game game) {
-        super(game);
+        super(game, NUM_ARGS);
     }
 
     @Override

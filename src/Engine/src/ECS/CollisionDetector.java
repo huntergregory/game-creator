@@ -29,7 +29,7 @@ public class CollisionDetector {
     private double height1;
     private double height2;
 
-    public Integer[] getImpassableColliders(Instance entity, Set<Instance> allEntities) {
+    public ArrayList<Instance> getImpassableColliders(Instance entity, Set<Instance> allEntities) {
         ArrayList<Instance> impassables = new ArrayList<>();
 
         for (Instance other : allEntities) {
@@ -39,7 +39,7 @@ public class CollisionDetector {
             if (impassableComponent != null && impassableComponent.getImpassable())
                 impassables.add(other);
         }
-        return impassables.toArray(new Integer[0]);
+        return impassables;
     }
 
     public boolean collides(Instance collider, Instance target) {

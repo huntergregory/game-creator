@@ -1,9 +1,12 @@
 package Engine.src.ECS;
 
+import Engine.src.Manager.Events.Motion.Move;
+import Engine.src.Manager.Manager;
 import gamedata.GameObjects.Components.*;
 
 import Engine.src.Controller.LevelManager;
 
+import gamedata.GameObjects.Instance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -18,13 +21,12 @@ import static java.lang.Math.abs;
  *       impassables don't allow movement at all
  */
 public class CollisionHandler {
-    private EntityManager myEntityManager;
-    private LevelManager myLevelManager;
+    private Manager myManager;
     private CollisionDetector myCollisionDetector;
     private Map<Pair<String>, Pair<String>> myCollisionResponses;
-    private Map<Integer, Set<Integer>> myPreviousCollisions;
-    private Map<Integer, Set<Integer>> myCurrentCollisions;
-    private Map<Integer, EnvironmentComponent> myEntityCurrentEnvironments;
+    private Map<Instance, Set<Instance>> myPreviousCollisions;
+    private Map<Instance, Set<Instance>> myCurrentCollisions;
+    private Map<Instance, EnvironmentComponent> myEntityCurrentEnvironments;
     private Binding mySetter;
 
     //FIXME
@@ -32,100 +34,105 @@ public class CollisionHandler {
     private static final double MY_DEFAULT_ACCEL_X = 0;
     //FIXME
 
-    public CollisionHandler(EntityManager objectManager, LevelManager levelManager) {
-        myEntityManager = objectManager;
-        myLevelManager = levelManager;
+    public CollisionHandler(Manager manager) {
+        myManager = manager;
         myCollisionResponses = new HashMap<>();
         myPreviousCollisions = new HashMap<>();
         myCurrentCollisions = new HashMap<>();
         myEntityCurrentEnvironments = new HashMap<>();
-        myCollisionDetector = new CollisionDetector(myEntityManager);
+        myCollisionDetector = new CollisionDetector();
         mySetter = new Binding();
-        mySetter.setProperty("entityManager", myEntityManager);
-        mySetter.setProperty("levelManager", myLevelManager);
+        mySetter.setProperty("manager", myManager);
         mySetter.setProperty("collisionDetector", myCollisionDetector);
     }
 
     //assumes collisionResponses and entities are nonnull
-    public void handleCollisions(Set<Integer> entities, Map<Pair<String>, Pair<String>> collisionResponses) {
+    public void handleCollisions(Set<Instance> allEntities, Map<Pair<String>, Pair<String>> collisionResponses) {
         myCollisionResponses = collisionResponses;
         myCurrentCollisions = new HashMap<>();
 
-        moveThenUpdateVelocities(entities);
+        moveThenUpdateVelocities(allEntities);
 
-        for (Integer entity1 : entities) {
-            for (Integer entity2 : entities) {
-                if (entity1 >= entity2) //prevent collisions from happening twice
+        List<Instance> allEntitiesList = new ArrayList<Instance>();
+        allEntitiesList.addAll(allEntities);
+
+        for (int k = 0; k < allEntitiesList.size(); k++) {
+            for (int j = 0; j < allEntitiesList.size(); j++) {
+                if (k >= j) {
                     continue;
-                checkCollision(entity1, entity2);
+                }
+                checkCollision(allEntitiesList.get(k), allEntitiesList.get(j));
             }
         }
 
-        for (Integer entity : entities) {
+        for (Instance entity : allEntities) {
             if (notInteractingWithEnvironment(entity))
                 setInDefaultEnvironment(entity);
         }
         myPreviousCollisions = myCurrentCollisions;
     }
 
-    private void moveThenUpdateVelocities(Set<Integer> entities) {
-        for (int id : entities){
-            var motionComponent = myEntityManager.getComponent(id, MotionComponent.class);
+    private void moveThenUpdateVelocities(Set<Instance> allEntities) {
+        for (Instance i : allEntities){
+            var motionComponent = i.getComponent(MotionComponent.class);
             if (motionComponent != null) {
-                myEntityManager.move(id);
-                motionComponent.updateVelocity();
+                //myEntityManager.move(id);
+                //motionComponent.updateVelocity();
+
+                //myManager.call(Move.class, i);
+                //myManager.call(Move.class, i)
             }
         }
     }
 
-    private boolean notInteractingWithEnvironment(Integer entity) {
-        if (myCurrentCollisions.containsKey(entity)) {
-            Set<Integer> possibleEnvironments = myCurrentCollisions.get(entity);
-            for (Integer possibleEnvironment : possibleEnvironments) {
-                if (myEntityManager.getComponent(possibleEnvironment, EnvironmentComponent.class) != null)
+    private boolean notInteractingWithEnvironment(Instance i) {
+        if (myCurrentCollisions.containsKey(i)) {
+            Set<Instance> possibleEnvironments = myCurrentCollisions.get(i);
+            for (Instance possibleEnvironment : possibleEnvironments) {
+                if (possibleEnvironment.getComponent(EnvironmentComponent.class) != null)
                     return true;
             }
         }
         return false;
     }
 
-    private void setInDefaultEnvironment(Integer entity) {
-        myEntityCurrentEnvironments.put(entity, null);
-        var motion = myEntityManager.getComponent(entity, MotionComponent.class);
+    private void setInDefaultEnvironment(Instance i) {
+        myEntityCurrentEnvironments.put(i, null);
+        var motion = i.getComponent(MotionComponent.class);
         if (motion != null) {
-            motion.setXAcceleration(MY_DEFAULT_ACCEL_X);
-            motion.setYAcceleration(MY_DEFAULT_ACCEL_Y);
+            //motion.setXAcceleration(MY_DEFAULT_ACCEL_X);
+            //motion.setYAcceleration(MY_DEFAULT_ACCEL_Y);
         }
     }
 
     //FIXME Directional collisional logic
-    private void checkCollision(Integer entity1, Integer entity2) {
-        Pair<String>[] collisionTagPairs = findRelevantTagPairs(entity1, entity2);
-        if (!myCollisionDetector.collides(entity1, entity2))
+    private void checkCollision(Instance i, Instance j) {
+        Pair<String>[] collisionTagPairs = findRelevantTagPairs(i, j);
+        if (!myCollisionDetector.collides(i, j))
             return;
         if (collisionTagPairs.length != 0 ) {
 
-            handleEnvironments(entity1, entity2);
-            handleEnvironments(entity2, entity1);
+            handleEnvironments(i, j);
+            handleEnvironments(j, i);
 
             for (Pair<String> tagPair : collisionTagPairs) {
                 Pair<String> responseListPair = myCollisionResponses.get(tagPair);
-                activateEvents(entity1, entity2, responseListPair.getItem1());
-                activateEvents(entity2, entity1, responseListPair.getItem2());
+                activateEvents(i, j, responseListPair.getItem1());
+                activateEvents(j, i, responseListPair.getItem2());
             }
         }
-        correctClipping(entity1, entity2);
-        correctClipping(entity2, entity1);
-        dealWithImpassable(entity1, entity2);
-        dealWithImpassable(entity2, entity1);
+        correctClipping(i, j);
+        correctClipping(j, i);
+        dealWithImpassable(i, j);
+        dealWithImpassable(j, i);
     }
 
     //FIXME account for movement velocities in motioncomponent - save keyinputs for movement portion of collisionhandler
-    private boolean correctClipping(Integer toAdjust, Integer other) {
-        var environmentComponent = myEntityManager.getComponent(other, EnvironmentComponent.class);
-        var motionComponent = myEntityManager.getComponent(toAdjust, MotionComponent.class);
-        var adjBasic = myEntityManager.getComponent(toAdjust, BasicComponent.class);
-        var otherBasic = myEntityManager.getComponent(other, BasicComponent.class);
+    private boolean correctClipping(Instance toAdjust, Instance other) {
+        var environmentComponent = other.getComponent(EnvironmentComponent.class);
+        var motionComponent = toAdjust.getComponent(MotionComponent.class);
+        var adjBasic = toAdjust.getComponent(BasicComponent.class);
+        var otherBasic = other.getComponent(BasicComponent.class);
         if (environmentComponent == null && motionComponent != null && adjBasic != null && otherBasic != null) {
             Map<String, Double> shortestClipping = new HashMap<>();
             if (myCollisionDetector.collideFromTop(toAdjust, other)) {
@@ -159,13 +166,12 @@ public class CollisionHandler {
     }
 
     //FIXME duplicated between parts of collision handler and parts of Entity manager
-    private void dealWithImpassable(Integer mover, Integer impassable) {
-        var impassableComponent = myEntityManager.getComponent(impassable, ImpassableComponent.class);
+    private void dealWithImpassable(Instance mover, Instance impassable) {
+        var impassableComponent = impassable.getComponent(ImpassableComponent.class);
         if (impassableComponent != null && impassableComponent.getImpassable()) {
-            var motion = myEntityManager.getComponent(mover, MotionComponent.class);
+            var motion = mover.getComponent(MotionComponent.class);
             if (motion == null)
                 return;
-            //motion.setYVelocity(0);
             if (myCollisionDetector.collideFromTop(mover, impassable) && motion.getYVelocity() > 0
                     || myCollisionDetector.collideFromTop(impassable, mover) && motion.getYVelocity() < 0) {
                 motion.setYVelocity(0);
@@ -177,11 +183,11 @@ public class CollisionHandler {
         }
     }
 
-    private Pair<String>[] findRelevantTagPairs(Integer entity1, Integer entity2) {
+    private Pair<String>[] findRelevantTagPairs(Instance i, Instance j) {
         ArrayList<Pair<String>> tagPairs = new ArrayList<>();
 
-        var tags1 = myEntityManager.getComponent(entity1, TagsComponent.class);
-        var tags2 = myEntityManager.getComponent(entity2, TagsComponent.class);
+        var tags1 = i.getComponent(TagsComponent.class);
+        var tags2 = j.getComponent(TagsComponent.class);
 
         if (tags1 == null || tags2 == null)
             return tagPairs.toArray(new Pair[0]);
@@ -197,11 +203,11 @@ public class CollisionHandler {
         return tagPairs.toArray(new Pair[0]);
     }
 
-    private void handleEnvironments(Integer current, Integer other) {
+    private void handleEnvironments(Instance current, Instance other) {
         myCurrentCollisions.putIfAbsent(current, new HashSet<>());
         myCurrentCollisions.get(current).add(other);
-        var currentMotionComponent = myEntityManager.getComponent(current, MotionComponent.class);
-        var otherEnvironmentComponent = myEntityManager.getComponent(current, EnvironmentComponent.class);
+        var currentMotionComponent = current.getComponent(MotionComponent.class);
+        var otherEnvironmentComponent = current.getComponent(EnvironmentComponent.class);
 
         if (currentMotionComponent == null || otherEnvironmentComponent == null)
             return;
@@ -210,8 +216,8 @@ public class CollisionHandler {
             setInEnvironment(current, currentMotionComponent, otherEnvironmentComponent);
     }
 
-    private void setInEnvironment(Integer entity, MotionComponent motion, EnvironmentComponent environment) {
-        myEntityCurrentEnvironments.put(entity, environment);
+    private void setInEnvironment(Instance i, MotionComponent motion, EnvironmentComponent environment) {
+        myEntityCurrentEnvironments.put(i, environment);
 
         double scaleFactor = environment.getVelDamper();
         motion.setXVelocity(scaleFactor * motion.getXVelocity());
@@ -219,7 +225,7 @@ public class CollisionHandler {
     }
 
     //TODO fix if Timers.Events are changed
-    private void activateEvents(Integer current, Integer other, String responses) {
+    private void activateEvents(Instance current, Instance other, String responses) {
         //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
 
         GroovyShell shell = new GroovyShell(mySetter);

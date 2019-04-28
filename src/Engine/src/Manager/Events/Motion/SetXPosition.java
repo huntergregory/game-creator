@@ -6,6 +6,7 @@ import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Instance;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public class SetXPosition extends MotionEvent {
@@ -18,12 +19,12 @@ public class SetXPosition extends MotionEvent {
         var basicComponent = instance.getComponent(BasicComponent.class);
         double currentX = basicComponent.getX();
         double finalX = (double) args[0];
-        //Adjust this when collision detector is fixed
-        CollisionDetector collisionDetector = new CollisionDetector(this);
-        Integer[] impassableColliders = collisionDetector.getImpassableColliders(instance, myEntityMap.keySet());
-        for(Integer impassable : impassableColliders){
-            if ((collisionDetector.collideFromLeft(impassable, obj) && newX < currentX) ||
-                    (collisionDetector.collideFromLeft(obj, impassable) && newX > currentX)) {
+        double newX = (double) args[0];
+        CollisionDetector collisionDetector = new CollisionDetector();
+        ArrayList<Instance> impassableColliders = collisionDetector.getImpassableColliders(instance, myInstances);
+        for(Instance impassable : impassableColliders){
+            if ((collisionDetector.collideFromLeft(impassable, instance) && newX < currentX) ||
+                    (collisionDetector.collideFromLeft(instance, impassable) && newX > currentX)) {
                 finalX = currentX;
             }
         }

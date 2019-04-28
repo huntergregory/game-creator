@@ -16,6 +16,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <AnchorPane id="parentPane" prefHeight="500.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameCenter.main.GameCenterController">
 
     <padding><Insets left="25.0" top="25.0" /></padding>
@@ -31,7 +34,34 @@
     </Pane>
 
     <!-- Social Pane -->
-    <Pane fx:id="socialPane" layoutX="25" layoutY="85.0" prefHeight="390.0" prefWidth="200" styleClass="centerPane" />
+    <GridPane fx:id="socialPane" layoutX="25" layoutY="85.0" prefHeight="390.0" prefWidth="200" styleClass="centerPane">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="100"  />
+        </columnConstraints>
+
+        <Label fx:id="nameLabel" text="Hello Test" styleClass="socialLabel" GridPane.rowIndex="0"/>
+        <Label fx:id="friendsLabel" text="Friends: " styleClass="socialLabel" GridPane.rowIndex="1"/>
+        <ScrollPane fx:id="friendsHolder" GridPane.rowIndex="2" styleClass="socialScrollPane">
+            <GridPane fx:id="friendPane" styleClass="centerPane">
+            </GridPane>
+        </ScrollPane>
+        <Button fx:id="addFriendButton" text="Add Friends" GridPane.rowIndex="3" styleClass="socialButton" GridPane.halignment="CENTER"/>
+        <Label fx:id="highScoreLabel" text="High Scores: " styleClass="socialLabel" GridPane.rowIndex="4"/>
+        <GridPane fx:id="highScorePane" GridPane.rowIndex="5">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="20" />
+                <ColumnConstraints percentWidth="80" />
+            </columnConstraints>
+            <Label fx:id="scoreLabel1" text="1st" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="socialScoreLabel"/>
+            <Label fx:id="scoreLabel2" text="2nd" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="socialScoreLabel"/>
+            <Label fx:id="scoreLabel3" text="3rd" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="socialScoreLabel"/>
+
+            <Label fx:id="score1" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="socialScoreLabel"/>
+            <Label fx:id="score2" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="socialScoreLabel"/>
+            <Label fx:id="score3" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="socialScoreLabel"/>
+        </GridPane>
+    </GridPane>
+
 
     <!-- Title pane -->
     <HBox alignment="CENTER" layoutX="250.0" layoutY="20.0" prefHeight="50.0" prefWidth="0.0" styleClass="centerPane">
@@ -42,7 +72,11 @@
     </HBox>
 
     <!-- Favorite Pane -->
-   <Pane layoutX="625.0" layoutY="20.0" prefHeight="50.0" prefWidth="50.0" styleClass="centerPane" />
+   <Pane fx:id="favoritePane" layoutX="625.0" layoutY="20.0" prefHeight="50.0" prefWidth="50.0" styleClass="centerPane" visible="false">
+       <children>
+           <Button fx:id="favoriteButton" prefHeight="40" prefWidth="40" onAction="#favoriteGame" styleClass="favoriteButton"/>
+       </children>
+   </Pane>
 
     <!-- Description Box StackPane -->
    <StackPane layoutX="250.0" layoutY="85.0" prefHeight="390.0" prefWidth="425.0" styleClass="centerPane">
@@ -70,7 +104,7 @@
          <Pane fx:id="ratingPane" prefHeight="390.0" prefWidth="425.0" styleClass="centerPane" visible="false">
             <children>
                <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="25.0" layoutY="195.0" majorTickUnit="1.0" max="5.0" minorTickCount="1" prefHeight="50.0" prefWidth="375.0" showTickMarks="true" snapToTicks="true" />
-               <Button fx:id="returnButton" layoutX="163.0" layoutY="261.0" mnemonicParsing="false" onAction="#returnToDescription" styleClass="largeButton" text="Return" />
+               <Button fx:id="returnButton" layoutX="163.0" layoutY="261.0" mnemonicParsing="false" onAction="#returnToDescription" styleClass="largeButton" text="Done" />
                <Text fx:id="ratingText" layoutX="190.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="paneText" text="0.00" />
             </children></Pane>
       </children>

@@ -1,0 +1,62 @@
+ //Not sure if done here and how states would be referenced non-specifically
+
+    public boolean hasState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        return states.hasState(state);
+    }
+
+    public void addState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        states.addState(state);
+    }
+
+    public void removeState(int entityID, String state){
+        StateComponent states = getComponent(entityID, StateComponent.class);
+        states.removeState(state);
+    }
+
+    public void setToCheckpoint(int entityID){
+        CheckpointComponent checkpoint = getComponent(entityID, CheckpointComponent.class);
+        BasicComponent basic = getComponent(entityID, BasicComponent.class);
+        basic.setX(checkpoint.getX());
+        basic.setY(checkpoint.getY());
+    }
+
+
+
+//////// these can be made private methods in AI
+
+    public boolean targetEntityObscured(int targetID, int referenceID) {
+        BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);
+        double targetX = targetBasic.getX();
+        double targetY = targetBasic.getY();
+        return obscured(targetX, targetY, targetID, referenceID);
+    }
+
+    public boolean targetPointObscured(double targetLocationX, double targetLocationY, int referenceID){
+        return obscured(targetLocationX, targetLocationY, -1, referenceID);
+    }
+
+    private boolean obscured(double targetLocationX, double targetLocationY, double targetID, int referenceID) {
+        BasicComponent referenceBasic = getComponent(referenceID, BasicComponent.class);
+        double referenceX = referenceBasic.getX();
+        double referenceY = referenceBasic.getY();
+
+        for (int ID : myEntityMap.keySet()){
+            if (ID != targetID && ID != referenceID){
+                BasicComponent basic = getComponent(ID, BasicComponent.class);
+                Pair<Double> topLeftCorner = new Pair(basic.getX(), basic.getY());
+                Pair<Double> bottomRightCorner = new Pair(basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight());
+
+                Line line1 = new Line(targetLocationX, targetLocationY, referenceX, referenceY);
+                Line line2 = new Line(topLeftCorner.getItem1(), topLeftCorner.getItem2(), bottomRightCorner.getItem1(), bottomRightCorner.getItem2());
+
+                return line1.intersects(line2);
+            }
+        }
+
+        return false;
+    }
+
+
+

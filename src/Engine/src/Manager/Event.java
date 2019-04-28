@@ -16,6 +16,12 @@ public abstract class Event {
         //myConditionalScript = "";
     }
 
+    /**
+     *
+     * All subclasses of Event assume that Event does full error checking of both the number and type of args in execute.
+     * @param instance
+     * @param args
+     */
     protected abstract void execute(Instance instance, Object ... args);
 
     public int getNumberOfNonInstanceParameters() {

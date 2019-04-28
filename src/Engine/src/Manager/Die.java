@@ -15,10 +15,7 @@ public class Die extends InstanceModifierEvent {
     }
 
     @Override
-    protected void execute(Instance instance, Object... args) {
-        if (!sceneContainsInstance(instance))
-            return;
-
+    protected void modifyInstance(Instance instance, Object... args) {
         var instances = myGame.currentScene.instances;
         if(instance.hasComponent(LivesComponent.class)){
             LivesComponent lives = instance.getComponent(LivesComponent.class);

@@ -8,7 +8,12 @@ public abstract class InstanceModifierEvent extends Event{
         super(game, numParameters);
     }
 
-    protected boolean sceneContainsInstance(Instance instance) {
-        return myGame.currentScene.instances.contains(instance);
+    protected abstract void modifyInstance(Instance instance, Object ... args);
+
+    @Override
+    protected void execute(Instance instance, Object... args) {
+        if (myGame.currentScene.instances.contains(instance))
+            return;
+        modifyInstance(instance, args);
     }
 }

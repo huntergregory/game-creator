@@ -7,8 +7,8 @@ import gamedata.GameObjects.Instance;
 
 public abstract class HealthModifierEvent extends ComponentDependentEvent {
 
-    public HealthModifierEvent(Game game, int numParameters) {
-        super(game, numParameters, HealthComponent.class);
+    public HealthModifierEvent(Game game, Class<?> parameterTypes) {
+        super(game, HealthComponent.class, parameterTypes);
     }
 
     protected void setHealth(Instance instance, int health) {

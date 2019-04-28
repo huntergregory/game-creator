@@ -5,8 +5,8 @@ import gamedata.GameObjects.Components.LogicComponent;
 import gamedata.GameObjects.Instance;
 
 public class AddLogic extends ComponentDependentEvent {
-    public AddLogic(Game game, int numParameters) {
-        super(game, numParameters, LogicComponent.class);
+    public AddLogic(Game game) {
+        super(game, LogicComponent.class, String.class);
     }
 
     @Override

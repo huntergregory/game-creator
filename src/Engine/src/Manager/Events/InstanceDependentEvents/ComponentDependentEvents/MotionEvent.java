@@ -1,9 +1,13 @@
 package Engine.src.Manager.Events.InstanceDependentEvents.ComponentDependentEvents;
 
-import Engine.src.Manager.Events.InstanceDependentEvents.InstanceDependentEvent;
 import gamedata.Game;
+import gamedata.GameObjects.Components.MotionComponent;
 
-public abstract class MotionEvent extends InstanceDependentEvent {
+public abstract class MotionEvent extends ComponentDependentEvent {
+    public MotionEvent(Game game, Class<?>... parameterTypes) {
+        super(game, MotionComponent.class, parameterTypes);
+    }
+
     public MotionEvent(Game game, int numParameters) {
         super(game, numParameters);
     }

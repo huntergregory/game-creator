@@ -5,8 +5,8 @@ import gamedata.GameObjects.Components.ScoreComponent;
 import gamedata.GameObjects.Instance;
 
 public class IncreaseScore extends ComponentDependentEvent {
-    public IncreaseScore(Game game, int numParameters) {
-        super(game, numParameters, ScoreComponent.class);
+    public IncreaseScore(Game game) {
+        super(game, ScoreComponent.class, Double.class);
     }
 
     @Override

@@ -6,12 +6,13 @@ import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Instance;
 
 public abstract class ComponentDependentEvent extends InstanceDependentEvent {
-    private Class<? extends Component>[] myComponentClasses;
+    private Class<? extends Component> myComponentClass;
 
-    public ComponentDependentEvent(Game game, int numParameters, Class<? extends Component> ... componentClasses) {
-        super(game, numParameters);
-        myComponentClasses = componentClasses;
+    public ComponentDependentEvent(Game game, Class<? extends Component> componentClass, Class<?>... parameterTypes) {
+        super(game, parameterTypes);
+        this.myComponentClass = componentClass;
     }
+
     /**
      *
      * All subclasses of ComponentModifierEvent assume the specified components are in the instance
@@ -22,10 +23,8 @@ public abstract class ComponentDependentEvent extends InstanceDependentEvent {
 
     @Override
     protected void modifyInstance(Instance instance, Object ... args) {
-        for (Class<? extends Component> componentClass : myComponentClasses) {
-            if (!instance.hasComponent(componentClass))
-                return;
-        }
+        if (!instance.hasComponent(myComponentClass))
+            return;
         modifyComponent(instance, args);
     }
 }

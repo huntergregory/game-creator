@@ -10,9 +10,9 @@ public abstract class Event {
     private Class<?>[] myParameters;
     //private String myConditionalScript;
 
-    public Event(Game game, Class<?> ... parameters) {
+    public Event(Game game, Class<?> ... parameterTypes) {
         myGame = game;
-        myParameters = parameters;
+        myParameters = parameterTypes;
         //myConditionalScript = "";
     }
 

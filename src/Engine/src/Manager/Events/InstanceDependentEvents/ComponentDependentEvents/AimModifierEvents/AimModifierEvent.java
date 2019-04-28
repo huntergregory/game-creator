@@ -6,8 +6,8 @@ import gamedata.GameObjects.Components.AimComponent;
 import gamedata.GameObjects.Instance;
 
 public abstract class AimModifierEvent extends ComponentDependentEvent {
-    public AimModifierEvent(Game game, int numParameters) {
-        super(game, numParameters, AimComponent.class);
+    public AimModifierEvent(Game game, Class<?> ... parameterTypes) {
+        super(game, AimComponent.class, parameterTypes);
     }
 
     protected void rotateAim(Instance instance, boolean clockwise){

@@ -639,6 +639,7 @@ public class ScreenHelpers {
                         method.invoke(null, context);
                     } catch (Exception ex) {
                         // Would never happen
+                        ex.printStackTrace();
                     }
                 });
 

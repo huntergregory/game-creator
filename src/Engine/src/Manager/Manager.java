@@ -4,11 +4,17 @@ import Engine.src.Manager.Events.Event;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
 import gamedata.Game;
-import gamedata.GameObjects.Components.Component;
+import gamedata.GameObjects.Components.BasicComponent;
+import gamedata.GameObjects.Components.EnvironmentComponent;
+import gamedata.GameObjects.Components.HealthComponent;
+import gamedata.GameObjects.Components.MotionComponent;
+import gamedata.GameObjects.GameObject;
 import gamedata.GameObjects.Instance;
+import gamedata.Scene;
 import voogasalad.util.reflection.Reflection;
 import voogasalad.util.reflection.ReflectionException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +31,30 @@ public class Manager {
     private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
     private double myCount;
+
+    public static void main(String[] args) {
+        var defaultEnvironment = new EnvironmentComponent(0,0,0,0);
+        var basic = new BasicComponent("", 50, 50, 100, 100);
+        var motion = new MotionComponent(5, 5, 5,5, defaultEnvironment);
+        var health = new HealthComponent(1, 5);
+        var mario = new GameObject("mario");
+        mario.addComponent(basic, motion, health);
+        var block = new GameObject("block");
+        block.addComponent(basic);
+        var instance1 = mario.createInstance("mario1");
+        var instance2 = block.createInstance("block1");
+
+        HashSet<Instance> instances = new HashSet<>();
+        instances.add(instance1);
+        instances.add(instance2);
+        var scene = new Scene();
+        scene.instances = instances;
+        var game = new Game();
+        game.currentScene = scene;
+
+        var manager = new Manager(game, 0);
+        manager.call("AddToHealth", instance1, 2);
+    }
 
     public Manager(Game game, double stepTime) {
         myGame = game;
@@ -54,7 +84,7 @@ public class Manager {
         myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, myCount));
     }
 
-    //FIXME should not be public/open to author
+/*    //FIXME should not be public/open to author
     public void updateSequences() {
         for (TimerSequence sequence : myTimerSequences) {
             Timer currentTimer = sequence.getCurrentTimer();
@@ -83,5 +113,5 @@ public class Manager {
                 timer.increment();
             }
         }
-    }
+    }*/
 }

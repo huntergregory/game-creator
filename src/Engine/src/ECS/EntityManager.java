@@ -1,3 +1,4 @@
+
 package Engine.src.ECS;
 
 import gamedata.GameObjects.Components.*;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 @Deprecated
 public class EntityManager {
-    private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
+   /*private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
     private double myStepTime;
 
     public EntityManager(Map<Integer, Map<Class<? extends Component>, Component>> entityMap, double stepTime) {
@@ -329,4 +330,5 @@ public class EntityManager {
         logic.setLogic(logic.getLogic() + additionalLogic);
     }
 
+*/
 }

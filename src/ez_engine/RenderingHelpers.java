@@ -42,6 +42,7 @@ public class RenderingHelpers {
 
         }
         if (bgImage != null && !bgImage.isEmpty()) {
+            pane.getChildren().clear();
             var imgView = new ImageView(getImageById(game, bgImage));
             imgView.setFitHeight(fitHeight); imgView.setFitWidth(fitWidth);
             pane.getChildren().add(imgView);

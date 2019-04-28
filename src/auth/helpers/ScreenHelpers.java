@@ -610,7 +610,7 @@ public class ScreenHelpers {
         namePane.getView().getChildren().addAll(nameText, unameText, menuIcon.getView());
     }
 
-    private static void closeMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
+    public static void closeMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
         var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
         imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/menu.png")));
         a.getView().setVisible(true); b.getView().setVisible(true);
@@ -618,7 +618,7 @@ public class ScreenHelpers {
         isMenuOpen = false;
     }
 
-    private static void openMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
+    public static void openMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
         var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
         imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/close.png")));
         a.getView().setVisible(false); b.getView().setVisible(false);
@@ -636,6 +636,10 @@ public class ScreenHelpers {
                 var nameText = new Text(name); nameText.setFont(bebasKaiMedium); nameText.setFill(Color.WHITE);
                 nameText.setCursor(Cursor.HAND); nameText.setOnMouseClicked(e -> {
                     try {
+                        MenuClickHandlers.paneA = a; MenuClickHandlers.paneB = b;
+                        MenuClickHandlers.paneContainer = paneContainer;
+                        MenuClickHandlers.namePane = namePane;
+
                         var method = MenuClickHandlers.class.getMethod(handler, CanvasScreen.class);
                         method.invoke(null, context);
                     } catch (Exception ex) {

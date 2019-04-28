@@ -24,14 +24,13 @@ public abstract class ComponentDependentEvent extends InstanceDependentEvent {
      * @param instance
      * @param args
      */
-    protected abstract void modifyComponent(Instance instance, Object ... args);
+    protected abstract void modifyComponents(Instance instance, Object ... args);
 
     @Override
     protected void modifyInstance(Instance instance, Object ... args) {
         for (Class<? extends Component> componentClass : myComponentClasses) {
-            if (!instance.hasComponent(componentClass))
-                return;
+            if (!instance.hasComponent(componentClass)) return;
         }
-        modifyComponent(instance, args);
+        modifyComponents(instance, args);
     }
 }

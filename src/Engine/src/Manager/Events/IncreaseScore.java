@@ -11,7 +11,7 @@ public class IncreaseScore extends ComponentDependentEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object... args) {
+    protected void modifyComponents(Instance instance, Object... args) {
         ScoreComponent score = instance.getComponent(ScoreComponent.class);
         score.setScore(score.getScore() + (double) args[0]);
     }

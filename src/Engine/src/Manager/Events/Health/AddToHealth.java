@@ -1,4 +1,4 @@
-package Engine.src.Manager.Events;
+package Engine.src.Manager.Events.Health;
 
 import gamedata.GameObjects.Instance;
 
@@ -9,8 +9,9 @@ public class AddToHealth extends HealthModifierEvent {
         super(instances, Integer.class);
     }
 
+    //TODO: This sets the health, but doesn't add to it???
     @Override
-    protected void modifyComponent(Instance instance, Object ... args) {
+    protected void modifyComponents(Instance instance, Object ... args) {
         setHealth(instance, (int) args[0]);
     }
 }

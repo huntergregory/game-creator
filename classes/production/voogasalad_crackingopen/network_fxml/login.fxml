@@ -5,15 +5,14 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.geometry.Insets?>
 <?import java.net.URL?>
-<BorderPane xmlns="http://javafx.com/javafx"
+<StackPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          fx:controller="network_account.LoginController"
+          fx:controller="network_account.LoginController" fx:id="parentContainer"
           prefHeight="400.0" prefWidth="600.0"
             styleClass="borderPane">
 
-    <center>
         <GridPane alignment="center" hgap="25" vgap="10"
-                  prefHeight="300.0" prefWidth="500.0" styleClass="gridPane">
+                  prefHeight="350.0" prefWidth="550.0" styleClass="gridPane" fx:id="gridPane">
 
             <columnConstraints>
                 <ColumnConstraints percentWidth="50"  />
@@ -42,14 +41,13 @@
             <Label fx:id="loginFailLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="4"
                    styleClass="errorLabel"/>
 
-            <Button fx:id="creatAccountButton" text="CREATE ACCOUNT" GridPane.columnIndex="0" GridPane.rowIndex="5"
-                    onKeyPressed="#openCreateAccount"/>
+            <Button fx:id="createAccountButton" text="CREATE ACCOUNT" GridPane.columnIndex="0" GridPane.rowIndex="5"
+                    onMouseClicked="#openCreateAccount"/>
             <Button fx:id="forgotPasswordButton" text="FORGOT PASSWORD" GridPane.rowIndex="5" GridPane.columnIndex="1"
                     onMouseClicked="#sendResetEmail"/>
         </GridPane>
-    </center>
 
     <stylesheets>
         <URL value="@styles/networkstyle.css" />
     </stylesheets>
-</BorderPane>
+</StackPane>

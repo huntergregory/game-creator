@@ -11,7 +11,7 @@ public class RemoveState extends ComponentDependentEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object... args) {
+    protected void modifyComponents(Instance instance, Object... args) {
         instance.getComponent(StateComponent.class).removeState((String) args[0]);
     }
 }

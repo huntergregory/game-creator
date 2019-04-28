@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="auth.auth_fxml_controllers.ComponentsDropdownController"
+            prefHeight="300.0" prefWidth="250.0" alignment="CENTER">
+    <Button fx:id="basicButton" text="Basic Component" GridPane.rowIndex="0"/>
+    <Button fx:id="environmentComponent" text="Environment Component" GridPane.rowIndex="1"/>
+    <Button fx:id="healthComponent" text="Health Component" GridPane.rowIndex="2"/>
+    <Button fx:id="impassableComponent" text="Impassable Component" GridPane.rowIndex="3"/>
+    <Button fx:id="jumpComponent" text="Jump Component" GridPane.rowIndex="4"/>
+    <Button fx:id="motionComponent" text="Motion Component" GridPane.rowIndex="5"/>
+    <Button fx:id="stateComponent" text="State Component" GridPane.rowIndex="6"/>
+    <Button fx:id="tagsComponent" text="Tags Component" GridPane.rowIndex="7"/>
+
+</GridPane>

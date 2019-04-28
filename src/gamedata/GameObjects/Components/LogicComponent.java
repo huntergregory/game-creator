@@ -8,4 +8,11 @@ public class LogicComponent extends Component{
         myLogic = logic;
     }
 
+    public void setLogic(String logic) {
+        myLogic = logic;
+    }
+
+    public String getLogic() {
+        return myLogic;
+    }
 }

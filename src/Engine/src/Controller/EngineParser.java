@@ -1,6 +1,6 @@
 package Engine.src.Controller;
 
-import gamedata.Components.Component;
+import gamedata.GameObjects.Components.Component;
 import Engine.src.Timers.Timer;
 
 

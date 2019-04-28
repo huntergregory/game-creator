@@ -1,4 +1,4 @@
-package gamedata.Components;
+package gamedata.GameObjects.Components;
 
 public abstract class Component {
     private int entityID;

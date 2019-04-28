@@ -1,6 +1,6 @@
 package Engine.src.DeprecatedTriggers.Conditionals;
 
-import gamedata.Components.Component;
+import gamedata.GameObjects.Components.Component;
 import Engine.src.ECS.EntityManager;
 
 public abstract class Comparison extends ObjectConditional{

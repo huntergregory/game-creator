@@ -17,7 +17,7 @@ import static auth.helpers.ScreenHelpers.*;
 
 public class RenderingHelpers {
     private static Game game;
-    private static Map<String, Pane> instanceMap = new HashMap<>();
+    private static Map<String, InstanceView> instanceMap = new HashMap<>();
 
     public static void initGame(Game g) {
         game = g;
@@ -34,7 +34,7 @@ public class RenderingHelpers {
         return toReturn;
     }
 
-    private static void setBg(Pane pane, String bgColor, String bgImage, double fitWidth, double fitHeight) {
+    public static void setBg(Pane pane, String bgColor, String bgImage, double fitWidth, double fitHeight) {
         if (bgColor != null && !bgColor.isEmpty()) {
             BackgroundFill myBF = new BackgroundFill(getColorByID(game, bgColor), new CornerRadii(0),
                     new Insets(0.0,0.0,0.0,0.0));
@@ -55,7 +55,7 @@ public class RenderingHelpers {
         pane.setPrefWidth(i.width); pane.setPrefHeight(i.height);
         setBg(pane, i.bgColor, i.bgImage, i.width, i.height);
 
-        instanceMap.put(i.instanceID, pane);
+        instanceMap.put(i.instanceID, new InstanceView(i, pane));
 
         return pane;
     }

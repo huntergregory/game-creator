@@ -20,14 +20,14 @@ public abstract class AIEvent extends ComponentDependentEvent{
         super(game, BasicComponent.class, parameterTypes);
     }
 
-    protected boolean targetEntityObscured(Instance targetInstance, Instance referenceInstance) {
+    private boolean targetEntityObscured(Instance targetInstance, Instance referenceInstance) {
         BasicComponent targetBasic = targetInstance.getComponent(BasicComponent.class);
         double targetX = targetBasic.getX();
         double targetY = targetBasic.getY();
         return obscured(targetX, targetY, targetInstance.getID(), referenceInstance);
     }
 
-    protected boolean targetPointObscured(double targetLocationX, double targetLocationY, Instance referenceInstance){
+    private boolean targetPointObscured(double targetLocationX, double targetLocationY, Instance referenceInstance){
         return obscured(targetLocationX, targetLocationY, "EMPTY", referenceInstance);
     }
 
@@ -87,14 +87,14 @@ public abstract class AIEvent extends ComponentDependentEvent{
         movementResponse(referenceInstance, targetInstance, "FOLLOW", stepTime);
     }
 
-    public void patrol(Instance instance, ArrayList<Pair> patrolRoute, double stepTime) {
+    public void patrol(Instance instance, List<Pair> patrolRoute, double stepTime) {
         int patrolStage = findPatrolStage(instance, patrolRoute);
         BasicComponent basic = instance.getComponent(BasicComponent.class);
         double[] distance = findDistanceVector(new Pair(basic.getX(), basic.getY()), patrolRoute.get(patrolStage));
         moveInDirection(instance, findDirection(distance), stepTime);
     }
 
-    private int findPatrolStage(Instance instance, ArrayList<Pair> patrolRoute) {
+    private int findPatrolStage(Instance instance, List<Pair> patrolRoute) {
         BasicComponent basic = instance.getComponent(BasicComponent.class);
         Pair<Double> topLeftCorner = new Pair(basic.getX(), basic.getY());
         Pair<Double> bottomRightCorner = new Pair(basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight());

@@ -7,7 +7,7 @@ import gamedata.GameObjects.Instance;
 import java.util.Set;
 
 public abstract class MotionEvent extends ComponentDependentEvent {
-    public MotionEvent(Set<Instance> instances, Class<?> parameterTypes) {
+    public MotionEvent(Set<Instance> instances, Class<?>... parameterTypes) {
         super(instances, MotionComponent.class, parameterTypes);
     }
 

@@ -3,16 +3,20 @@ package Engine.src.Manager.Events;
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
 
+import java.util.HashSet;
+
 public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";
 
     protected Game myGame;
+    protected HashSet<Instance> myInstances;
     private Class<?>[] myParameters;
     //private String myConditionalScript;
 
     public Event(Game game, Class<?> ... parameterTypes) {
         myGame = game;
         myParameters = parameterTypes;
+        myInstances = myGame.currentScene.instances;
         //myConditionalScript = "";
     }
 

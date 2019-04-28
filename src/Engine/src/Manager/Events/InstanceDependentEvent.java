@@ -13,7 +13,7 @@ public abstract class InstanceDependentEvent extends Event {
 
     @Override
     protected void execute(Instance instance, Object... args) {
-        if (!myGame.currentScene.instances.contains(instance))
+        if (!myInstances.contains(instance))
             return;
         modifyInstance(instance, args);
     }

@@ -9,7 +9,7 @@ public class RotateClockwise extends AimModifierEvent {
     }
 
     @Override
-    protected void modifyComponent(Instance instance, Object... args) {
+    protected void modifyComponents(Instance instance, Object... args) {
         rotateAim(instance, true);
     }
 }

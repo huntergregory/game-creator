@@ -83,7 +83,7 @@
     <!-- Favorite Pane -->
    <Pane fx:id="favoritePane" layoutX="625.0" layoutY="20.0" prefHeight="50.0" prefWidth="50.0" styleClass="centerPane" visible="false">
        <children>
-           <Button fx:id="favoriteButton" onAction="#favoriteGame" prefHeight="40" prefWidth="40" styleClass="favoriteButton" />
+           <Button fx:id="favoriteButton" onAction="#favoriteGame" prefHeight="40" prefWidth="35" styleClass="favoriteButton" />
        </children>
    </Pane>
 
@@ -107,6 +107,7 @@
                 <Button fx:id="editButton" layoutX="85.0" layoutY="264.0" mnemonicParsing="false" styleClass="largeButton" text="Edit" />
                 <Button fx:id="playButton" layoutX="176.0" layoutY="264.0" mnemonicParsing="false" onAction="#launchPlayer" styleClass="largeButton" text="Play" />
                 <Button fx:id="rateButton" layoutX="269.0" layoutY="264.0" mnemonicParsing="false" onAction="#rateGame" styleClass="largeButton" text="Rate" />
+                <Button fx:id="commentButton" layoutX="146.0" layoutY="284.0" mnemonicParsing="false" onAction="#comment" styleClass="largeButton" text="Comment" />
             </children>
          </Pane>
           <!-- Rating Pane -->
@@ -115,7 +116,15 @@
                <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="25.0" layoutY="195.0" majorTickUnit="1.0" max="5.0" minorTickCount="1" prefHeight="50.0" prefWidth="375.0" showTickMarks="true" snapToTicks="true" />
                <Button fx:id="returnButton" layoutX="163.0" layoutY="261.0" mnemonicParsing="false" onAction="#returnToDescription" styleClass="largeButton" text="Done" />
                <Text fx:id="ratingText" layoutX="190.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="paneText" text="0.00" />
-            </children></Pane>
+            </children>
+         </Pane>
+          <!-- Comment Pane -->
+          <Pane fx:id="commentPane" prefHeight="390.0" prefWidth="200.0" styleClass="descriptionPane" visible="false">
+              <children>
+                  <!--<Label fx:id="commentLabel" layoutX=""-->
+                  <Button fx:id="ww" layoutX="163.0" layoutY="261.0" mnemonicParsing="false" styleClass="smallButton" text="Wwww" />
+              </children>
+          </Pane>
       </children>
    </StackPane>
    <Pane layoutX="25.0" layoutY="20.0" prefHeight="55.0" prefWidth="200.0" styleClass="centerPane">

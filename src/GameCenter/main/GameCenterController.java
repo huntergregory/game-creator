@@ -10,10 +10,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,14 +41,15 @@ public class GameCenterController {
     private ImageView activeGameImageView;
 
     @FXML
-    public Pane socialPane, newGamePane, descriptionPane, ratingPane;
+    public Pane socialPane, newGamePane, descriptionPane, ratingPane, commentPane;
     public Pane favoritePane;
+    public TableView commentTable;
     public ScrollPane thumbPane;
     public GridPane friendPane;
     public Slider ratingSlider;
     public VBox thumbPaneContent;
-    public Text titleText, descriptionText, ratingText, username;
-    public Button newGameButton, playButton, editButton, rateButton, returnButton, favoriteButton;
+    public Text titleText, descriptionText, commentText, ratingText, username;
+    public Button newGameButton, playButton, editButton, rateButton, commentButton, ratingConfirmButton, returnButtonR, returnButtonC, favoriteButton;
     public Label score1, score2, score3;
 
     void initGameCenter() {
@@ -116,8 +114,8 @@ public class GameCenterController {
         ImageView heart;
         if (favorite) heart = new ImageView(new Image(this.getClass().getResourceAsStream("/icons/heartFill.png")));
         else heart = new ImageView(new Image(this.getClass().getResourceAsStream("/icons/heartOutline.png")));
-        heart.setFitHeight(40);
-        heart.setFitWidth(40);
+        heart.setFitHeight(33);
+        heart.setFitWidth(33);
         favoriteButton.setGraphic(heart);
     }
 
@@ -214,6 +212,17 @@ public class GameCenterController {
     }
 
     @FXML
+    private void comment() {
+        commentPane.setVisible(true);
+
+        descriptionPane.setVisible(false);
+    }
+
+    private void initCommentTable() {
+
+    }
+
+    @FXML
     private void rateGame() {
         ratingPane.setVisible(true);
         ratingText.setText(String.valueOf(gameData.get(myIndex).getRating()));
@@ -222,10 +231,15 @@ public class GameCenterController {
     }
 
     @FXML
+    private void setRating() {
+        gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
+    }
+
+    @FXML
     private void returnToDescription() {
         ratingPane.setVisible(false);
+        commentPane.setVisible(false);
         descriptionPane.setVisible(true);
-        gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
     }
 
     public void setHighScore(IdentityManager IM, String gameID, String highScore) {

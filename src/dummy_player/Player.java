@@ -50,10 +50,12 @@ public class Player {
         animation.play();
 
         gameEngine.setGame(game);
-        gameEngine.loadScene(1); // Always load scene 1 to start
+        gameEngine.loadScene(0); // Always load scene 0 to start
+
+        mainStage.show();
     }
 
     private void step (double elapsedTime) {
-
+        // TODO
     }
 }

@@ -24,7 +24,8 @@ public class MenuClickHandlers {
         String contents = new Gson().toJson(o, new TypeToken<Game>(){}.getType());
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Game File");
-        File file = fileChooser.showSaveDialog(new Stage());
+        var stage = new Stage(); stage.setTitle("Save Game File");
+        File file = fileChooser.showSaveDialog(stage);
         if (file != null) {
             if (!file.getName().endsWith(".game")) {
                 String newPath = file.getAbsolutePath()+".game";
@@ -34,7 +35,7 @@ public class MenuClickHandlers {
             writer.write(contents);
             writer.close();
         }
-        // TODO: Change window title
+        // TODO: Change window title, maybe prettyprint?
     }
 
     public static void handleLoadFromFile (CanvasScreen context) {

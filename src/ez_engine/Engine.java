@@ -16,6 +16,7 @@ public class Engine {
 
     public void setGame(Game game) {
         this.game = game;
+        RenderingHelpers.initGame(game);
     }
 
     public void loadScene(int sceneIndex) {

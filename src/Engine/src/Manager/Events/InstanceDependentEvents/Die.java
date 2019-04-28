@@ -7,7 +7,8 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-public class Die extends InstanceModifierEvent {
+//FIXME
+public class Die extends InstanceDependentEvent {
     private static final int NUM_ARGS = 0;
 
     public Die(Game game) {

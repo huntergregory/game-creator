@@ -11,8 +11,6 @@ public abstract class HealthModifierEvent extends ComponentDependentEvent {
     }
 
     protected void setHealth(Instance instance, int health) {
-        if (!instance.hasComponent(HealthComponent.class))
-            return;
         var healthComponent = instance.getComponent(HealthComponent.class);
         int maxHealth = healthComponent.getMaxHealth();
         if (health > maxHealth)

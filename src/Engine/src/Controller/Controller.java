@@ -1,7 +1,6 @@
 package Engine.src.Controller;
 
 import gamedata.GameObjects.Components.*;
-import Engine.src.ECS.AI;
 import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;

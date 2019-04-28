@@ -56,5 +56,37 @@ public abstract class MotionEvent extends ComponentDependentEvent {
         directionVec[0] = Math.cos(Math.toRadians(angle));
         directionVec[1] = Math.sin(Math.toRadians(angle));
         return directionVec;
-    }*/
+    }
+
+    public void setX(int obj, double newX){
+        BasicComponent basic = getComponent(obj, BasicComponent.class);
+        double currentX = basic.getX();
+        double finalX = newX;
+        CollisionDetector collisionDetector = new CollisionDetector(this);
+        Integer[] impassableColliders = collisionDetector.getImpassableColliders(obj, myEntityMap.keySet());
+        for(Integer impassable : impassableColliders){
+            if ((collisionDetector.collideFromLeft(impassable, obj) && newX < currentX) ||
+                    (collisionDetector.collideFromLeft(obj, impassable) && newX > currentX)) {
+                finalX = currentX;
+            }
+        }
+        basic.setX(finalX);
+    }
+
+    //TODO remove duplication between setY and also in collision handler and detector
+    public void setY(int obj, double newY){
+        BasicComponent basic = getComponent(obj, BasicComponent.class);
+        double currentY = basic.getY();
+        double finalY = newY;
+        CollisionDetector collisionDetector = new CollisionDetector(this);
+        Integer[] impassableColliders = collisionDetector.getImpassableColliders(obj, myEntityMap.keySet());
+        for(Integer impassable : impassableColliders){
+            if ((collisionDetector.collideFromTop(impassable, obj) && newY < currentY) ||
+                    (collisionDetector.collideFromTop(obj, impassable) && newY > currentY)) {
+                finalY = currentY;
+            }
+        }
+        basic.setY(finalY);
+    }
+*/
 }

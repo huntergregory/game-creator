@@ -29,6 +29,7 @@ public class Manager {
     private static final String EVENTS_FILE_PATH = "Engine.src.Manager.Events.";
 
     private Game myGame;
+    private double myStepTime;
 
     private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
@@ -62,6 +63,7 @@ public class Manager {
     public Manager(Game game, double stepTime) {
         myGame = game;
         myInstances = myGame.currentScene.instances;
+        myStepTime = stepTime;
     }
 
     public void call(String eventClass, Instance instance, Object ... args) {
@@ -118,4 +120,8 @@ public class Manager {
             }
         }
     }*/
+
+    public double getMyStepTime() {
+        return myStepTime;
+    }
 }

@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import network_account.IdentityManager;
 import network_account.UserIdentity;
 
 import java.io.FileNotFoundException;
@@ -233,5 +234,9 @@ public class GameCenterController {
         ratingPane.setVisible(false);
         descriptionPane.setVisible(true);
         gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
+    }
+
+    public void setHighScore(IdentityManager IM, String gameID, String highScore) {
+        IM.addHighScore(gameID, highScore);
     }
 }

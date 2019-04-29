@@ -301,5 +301,10 @@ public class PlayerStage {
 
     }
 
+    public void storeScore() {
+        int myFinalScore = (int) myScoreTracker.getLatestValue();
+    }
+
+
 
 }

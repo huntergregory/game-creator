@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 import java.io.File;
 
 import static auth.Colors.DEFAULT_TEXT_COLOR;
-import static auth.helpers.ScreenHelpers.initialiseGrids;
 import static auth.RunAuth.bebasKaiMedium;
+import static auth.helpers.ScreenHelpers.initialiseGrids;
 
 /**
  * Author: Anshu Dwibhashi

@@ -1,10 +1,13 @@
 package network_account;
 
+import GameCenter.main.GameCenter;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -95,17 +98,12 @@ public class CreateAccountController {
         }
     }
 
-    public void returnToLogin(){
+    public void returnToLogin(ActionEvent event){
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(IdentityManager.class.getResource("/network_fxml/login.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            System.out.println("Login FXML file not found");
+            new RunAccount().start(new Stage());
+            ((Node) event.getSource()).getScene().getWindow().hide();
+        } catch(Exception e) {
+            System.out.println("Could not open Login");
         }
     }
 

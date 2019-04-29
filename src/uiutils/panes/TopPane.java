@@ -1,7 +1,6 @@
 package uiutils.panes;
 
-import static auth.Styles.*;
-import static auth.Dimensions.*;
+import static auth.Styles.TOP_PANE_STYLE;
 
 public class TopPane extends Pane {
     public TopPane(double x, double width, double height) {

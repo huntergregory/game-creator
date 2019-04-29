@@ -7,7 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
-import static GameCenter.utilities.Dimensions.*;
+import static GameCenter.utilities.Dimensions.THUMBNAIL_HEIGHT;
+import static GameCenter.utilities.Dimensions.THUMBNAIL_WIDTH;
 import static javafx.scene.paint.Color.WHITE;
 
 public class Thumbnail {

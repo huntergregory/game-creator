@@ -1,53 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<?import javafx.geometry.Insets?>
 <?import java.net.URL?>
-<StackPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="network_account.LoginController" fx:id="parentContainer"
-          prefHeight="400.0" prefWidth="600.0"
-            styleClass="borderPane">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-        <GridPane alignment="center" hgap="25" vgap="10"
-                  prefHeight="350.0" prefWidth="550.0" styleClass="gridPane" fx:id="gridPane">
-
-            <columnConstraints>
-                <ColumnConstraints percentWidth="50"  />
-                <ColumnConstraints percentWidth="50" />
-            </columnConstraints>
-
-            <padding><Insets left="15" right="15"/></padding>
-
-            <Label fx:id="title" text="WELCOME, SCROLLER!" GridPane.rowIndex="0" GridPane.columnIndex="0"
-                   styleClass="titleLabel"/>
-
-            <Text fx:id="prompt" text="PLEASE ENTER ACCOUNT INFORMATION" GridPane.columnIndex="0" GridPane.rowIndex="1"
-                  styleClass="prompt"/>
-
-            <Label fx:id="usernameLabel" text="USERNAME: " GridPane.columnIndex="0" GridPane.rowIndex="2"
-                   styleClass="textfieldLabel"/>
-            <TextField fx:id="usernameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="textfield"/>
-
-            <Label fx:id="passwordLabel" text="PASSWORD: " GridPane.columnIndex="0" GridPane.rowIndex="3"
-                   styleClass="textfieldLabel"/>
-            <PasswordField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="3"
-                           styleClass="textfield" onKeyPressed="#loginEnter"/>
-
-            <Button fx:id="loginButton" text="LOGIN" GridPane.columnIndex="0" GridPane.rowIndex="4"
-                    onMouseClicked="#login"/>
-            <Label fx:id="loginFailLabel" text="" GridPane.columnIndex="1" GridPane.rowIndex="4"
-                   styleClass="errorLabel"/>
-
-            <Button fx:id="createAccountButton" text="CREATE ACCOUNT" GridPane.columnIndex="0" GridPane.rowIndex="5"
-                    onMouseClicked="#openCreateAccount"/>
-            <Button fx:id="forgotPasswordButton" text="FORGOT PASSWORD" GridPane.rowIndex="5" GridPane.columnIndex="1"
-                    onMouseClicked="#sendResetEmail"/>
-        </GridPane>
+<AnchorPane id="parentPane" fx:id="parentContainer" prefHeight="525.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="network_account.LoginController">
+   <Pane fx:id="mainPane" layoutX="263.0" layoutY="63.0" prefHeight="400.0" prefWidth="450.0" styleClass="centerPane">
+      <children>
+   
+               <Label layoutX="38.0" layoutY="48.0" styleClass="titleLabel" text="WELCOME, SCROLLER!" textFill="WHITE" />
+   
+               <Text fill="WHITE" layoutX="38.0" layoutY="108.0" styleClass="textfieldLabel" text="PLEASE ENTER ACCOUNT INFORMATION" />
+               <TextField fx:id="usernameTextField" layoutX="38.0" layoutY="129.0" prefHeight="33.0" prefWidth="375.0" promptText="USERNAME">
+            <font>
+               <Font name="Impact" size="16.0" />
+            </font></TextField>
+               <PasswordField fx:id="passwordTextField" layoutX="38.0" layoutY="176.0" onKeyPressed="#loginEnter" prefHeight="33.0" prefWidth="375.0" promptText="PASSWORD">
+            <font>
+               <Font name="Impact" size="16.0" />
+            </font></PasswordField>
+   
+               <Button fx:id="loginButton" layoutX="38.0" layoutY="226.0" onAction="#login" styleClass="smallButton" text="LOGIN" />
+               <Label fx:id="loginFailLabel" layoutX="267.0" layoutY="273.0" prefHeight="17.0" prefWidth="63.0" styleClass="errorLabel" text="" textFill="#ff0404">
+            <font>
+               <Font name="Impact" size="16.0" />
+            </font></Label>
+   
+               <Button fx:id="createAccountButton" layoutX="38.0" layoutY="267.0" onMouseClicked="#openCreateAccount" styleClass="smallButton" text="CREATE ACCOUNT" />
+               <Button fx:id="forgotPasswordButton" layoutX="267.0" layoutY="226.0" onMouseClicked="#sendResetEmail" styleClass="smallButton" text="FORGOT PASSWORD" />
+      </children>
+   </Pane>
 
     <stylesheets>
-        <URL value="@styles/networkstyle.css" />
+        <URL value="@../GUI/GUIStyle.css" />
     </stylesheets>
-</StackPane>
+</AnchorPane>

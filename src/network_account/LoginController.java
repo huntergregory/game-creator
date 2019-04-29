@@ -20,8 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * FXML LevelController for the user login pane (res/network_fxml/login.fxml), allowing user's to connect with the
  * Google App Engine backend to login and load information such as display name and personal high scores
@@ -48,8 +49,9 @@ public class LoginController {
     public TextField usernameTextField, passwordTextField;
     public Label loginFailLabel;
     public Button loginButton, createAccountButton;
-    public StackPane parentContainer;
-    public GridPane gridPane;
+    public AnchorPane parentContainer;
+    public Pane mainPane;
+
 
 
     /**
@@ -87,7 +89,12 @@ public class LoginController {
             if(possibleSuccess.equals("Success")){
                 GameCenter gameCenter = new GameCenter();
                 gameCenter.setIdentity(myIdentity);
-                gameCenter.start(new Stage());
+                try {
+                    gameCenter.start(new Stage());
+                    ((Node) event.getSource()).getScene().getWindow().hide();
+                } catch(Exception e) {
+                    System.out.println("Could not open GameCenter");
+                }
             }
             resetFields();
         } catch (MalformedURLException e) {
@@ -142,7 +149,7 @@ public class LoginController {
             KeyValue keyValue = new KeyValue(root.translateYProperty(), 0, Interpolator.EASE_IN);
             KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), keyValue);
             timeline.getKeyFrames().add(keyFrame);
-            timeline.setOnFinished(e->parentContainer.getChildren().remove(gridPane));
+            timeline.setOnFinished(e->parentContainer.getChildren().remove(mainPane));
             timeline.play();
         } catch(IOException e){
             System.out.println("Error in using create account fxml");

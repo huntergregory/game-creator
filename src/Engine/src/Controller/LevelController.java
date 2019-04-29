@@ -74,6 +74,10 @@ public class LevelController {
         var parser = new EngineParser(myInstances, mySceneLogic, myCollisionResponses, myHotKeys, myTimerSequences, myTimers);
         parser.initializeDataTypes(sceneScript);
 
+        for (Pair<String> objectPair : myCollisionResponses.keySet()) {
+            System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + myCollisionResponses.get(objectPair));
+        }
+
         myGame = game;
         Scene scene = new Scene(myInstances, mySceneLogic, Integer.toString(levelNumber));
         myGame.addScene(scene);

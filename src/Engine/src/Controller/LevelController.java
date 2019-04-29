@@ -79,9 +79,12 @@ public class LevelController {
         }
 
         myGame = game;
-        Scene scene = new Scene(myInstances, mySceneLogic, Integer.toString(levelNumber));
-        myGame.addScene(scene);
-        myGame.setCurrentScene(scene);
+        Scene scene = new Scene();
+        scene.instances = myInstances;
+        scene.sceneLogic = mySceneLogic;
+        scene.sceneID = Integer.toString(levelNumber);
+        myGame.scenes.add(scene);
+        myGame.currentLevel = 0;
 
         myIterationCounter = 0;
         myDebugLog = new DebugLog();

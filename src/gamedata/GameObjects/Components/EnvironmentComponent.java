@@ -2,22 +2,20 @@ package gamedata.GameObjects.Components;
 
 public class EnvironmentComponent extends Component{
 
-    private static final double MAX_X_VELOCITY = 20;
-    private static final double MAX_Y_VELOCITY = 20; //FIXME defaults
-
-
     private double myAccelX;
     private double myAccelY;
-    private double myMaxXVelocity = MAX_X_VELOCITY;
-    private double myMaxYVelocity = MAX_Y_VELOCITY;
+    private double myMaxXVelocity;
+    private double myMaxYVelocity;
     private double myVelDampener;
     private double myFriction;
 
-    public EnvironmentComponent(double accelX, double accelY, double velDampener, double friction) {
+    public EnvironmentComponent(double accelX, double accelY, double velDampener, double friction, double maxXVel, double maxYVel) {
         myAccelX = accelX;
         myAccelX = accelY;
         myVelDampener = velDampener;
         myFriction = friction;
+        myMaxXVelocity = maxXVel;
+        myMaxYVelocity = maxYVel;
     }
 
     public double getAccelX() {
@@ -42,17 +40,5 @@ public class EnvironmentComponent extends Component{
 
     public double getMaxYVelocity() {
         return myMaxYVelocity;
-    }
-
-    public void setMaxXVelocity(double max) {
-        if (max < 0)
-            max = 0;
-        myMaxXVelocity = max;
-    }
-
-    public void setMaxYVelocity(double max) {
-        if (max < 0)
-            max = 0;
-        myMaxYVelocity = max;
     }
 }

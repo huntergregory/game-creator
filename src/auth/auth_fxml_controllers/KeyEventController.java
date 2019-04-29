@@ -10,6 +10,7 @@ public class KeyEventController {
     @FXML
     public Button addButton;
     public TextField keyTextField, scriptTextField, idTextField;
+    public String myScript;
 
     public void setKey(KeyEvent e){
         if(!e.getCode().equals(KeyCode.TAB)) {
@@ -18,7 +19,7 @@ public class KeyEventController {
     }
 
     public void addKeyElement(){
-        String script = idTextField.getText()+".setOnKeyPressed(e->{ if(keyCode.equals(KeyCode." + keyTextField.getText() + "){" + scriptTextField.getText() + "}};";
-        System.out.println(script);
+        myScript = idTextField.getText()+".setOnKeyPressed(e->{ if(keyCode.equals(KeyCode." + keyTextField.getText() + "){" + scriptTextField.getText() + "}};";
+        keyTextField.getScene().getWindow().hide();
     }
 }

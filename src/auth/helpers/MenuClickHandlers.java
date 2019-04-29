@@ -1,11 +1,18 @@
 package auth.helpers;
 
+import auth.RunTest;
+import auth.auth_fxml_controllers.CollisionController;
+import auth.auth_fxml_controllers.ObjectScriptController;
 import auth.screens.CanvasScreen;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import gamedata.Game;
 import gamedata.GameObject;
+import gamedata.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -15,6 +22,7 @@ import uiutils.panes.Pane;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static auth.helpers.ScreenHelpers.initialiseGrids;
@@ -67,6 +75,30 @@ public class MenuClickHandlers {
         }
     }
 
+    public static void handleAddObjectScript(CanvasScreen context){
+        try{
+            FXMLLoader loader = addPopup("/auth_components_fxml/objectScript.fxml");
+            ObjectScriptController controller = loader.getController();
+            Game o = context.getGame();
+            Scene scene = o.scenes.get(0);
+            scene.sceneLogic = scene.sceneLogic + controller.myScript;
+        } catch (IOException e) {
+            System.out.println("Error loading the components fxml");
+        }
+    }
+
+    public static void handleAddCollision(CanvasScreen context){
+        try{
+            FXMLLoader loader = addPopup("/auth_components_fxml/collision.fxml");
+            CollisionController controller = loader.getController();
+            Game o = context.getGame();
+            Scene scene = o.scenes.get(0);
+            scene.sceneLogic = scene.sceneLogic + controller.myScript;
+        } catch (IOException e) {
+            System.out.println("Error loading the components fxml");
+        }
+    }
+
     public static void handleSaveToCloud (CanvasScreen context) {
         // TODO
         System.out.println("handleSaveToCloud called");
@@ -80,5 +112,17 @@ public class MenuClickHandlers {
     public static void handleAddCollaborators (CanvasScreen context) {
         // TODO
         System.out.println("handleAddCollaborators called");
+    }
+
+    private static FXMLLoader addPopup(String fxmlString) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(RunTest.class.getResource(fxmlString));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new javafx.scene.Scene(root));
+        stage.setResizable(false);
+        stage.showAndWait();
+
+        return loader;
     }
 }

@@ -18,5 +18,15 @@
   {
     "name" : "Add Collaborators",
     "handler" : "handleAddCollaborators"
+  },
+
+  {
+    "name" : "Add Object Script",
+    "handler" : "handleAddObjectScript"
+  },
+
+  {
+    "name" : "Add Collision",
+    "handler" : "handleAddCollision"
   }
 ]

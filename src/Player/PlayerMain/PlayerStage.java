@@ -277,6 +277,14 @@ public class PlayerStage {
         return ret;
     }
 
+    public void updateLives(int lives) {
+        System.out.println(lives);
+    }
+
+    public void updateTime(int time) {
+        System.out.println(time);
+    }
+
     public void removeGameStage() {
         myGameStage.close();
     }

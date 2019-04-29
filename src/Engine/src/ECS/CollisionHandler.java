@@ -55,7 +55,7 @@ public class CollisionHandler {
 
         for (Instance entity : allEntities) {
             if (!isInteractingWithEnvironment(entity))
-                setDefaultAccel(entity);
+                setDefaultMotion(entity);
         }
         myPreviousCollisions = myCurrentCollisions;
     }
@@ -81,11 +81,13 @@ public class CollisionHandler {
         return false;
     }
 
-    private void setDefaultAccel(Instance i) {
+    private void setDefaultMotion(Instance i) {
         var motion = i.getComponent(MotionComponent.class);
         if (motion != null) {
             motion.resetXAccel();
             motion.resetYAccel();
+            motion.resetMovementXVel();
+            motion.resetMovementYVel();
         }
     }
 
@@ -193,8 +195,14 @@ public class CollisionHandler {
     }
 
     private void setInEnvironment(Instance i, MotionComponent motion, EnvironmentComponent environment) {
-        motion.setXAccel(environment.getUpdatedAccelX(motion.getXVelocity()));
-        motion.setYAccel(environment.getUpdatedAccelY(motion.getYVelocity()));
+        motion.setXAccel(environment.getUpdatedAccel(motion.getXVelocity()));
+        motion.setYAccel(environment.getUpdatedAccel(motion.getYVelocity()));
+        if (motion.getMovementXVelocity() != motion.getDefaultMovementXVel()) {
+            motion.setMovementXVelocity(environment.getUpdatedMovementVelocity(motion.getMovementXVelocity(), motion.getDefaultMovementXVel()));
+        }
+        if (motion.getMovementYVelocity() != motion.getDefaultMovementYVel()) {
+            motion.setMovementXVelocity(environment.getUpdatedMovementVelocity(motion.getMovementYVelocity(), motion.getDefaultMovementYVel()));
+        }
     }
 
     //TODO fix if Timers.Events are changed

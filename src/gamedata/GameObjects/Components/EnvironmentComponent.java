@@ -15,17 +15,15 @@ public class EnvironmentComponent extends Component{
         myMaxXVelocity = maxXVel;
         myMaxYVelocity = maxYVel;
     }
-
-    public double getUpdatedAccelX(double velocity) {
+    //Using k*v instead of k*v^2
+    public double getUpdatedAccel(double velocity) {
         double dragSign = -1 * velocity / Math.abs(velocity);
-        double dragAccel = myDragCoeff * Math.pow(velocity, 2);
+        double dragAccel = myDragCoeff * velocity / 2;
         return myAccelX + dragSign * dragAccel;
     }
 
-    public double getUpdatedAccelY(double velocity) {
-        double dragSign = -1 * velocity / Math.abs(velocity);
-        double dragAccel = myDragCoeff * Math.pow(velocity, 2);
-        return myAccelY + dragSign * dragAccel;
+    public double getUpdatedMovementVelocity(double velocity, double defaultVel) {
+        return velocity - myDragCoeff * defaultVel;
     }
 
     public double getMaxXVelocity() {

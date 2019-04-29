@@ -41,6 +41,10 @@ public class CanvasScreen extends Screen {
         return gameCloudWrapper;
     }
 
+    public void setGameCloudWrapper(GameCloudWrapper gcw) {
+        this.gameCloudWrapper = gcw;
+    }
+
     public VBox getObjectGrid() {
         return objectGrid;
     }

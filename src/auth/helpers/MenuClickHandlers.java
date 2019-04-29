@@ -21,6 +21,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -122,12 +124,67 @@ public class MenuClickHandlers {
     }
 
     public static void handleLoadFromCloud (CanvasScreen context) {
-        // TODO
-        System.out.println("handleLoadFromCloud called");
+        try {
+            String SERVICE_ACCOUNT_JSON_PATH = "/Users/anshudwibhashi/work/school/CS308/voogasalad_crackingopen/lib/TMTP-b2dc645337e7.json";
+            // Instantiates a client
+            Storage storage =
+                    StorageOptions.newBuilder()
+                            .setCredentials(
+                                    ServiceAccountCredentials.fromStream(
+                                            new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                            .setProjectId("tmtp-spec")
+                            .build()
+                            .getService();
+            TextInputDialog dialog = new TextInputDialog("examplegameid");
+            dialog.setTitle("Enter gameID");
+            dialog.setHeaderText("Must be alphanumeric only.");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                if (StringUtils.isAlphanumeric(name)) {
+                    Blob blob = storage.get(BlobId.of("voogasalad-files", name));
+                    if (blob == null) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Can't find file");
+                        alert.setContentText("Check your gameID");
+                        alert.show();
+                    } else {
+                        String contents = new String(blob.getContent());
+                        GameCloudWrapper gcw = (new Gson().fromJson(contents, new TypeToken<GameCloudWrapper>() {
+                        }.getType()));
+                        if (gcw.owner.equals(context.getLoggedInUsername()) || gcw.allowAccess.contains(context.getLoggedInUsername())) {
+                            context.changeTitle(name);
+                            try {
+                                Game game = gcw.game;
+                                context.setGameCloudWrapper(gcw);
+                                ScreenHelpers.closeMenu(context, paneA, paneB, paneContainer, namePane);
+                                context.setGame(game);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                // TODO: Tell user it's not a good file
+                            }
+                        } else {
+                            System.out.println("No access");
+                        }
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Invalid ID");
+                    alert.setContentText("Needs to be alphanumeric");
+                    alert.show();
+                }
+            });
+        } catch ( Exception e) {e.printStackTrace();}
     }
 
-    public static void handleAddCollaborators (CanvasScreen context) {
-        // TODO
-        System.out.println("handleAddCollaborators called");
+    public static void handleChangeCollaborators (CanvasScreen context) {
+        TextInputDialog dialog = new TextInputDialog(String.join(",", context.getGameCloudWrapper().allowAccess.toArray(new String[context.getGameCloudWrapper().allowAccess.size()])));
+        dialog.setTitle("Choose who to collaborate with");
+        dialog.setHeaderText("Enter usernames separated by commas");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            String allowed[] = name.split(",");
+            context.getGameCloudWrapper().allowAccess.clear();
+            context.getGameCloudWrapper().allowAccess.addAll(Arrays.asList(allowed));
+        });
     }
 }

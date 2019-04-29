@@ -1,7 +1,5 @@
 package gamedata;
 
-import gamedata.GameObjects.Instance;
-
 import java.util.HashSet;
 import java.util.Set;
 

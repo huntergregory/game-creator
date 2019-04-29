@@ -1,57 +1,57 @@
 package Engine.src.Manager.Events.Motion;
 
+import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.Events.ComponentDependentEvent;
-import gamedata.Game;
-import gamedata.GameObjects.Components.Component;
-import gamedata.GameObjects.Components.MotionComponent;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.Components.Component;
+import Engine.src.EngineData.Components.MotionComponent;
+
 import java.util.Set;
 
 public abstract class MotionEvent extends ComponentDependentEvent {
-    public MotionEvent(Set<Instance> instances, Class<?>... parameterTypes) {
-        super(instances, MotionComponent.class, parameterTypes);
+    public MotionEvent(Set<EngineInstance> engineInstances, Class<?>... parameterTypes) {
+        super(engineInstances, MotionComponent.class, parameterTypes);
     }
 
-    public MotionEvent(Set<Instance> instances, Class<? extends Component>[] componentClasses, Class<?>... parameterTypes) {
-        super(instances, componentClasses, parameterTypes);
+    public MotionEvent(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses, Class<?>... parameterTypes) {
+        super(engineInstances, componentClasses, parameterTypes);
     }
 
-    protected double getAngle(Instance instance) {
-        var motionComponent = instance.getComponent(MotionComponent.class);
+    protected double getAngle(EngineInstance engineInstance) {
+        var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double movementYVel = motionComponent.getMovementYVelocity();
         double movementXVel = motionComponent.getMovementXVelocity();
         return Math.toDegrees(Math.tan(movementYVel / movementXVel));
     }
 
-    protected double getMovementVelocity(Instance instance) {
-        var motionComponent = instance.getComponent(MotionComponent.class);
+    protected double getMovementVelocity(EngineInstance engineInstance) {
+        var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double movementYVel = motionComponent.getMovementYVelocity();
         double movementXVel = motionComponent.getMovementXVelocity();
         return Math.pow(Math.pow(movementXVel, 2) + Math.pow(movementYVel, 2), .5);
     }
 
-    protected double getVelocity(Instance instance) {
-        var motionComponent = instance.getComponent(MotionComponent.class);
+    protected double getVelocity(EngineInstance engineInstance) {
+        var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double xVel = motionComponent.getXVelocity();
         double yVel = motionComponent.getYVelocity();
         return Math.pow(Math.pow(xVel, 2) + Math.pow(yVel, 2), .5);
     }
 
-    protected double getNewX(Instance instance, double x, double stepTime) {
-        var motionComponent = instance.getComponent(MotionComponent.class);
+    protected double getNewX(EngineInstance engineInstance, double x, double stepTime) {
+        var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double xVel = motionComponent.getXVelocity();
         return x + xVel * stepTime;
     }
 
-    protected double getNewY(Instance instance, double y, double stepTime) {
-        var motionComponent = instance.getComponent(MotionComponent.class);
+    protected double getNewY(EngineInstance engineInstance, double y, double stepTime) {
+        var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double yVel = motionComponent.getYVelocity();
         return y + yVel * stepTime;
     }
 
-    protected void adjustVelocitiesByAngle(Instance instance, double angle) {
+    protected void adjustVelocitiesByAngle(EngineInstance engineInstance, double angle) {
         double[] directionVec = calculateDirection(angle);
-        var motionComponent = instance.getComponent(MotionComponent.class);
+        var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double xVel = motionComponent.getXVelocity();
         double yVel = motionComponent.getYVelocity();
         double totalVel = xVel*xVel + yVel*yVel;

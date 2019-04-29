@@ -1,36 +1,36 @@
 package Engine.src.Manager.Events;
 
-import gamedata.GameObjects.Components.Component;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.Components.Component;
 
 import java.util.Set;
 
 public abstract class ComponentDependentEvent extends InstanceDependentEvent {
     private Class<? extends Component>[] myComponentClasses;
 
-    public ComponentDependentEvent(Set<Instance> instances, Class<? extends Component> componentClass, Class ... parameterTypes) {
-        super(instances, parameterTypes);
+    public ComponentDependentEvent(Set<EngineInstance> engineInstances, Class<? extends Component> componentClass, Class ... parameterTypes) {
+        super(engineInstances, parameterTypes);
         myComponentClasses = new Class[] {componentClass};
     }
 
-    public ComponentDependentEvent(Set<Instance> instances, Class<? extends Component>[] componentClasses, Class ... parameterTypes) {
-        super(instances, parameterTypes);
+    public ComponentDependentEvent(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses, Class ... parameterTypes) {
+        super(engineInstances, parameterTypes);
         myComponentClasses = componentClasses;
     }
 
     /**
      *
-     * All subclasses of ComponentModifierEvent assume the specified components are in the instance
-     * @param instance
+     * All subclasses of ComponentModifierEvent assume the specified components are in the engineInstance
+     * @param engineInstance
      * @param args
      */
-    protected abstract void modifyComponents(Instance instance, Object ... args);
+    protected abstract void modifyComponents(EngineInstance engineInstance, Object ... args);
 
     @Override
-    protected void modifyInstance(Instance instance, Object ... args) {
+    protected void modifyInstance(EngineInstance engineInstance, Object ... args) {
         for (Class<? extends Component> componentClass : myComponentClasses) {
-            if (!instance.hasComponent(componentClass)) return;
+            if (!engineInstance.hasComponent(componentClass)) return;
         }
-        modifyComponents(instance, args);
+        modifyComponents(engineInstance, args);
     }
 }

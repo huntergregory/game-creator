@@ -1,4 +1,4 @@
-package gamedata.GameObjects.ComponentExceptions;
+package Engine.src.EngineData.ComponentExceptions;
 
 public class ComponentException extends RuntimeException {
     public ComponentException(String message) {

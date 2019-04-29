@@ -81,7 +81,7 @@ public class ToolClickHandlers {
     }
 
     public static void handleNewObject (CanvasScreen context) {
-        var object = new GameObject();
+        var object = new EngineGameObject();
         object.objectID = "object_"+(context.getGame().gameObjects.size()+1);
         context.getGame().gameObjects.add(object);
         initialiseGrids(context);

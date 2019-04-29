@@ -1,19 +1,19 @@
 package Engine.src.Manager.Events.Health;
 
+import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.Events.ComponentDependentEvent;
-import gamedata.GameObjects.Components.HealthComponent;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.Components.HealthComponent;
 
 import java.util.Set;
 
 public abstract class HealthModifierEvent extends ComponentDependentEvent {
 
-    public HealthModifierEvent(Set<Instance> instances, Class<?> parameterTypes) {
-        super(instances, HealthComponent.class, parameterTypes);
+    public HealthModifierEvent(Set<EngineInstance> engineInstances, Class<?> parameterTypes) {
+        super(engineInstances, HealthComponent.class, parameterTypes);
     }
 
-    protected void setHealth(Instance instance, int health) {
-        var healthComponent = instance.getComponent(HealthComponent.class);
+    protected void setHealth(EngineInstance engineInstance, int health) {
+        var healthComponent = engineInstance.getComponent(HealthComponent.class);
         int maxHealth = healthComponent.getMaxHealth();
         if (health > maxHealth)
             health = maxHealth;

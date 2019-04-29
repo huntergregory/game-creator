@@ -2,6 +2,7 @@ package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
 import Engine.src.Timers.Timer;
+import Engine.src.Timers.TimerSequence;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -14,13 +15,15 @@ public class EngineParser {
     private Map<String, String> myHotKeys;
     private Map<Pair<String>, String> myCollisionResponses;
     private String myLevelRules;
+    private List<TimerSequence> myTimerSequences;
+    private HashMap<Integer, Timer> myTimers;
 
-    public EngineParser(String levelRules, Map collisionResponses, Map hotKeys, List timerSequences, Map timers){
-        myLevelRules = levelRules;
-        myCollisionResponses = collisionResponses;
-        myHotKeys = hotKeys;
-        myTimerSequences = timerSequences;
-        myTimers = timers;
+    public EngineParser() {
+        myHotKeys = new HashMap<>();
+        myCollisionResponses = new HashMap<>();
+        myLevelRules = "";
+        myTimerSequences = new ArrayList<>();
+        myTimers = new HashMap<>();
     }
 
     public void initializeDataTypes(String sceneLogic){
@@ -31,14 +34,6 @@ public class EngineParser {
         script.run();
     }
 
-    private void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
-        int max = 0;
-        for(int ID : myTimers.keySet()){
-            if (ID > max) max = ID;
-        }
-        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, 0));
-    }
-    
     public void addCollision(String type1, String type2, String response){
         myCollisionResponses.put(new Pair<>(type1, type2), response);
     }
@@ -49,6 +44,14 @@ public class EngineParser {
 
     private void addLevelRules(String rules){
         myLevelRules += rules;
+    }
+
+    private void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
+        int max = 0;
+        for(int ID : myTimers.keySet()){
+            if (ID > max) max = ID;
+        }
+        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, 0));
     }
 
 }

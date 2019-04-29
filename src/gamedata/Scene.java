@@ -18,7 +18,7 @@ public class Scene {
         sceneID = "";
         bgColor = "";
         bgImage = "";
-        defaultEnvironment = new EnvironmentComponent(0, 5, 0, 0); //FIXME defaults
+        //defaultEnvironment = new EnvironmentComponent(0, 5, 0, 0); //FIXME defaults
     }
 
     public Scene(Set<Instance> instSet, String scnLogic, String scnID){
@@ -29,6 +29,6 @@ public class Scene {
         sceneID = "";
         bgColor = "";
         bgImage = "";
-        defaultEnvironment = new EnvironmentComponent(0, 5, 0, 0); //FIXME defaults
+        //defaultEnvironment = new EnvironmentComponent(0, 5, 0, 0); //FIXME defaults
     }
 }

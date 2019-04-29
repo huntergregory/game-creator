@@ -7,6 +7,7 @@ import gamedata.GameObjects.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
 import gamedata.Game;
 import gamedata.GameObjects.Instance;
+import gamedata.serialization.Serializer;
 import hud.DataTracker;
 import hud.HUDView;
 import hud.NumericalDataTracker;
@@ -23,7 +24,9 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -80,6 +83,17 @@ public class PlayerStage {
         myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, ST_COLOR);
         //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
         myScene.getStylesheets().add(STYLESHEET);
+        try {
+            new Serializer().serialize(List.of("addCollision('Mario', 'Block', 'script');", "addCollision('Mario', 'Turtle');"));
+        }
+        catch (IOException e) {
+            System.out.println("Couldn't write to file.");
+        }
+    }
+
+    public static void main(String[] args) {
+        var stage = new PlayerStage();
+        stage.load("");
     }
 
     public void run(Game game, Boolean debug) {
@@ -89,10 +103,15 @@ public class PlayerStage {
     }
 
     public void load(String gameName) {
-        GameLoader loader = makeLevel(gameName);
-        myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, loader.getGameLogic());
-        myLevelNumber = loader.getMyLevelNumber();
-        startNewLevel();
+        try {
+            Serializer serializer = new Serializer();
+            GameLoader loader = new GameLoader(0, serializer.deserialize(Serializer.FILE_PATH));
+            myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, loader.getGameLogic());
+            myLevelNumber = loader.getMyLevelNumber();
+            startNewLevel();
+        } catch (IOException e) {
+            System.out.println("Loading " + gameName + " did not work.");
+        }
     }
 
     private void startNewLevel() {

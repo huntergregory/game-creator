@@ -194,8 +194,8 @@ public class CollisionHandler {
 
     private void setInEnvironment(Instance i, MotionComponent motion, EnvironmentComponent environment) {
         double velScaleFactor = environment.getVelDamper();
-        motion.setXVelocity(Math.min(velScaleFactor * motion.getXVelocity(), environment.getMaxXVelocity()));
-        motion.setYVelocity(Math.min(velScaleFactor * motion.getYVelocity(), environment.getMaxYVelocity()));
+       // motion.setXVelocity(Math.min(velScaleFactor * motion.getXVelocity(), environment.getMaxXVelocity()));
+       // motion.setYVelocity(Math.min(velScaleFactor * motion.getYVelocity(), environment.getMaxYVelocity()));
         motion.setXAccel(environment.getAccelX());
         motion.setYAccel(environment.getAccelY());
     }

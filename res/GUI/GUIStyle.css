@@ -182,3 +182,9 @@
     -fx-font-family: Impact;
     -fx-font-size: 32;
 }
+
+.gamePaneLabel{
+    -tx-text-fill: white;
+    -fx-font-family: Impact;
+    -fx-font-size: 20;
+}

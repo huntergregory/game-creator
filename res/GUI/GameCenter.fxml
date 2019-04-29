@@ -19,6 +19,10 @@
 
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.collections.FXCollections?>
+<?import GameCenter.main.Comment?>
+<?import javafx.scene.control.TextArea?>
 <AnchorPane id="parentPane" prefHeight="500.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameCenter.main.GameCenterController">
 
     <padding><Insets left="25.0" top="25.0" /></padding>
@@ -29,6 +33,8 @@
     <Pane layoutX="700" layoutY="20.0" prefHeight="455.0" prefWidth="250.0" styleClass="centerPane">
         <ScrollPane fx:id="thumbPane" layoutX="10" layoutY="10" prefHeight="435.0" prefWidth="230" styleClass="thumbPane">
             <VBox fx:id="thumbPaneContent" spacing="25">
+                <Label fx:id="favLabel" styleClass="gamePaneLabel"/>
+                <Label fx:id="gameLabel" styleClass="gamePaneLabel" />
             </VBox>
         </ScrollPane>
     </Pane>
@@ -124,14 +130,24 @@
           <!-- Comment Pane -->
           <Pane fx:id="commentPane" prefHeight="390.0" prefWidth="425.0" styleClass="centerPane" visible="false">
               <children>
-                  <Text fx:id="commentText" layoutX="150.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="paneText" text="Comments" />
-                  <TableView fx:id="commentTable" editable="false" layoutX="20.0" layoutY="60.0" prefWidth="385.0" prefHeight="160.0" styleClass="tableView">
+                  <Text fx:id="commentText" layoutX="160.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="paneText" text="Comments" />
+                  <TableView fx:id="commentTable" editable="false" layoutX="20.0" layoutY="60.0" prefWidth="385.0" prefHeight="200.0" styleClass="tableView">
                       <columns>
-                          <TableColumn prefWidth="75.0" cellValueFactory="myUser" text="User" fx:id="user"/>
-                          <TableColumn prefWidth="310.0" cellValueFactory="myComment" text="Comment" fx:id="comment"/>
+                          <TableColumn fx:id="userColumn" prefWidth="75.0" text="User">
+                              <cellValueFactory>
+                                  <PropertyValueFactory property="myUser"/>
+                              </cellValueFactory>
+                          </TableColumn>
+                          <TableColumn fx:id="commentColumn" prefWidth="308.0" text="Comment">
+                              <cellValueFactory>
+                                  <PropertyValueFactory property="myComment"/>
+                              </cellValueFactory>
+                          </TableColumn>
                       </columns>
                   </TableView>
-                  <Button fx:id="returnButtonC" layoutX="163.0" layoutY="261.0" mnemonicParsing="false" onAction="#returnToDescription" styleClass="largeButton" text="Done" />
+                  <TextArea fx:id="commentBox" layoutX="60.0" layoutY="265.0" prefHeight="30.0" prefWidth="230.0"/>
+                  <Button fx:id="commentEnterButton" layoutX="310.0" layoutY="265.0" mnemonicParsing="false" onAction="#enterComment" text="Enter" styleClass="smallButton"/>
+                  <Button fx:id="returnButtonC" layoutX="163.0" layoutY="325.0" mnemonicParsing="false" onAction="#returnToDescription" styleClass="largeButton" text="Done" />
               </children>
           </Pane>
       </children>

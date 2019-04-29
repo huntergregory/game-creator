@@ -2,15 +2,12 @@ package GameCenter.main;
 
 import GameCenter.gameData.DataParser;
 import GameCenter.gameData.DataStruct;
-import GameCenter.utilities.Comment;
 import GameCenter.utilities.Thumbnail;
 import Player.PlayerMain.PlayerStage;
 import auth.RunAuth;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
@@ -46,18 +43,23 @@ public class GameCenterController {
     @FXML
     public Pane socialPane, newGamePane, descriptionPane, ratingPane, commentPane;
     public Pane favoritePane;
-    public TableView commentTable;
+    public TableView<Comment> commentTable;
+    public TableColumn<Comment, String> userColumn, commentColumn;
     public ScrollPane thumbPane;
     public GridPane friendPane;
     public Slider ratingSlider;
     public VBox thumbPaneContent;
     public Text titleText, descriptionText, commentText, ratingText, username;
-    public Button newGameButton, playButton, editButton, rateButton, commentButton, ratingConfirmButton, returnButtonR, returnButtonC, favoriteButton;
+    public TextArea commentBox;
+    public Button newGameButton, playButton, editButton, rateButton, commentButton,
+            commentEnterButton, ratingConfirmButton, returnButtonR, returnButtonC, favoriteButton;
     public Label score1, score2, score3;
+    public Label favLabel, gameLabel;
 
     void initGameCenter() {
         initListeners();
-        favoriteGames = new ArrayList<>();
+        favoriteGames = new ArrayList<>(); // we gotta read these in
+        myComments = new ArrayList<>();
         placeThumbnails();
     }
 
@@ -78,7 +80,6 @@ public class GameCenterController {
         } catch (FileNotFoundException e) {
             System.out.println("Error occurred when reading in thumbnails");
         }
-        // this resets favoriteGames int list
         favoriteGames = new ArrayList<>();
         for (int i = 0; i < gameData.size(); i ++) {
             DataStruct game = gameData.get(i);
@@ -86,13 +87,10 @@ public class GameCenterController {
                 favoriteGames.add(i);
             }
         }
-        // make labels
         int favCounter = favoriteGames.size();
-        Label favLabel = new Label("Favorites (" + favCounter + ")");
+        favLabel.setText("Favorites (" + favCounter + ")");
         int gameCounter = gameData.size();
-        Label gameLabel = new Label("All Games (" + gameCounter + ")");
-        // TODO: set style of labels
-        // place thumbnails of each favorite in favoriteGames
+        gameLabel.setText("All Games (" + gameCounter + ")");
         thumbPaneContent.getChildren().add(favLabel);
         for (int fav : favoriteGames) {
             final int index = fav;
@@ -101,7 +99,6 @@ public class GameCenterController {
             thumbPaneContent.getChildren().add(thumbnailView);
             thumbnailView.setOnMouseClicked(e -> thumbnailClicked(index));
         }
-        // place thumbnails of every game
         thumbPaneContent.getChildren().add(gameLabel);
         int counter = 0;
         for (var game : gameData) {
@@ -217,18 +214,27 @@ public class GameCenterController {
     @FXML
     private void comment() {
         commentPane.setVisible(true);
-        commentTable.getItems().removeAll();
         buildCommentTable();
         descriptionPane.setVisible(false);
     }
 
     // TODO: read in comments from somewhere.
     private void buildCommentTable() {
-        myComments = new ArrayList<>();
-        myComments.add(new Comment("peebs", "I like game"));
-        myComments.add(new Comment("peebs", "Okay cool"));
-        ObservableList commentsObsList = FXCollections.observableList(myComments);
-        commentTable.setItems(commentsObsList);
+        commentTable.getItems().clear();
+        for (Comment com : myComments) {
+            if (com.getMyGame() == myIndex) {
+                commentTable.getItems().add(com);
+            }
+        }
+    }
+
+    @FXML
+    private void enterComment() {
+        String commInput = commentBox.getText();
+        commentBox.clear();
+        Comment c = new Comment(myIndex, username.getText(), commInput);
+        myComments.add(c);
+        buildCommentTable();
     }
 
     @FXML

@@ -53,8 +53,10 @@ public class CanvasScreen extends Screen {
         this.gameCloudWrapper = gcw;
     }
 
+    private boolean selfTrigger = false;
     public void triggerEvent(String gameID) {
         pusherSender.trigger("mainChannel", "update", gameID);
+        selfTrigger = true;
     }
 
     public VBox getObjectGrid() {
@@ -113,7 +115,10 @@ public class CanvasScreen extends Screen {
         channel.bind("update", new SubscriptionEventListener() {
             @Override
             public void onEvent(String channel, String event, String data) {
-                System.out.println("Received request to update "+data);
+                if (!selfTrigger) {
+                    System.out.println("Received request to update " + data);
+                    selfTrigger = true;
+                }
             }
         });
     }

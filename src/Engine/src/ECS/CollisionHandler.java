@@ -76,12 +76,8 @@ public class CollisionHandler {
         for (Instance i : allEntities){
             var motionComponent = i.getComponent(MotionComponent.class);
             if (motionComponent != null) {
-                //TODO make the calls to manager
-                //myEntityManager.move(id);
-                //motionComponent.updateVelocity();
-
-                //myManager.call(Move.class, i);
-                //myManager.call(Move.class, i)
+                myManager.call("Move", i);
+                myManager.call("UpdateVelocity", i);
             }
         }
     }

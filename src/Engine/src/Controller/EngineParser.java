@@ -16,15 +16,11 @@ import java.util.Set;
 public class EngineParser {
 
     private Map<String, String> myHotKeys;
-    private List<TimerSequence> myTimerSequences;
-    private Map<Integer, Timer> myTimers;
     private Map<Pair<String>, String> myCollisionResponses;
-    private Set<Instance> myInstances;
-    private String mySceneLogic;
+    private String myLevelRules;
 
-    public EngineParser(Set instances, String sceneLogic, Map collisionResponses, Map hotKeys, List timerSequences, Map timers){
-        myInstances = instances;
-        mySceneLogic = sceneLogic;
+    public EngineParser(String levelRules, Map collisionResponses, Map hotKeys, List timerSequences, Map timers){
+        myLevelRules = levelRules;
         myCollisionResponses = collisionResponses;
         myHotKeys = hotKeys;
         myTimerSequences = timerSequences;
@@ -34,13 +30,9 @@ public class EngineParser {
     public void initializeDataTypes(String sceneLogic){
         Binding binding = new Binding();
         binding.setProperty("parser", this);
-        GroovyShell shell = new GroovyShell(binding);
+        GroovyShell shell = new GroovyShell();
         Script script = shell.parse(sceneLogic);
         script.run();
-    }
-
-    public void printHere() {
-        System.out.println("here");
     }
 
     private void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
@@ -55,8 +47,12 @@ public class EngineParser {
         myCollisionResponses.put(new Pair<>(type1, type2), response);
     }
 
-    private void addKey() {
-        //TODO
+    private void addKey(String key, String entry) {
+        myHotKeys.put(key, entry);
+    }
+
+    private void addLevelRules(String rules){
+        myLevelRules += rules;
     }
 
 }

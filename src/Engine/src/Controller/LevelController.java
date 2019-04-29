@@ -176,9 +176,9 @@ public class LevelController {
         return myManager.levelPassed();
     }
 
-//    public List<String> debugLog() {
-//        return myDebugLog.getLog();
-//    }
+    public List<String> debugLog() {
+        return myDebugLog.getLog();
+    }
 
 //    public Map<String, Boolean> playSound(String audioFilename) {
 //        Map<String, Boolean> temp = mySounds.getSounds();

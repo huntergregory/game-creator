@@ -1,6 +1,7 @@
 package Player.PlayerMain;
 
 import Engine.src.Controller.GameController;
+import Player.Features.PlayerButtons;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import GameCenter.main.GameCenterController;
@@ -23,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -55,12 +57,15 @@ public class PlayerStage {
     private static final int HUD_UPDATE_DELAY = 10;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
 
+
+    private VBox myVBox;
     private Game myGame;
     private Stage myGameStage;
     private Scene myScene;
     private GridPane myVisualRoot;
     private BorderPane myBorderPane;
     private HUDView myHud;
+    private PlayerButtons myPlayerButtons;
     private DebugConsole myDebugConsole;
 
     private GameCenterController myGameCenterController;
@@ -150,12 +155,16 @@ public class PlayerStage {
     }
 
     private void setHud() {
-        myHud = new HUDView(this, myGameCenterController, HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
+        myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
                 myYPosTracker,
                 myYVelocity,
                 myTimeTracker,
                 myLivesTracker,
                 myPowerupTracker);
+    }
+
+    private void setPlayerButtons() {
+        myPlayerButtons = new PlayerButtons(this);
     }
 
     private void setDebugConsole() {
@@ -167,12 +176,16 @@ public class PlayerStage {
         myGameRoot = new Pane();
         myBorderPane.setCenter(myGameRoot);
         setHud();
-        if (debugMode == true) {
+        setPlayerButtons();
+        myVBox = new VBox();
+        myVBox.getChildren().add(myPlayerButtons.getNode());
+        if (debugMode) {
             setDebugConsole();
             myDebugConsole.addText("");
-            myBorderPane.setRight(myDebugConsole.getMainComponent());
+            myVBox.getChildren().add(myDebugConsole.getMainComponent());
         }
         myBorderPane.setLeft(myHud.getNode());
+        myBorderPane.setRight(myVBox);
     }
 
     private void animate() {
@@ -193,7 +206,7 @@ public class PlayerStage {
             myLevelController.updateScene();
             addNewImageViews();
             updateOrRemoveImageViews();
-
+            updateDebugLog();
             if (myCount % HUD_UPDATE_DELAY == 0) {
                 updateDataTrackers();
                 myHud.update();
@@ -202,8 +215,14 @@ public class PlayerStage {
         }
     }
 
+    private void updateDebugLog() {
+        List<String> debugLog = myLevelController.debugLog();
+        myDebugConsole.update(debugLog);
+    }
+
     private void updateOrRemoveImageViews() {
         for (EngineInstance engineInstance : myImageViewMap.keySet()) {
+            //FIXME removes imageview from game root without the !
             if (myEngineInstances.contains(engineInstance))
                 myGameRoot.getChildren().remove(myImageViewMap.get(engineInstance));
             updateImageView(engineInstance);
@@ -227,7 +246,7 @@ public class PlayerStage {
         HealthComponent healthComponent = engineInstance.getComponent(HealthComponent.class);
         if (basicComponent == null)
             return;
-
+        //FIXME is it instance.getID or is it instance
         ImageView imageView = myImageViewMap.get(engineInstance.getID());
         moveAndResize(imageView, basicComponent);
         setImageIfNecessary(imageView, basicComponent);
@@ -291,12 +310,34 @@ public class PlayerStage {
         return ret;
     }
 
+<<<<<<< HEAD
+    public void updateLives(int lives) {
+        System.out.println(lives);
+    }
+
+    public void updateTime(int time) {
+        System.out.println(time);
+    }
+
+    public void restartGame() {
+        myGameStage.close();
+
+    }
+
     private void setGamePaused() {
-        gamePaused = myHud.getGamePaused();
+        gamePaused = myPlayerButtons.getGamePaused();
     }
 
     public int getGamePaused() {
         return gamePaused;
+    }
+
+    public void saveGame() {
+
+    }
+
+    public void storeScore() {
+        int myFinalScore = (int) myScoreTracker.getLatestValue();
     }
 
 }

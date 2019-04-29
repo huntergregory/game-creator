@@ -144,8 +144,6 @@
     -fx-font-size: 14;
     -fx-text-fill: white;
     -fx-padding: 3;
-<<<<<<< HEAD
-=======
 }
 
 .prompt{
@@ -175,5 +173,4 @@
     -fx-text-fill: white;
     -fx-font-family: Impact;
     -fx-font-size: 32;
->>>>>>> master
 }

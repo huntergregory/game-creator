@@ -1,14 +1,9 @@
 package hud;
 
-import GameCenter.main.GameCenterController;
-import Player.Features.Sliders.LivesSlider;
-import Player.Features.Sliders.TimeSlider;
-import Player.PlayerMain.PlayerStage;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -31,8 +26,6 @@ public class HUDView {
     private static final String PLOTS_HIDDEN_TEXT = "Show Plot";
     private static final String PLOTS_SHOWING_TEXT = "Hide Plot";
 
-    private PlayerStage myPlayerStage;
-    private GameCenterController myGameCenterController;
     private DataTracker[] myTrackers;
     private Label[] myDataLabels;
     private Label myTitle;
@@ -42,13 +35,6 @@ public class HUDView {
     private Plotter myPlotter;
     private boolean myPlotsIncluded = false;
     private Button myPlotToggleButton;
-    private Button myPauseButton;
-    private Button myResumeButton;
-    private Button myRestartButton;
-    private Button mySaveButton;
-    private LivesSlider myLivesSlider;
-    private TimeSlider myTimeSlider;
-    private int gamePaused = 0;
 
     /**
      * Create a HUDView
@@ -58,14 +44,9 @@ public class HUDView {
      * @param includePlots
      * @param trackers
      */
-    public HUDView(PlayerStage playerStage, GameCenterController gameCenterController, double width, double height, String title, boolean includePlots, DataTracker ... trackers) {
-        myPlayerStage = playerStage;
-        myGameCenterController = gameCenterController;
+    public HUDView(double width, double height, String title, boolean includePlots, DataTracker ... trackers) {
         myTrackers = trackers;
         createVBoxes();
-        addGameButtons();
-        addLivesSlider();
-        addTimeSlider();
         addToggle();
         addLabels(title);
         createScrollPane(width, height);
@@ -113,66 +94,6 @@ public class HUDView {
         myHudValuesBox.setSpacing(INTER_VALUES_SPACING);
         myPlotAndValuesBox = new VBox(myHudValuesBox);
         myPlotAndValuesBox.setSpacing(PLOT_VALUES_SPACING);
-    }
-
-    private void addGameButtons() {
-        HBox myBox = new HBox();
-        myPauseButton = new Button("PAUSE");
-        myPauseButton.setOnAction(e -> pauseGame());
-        myResumeButton = new Button("RESUME");
-        myResumeButton.setOnAction(e -> resumeGame());
-        myRestartButton = new Button("RESTART");
-        myRestartButton.setOnAction(e -> restartGame());
-        mySaveButton = new Button("SAVE");
-        mySaveButton.setOnAction(e -> saveGame());
-        myBox.getChildren().add(myPauseButton);
-        myBox.getChildren().add(myResumeButton);
-        myBox.getChildren().add(myRestartButton);
-        myBox.getChildren().add(mySaveButton);
-        myPlotAndValuesBox.getChildren().add(myBox);
-    }
-
-    private void pauseGame() {
-        gamePaused = 1;
-    }
-
-    private void resumeGame() {
-        gamePaused = 0;
-    }
-
-    /**
-     * Return whether the game is paused or active
-     * @return
-     */
-    public int getGamePaused() {
-        return gamePaused;
-    }
-
-    private void restartGame() {
-        myPlayerStage.removeGameStage();
-        myGameCenterController.launchPlayer();
-    }
-
-    private void saveGame() {
-        myPlayerStage.saveGame();
-    }
-
-    private void addLivesSlider() {
-        Label label = new Label("Select Lives");
-        HBox myBox = new HBox();
-        myBox.getChildren().add(label);
-        myLivesSlider = new LivesSlider(myPlayerStage);
-        myBox.getChildren().add(myLivesSlider.getMainComponent());
-        myPlotAndValuesBox.getChildren().add(myBox);
-    }
-
-    private void addTimeSlider() {
-        Label label = new Label("Select Time");
-        HBox myBox = new HBox();
-        myBox.getChildren().add(label);
-        myTimeSlider = new TimeSlider(myPlayerStage);
-        myBox.getChildren().add(myTimeSlider.getMainComponent());
-        myPlotAndValuesBox.getChildren().add(myBox);
     }
 
     private void addToggle() {

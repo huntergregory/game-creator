@@ -179,6 +179,7 @@ public class PlayerStage {
 
     private void updateOrRemoveImageViews() {
         for (Instance instance : myImageViewMap.keySet()) {
+            //FIXME removes imageview from game root without the !
             if (myInstances.contains(instance))
                 myGameRoot.getChildren().remove(myImageViewMap.get(instance));
             updateImageView(instance);
@@ -202,7 +203,7 @@ public class PlayerStage {
         HealthComponent healthComponent = instance.getComponent(HealthComponent.class);
         if (basicComponent == null)
             return;
-
+        //FIXME is it instance.getID or is it instance
         ImageView imageView = myImageViewMap.get(instance.getID());
         moveAndResize(imageView, basicComponent);
         setImageIfNecessary(imageView, basicComponent);

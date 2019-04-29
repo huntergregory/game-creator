@@ -99,31 +99,12 @@ public class LevelController {
 
     private void setUser(){
         for (Instance instance : myInstances) {
-            TagsComponent type = instance.getComponent(TagsComponent.class);
-            if (type.contains("USER")) {
+            String type = instance.getType();
+            if (type.equals("USER")) {
                 myUserInstance = instance;
                 break;
             }
         }
-    }
-
-    private void setDefaultKeys() {
-        //myHotKeys.put("A", new MoveLeft(myUserID));
-        //myHotKeys.put("D", new MoveRight(myUserID));
-        //myHotKeys.put("SPACE", new Jump(myUserID));
-    }
-
-    private void setDefaultTriggers() {
-        /*
-        for(Integer id : myActiveObjects.keySet()) {
-            Component health = myEntityManager.getComponent(id, HealthComponent.class);
-            if (health != null) {
-                List<Conditional> conditionals = new ArrayList<>();
-                conditionals.add(new HealthComparison(true, id, "<=", new HealthComponent(0, 0)));
-                myTriggers.add(new Die(conditionals, id));
-            }
-        }
-        */
     }
 
     public void processKey(String key) {
@@ -199,6 +180,10 @@ public class LevelController {
 
     public Instance getUserInstance() {
         return myUserInstance;
+    }
+
+    public boolean levelPassed() {
+        return myManager.levelPassed();
     }
 
 //    public List<String> debugLog() {

@@ -116,7 +116,7 @@ public class Example extends Application {
     }
 
     //low level, example data getters
-    private String getHudTitle() { return "Level " + getCurrentLevelNumber(); }
+    private String getHudTitle() { return "GameLoader " + getCurrentLevelNumber(); }
     private int getCurrentLevelNumber() { return 1; }
     private double getXPosition() {return 0;}
     private double getYPosition() {return 0;}

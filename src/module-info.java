@@ -17,8 +17,9 @@ module voogasalad.crackingopen {
     requires google.auth.library.credentials;
     requires google.auth.library.oauth2.http;
     requires google.api.client;
+    requires pusher.http.java;
+    requires pusher.java.client;
 
-    exports gamecenter;
     exports auth.auth_fxml_controllers;
     exports gamedata to gson;
     exports auth.helpers to gson;

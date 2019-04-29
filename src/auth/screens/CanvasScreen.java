@@ -7,6 +7,10 @@ import auth.auth_ui_components.Selectable;
 import auth.helpers.DataHelpers;
 import auth.helpers.GameCloudWrapper;
 import auth.pagination.PaginationUIElement;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.SubscriptionEventListener;
+import com.pusher.rest.Pusher;
 import gamedata.Game;
 import gamedata.Instance;
 import gamedata.Resource;
@@ -17,6 +21,7 @@ import javafx.stage.Stage;
 import uiutils.panes.BottomPane;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static auth.Colors.*;
@@ -30,6 +35,9 @@ public class CanvasScreen extends Screen {
     private Group container;
     private Stage stage;
     private Game game;
+    private Pusher pusherSender = new Pusher("245192", "99244f3550e4ac4a1ce7", "934e0900e15a258cdd56");
+    PusherOptions options = new PusherOptions().setCluster("mt1");
+    private com.pusher.client.Pusher pusherReceiver = new com.pusher.client.Pusher("99244f3550e4ac4a1ce7", options);
 
     public Selectable currentlySelected = null;
     public Class selectedType = null;
@@ -43,6 +51,10 @@ public class CanvasScreen extends Screen {
 
     public void setGameCloudWrapper(GameCloudWrapper gcw) {
         this.gameCloudWrapper = gcw;
+    }
+
+    public void triggerEvent(String gameID) {
+        pusherSender.trigger("mainChannel", "update", gameID);
     }
 
     public VBox getObjectGrid() {
@@ -93,6 +105,17 @@ public class CanvasScreen extends Screen {
         colorGrid = new VBox(5);
         gameCloudWrapper.owner = getLoggedInUsername();
         gameCloudWrapper.game = game;
+        pusherSender.setCluster("mt1");
+
+        pusherReceiver.connect();
+        // Subscribe to a channel
+        Channel channel = pusherReceiver.subscribe("mainChannel");
+        channel.bind("update", new SubscriptionEventListener() {
+            @Override
+            public void onEvent(String channel, String event, String data) {
+                System.out.println("Received request to update "+data);
+            }
+        });
     }
 
     public int createNewScene() {

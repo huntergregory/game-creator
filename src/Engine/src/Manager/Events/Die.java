@@ -1,7 +1,7 @@
 package Engine.src.Manager.Events;
 
-import gamedata.GameObjects.Components.LivesComponent;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.Components.LivesComponent;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -11,30 +11,30 @@ import java.util.Set;
 //FIXME
 public class Die extends InstanceDependentEvent {
 
-    public Die(Set<Instance> instances) {
-        super(instances);
+    public Die(Set<EngineInstance> engineInstances) {
+        super(engineInstances);
     }
 
     @Override
-    protected void modifyInstance(Instance instance, Object... args) {
+    protected void modifyInstance(EngineInstance engineInstance, Object... args) {
 
-        if(instance.hasComponent(LivesComponent.class)){
-            LivesComponent lives = instance.getComponent(LivesComponent.class);
+        if(engineInstance.hasComponent(LivesComponent.class)){
+            LivesComponent lives = engineInstance.getComponent(LivesComponent.class);
             if (lives.expired())
-                myInstances.remove(instance);
+                myEngineInstances.remove(engineInstance);
             else {
-                respawn(instance, lives.getRespawnInstructions());
+                respawn(engineInstance, lives.getRespawnInstructions());
                 lives.removeLife();
             }
         }
         else
-            myInstances.remove(instance);
+            myEngineInstances.remove(engineInstance);
     }
 
     //FIXME - should be another event
-    private void respawn(Instance instance, String respawnInstructions){
+    private void respawn(EngineInstance engineInstance, String respawnInstructions){
         Binding binding = new Binding();
-        binding.setProperty("instance", instance);
+        binding.setProperty("engineInstance", engineInstance);
         binding.setProperty("manager", this);
         GroovyShell shell = new GroovyShell(binding);
         Script instructions = shell.parse(respawnInstructions);

@@ -21,9 +21,9 @@ public class InstanceUI implements Selectable {
     public void deselect() {
 
     }
-    /*    private Instance instance; private Game game;
+    /*    private EngineInstance instance; private Game game;
     private Node view;
-    public InstanceUI (Instance instance, Game game) {
+    public InstanceUI (EngineInstance instance, Game game) {
         this.instance = instance; this.game = game;
 
         try {

@@ -58,7 +58,7 @@ public class DataHelpers {
         return false;
     }
 
-    public static GameObject getObjectByID(Game game, String id) {
+    public static EngineGameObject getObjectByID(Game game, String id) {
         for (var s : game.gameObjects) {
             if (s.objectID.equals(id)) {
                 return s;

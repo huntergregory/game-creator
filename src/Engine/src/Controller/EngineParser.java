@@ -1,39 +1,72 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
-import Engine.src.Timers.TimerSequence;
-import gamedata.GameObjects.Components.Component;
+import Engine.src.EngineData.EngineGameObject;
+import Engine.src.EngineData.EngineInstance;
 import Engine.src.Timers.Timer;
-import gamedata.GameObjects.Instance;
+import gamedata.GameObject;
+import gamedata.Instance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 import java.util.*;
 import java.util.Map;
-import java.util.Set;
 
 public class EngineParser {
 
     private Map<String, String> myHotKeys;
     private Map<Pair<String>, String> myCollisionResponses;
     private String myLevelRules;
+    private Set<EngineGameObject> myGameEngineObjects;
+    private Set<EngineInstance> myEngineInstances;
 
     public EngineParser(String levelRules, Map collisionResponses, Map hotKeys, List timerSequences, Map timers){
         myLevelRules = levelRules;
         myCollisionResponses = collisionResponses;
         myHotKeys = hotKeys;
-        myTimerSequences = timerSequences;
-        myTimers = timers;
+        myEngineInstances = new HashSet<>();
+        myGameEngineObjects = new HashSet<>();
     }
 
-    public void initializeDataTypes(String sceneLogic){
-        Binding binding = new Binding();
-        binding.setProperty("parser", this);
-        GroovyShell shell = new GroovyShell();
+    private void parseSceneLogic(String sceneLogic){
         Script script = shell.parse(sceneLogic);
         script.run();
     }
+
+    private void parse(String sceneLogic, Set<GameObject> serializedObjects, Set<Instance> serializedInstances){
+        Binding binding = new Binding();
+        GroovyShell shell = new GroovyShell(binding);
+        binding.setProperty("parser", this);
+
+        for(GameObject serializedObject : serializedObjects){
+            String objectType = serializedObject.objectID;
+            EngineGameObject object = new EngineGameObject(objectType);
+            binding.setProperty("object", object);
+            String objectLogic = serializedObject.objectLogic;
+            Script objectInitialzer = shell.parse(objectLogic);
+            objectInitialzer.run();
+            myGameEngineObjects.add(object);
+
+            for(Instance serializedInstance : serializedInstances){
+                String instanceOf = serializedInstance.instanceOf;
+
+                if (instanceOf.equals(objectType)) {
+                    object = new EngineGameObject(objectType);
+                    String instanceID = serializedInstance.instanceID;
+                    EngineInstance instance = object.createInstance(instanceID);
+                    binding.setProperty("instance", instance);
+                    String instanceLogic = serializedInstance.instanceLogic;
+                    Script instanceInitializer = shell.parse(instanceLogic);
+                    instanceInitializer.run();
+                    myEngineInstances.add(instance);
+                }
+            }
+            Script dataInitializer = shell.parse(sceneLogic);
+            dataInitializer.run();
+        }
+    }
+
 
     private void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
         int max = 0;

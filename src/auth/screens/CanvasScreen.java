@@ -5,6 +5,7 @@ import auth.UIElement;
 import auth.auth_ui_components.InstanceUI;
 import auth.auth_ui_components.Selectable;
 import auth.helpers.DataHelpers;
+import auth.helpers.GameCloudWrapper;
 import auth.pagination.PaginationUIElement;
 import gamedata.Game;
 import gamedata.Instance;
@@ -33,6 +34,12 @@ public class CanvasScreen extends Screen {
     public Selectable currentlySelected = null;
     public Class selectedType = null;
     public String selectedID = "";
+
+    private GameCloudWrapper gameCloudWrapper = new GameCloudWrapper();
+
+    public GameCloudWrapper getGameCloudWrapper () {
+        return gameCloudWrapper;
+    }
 
     public VBox getObjectGrid() {
         return objectGrid;
@@ -80,6 +87,8 @@ public class CanvasScreen extends Screen {
         imageGrid = new VBox(5);
         audioGrid = new VBox(5);
         colorGrid = new VBox(5);
+        gameCloudWrapper.owner = getLoggedInUsername();
+        gameCloudWrapper.game = game;
     }
 
     public int createNewScene() {

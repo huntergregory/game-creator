@@ -2,28 +2,30 @@ package auth.helpers;
 
 import auth.screens.CanvasScreen;
 import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.BucketInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import gamedata.Game;
 import gamedata.GameObject;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
 import uiutils.panes.Pane;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static auth.helpers.ScreenHelpers.initialiseGrids;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MenuClickHandlers {
     public static uiutils.panes.Pane paneA;
@@ -68,6 +70,7 @@ public class MenuClickHandlers {
                 ScreenHelpers.closeMenu(context, paneA, paneB, paneContainer, namePane);
                 context.setGame(game);
             } catch (Exception e) {
+                e.printStackTrace();
                 // TODO: Tell user it's not a good file
             }
         }
@@ -75,6 +78,8 @@ public class MenuClickHandlers {
 
     public static void handleSaveToCloud (CanvasScreen context) {
         try {
+            GameCloudWrapper gcw = context.getGameCloudWrapper();
+            gcw.game = context.getGame();
             String SERVICE_ACCOUNT_JSON_PATH = "/Users/anshudwibhashi/work/school/CS308/voogasalad_crackingopen/lib/TMTP-b2dc645337e7.json";
             // Instantiates a client
             Storage storage =
@@ -86,13 +91,31 @@ public class MenuClickHandlers {
                             .build()
                             .getService();
 
-            // The name for the new bucket
-            String bucketName = "voogasalad-anshudwibhashi-userfiles";
-
-            // Creates the new bucket
-            Bucket bucket = storage.create(BucketInfo.of(bucketName));
-
-            System.out.printf("Bucket %s created.%n", bucket.getName());
+            if (gcw.gameID.isEmpty()) {
+                TextInputDialog dialog = new TextInputDialog("examplegameid");
+                dialog.setTitle("Choose gameID");
+                dialog.setHeaderText("Must be alphanumeric only.");
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> {
+                    if(StringUtils.isAlphanumeric(name)) {
+                        gcw.gameID = name;
+                        String contents = new Gson().toJson(gcw, new TypeToken<GameCloudWrapper>(){}.getType());
+                        BlobId blobId = BlobId.of("voogasalad-files", name);
+                        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
+                        Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Invalid ID");
+                        alert.setContentText("Needs to be alphanumeric");
+                        alert.show();
+                    }
+                });
+            } else {
+                String contents = new Gson().toJson(gcw, new TypeToken<GameCloudWrapper>(){}.getType());
+                BlobId blobId = BlobId.of("voogasalad-files", gcw.gameID);
+                BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
+                Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

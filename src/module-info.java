@@ -20,6 +20,8 @@ module voogasalad.crackingopen {
 
     exports gamecenter;
     exports auth.auth_fxml_controllers;
+    exports gamedata to gson;
+    exports auth.helpers to gson;
 
     opens ez_engine to org.codehaus.groovy, java.scripting;
     opens dummy_player to org.codehaus.groovy, java.scripting;

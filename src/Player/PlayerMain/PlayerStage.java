@@ -106,9 +106,8 @@ public class PlayerStage {
 
     public void load(String gameName) {
         try {
-            Serializer serializer = new Serializer();
-            GameLoader loader = new GameLoader(0, serializer.deserialize(Serializer.FILE_PATH));
-            myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, loader.getGameLogic());
+
+            myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, game);
             myLevelNumber = loader.getMyLevelNumber();
             startNewLevel();
         } catch (IOException e) {

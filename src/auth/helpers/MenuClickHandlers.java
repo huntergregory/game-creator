@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Scanner;
 
+import static auth.helpers.DataHelpers.SERVICE_ACCOUNT_JSON_PATH;
 import static auth.helpers.ScreenHelpers.initialiseGrids;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -82,7 +83,6 @@ public class MenuClickHandlers {
         try {
             GameCloudWrapper gcw = context.getGameCloudWrapper();
             gcw.game = context.getGame();
-            String SERVICE_ACCOUNT_JSON_PATH = "/Users/anshudwibhashi/work/school/CS308/voogasalad_crackingopen/lib/TMTP-b2dc645337e7.json";
             // Instantiates a client
             Storage storage =
                     StorageOptions.newBuilder()
@@ -125,7 +125,6 @@ public class MenuClickHandlers {
 
     public static void handleLoadFromCloud (CanvasScreen context) {
         try {
-            String SERVICE_ACCOUNT_JSON_PATH = "/Users/anshudwibhashi/work/school/CS308/voogasalad_crackingopen/lib/TMTP-b2dc645337e7.json";
             // Instantiates a client
             Storage storage =
                     StorageOptions.newBuilder()
@@ -185,6 +184,7 @@ public class MenuClickHandlers {
             String allowed[] = name.split(",");
             context.getGameCloudWrapper().allowAccess.clear();
             context.getGameCloudWrapper().allowAccess.addAll(Arrays.asList(allowed));
+            DataHelpers.sendNewCloudData(context);
         });
     }
 }

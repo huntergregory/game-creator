@@ -103,14 +103,9 @@ public class PlayerStage {
 //        stage.load("");
 //    }
 
-    public void run(Game game, Boolean debug) {
-        debugMode = debug;
-        startNewLevel();
-    }
-
-    public void load(String gameName) {
+    public void load(String gameName, Boolean debug) {
         try {
-
+            debugMode = debug;
             myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, game);
             myLevelNumber = loader.getMyLevelNumber();
             startNewLevel();

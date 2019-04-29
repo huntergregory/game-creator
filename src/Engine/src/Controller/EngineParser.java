@@ -37,7 +37,7 @@ public class EngineParser {
         script.run();
     }
 
-    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
+    private void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
         int max = 0;
         for(int ID : myTimers.keySet()){
             if (ID > max) max = ID;
@@ -45,8 +45,12 @@ public class EngineParser {
         myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, 0));
     }
 
-    public void addCollision(String type1, String type2, String response1, String response2){
+    private void addCollision(String type1, String type2, String response1, String response2){
         myCollisionResponses.put(new Pair<>(type1, type2), new Pair<>(response1, response2));
+    }
+
+    private void addKey() {
+        //TODO
     }
 
 }

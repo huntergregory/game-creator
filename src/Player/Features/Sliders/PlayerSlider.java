@@ -1,15 +1,17 @@
 package Player.Features.Sliders;
 
 import Player.Features.Feature;
+import Player.PlayerMain.PlayerStage;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
 
 public abstract class PlayerSlider extends Feature {
     static final double[] DEFAULT_MIN_MAX_CURRENT = {0, 5, 1};
-
+    public PlayerStage myPlayerStage;
     private Slider mySlider;
 
-    PlayerSlider() {
+    PlayerSlider(PlayerStage playerStage) {
+        myPlayerStage = playerStage;
         double[] minMaxCurrent = getMinMaxCurrentVals();
         if (minMaxCurrent == null || minMaxCurrent.length != 3)
             minMaxCurrent = DEFAULT_MIN_MAX_CURRENT;

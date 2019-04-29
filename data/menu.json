@@ -28,5 +28,15 @@
   {
     "name" : "Add Collision",
     "handler" : "handleAddCollision"
+  },
+
+  {
+    "name" : "Add Key Event",
+    "handler" : "handleAddKeyEvent"
+  },
+
+  {
+    "name" : "Add Scene Script",
+    "handler" : "handleAddSceneScript"
   }
 ]

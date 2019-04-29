@@ -7,10 +7,10 @@ public class SceneScriptController {
     @FXML
     public TextField sceneScript;
 
-    public String myScript;
+    public String script;
 
     public void addSceneScript(){
-        myScript = sceneScript.getText();
+        script = sceneScript.getText();
         sceneScript.getScene().getWindow().hide();
     }
 }

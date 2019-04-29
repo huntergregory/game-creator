@@ -2,19 +2,17 @@ package auth.helpers;
 
 import auth.RunTest;
 import auth.auth_fxml_controllers.CollisionController;
+import auth.auth_fxml_controllers.KeyEventController;
 import auth.auth_fxml_controllers.ObjectScriptController;
+import auth.auth_fxml_controllers.SceneScriptController;
 import auth.screens.CanvasScreen;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import gamedata.Game;
-import gamedata.GameObject;
 import gamedata.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import uiutils.panes.Pane;
@@ -91,6 +89,30 @@ public class MenuClickHandlers {
         try{
             FXMLLoader loader = addPopup("/auth_components_fxml/collision.fxml");
             CollisionController controller = loader.getController();
+            Game o = context.getGame();
+            Scene scene = o.scenes.get(0);
+            scene.sceneLogic = scene.sceneLogic + controller.myScript;
+        } catch (IOException e) {
+            System.out.println("Error loading the components fxml");
+        }
+    }
+
+    public static void handleAddKeyEvent(CanvasScreen context){
+        try{
+            FXMLLoader loader = addPopup("/auth_components_fxml/keyEvent.fxml");
+            KeyEventController controller = loader.getController();
+            Game o = context.getGame();
+            Scene scene = o.scenes.get(0);
+            scene.sceneLogic = scene.sceneLogic + controller.myScript;
+        } catch (IOException e) {
+            System.out.println("Error loading the components fxml");
+        }
+    }
+
+    public static void handleAddSceneScript(CanvasScreen context){
+        try{
+            FXMLLoader loader = addPopup("/auth_components_fxml/sceneScript.fxml");
+            SceneScriptController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(0);
             scene.sceneLogic = scene.sceneLogic + controller.myScript;

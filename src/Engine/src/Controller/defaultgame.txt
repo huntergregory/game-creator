@@ -1,0 +1,17 @@
+Scene 1:
+
+addGameObject("Mario")
+addComponent("Mario", MotionComponent.class)
+addComponent("Mario")
+addComponent("Mario")
+
+
+addGameObject()
+newInstance("Mario", "")
+
+addCollision("Mario", "Block", "script");
+addCollision("Mario", "Turtle", "script");
+addCollision("Turtle", "Block", "script");
+addCollision("Mario", "Object2Type", "script");
+addCollision("Object1Type", "Object2Type", "script");
+addCollision("Object1Type", "Object2Type", "script");

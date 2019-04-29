@@ -1,10 +1,8 @@
 package Engine.src.Controller;
 
+import Engine.src.Manager.Events.Event;
 import gamedata.GameObjects.Components.*;
 import Engine.src.ECS.Pair;
-import Engine.src.DeprecatedTriggers.Events.Event;
-import Engine.src.DeprecatedTriggers.Events.ObjectEvents.Deflect;
-import Engine.src.DeprecatedTriggers.Events.ObjectEvents.Portal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,7 +104,7 @@ public class DefaultGame {
     private void makeUser() {
         Map<Class<? extends Component>, Component> user = new HashMap<>();
         user.put(BasicComponent.class, new BasicComponent(USER_IMAGE, 50, 50, USER_WIDTH, USER_HEIGHT));
-        user.put(MotionComponent.class, new MotionComponent(0, 0, 0, GRAVITY, 0, USER_MOVEMENT_VELOCITY, 0));
+        user.put(MotionComponent.class, new MotionComponent(0, 0, 0, GRAVITY, 0, USER_MOVEMENT_VELOCITY));
         user.put(JumpComponent.class, new JumpComponent(USER_JUMP_VELOCITY));
         List<String> userTag = new ArrayList<>();
         userTag.add("USER");
@@ -116,9 +114,7 @@ public class DefaultGame {
 
     private void addCollisions() {
         //makeCollision("USER", "BLOCK", new Deflect(new ArrayList<>(), 0));
-        makeCollision("USER", "TRAMPOLINE", new Deflect(new ArrayList<>(), 0));
-        makeCollision("USER", "SHOOTER", new Portal(new ArrayList<>(), true));
-        makeCollision("USER", "STOPPER", new Portal(new ArrayList<>(), false));
+
     }
 
     private void makeCollision(String tag1, String tag2, Event event) {

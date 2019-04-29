@@ -140,4 +140,8 @@ public class Manager {
     public void setLevelPass() {
         levelPassed = true;
     }
+
+    public boolean levelPassed() {
+        return levelPassed;
+    }
 }

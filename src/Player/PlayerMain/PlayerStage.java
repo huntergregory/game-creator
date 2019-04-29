@@ -130,7 +130,7 @@ public class PlayerStage {
     }
 
     private void setHud() {
-        myHud = new HUDView(this, myGameCenterController, HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
+        myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
                 myYPosTracker,
                 myYVelocity,
                 myTimeTracker,
@@ -279,8 +279,9 @@ public class PlayerStage {
         System.out.println(time);
     }
 
-    public void removeGameStage() {
+    public void restartGame() {
         myGameStage.close();
+
     }
 
     private void setGamePaused() {
@@ -291,14 +292,12 @@ public class PlayerStage {
         return gamePaused;
     }
 
-    public void saveGame() {
+    public void saveGame(String file) {
 
     }
 
     public void storeScore() {
         int myFinalScore = (int) myScoreTracker.getLatestValue();
     }
-
-
 
 }

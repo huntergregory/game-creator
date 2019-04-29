@@ -14,7 +14,7 @@ import java.io.File;
 
 import static auth.Colors.DEFAULT_TEXT_COLOR;
 import static auth.RunAuth.bebasKaiMedium;
-import static auth.helpers.ScreenHelpers.initialiseGrids;
+//import static auth.helpers.ScreenHelpers.initialiseGrids;
 
 /**
  * Author: Anshu Dwibhashi
@@ -22,7 +22,7 @@ import static auth.helpers.ScreenHelpers.initialiseGrids;
  * by reflection, it is critical to follow this convention.
  */
 public class ToolClickHandlers {
-    public static void handleNewScene (CanvasScreen context) {
+    /*public static void handleNewScene (CanvasScreen context) {
         int newSceneCount = context.createNewScene();
         var sceneText = new Text("Scene " + newSceneCount);
         sceneText.setFont(bebasKaiMedium);
@@ -87,5 +87,5 @@ public class ToolClickHandlers {
         initialiseGrids(context);
         System.out.println("Created new object");
     }
-
+*/
 }

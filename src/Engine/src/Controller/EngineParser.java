@@ -16,8 +16,6 @@ import java.util.Set;
 public class EngineParser {
 
     private Map<String, String> myHotKeys;
-    private List<TimerSequence> myTimerSequences;
-    private Map<Integer, Timer> myTimers;
     private Map<Pair<String>, String> myCollisionResponses;
     private String myLevelRules;
 

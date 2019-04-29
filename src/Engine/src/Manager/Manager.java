@@ -34,7 +34,6 @@ public class Manager {
 
     private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
-    Set<Instance> myInstances;
     private double myCount;
     private Binding myBinding;
     private GroovyShell myShell;
@@ -66,7 +65,6 @@ public class Manager {
 */
     public Manager(Game game, double stepTime, Binding binding) {
         myGame = game;
-        myInstances = myGame.currentScene.instances;
         myStepTime = stepTime;
         myBinding = binding;
         myShell = new GroovyShell(myBinding);
@@ -76,7 +74,7 @@ public class Manager {
     public void call(String eventClass, Instance instance, Object ... args) {
         for(String subfolder : SUBFOLDERS) {
             try {
-                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + eventClass, myGame.currentScene.instances);
+                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + eventClass, getCurrentInstances());
                 event.activate(instance, args);
             } catch (ReflectionException e) {
                 System.out.println(REFLECTION_ERROR);
@@ -127,7 +125,7 @@ public class Manager {
     }
 
     public void executeEntityLogic() {
-        for (Instance instance : myInstances) {
+        for (Instance instance : getCurrentInstances()) {
             LogicComponent logicComponent = instance.getComponent(LogicComponent.class);
             String logic = logicComponent.getLogic();
             myBinding.setProperty("instance", instance);
@@ -147,5 +145,9 @@ public class Manager {
 
     public boolean levelPassed() {
         return levelPassed;
+    }
+
+    private Set<Instance> getCurrentInstances() {
+        return myGame.scenes.get(myGame.currentLevel).instances;
     }
 }

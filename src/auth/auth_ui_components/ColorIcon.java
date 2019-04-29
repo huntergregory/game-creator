@@ -4,7 +4,16 @@ import auth.Callback;
 import javafx.scene.paint.Color;
 
 public class ColorIcon extends Icon {
-    public ColorIcon(Color color, String tooltipText, Callback onClickCallback) {
-        super(color, tooltipText, onClickCallback);
+    @Override
+    public void select() {
+
     }
+
+    @Override
+    public void deselect() {
+
+    }
+    /*    public ColorIcon(Color color, String tooltipText, Callback onClickCallback) {
+        super(color, tooltipText, onClickCallback);
+    }*/
 }

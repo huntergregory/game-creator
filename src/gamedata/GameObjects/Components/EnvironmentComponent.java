@@ -6,32 +6,24 @@ public class EnvironmentComponent extends Component{
     private double myAccelY;
     private double myMaxXVelocity;
     private double myMaxYVelocity;
-    private double myVelDampener;
-    private double myFriction;
+    private double myDragCoeff;
 
-    public EnvironmentComponent(double accelX, double accelY, double velDampener, double friction, double maxXVel, double maxYVel) {
+    public EnvironmentComponent(double accelX, double accelY, double dragCoeff, double maxXVel, double maxYVel) {
         myAccelX = accelX;
         myAccelX = accelY;
-        myVelDampener = velDampener;
-        myFriction = friction;
+        myDragCoeff = dragCoeff;
         myMaxXVelocity = maxXVel;
         myMaxYVelocity = maxYVel;
     }
-
-    public double getAccelX() {
-        return myAccelX;
+    //Using k*v instead of k*v^2
+    public double getUpdatedAccel(double velocity) {
+        double dragSign = -1 * velocity / Math.abs(velocity);
+        double dragAccel = myDragCoeff * velocity / 2;
+        return myAccelX + dragSign * dragAccel;
     }
 
-    public double getAccelY() {
-        return myAccelY;
-    }
-
-    public double getVelDamper() {
-        return myVelDampener;
-    }
-
-    public double getFriction() {
-        return myFriction;
+    public double getUpdatedMovementVelocity(double velocity, double defaultVel) {
+        return velocity - myDragCoeff * defaultVel;
     }
 
     public double getMaxXVelocity() {

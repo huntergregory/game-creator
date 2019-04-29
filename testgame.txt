@@ -1,0 +1,1 @@
+["parser.addCollision(\u0027Mario\u0027, \u0027Mario\u0027, \u0027Mario\u0027)"]

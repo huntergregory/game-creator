@@ -218,7 +218,7 @@ public class GameCenterController {
 
     @FXML
     public void launchPlayer() {
-        new PlayerStage().load(gameData.get(myIndex).getSourcePath());
+        new PlayerStage(this).load(gameData.get(myIndex).getSourcePath());
     }
 
     @FXML

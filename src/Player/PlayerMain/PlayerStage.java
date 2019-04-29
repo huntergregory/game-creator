@@ -84,7 +84,7 @@ public class PlayerStage {
         //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
         myScene.getStylesheets().add(STYLESHEET);
         try {
-            new Serializer().serialize(List.of("addCollision('Mario', 'Block', 'script');", "addCollision('Mario', 'Turtle');"));
+            new Serializer().serialize(List.of("parser.printHere(); parser.addCollision('Mario', 'Block', 'script');", "parser.addCollision('Mario', 'Turtle');"));
         }
         catch (IOException e) {
             System.out.println("Couldn't write to file.");

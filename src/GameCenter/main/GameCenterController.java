@@ -2,6 +2,7 @@ package GameCenter.main;
 
 import GameCenter.gameData.DataParser;
 import GameCenter.gameData.DataStruct;
+import GameCenter.utilities.Comment;
 import GameCenter.utilities.Thumbnail;
 import Player.PlayerMain.PlayerStage;
 import auth.RunAuth;
@@ -9,6 +10,7 @@ import auth.RunAuth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
@@ -39,6 +41,7 @@ public class GameCenterController {
     private int myIndex;
     private Number ratingVal;
     private ImageView activeGameImageView;
+    private ArrayList<Comment> myComments;
 
     @FXML
     public Pane socialPane, newGamePane, descriptionPane, ratingPane, commentPane;
@@ -214,12 +217,18 @@ public class GameCenterController {
     @FXML
     private void comment() {
         commentPane.setVisible(true);
-
+        commentTable.getItems().removeAll();
+        buildCommentTable();
         descriptionPane.setVisible(false);
     }
 
-    private void initCommentTable() {
-
+    // TODO: read in comments from somewhere.
+    private void buildCommentTable() {
+        myComments = new ArrayList<>();
+        myComments.add(new Comment("peebs", "I like game"));
+        myComments.add(new Comment("peebs", "Okay cool"));
+        ObservableList commentsObsList = FXCollections.observableList(myComments);
+        commentTable.setItems(commentsObsList);
     }
 
     @FXML

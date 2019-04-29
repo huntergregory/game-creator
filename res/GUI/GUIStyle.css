@@ -154,7 +154,7 @@
 }
 
 .tableView {
-    -fx-font-size: 20;
+    -fx-font-size: 15;
     -fx-font-family: Impact;
     -fx-text-fill: black;
     -fx-background-fill: ghostwhite;

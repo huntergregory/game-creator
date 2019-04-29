@@ -125,10 +125,10 @@
           <Pane fx:id="commentPane" prefHeight="390.0" prefWidth="425.0" styleClass="centerPane" visible="false">
               <children>
                   <Text fx:id="commentText" layoutX="150.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="paneText" text="Comments" />
-                  <TableView fx:id="commentTable" layoutX="20.0" layoutY="60.0" prefWidth="300.0" prefHeight="160.0" styleClass="tableView">
+                  <TableView fx:id="commentTable" editable="false" layoutX="20.0" layoutY="60.0" prefWidth="385.0" prefHeight="160.0" styleClass="tableView">
                       <columns>
-                          <TableColumn prefWidth="75.0" text="User" fx:id="user"/>
-                          <TableColumn prefWidth="225.0" text="Comment" fx:id="comment"/>
+                          <TableColumn prefWidth="75.0" cellValueFactory="myUser" text="User" fx:id="user"/>
+                          <TableColumn prefWidth="310.0" cellValueFactory="myComment" text="Comment" fx:id="comment"/>
                       </columns>
                   </TableView>
                   <Button fx:id="returnButtonC" layoutX="163.0" layoutY="261.0" mnemonicParsing="false" onAction="#returnToDescription" styleClass="largeButton" text="Done" />

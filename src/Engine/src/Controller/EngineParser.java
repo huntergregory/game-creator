@@ -1,6 +1,7 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
+import Engine.src.EngineData.EngineInstance;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
 import groovy.lang.Binding;
@@ -15,6 +16,8 @@ public class EngineParser {
     private Map<String, String> myHotKeys;
     private Map<Pair<String>, String> myCollisionResponses;
     private String myLevelRules;
+    EngineInstance myUserEngineInstance;
+    Set<EngineInstance> myEngineInstances;
     private List<TimerSequence> myTimerSequences;
     private HashMap<Integer, Timer> myTimers;
 
@@ -24,14 +27,6 @@ public class EngineParser {
         myLevelRules = "";
         myTimerSequences = new ArrayList<>();
         myTimers = new HashMap<>();
-    }
-
-    public void initializeDataTypes(String sceneLogic){
-        Binding binding = new Binding();
-        binding.setProperty("parser", this);
-        GroovyShell shell = new GroovyShell();
-        Script script = shell.parse(sceneLogic);
-        script.run();
     }
 
     public void addCollision(String type1, String type2, String response){
@@ -54,4 +49,23 @@ public class EngineParser {
         myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, 0));
     }
 
+    protected Map<String, String> getHotKeys() {
+        return myHotKeys;
+    }
+
+    protected Map<Pair<String>, String> getCollisions() {
+        return myCollisionResponses;
+    }
+
+    protected String getLevelRules() {
+        return myLevelRules;
+    }
+
+    protected Set<EngineInstance> getEngineInstances() {
+        return myEngineInstances;
+    }
+
+    protected EngineInstance getUserEngineInstance() {
+        return myUserEngineInstance;
+    }
 }

@@ -35,14 +35,8 @@ public class LevelController {
     private double myLevelWidth;
     private double myLevelHeight;
 
-    private Map<String, String> myHotKeys;
-    private List<TimerSequence> myTimerSequences;
-    private Map<Integer, Timer> myTimers;
-    private Map<Pair<String>, String> myCollisionResponses;
-    private Set<EngineInstance> myEngineInstances;
-    private String myLevelRules;
+    EngineParser myParser;
 
-    private EngineInstance myUserEngineInstance;
     private double myStepTime;
     private double myIterationCounter;
     private double[] myOffset;
@@ -65,23 +59,14 @@ public class LevelController {
         myLevelWidth = levelWidth;
         myLevelHeight = levelHeight;
 
-        myLevelRules = "";
-        myCollisionResponses = new HashMap<>();
-        myHotKeys = new HashMap<>();
-        myTimerSequences = new ArrayList<>();
-        myTimers = new HashMap<>();
-
         myGame = game;
         Integer levelIndex = game.currentLevel;
         Scene scene = myGame.scenes.get(levelIndex);
-        myEngineInstances = scene.instances;
-        String sceneLogic = scene.sceneLogic;
 
-        var parser = new EngineParser(myLevelRules, myCollisionResponses, myHotKeys, myTimerSequences, myTimers);
-        parser.initializeDataTypes(sceneLogic);
+        myParser = new EngineParser();
 
-        for (Pair<String> objectPair : myCollisionResponses.keySet()) {
-            System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + myCollisionResponses.get(objectPair));
+        for (Pair<String> objectPair : myParser.getCollisions().keySet()) {
+            System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + myParser.getCollisions().get(objectPair));
         }
 
         myIterationCounter = 0;
@@ -91,8 +76,14 @@ public class LevelController {
         initializeGroovyShell();
         myManager = new Manager(myGame, myStepTime, myBinding);
         myCollisionHandler = new CollisionHandler(myManager);
+    }
 
-        setUser();
+    private void initializeDataTypes(String sceneLogic){
+        Binding binding = new Binding();
+        binding.setProperty("parser", this);
+        GroovyShell shell = new GroovyShell();
+        Script script = shell.parse(sceneLogic);
+        script.run();
     }
 
     private void initializeGroovyShell() {
@@ -104,39 +95,29 @@ public class LevelController {
         myShell = new GroovyShell(myBinding);
     }
 
-    private void setUser(){
-        for (EngineInstance engineInstance : myEngineInstances) {
-            String type = engineInstance.getType();
-            if (type.equals("USER")) {
-                myUserEngineInstance = engineInstance;
-                break;
-            }
-        }
-    }
-
     public void processKey(String key) {
-        if (myHotKeys.containsKey(key)) {
-            String event = myHotKeys.get(key);
+        if (myParser.getHotKeys().containsKey(key)) {
+            String event = myParser.getHotKeys().get(key);
             GroovyShell shell = new GroovyShell(myBinding);
-            myBinding.setProperty("instance", myUserEngineInstance);
+            myBinding.setProperty("instance", myParser.getUserEngineInstance());
             Script script = shell.parse(event);
             script.run();
         } else ; //TODO:error
     }
 
     public void updateScene() {
-        Script script = myShell.parse(myLevelRules);
+        Script script = myShell.parse(myParser.getLevelRules());
         script.run();
         myManager.executeEntityLogic();
         myManager.updateTimers();
         myManager.updateSequences();
         myManager.updateCount();
-        myCollisionHandler.handleCollisions(myEngineInstances, myCollisionResponses);
+        myCollisionHandler.handleCollisions(myParser.getEngineInstances(), myParser.getCollisions());
         myOffset = updateOffset();
     }
 
     private double[] updateOffset() {
-        BasicComponent basic = myUserEngineInstance.getComponent(BasicComponent.class);
+        BasicComponent basic = myParser.getUserEngineInstance().getComponent(BasicComponent.class);
         double userX = basic.getX();
         double userY = basic.getY();
         double userWidth = basic.getWidth();
@@ -145,6 +126,7 @@ public class LevelController {
     }
 
 
+    //FIXME doesn't modify y offset
     public double[] determineOffset(double userX, double userY, double userWidth, double userHeight, double screenWidth,
                                     double screenHeight) {
         double offsetX;
@@ -177,8 +159,8 @@ public class LevelController {
         return myOffset;
     }
 
-    public Set<EngineInstance> getEntities() {
-        return myEngineInstances;
+    public Set<EngineInstance> getEngineInstances() {
+        return myParser.getEngineInstances();
     }
 
     public double getScore(EngineInstance engineInstance) {
@@ -186,8 +168,8 @@ public class LevelController {
         return score.getScore();
     }
 
-    public EngineInstance getUserInstance() {
-        return myUserEngineInstance;
+    public EngineInstance getUserEngineInstance() {
+        return myParser.getUserEngineInstance;
     }
 
     public boolean levelPassed() {

@@ -16,31 +16,29 @@ import java.util.Set;
 public class EngineParser {
 
     private Map<String, String> myHotKeys;
-    private List<TimerSequence> myTimerSequences;
-    private Map<Integer, Timer> myTimers;
     private Map<Pair<String>, String> myCollisionResponses;
     private Set<Instance> myInstances;
-    private String mySceneLogic;
+    private List<TimerSequence> myTimerSequences;
+    private Map<Integer, Timer> myTimers;
 
-    public EngineParser(Set instances, String sceneLogic, Map collisionResponses, Map hotKeys, List timerSequences, Map timers){
-        myInstances = instances;
-        mySceneLogic = sceneLogic;
-        myCollisionResponses = collisionResponses;
-        myHotKeys = hotKeys;
-        myTimerSequences = timerSequences;
-        myTimers = timers;
+    public EngineParser(){
+        myInstances = new HashSet<>();
+        myCollisionResponses = new HashMap<>();
+        myHotKeys = new HashMap<>();
+        myTimerSequences = new ArrayList<>();
+        myTimers = new HashMap<>();
+    }
+
+    public void printMessage(String message) {
+        System.out.println(message);
     }
 
     public void initializeDataTypes(String sceneLogic){
+        System.out.println(sceneLogic);
         Binding binding = new Binding();
         binding.setProperty("parser", this);
         GroovyShell shell = new GroovyShell(binding);
-        Script script = shell.parse(sceneLogic);
-        script.run();
-    }
-
-    public void printHere() {
-        System.out.println("here");
+        shell.evaluate(sceneLogic);
     }
 
     private void addTimer(String eventsWhileOn, String eventsAfter, double duration) {

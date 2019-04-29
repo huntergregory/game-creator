@@ -37,7 +37,7 @@ public class LevelController {
     private Map<String, String> myHotKeys;
     private List<TimerSequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
-    private Map<Pair<String>, Pair<String>> myCollisionResponses;
+    private Map<Pair<String>, String> myCollisionResponses;
     private Set<Instance> myInstances;
     private String mySceneLogic;
 
@@ -125,6 +125,7 @@ public class LevelController {
         myManager.executeEntityLogic();
         myManager.updateTimers();
         myManager.updateSequences();
+        myManager.updateCount();
         myCollisionHandler.handleCollisions(myInstances, myCollisionResponses);
         myOffset = updateOffset();
     }

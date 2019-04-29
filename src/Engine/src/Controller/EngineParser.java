@@ -18,7 +18,7 @@ public class EngineParser {
     private Map<String, String> myHotKeys;
     private List<TimerSequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
-    private Map<Pair<String>, Pair<String>> myCollisionResponses;
+    private Map<Pair<String>, String> myCollisionResponses;
     private Set<Instance> myInstances;
     private String mySceneLogic;
 
@@ -45,8 +45,8 @@ public class EngineParser {
         myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, 0));
     }
 
-    public void addCollision(String type1, String type2, String response1, String response2){
-        myCollisionResponses.put(new Pair<>(type1, type2), new Pair<>(response1, response2));
+    public void addCollision(String type1, String type2, String response){
+        myCollisionResponses.put(new Pair<>(type1, type2), response);
     }
 
 }

@@ -18,7 +18,7 @@ import static java.lang.Math.abs;
 public class CollisionHandler {
     private Manager myManager;
     private CollisionDetector myCollisionDetector;
-    private Map<Pair<String>, Pair<String>> myCollisionResponses;
+    private Map<Pair<String>, String> myCollisionResponses;
     private Map<Instance, Set<Instance>> myPreviousCollisions;
     private Map<Instance, Set<Instance>> myCurrentCollisions;
     private Binding mySetter;
@@ -35,13 +35,13 @@ public class CollisionHandler {
     }
 
     //assumes collisionResponses and entities are nonnull
-    public void handleCollisions(Set<Instance> allEntities, Map<Pair<String>, Pair<String>> collisionResponses) {
+    public void handleCollisions(Set<Instance> allEntities, Map<Pair<String>, String> collisionResponses) {
         myCollisionResponses = collisionResponses;
         myCurrentCollisions = new HashMap<>();
 
         moveThenUpdateVelocities(allEntities);
 
-        List<Instance> allEntitiesList = new ArrayList<Instance>();
+        List<Instance> allEntitiesList = new ArrayList<>();
         allEntitiesList.addAll(allEntities);
 
         for (int k = 0; k < allEntitiesList.size(); k++) {
@@ -99,9 +99,8 @@ public class CollisionHandler {
             addCollisionAndHandleEnvironments(j, i);
 
             for (Pair<String> tagPair : collisionTagPairs) {
-                Pair<String> responseListPair = myCollisionResponses.get(tagPair);
-                activateEvents(i, j, responseListPair.getItem1());
-                activateEvents(j, i, responseListPair.getItem2());
+                String responses = myCollisionResponses.get(tagPair);
+                activateEvents(i, j, responses);
             }
         }
         correctClipping(i, j);
@@ -202,18 +201,18 @@ public class CollisionHandler {
     }
 
     //TODO fix if Timers.Events are changed
-    private void activateEvents(Instance current, Instance other, String responses) {
+    private void activateEvents(Instance instance1, Instance instance2, String responses) {
         //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
 
         GroovyShell shell = new GroovyShell(mySetter);
-        mySetter.setProperty("ID", current);
-        mySetter.setProperty("otherID", other);
+        mySetter.setProperty("instance1", instance1);
+        mySetter.setProperty("instance2", instance2);
         Script script = shell.parse(responses);
         script.run();
 
     }
 
-    public void addCollision(String type1, String type2, String response1, String response2){
-        myCollisionResponses.put(new Pair<>(type1, type2), new Pair<>(response1, response2));
+    public void addCollision(String type1, String type2, String responses){
+        myCollisionResponses.put(new Pair<>(type1, type2), responses);
     }
 }

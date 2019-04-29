@@ -88,6 +88,10 @@ public class Manager {
         }
     }
 
+    public void updateCount(){
+        myCount++;
+    }
+
     public void updateSequences() {
         for (TimerSequence sequence : myTimerSequences) {
             Timer currentTimer = sequence.getCurrentTimer();

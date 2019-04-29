@@ -20,9 +20,10 @@ import javafx.stage.Stage;
 import network_account.IdentityManager;
 import network_account.UserIdentity;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * The Controller for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
@@ -32,6 +33,9 @@ import java.util.List;
  * the GUI that cannot be done in fxml, such as placing images parsed from a .json file.
  */
 public class GameCenterController {
+
+    private static final String COMMENT_FILE = "res/comments.csv";
+
     private List<DataStruct> gameData;
     private ArrayList<Integer> favoriteGames;
     private int activeThumbnail;
@@ -39,6 +43,7 @@ public class GameCenterController {
     private Number ratingVal;
     private ImageView activeGameImageView;
     private ArrayList<Comment> myComments;
+    private File commFile;
 
     @FXML
     public Pane socialPane, newGamePane, descriptionPane, ratingPane, commentPane;
@@ -58,8 +63,9 @@ public class GameCenterController {
 
     void initGameCenter() {
         initListeners();
-        favoriteGames = new ArrayList<>(); // we gotta read these in
+        favoriteGames = new ArrayList<>();
         myComments = new ArrayList<>();
+        commFile = new File(COMMENT_FILE);
         placeThumbnails();
     }
 
@@ -201,6 +207,43 @@ public class GameCenterController {
         setFavoriteImage(gameData.get(myIndex).getFavorite());
     }
 
+    private void buildCommentTable() {
+        myComments = new ArrayList<>();
+        try {
+        Scanner sc = new Scanner(new FileReader(commFile));
+        while (sc.hasNextLine()) {
+            myComments.add(parseComment(sc.nextLine()));
+        }
+        } catch (IOException e) {
+            System.out.println("Error occurred when reading comments.");
+        }
+        commentTable.getItems().clear();
+        for (Comment com : myComments) {
+            if (com.getMyGame() == myIndex) {
+                commentTable.getItems().add(com);
+            }
+        }
+    }
+
+    private Comment parseComment(String line) {
+        String[] lineSplit = line.split(",");
+        String game = lineSplit[0];
+        String user = lineSplit[1];
+        String lineSplit2 = "";
+        for (int i = 2; i < lineSplit.length; i++) {
+            lineSplit2 += lineSplit[i];
+        }
+        Comment c = new Comment(Integer.parseInt(game), user, lineSplit2);
+        return c;
+    }
+
+    private String reduceComment(Comment com) {
+        String game = Integer.toString(com.getMyGame());
+        String user = com.getMyUser();
+        String comm = com.getMyComment();
+        return game + "," + user + "," + comm;
+    }
+
     @FXML
     private void launchAuthEnv() {
         new RunAuth().start(new Stage());
@@ -218,22 +261,27 @@ public class GameCenterController {
         descriptionPane.setVisible(false);
     }
 
-    // TODO: read in comments from somewhere.
-    private void buildCommentTable() {
-        commentTable.getItems().clear();
-        for (Comment com : myComments) {
-            if (com.getMyGame() == myIndex) {
-                commentTable.getItems().add(com);
-            }
-        }
-    }
-
     @FXML
     private void enterComment() {
         String commInput = commentBox.getText();
         commentBox.clear();
         Comment c = new Comment(myIndex, username.getText(), commInput);
         myComments.add(c);
+
+        try {
+            FileWriter fw = new FileWriter(commFile);
+            String cString = "";
+            for (var comm : myComments) {
+                cString += reduceComment(comm);
+                cString += '\n';
+            }
+            cString = cString.substring(0, cString.length() - 1);
+            fw.write(cString);
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Error occurred while writing comment.");
+        }
+
         buildCommentTable();
     }
 

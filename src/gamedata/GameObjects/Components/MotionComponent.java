@@ -4,26 +4,24 @@ package gamedata.GameObjects.Components;
  * Assumes time step is 1 (multiplies velocity by 1 when returning new position or acceleration by 1 when updating velocity)
  */
 public class MotionComponent extends Component {
+    private final double MY_DEFAULT_X_ACCEL;
+    private final double MY_DEFAULT_Y_ACCEL;
     private double myXVelocity;
     private double myYVelocity;
     private double myMovementXVelocity;
     private double myMovementYVelocity;
-    private EnvironmentComponent myEnvironmentImmersedIn;
+    private double myXAccel;
+    private double myYAccel;
 
-    public MotionComponent(double xVelocity, double yVelocity, double movementXVelocity, double movementYVelocity, EnvironmentComponent currentEnvironment) {
+    public MotionComponent(double xVelocity, double yVelocity, double movementXVelocity, double movementYVelocity, double defaultAccelX, double defaultAccelY) {
         this.myXVelocity = xVelocity;
         this.myYVelocity = yVelocity;
         this.myMovementXVelocity = movementXVelocity;
         this.myMovementYVelocity = movementYVelocity;
-        myEnvironmentImmersedIn = currentEnvironment;
-    }
-
-    public EnvironmentComponent getEnvironmentImmersedIn() {
-        return myEnvironmentImmersedIn;
-    }
-
-    public void setEnvironmentImmersedIn(EnvironmentComponent environmentComponent) {
-        myEnvironmentImmersedIn = environmentComponent;
+        this.myXAccel = defaultAccelX;
+        this.myYAccel = defaultAccelY;
+        this.MY_DEFAULT_X_ACCEL = defaultAccelX;
+        this.MY_DEFAULT_Y_ACCEL = defaultAccelY;
     }
 
     public double getMovementXVelocity() {
@@ -61,4 +59,20 @@ public class MotionComponent extends Component {
     public void setYVelocity(double yVelocity) {
         this.myYVelocity = yVelocity;
     }
+
+    public double getXAccel() { return myXAccel; }
+
+    public void setXAccel(double xAccel) { myXAccel = xAccel; }
+
+    public double getYAccel() { return myYAccel; }
+
+    public void setYAccel(double yAccel) { myYAccel = yAccel; }
+
+    public double getDefaultXAccel() { return MY_DEFAULT_X_ACCEL; }
+
+    public double getDefaultYAccel() { return MY_DEFAULT_Y_ACCEL; }
+
+    public void resetXAccel() { myXAccel = MY_DEFAULT_X_ACCEL; }
+
+    public void resetYAccel() { myYAccel = MY_DEFAULT_Y_ACCEL; }
 }

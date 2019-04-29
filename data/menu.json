@@ -1,0 +1,22 @@
+[
+  {
+    "name" : "Save To File",
+    "handler" :  "handleSaveToFile"
+  },
+  {
+    "name" : "Load From File",
+    "handler" :  "handleLoadFromFile"
+  },
+  {
+    "name" : "Save To Cloud",
+    "handler" :  "handleSaveToCloud"
+  },
+  {
+    "name" : "Load From Cloud",
+    "handler" :  "handleLoadFromCloud"
+  },
+  {
+    "name" : "Add Collaborators",
+    "handler" : "handleAddCollaborators"
+  }
+]

@@ -3,6 +3,7 @@ package gamecenter;
 import Player.src.PlayerMain.PlayerStage;
 import auth.RunAuth;
 import demotests.RunDemo;
+import dummy_player.Player;
 import gamecenter.gamedata.DataParser;
 import gamecenter.gamedata.DataStruct;
 import javafx.geometry.Insets;
@@ -130,9 +131,12 @@ public class GCScreen {
     }
 
     private void playClickListener(int index) {
-        // TODO: Open player for this game
         if (index == 0) {
-            new RunDemo().run();
+            Player player = new Player("Bounce");
+            try {
+                player.run("/Users/anshudwibhashi/bounce.game");
+                stage.close();
+            } catch (Exception e) {e.printStackTrace();}
         } else if (index == 3) {
             new PlayerStage().run("mario");  //COMMENT to show player and run mario from there
             //new PlayerStage().makeStage().show();    UNCOMMENT to show player
@@ -250,6 +254,7 @@ public class GCScreen {
         button.setOnMouseClicked(e -> {new RunAuth().start(new Stage());});
 
         parent.getChildren().addAll(defaultPermaText, button);
+        stage.close();
     }
 
     private void placePanes() {

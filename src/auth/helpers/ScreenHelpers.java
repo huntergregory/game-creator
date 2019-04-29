@@ -21,20 +21,25 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.web.WebView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.w3c.dom.Document;
+import uiutils.components.TextGenerator;
 import uiutils.panes.*;
 import auth.screens.CanvasScreen;
 import javafx.scene.Group;
@@ -55,8 +60,7 @@ import static auth.Strings.*;
 import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.*;
 import static auth.helpers.RectangleHelpers.createStyledRectangle;
-import static gamecenter.RunGameCenter.bebasKai;
-import static gamecenter.RunGameCenter.bebasKaiMedium;
+import static gamecenter.RunGameCenter.*;
 
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";
@@ -183,7 +187,7 @@ public class ScreenHelpers {
     }
 
     public static void repopulatePropertiesPane(CanvasScreen context) {
-        var propsPane = (javafx.scene.layout.Pane) ((Group)context.getUIElementById(RIGHT_PANES_GROUP_ID).getView()).getChildren().get(0);
+        var propsPane = (javafx.scene.layout.Pane) ((VBox)context.getUIElementById(RIGHT_PANES_GROUP_ID).getView()).getChildren().get(1);
         var contentPane = (javafx.scene.layout.Pane) ((ScrollPane) ((BorderPane) propsPane.getChildren().get(0)).getCenter()).getContent();
         contentPane.getChildren().clear();
         populateConsolePane(context, (BottomPane)context.getUIElementById(CONSOLE_PANE_ID));
@@ -267,7 +271,7 @@ public class ScreenHelpers {
                 context.getColorGrid().getChildren().add(row);
                 row = new HBox(5);
             }
-            if (r.resourceType == Resource.ResourceType.COLOR_RESOURCE) {
+            if (r.resourceType.equals(Resource.ResourceType.COLOR_RESOURCE)) {
                 var icon = new ColorIcon(getColorByID(context.getGame(), r.resourceID), r.resourceID, e -> {
                     // TODO
                     var thisIcon = (Selectable) e[0];
@@ -319,7 +323,7 @@ public class ScreenHelpers {
                 context.getAudioGrid().getChildren().add(row);
                 row = new HBox(5);
             }
-            if (r.resourceType == Resource.ResourceType.AUDIO_RESOURCE) {
+            if (r.resourceType.equals(Resource.ResourceType.AUDIO_RESOURCE)) {
                 var icon = new ToolIcon("audio", r.resourceID, e -> {
                     // TODO
                     var thisIcon = (Selectable) e[0];
@@ -365,7 +369,7 @@ public class ScreenHelpers {
                 context.getImageGrid().getChildren().add(row);
                 row = new HBox(5);
             }
-            if (r.resourceType == Resource.ResourceType.IMAGE_RESOURCE) {
+            if (r.resourceType.equals(Resource.ResourceType.IMAGE_RESOURCE)) {
                 var icon = new ImageIcon(getImageById(context.getGame(), r.resourceID), r.resourceID, e -> {
                     // TODO
                     var thisIcon = (Selectable) e[0];
@@ -522,19 +526,20 @@ public class ScreenHelpers {
     public static Image getImageById(Game game, String id) {
         try {
             for (var r : game.resources) {
-                if (r.resourceType == Resource.ResourceType.IMAGE_RESOURCE && r.resourceID.equals(id)) {
+                if (r.resourceType.equals(Resource.ResourceType.IMAGE_RESOURCE) && r.resourceID.equals(id)) {
                     return new Image(new File(r.src).toURI().toURL().toExternalForm());
                 }
             }
             return null;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 
     public static Color getColorByID(Game game, String id) {
         for (var r : game.resources) {
-            if (r.resourceType == Resource.ResourceType.COLOR_RESOURCE && r.resourceID.equals(id)) {
+            if (r.resourceType.equals(Resource.ResourceType.COLOR_RESOURCE) && r.resourceID.equals(id)) {
                 return Color.valueOf(r.src);
             }
         }
@@ -565,19 +570,97 @@ public class ScreenHelpers {
 
     private static void placePanes(CanvasScreen context) {
         var toolsPane = new LeftPane(centreVertical(TOOLS_PANE_HEIGHT), TOOLS_PANE_WIDTH, TOOLS_PANE_HEIGHT, TOOLS_PANE_ID);
+        var namePane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, NAME_PANE_HEIGHT, NAME_PANE_ID);
         var propsPane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT, PROPS_PANE_ID);
-        var objLibPane = new RightPane(computeMarginToBottomEdge((Region) propsPane.getView(), RIGHT_PANE_MARGIN), RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT, OBJ_LIB_PANE_ID);
+        var objLibPane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT, OBJ_LIB_PANE_ID);
 
-        var rightPanesGroup = new Group(propsPane.getView(), objLibPane.getView());
-        rightPanesGroup.setLayoutY(centreVertical(rightPanesGroup.getLayoutBounds().getHeight()));
+        var rightPanesGroup = new VBox(RIGHT_PANE_MARGIN);
+        rightPanesGroup.getChildren().addAll(namePane.getView(), propsPane.getView(), objLibPane.getView());
+        rightPanesGroup.setLayoutX(ENV_WINDOW_WIDTH - RIGHT_PANE_WIDTH);
 
         var consolePane = new BottomPane(CONSOLE_HORIZONTAL_OFFSET, CONSOLE_PANE_WIDTH, CONSOLE_PANE_HEIGHT, CONSOLE_PANE_ID);
         context.registerNewUIElement(toolsPane, new UIElementWrapper(rightPanesGroup, RIGHT_PANES_GROUP_ID), consolePane);
 
+        rightPanesGroup.setLayoutY(centreVertical(RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN*2+NAME_PANE_HEIGHT));
+        populateNamePane(context, namePane, propsPane, objLibPane, rightPanesGroup);
         populateToolsPane(context, toolsPane);
         populatePropsPane(context, propsPane);
         populateObLibPane(context, objLibPane);
         populateConsolePane(context, consolePane);
+    }
+
+    private static boolean isMenuOpen = false;
+
+    private static void populateNamePane(CanvasScreen context, Pane namePane, Pane propsPane, Pane objLibPane, VBox rightPanesGroup) {
+        var nameText = new Text("Hey, "+context.getLoggedInName()+"!");
+        nameText.setFont(bebasKai); nameText.setFill(Color.WHITE);
+        nameText.setX(RIGHT_PANE_MARGIN); nameText.setY(30);
+        var unameText = new Text("@"+context.getLoggedInUsername());
+        unameText.setFont(sofiaProSmall); unameText.setFill(Color.WHITE);
+        unameText.setX(RIGHT_PANE_MARGIN); unameText.setY(50);
+        var menuIcon = new ToolIcon("menu", "Menu", callback -> {
+            if (isMenuOpen) {
+                closeMenu(context, propsPane, objLibPane, rightPanesGroup, namePane);
+            } else {
+                openMenu(context, propsPane, objLibPane, rightPanesGroup, namePane);
+            }
+        });
+        menuIcon.getView().setLayoutY(12.5);
+        menuIcon.getView().setLayoutX(RIGHT_PANE_WIDTH - 62.5);
+        namePane.getView().getChildren().addAll(nameText, unameText, menuIcon.getView());
+    }
+
+    public static void closeMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
+        var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
+        imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/menu.png")));
+        a.getView().setVisible(true); b.getView().setVisible(true);
+        paneContainer.getChildren().remove(1);
+        isMenuOpen = false;
+    }
+
+    public static void openMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
+        var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
+        imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/close.png")));
+        a.getView().setVisible(false); b.getView().setVisible(false);
+        var menuPane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN, "MENU_PANE_ID");
+        paneContainer.getChildren().add(1, menuPane.getView());
+        var vboxParent = new VBox(15);
+        vboxParent.setPrefWidth(RIGHT_PANE_WIDTH);
+        try {
+            JSONArray menuItems = new JSONArray(new Scanner(new File(MENU_CONFIG_FILE_PATH)).useDelimiter("\\Z").next());
+            for (int i = 0; i < menuItems.length(); i++) {
+                var menuItem = menuItems.getJSONObject(i);
+                var name = menuItem.getString("name");
+                var handler = menuItem.getString("handler");
+
+                var nameText = new Text(name); nameText.setFont(bebasKaiMedium); nameText.setFill(Color.WHITE);
+                nameText.setCursor(Cursor.HAND); nameText.setOnMouseClicked(e -> {
+                    try {
+                        MenuClickHandlers.paneA = a; MenuClickHandlers.paneB = b;
+                        MenuClickHandlers.paneContainer = paneContainer;
+                        MenuClickHandlers.namePane = namePane;
+
+                        var method = MenuClickHandlers.class.getMethod(handler, CanvasScreen.class);
+                        method.invoke(null, context);
+                    } catch (Exception ex) {
+                        // Would never happen
+                        ex.printStackTrace();
+                    }
+                });
+
+                nameText.setTextAlignment(TextAlignment.CENTER);
+                nameText.setWrappingWidth(RIGHT_PANE_WIDTH);
+                vboxParent.getChildren().add(nameText);
+            }
+            var numChild = vboxParent.getChildren().size();
+            var vBoxHeight = numChild*30 + (numChild-1)*15;
+            vboxParent.setLayoutY((RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN)/2 - (vBoxHeight)/2);
+            menuPane.getView().getChildren().add(vboxParent);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        isMenuOpen = true;
     }
 
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;
@@ -593,6 +676,7 @@ public class ScreenHelpers {
             context.getUIElementById(CANVAS_ID).getView().setStyle("-fx-background-image: url('"+
                     getImageById(context.getGame(), context.getGame().scenes.get(context.getCurrentScene()).bgImage).getUrl()+"');" +
                     "-fx-border-radius: 5 5 5 5;" +
+                    "-fx-background-size: cover;" +
                     "-fx-background-radius: 5 5 5 5;");
             Rectangle clip = new Rectangle(
                     context.getUIElementById(CANVAS_ID).getView().getLayoutBounds().getWidth(), context.getUIElementById(CANVAS_ID).getView().getLayoutBounds().getHeight()

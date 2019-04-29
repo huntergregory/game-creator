@@ -18,6 +18,7 @@ import hud.HUDView;
 import hud.NumericalDataTracker;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,14 +28,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 
 public class PlayerStage {
@@ -310,7 +309,6 @@ public class PlayerStage {
         return ret;
     }
 
-<<<<<<< HEAD
     public void updateLives(int lives) {
         System.out.println(lives);
     }
@@ -332,8 +330,21 @@ public class PlayerStage {
         return gamePaused;
     }
 
-    public void saveGame() {
+    public void saveGame(String s) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text doc(*.txt)", "*.txt"));
+        File potentialFile = fileChooser.showSaveDialog(myGameStage);
 
+        if (potentialFile != null) {
+            try {
+                PrintWriter writer;
+                writer = new PrintWriter(potentialFile);
+                writer.println(s);
+                writer.close();
+            } catch (IOException e) {
+                //TODO: ERROR CATCH - DEBUG LOG?
+            }
+        }
     }
 
     public void storeScore() {

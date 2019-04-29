@@ -1,11 +1,12 @@
 package Player.PlayerMain;
 
+import Engine.src.Controller.GameController;
 import gamedata.GameObjects.Components.BasicComponent;
-import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
 import gamedata.Game;
+import gamedata.GameObjects.Instance;
 import hud.DataTracker;
 import hud.HUDView;
 import hud.NumericalDataTracker;
@@ -24,6 +25,7 @@ import javafx.util.Duration;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 
 
 public class PlayerStage {
@@ -51,10 +53,12 @@ public class PlayerStage {
     private BorderPane myBorderPane;
     private HUDView myHud;
 
-    private LevelController myGameController;
+    private LevelController myLevelController;
+    private GameController myGameController;
     private Pane myGameRoot;
-    private Map<Integer, Map<Class<? extends Component>, Component>> myGameEntityMap;
-    private Map<Integer, ImageView> myImageViewMap;
+    private Set<Instance> myInstances;
+    private Map<Instance, ImageView> myImageViewMap;
+    private int myLevelNumber;
 
     private NumericalDataTracker<Double> myXPosTracker;
     private NumericalDataTracker<Double> myYPosTracker;
@@ -84,9 +88,17 @@ public class PlayerStage {
         }
     }
 
-    public void run(String gameName) {
+    public void load(String gameName) {
+        GameLoader loader = makeLevel(gameName);
+        myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, loader.getGameLogic());
+        myLevelNumber = loader.getMyLevelNumber();
+        startNewLevel();
+    }
+
+    private void startNewLevel() {
+        myLevelController = myGameController.getLevelController(myLevelNumber);
         Stage gameStage = new Stage();
-        myGameEntityMap = myGameController.getEntities();
+        myInstances = myLevelController.getEntities();
 
         initDataTrackers();
         initBorderPane();
@@ -98,17 +110,17 @@ public class PlayerStage {
         gameScene.getStylesheets().add("hud.css");
         gameStage.setScene(gameScene);
         gameStage.show();
-        gameScene.setOnKeyPressed(e -> myGameController.processKey(e.getCode().toString()));
+        gameScene.setOnKeyPressed(e -> myLevelController.processKey(e.getCode().toString()));
         animate();
     }
 
     private void setHud() {
-        myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "Level 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
-                                                                                        myYPosTracker,
-                                                                                        myYVelocity,
-                                                                                        myTimeTracker,
-                                                                                        myLivesTracker,
-                                                                                        myPowerupTracker);
+        myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
+                myYPosTracker,
+                myYVelocity,
+                myTimeTracker,
+                myLivesTracker,
+                myPowerupTracker);
     }
 
     private void initBorderPane() {
@@ -130,7 +142,11 @@ public class PlayerStage {
     private void step() {
         setGamePaused();
         if (gamePaused == 0) {
-            myGameController.updateScene();
+            if (myLevelController.levelPassed()) {
+                myLevelNumber++;
+                startNewLevel();
+            }
+            myLevelController.updateScene();
             addNewImageViews();
             updateOrRemoveImageViews();
 
@@ -143,39 +159,39 @@ public class PlayerStage {
     }
 
     private void updateOrRemoveImageViews() {
-        for (int id : myImageViewMap.keySet()) {
-            if (!myGameEntityMap.containsKey(id))
-                myGameRoot.getChildren().remove(myImageViewMap.get(id));
-            updateImageView(id);
+        for (Instance instance : myImageViewMap.keySet()) {
+            if (myInstances.contains(instance))
+                myGameRoot.getChildren().remove(myImageViewMap.get(instance));
+            updateImageView(instance);
         }
     }
 
     private void addNewImageViews() {
-        for (int id : myGameEntityMap.keySet()) {
-            if (myImageViewMap.containsKey(id))
+        for (Instance instance : myInstances) {
+            if (myImageViewMap.containsKey(instance))
                 continue;
             var newImageView = new ImageView();
-            myImageViewMap.put(id, newImageView);
+            myImageViewMap.put(instance, newImageView);
             myGameRoot.getChildren().add(newImageView);
-            updateImageView(id);
+            updateImageView(instance);
         }
     }
 
-    private void updateImageView(int id) {
-        BasicComponent basicComponent = (BasicComponent) myGameEntityMap.get(id).get(BasicComponent.class);
-        MotionComponent motionComponent = (MotionComponent) myGameEntityMap.get(id).get(MotionComponent.class);
-        HealthComponent healthComponent = (HealthComponent) myGameEntityMap.get(id).get(HealthComponent.class);
+    private void updateImageView(Instance instance) {
+        BasicComponent basicComponent = instance.getComponent(BasicComponent.class);
+        MotionComponent motionComponent = instance.getComponent(MotionComponent.class);
+        HealthComponent healthComponent = instance.getComponent(HealthComponent.class);
         if (basicComponent == null)
             return;
 
-        ImageView imageView = myImageViewMap.get(id);
+        ImageView imageView = myImageViewMap.get(instance.getID());
         moveAndResize(imageView, basicComponent);
         setImageIfNecessary(imageView, basicComponent);
     }
 
     private void moveAndResize(ImageView imageView, BasicComponent basicComponent) {
-        imageView.setX(basicComponent.getX() - myGameController.getOffset()[0]);
-        imageView.setY(basicComponent.getY() - myGameController.getOffset()[1]);
+        imageView.setX(basicComponent.getX() - myLevelController.getOffset()[0]);
+        imageView.setY(basicComponent.getY() - myLevelController.getOffset()[1]);
         imageView.setFitWidth(basicComponent.getWidth());
         imageView.setFitHeight(basicComponent.getHeight());
     }
@@ -201,8 +217,9 @@ public class PlayerStage {
     }
 
     private void updateDataTrackers() {
-        BasicComponent basicComponent = (BasicComponent) myGameEntityMap.get(0).get(BasicComponent.class);
-        MotionComponent motionComponent = (MotionComponent) myGameEntityMap.get(0).get(MotionComponent.class);
+        Instance userInstance = myLevelController.getUserInstance();
+        BasicComponent basicComponent = userInstance.getComponent(BasicComponent.class);
+        MotionComponent motionComponent = userInstance.getComponent(MotionComponent.class);
         myTimeTracker.storeData(myCount * 1.0); //TODO get actual time
         myXPosTracker.storeData(basicComponent.getX());
         myYPosTracker.storeData(basicComponent.getY());
@@ -213,7 +230,7 @@ public class PlayerStage {
     }
 
     /**
-     *    edit(), rate() currently placeholder. Update these methods.
+     * edit(), rate() currently placeholder. Update these methods.
      */
     public void edit(String gameName) {
 //        System.out.println(gameName + " is being edited!");

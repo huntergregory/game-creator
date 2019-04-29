@@ -1,6 +1,7 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.EntityManager;
+import Engine.src.Manager.Events.Event;
 import Engine.src.Manager.Manager;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;

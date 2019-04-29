@@ -27,7 +27,7 @@ public class GameController {
         myGame = new Game();
     }
 
-    public LevelController getNextLevelController(int levelIndex){
+    public LevelController getLevelController(int levelIndex){
         return new LevelController(myStepTime, myScreenWidth, myScreenHeight, myLevelWidth, myLevelHeight, myGame, myGameScript.get(levelIndex), levelIndex);
     }
 

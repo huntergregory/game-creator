@@ -10,6 +10,7 @@ import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
+import gamedata.GameObjects.GameObject;
 import gamedata.GameObjects.Instance;
 import gamedata.Scene;
 import groovy.lang.Binding;
@@ -73,7 +74,8 @@ public class LevelController {
         myGame = game;
         Integer levelIndex = game.currentLevel;
         Scene scene = myGame.scenes.get(levelIndex);
-        myInstances = scene.instances;
+        Set<Instance> serializedInstances = scene.instances;
+        Set<GameObject> serializedObjects = game.gameObjects;
         String sceneLogic = scene.sceneLogic;
 
         var parser = new EngineParser(myLevelRules, myCollisionResponses, myHotKeys, myTimerSequences, myTimers);

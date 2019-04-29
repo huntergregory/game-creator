@@ -1,3 +1,4 @@
+
 package gamedata.GameObjects.Components;
 
 public class LivesComponent extends Component{

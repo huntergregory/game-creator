@@ -8,6 +8,7 @@ import auth.auth_fxml_controllers.ResPropsController;
 import auth.auth_fxml_controllers.ScenePropsController;
 import auth.auth_ui_components.*;
 import auth.pagination.PaginationUIElement;
+import auth.screens.CanvasScreen;
 import gamedata.Game;
 import gamedata.GameObject;
 import gamedata.Instance;
@@ -16,21 +17,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import org.json.JSONArray;
 import uiutils.panes.*;
-import auth.screens.CanvasScreen;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.text.Text;
-import uiutils.panes.Pane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,13 +41,15 @@ import java.util.Scanner;
 
 import static auth.Colors.DEFAULT_TEXT_COLOR;
 import static auth.Dimensions.*;
-import static auth.Styles.*;
-import static auth.Strings.*;
-import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
-import static auth.helpers.DimensionCalculator.*;
-import static auth.helpers.RectangleHelpers.createStyledRectangle;
 import static auth.RunAuth.bebasKai;
 import static auth.RunAuth.bebasKaiMedium;
+import static auth.Strings.*;
+import static auth.Styles.BG_STYLE;
+import static auth.Styles.CANVAS_STYLE;
+import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
+import static auth.helpers.DimensionCalculator.centreVertical;
+import static auth.helpers.DimensionCalculator.computeMarginToBottomEdge;
+import static auth.helpers.RectangleHelpers.createStyledRectangle;
 
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";
@@ -156,7 +160,7 @@ public class ScreenHelpers {
         containerPane.setTop(titleText);
         BorderPane.setAlignment(titleText, Pos.CENTER);
 
-        var pagination = new PaginationUIElement(wrapInScrollView(context.getObjectGrid()), (arg) -> {
+        var pagination = new PaginationUIElement(wrapInScrollView(context.getObjectGrid()), arg -> {
             final int index = (Integer) arg[0];
             titleText.setText(titles[index]);
         }, SCENE_PAGINATION);

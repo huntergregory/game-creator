@@ -15,13 +15,14 @@ import java.util.Scanner;
 public class DataWriter {
     private Gson myGson;
     private final String filePath = "data/player_data.json";
+    private final String JsonObjectName = "games";
     private File jsonFile = new File(filePath);
 
     public DataWriter(){
         try {
             myGson = new GsonBuilder().setPrettyPrinting().create();
         } catch (Exception e) {
-            System.out.println("error");
+            // should not occur
         }
     }
 
@@ -41,13 +42,12 @@ public class DataWriter {
                 e.printStackTrace();
             }
         }
-
     }
 
     private JSONObject writeValue(String key, String value, int gameIndex) throws FileNotFoundException {
         var jo = new JSONObject(new Scanner(new File(filePath)).useDelimiter("\\Z").next());
 
-        var games = jo.getJSONArray("games");
+        var games = jo.getJSONArray(JsonObjectName);
         int counter = 0;
         for(Object o : games) {
             var game = (JSONObject) o;
@@ -67,7 +67,4 @@ public class DataWriter {
     public void writeFavorite (String favorite, int gameIndex) throws FileNotFoundException {
         writeToFile(writeValue("favorite", favorite, gameIndex));
     }
-
 }
-
-

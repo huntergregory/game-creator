@@ -42,7 +42,7 @@ public class DataStruct {
         try {
             dataWriter.writeRating(rating, gameIndex);
         } catch (FileNotFoundException e) {
-            // This should never happen
+            // should not occur
         }
     }
 
@@ -51,7 +51,7 @@ public class DataStruct {
         try {
             dataWriter.writeFavorite(favorite, gameIndex);
         } catch (FileNotFoundException e) {
-            // this should never happen
+            // should not occur
         }
     }
 }

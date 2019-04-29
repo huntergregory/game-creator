@@ -34,12 +34,12 @@ public class Manager {
 
     private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
-    HashSet<Instance> myInstances;
+    Set<Instance> myInstances;
     private double myCount;
     private Binding myBinding;
     private GroovyShell myShell;
     boolean levelPassed;
-
+/*
     public static void main(String[] args) {
         var defaultEnvironment = new EnvironmentComponent(0,0,0,0);
         var basic = new BasicComponent("", 50, 50, 100, 100);
@@ -63,7 +63,7 @@ public class Manager {
         var manager = new Manager(game, 0, new Binding());
         manager.call("AddToHealth", instance1, 2);
     }
-
+*/
     public Manager(Game game, double stepTime, Binding binding) {
         myGame = game;
         myInstances = myGame.currentScene.instances;
@@ -86,14 +86,6 @@ public class Manager {
                 System.out.println(ILLEGAL_ARGS_ERROR);
             }
         }
-    }
-
-    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
-        int max = 0;
-        for(int ID : myTimers.keySet()){
-            if (ID > max) max = ID;
-        }
-        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, myCount));
     }
 
     public void updateSequences() {
@@ -147,5 +139,9 @@ public class Manager {
 
     public void setLevelPass() {
         levelPassed = true;
+    }
+
+    public boolean levelPassed() {
+        return levelPassed;
     }
 }

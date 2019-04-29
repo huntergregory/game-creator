@@ -3,9 +3,9 @@ package hud;
 import hud.selectors.ChartTypeSelector;
 import hud.selectors.XAxisSelector;
 import hud.selectors.YAxisSelector;
-import javafx.scene.chart.XYChart;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 

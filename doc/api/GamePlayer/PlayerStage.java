@@ -1,4 +1,4 @@
-package Player.src.Regions;
+package Player.Regions;
 
 /**
  * Interface for PlayerStage, the GUI provided for the user to select which game to play. The PlayerStage should be

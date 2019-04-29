@@ -145,3 +145,32 @@
     -fx-text-fill: white;
     -fx-padding: 3;
 }
+
+.prompt{
+    -fx-text-fill: white;
+    -fx-font-family: Impact;
+    -fx-font-size: 20;
+    -fx-fill: white;
+}
+
+.textfieldLabel {
+    -fx-font-size: 20;
+    -fx-font-family: Impact;
+    -fx-text-fill: white;
+}
+.textfield {
+    -fx-max-width: 300;
+    -fx-padding: 5 15 5 15;
+    -fx-text-fill: white;
+    -fx-background-radius: 100px;
+    -fx-background-color: black;
+    -fx-border-color: transparent;
+    -fx-border-radius: 100px;
+    -fx-effect: none;
+}
+
+.titleLabel{
+    -fx-text-fill: white;
+    -fx-font-family: Impact;
+    -fx-font-size: 32;
+}

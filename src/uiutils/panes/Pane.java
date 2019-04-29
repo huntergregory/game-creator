@@ -2,8 +2,7 @@ package uiutils.panes;
 
 import auth.UIElement;
 
-import static auth.Strings.*;
-
+import static auth.Strings.DEFAULT_ID;
 import static auth.helpers.RectangleHelpers.createStyledRectangle;
 
 public abstract class Pane implements UIElement {

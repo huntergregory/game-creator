@@ -3,9 +3,8 @@ package GameCenter.main;
 import GameCenter.gameData.DataParser;
 import GameCenter.gameData.DataStruct;
 import GameCenter.utilities.Thumbnail;
-import Player.src.PlayerMain.PlayerStage;
+import Player.PlayerMain.PlayerStage;
 import auth.RunAuth;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -16,19 +15,22 @@ import javafx.scene.control.Slider;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import network_account.IdentityManager;
 import network_account.UserIdentity;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * The Controller for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
+ * The LevelController for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
  * under the resources folder.
  *
  * This controller defines all actions that occur when a user interacts with the GUI. It also defines several parts of
@@ -49,9 +51,9 @@ public class GameCenterController {
     public GridPane friendPane;
     public Slider ratingSlider;
     public VBox thumbPaneContent;
-    public Text titleText, descriptionText, ratingText;
-    public Button newGameButton, playButton, editButton, rateButton, returnButton, loginButton, favoriteButton;
-    public Label nameLabel, score1, score2, score3;
+    public Text titleText, descriptionText, ratingText, username;
+    public Button newGameButton, playButton, editButton, rateButton, returnButton, favoriteButton;
+    public Label score1, score2, score3;
 
     void initGameCenter() {
         initListeners();
@@ -193,7 +195,7 @@ public class GameCenterController {
     }
 
     private void updateIdentity(UserIdentity userIdentity, String gameName) {
-        nameLabel.setText("Hello" + userIdentity.getName());
+        username.setText(userIdentity.getName());
         for (String s : userIdentity.getFriends()) {
             Label friendName = new Label(s);
             friendName.getStyleClass().add("socialScoreLabel");
@@ -228,13 +230,13 @@ public class GameCenterController {
     }
 
     @FXML
-    private void login() {
-        // TODO: integrate with Ian's login
-    }
-
-    @FXML
     private void returnToDescription() {
         ratingPane.setVisible(false);
         descriptionPane.setVisible(true);
+        gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
+    }
+
+    public void setHighScore(IdentityManager IM, String gameID, String highScore) {
+        IM.addHighScore(gameID, highScore);
     }
 }

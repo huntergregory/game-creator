@@ -107,7 +107,7 @@ public class PlayerStage {
     }
 
     public static void main(String[] args) {
-        var stage = new PlayerStage();
+        var stage = new PlayerStage(new GameCenterController());
         stage.load("");
     }
 
@@ -139,9 +139,9 @@ public class PlayerStage {
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController();
         Stage gameStage = new Stage();
-        myEngineInstances = myLevelController.getEntities();
+        myEngineInstances = myLevelController.getEngineInstances();
         myGameStage = new Stage();
-        myEngineInstances = myLevelController.getEntities();
+        myEngineInstances = myLevelController.getEngineInstances();
         initDataTrackers();
         initBorderPane();
         addNewImageViews();
@@ -279,7 +279,7 @@ public class PlayerStage {
     }
 
     private void updateDataTrackers() {
-        EngineInstance userEngineInstance = myLevelController.getUserInstance();
+        EngineInstance userEngineInstance = myLevelController.getUserEngineInstance();
         BasicComponent basicComponent = userEngineInstance.getComponent(BasicComponent.class);
         MotionComponent motionComponent = userEngineInstance.getComponent(MotionComponent.class);
         myTimeTracker.storeData(myCount * 1.0); //TODO get actual time

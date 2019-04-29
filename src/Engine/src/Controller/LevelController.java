@@ -74,7 +74,7 @@ public class LevelController {
         myOffset = updateOffset();
 
         initializeGroovyShell();
-        myManager = new Manager(myGame, myStepTime, myBinding);
+        myManager = new Manager(myParser.getEngineInstances(), myStepTime, myBinding);
         myCollisionHandler = new CollisionHandler(myManager);
     }
 
@@ -169,7 +169,7 @@ public class LevelController {
     }
 
     public EngineInstance getUserEngineInstance() {
-        return myParser.getUserEngineInstance;
+        return myParser.getUserEngineInstance();
     }
 
     public boolean levelPassed() {

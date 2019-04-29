@@ -173,13 +173,18 @@ public class PlayerStage {
             myLevelController.updateScene();
             addNewImageViews();
             updateOrRemoveImageViews();
-
+            updateDebugLog();
             if (myCount % HUD_UPDATE_DELAY == 0) {
                 updateDataTrackers();
                 myHud.update();
             }
             myCount++;
         }
+    }
+
+    private void updateDebugLog() {
+        List<String> debugLog = myLevelController.debugLog();
+        myDebugConsole.update(debugLog);
     }
 
     private void updateOrRemoveImageViews() {

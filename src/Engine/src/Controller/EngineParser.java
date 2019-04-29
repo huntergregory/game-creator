@@ -32,9 +32,15 @@ public class EngineParser {
     }
 
     public void initializeDataTypes(String sceneLogic){
-        GroovyShell shell = new GroovyShell();
+        Binding binding = new Binding();
+        binding.setProperty("parser", this);
+        GroovyShell shell = new GroovyShell(binding);
         Script script = shell.parse(sceneLogic);
         script.run();
+    }
+
+    public void printHere() {
+        System.out.println("here");
     }
 
     private void addTimer(String eventsWhileOn, String eventsAfter, double duration) {

@@ -6,7 +6,15 @@ import auth.auth_ui_components.InstanceUI;
 import auth.auth_ui_components.Selectable;
 import auth.helpers.DataHelpers;
 import auth.helpers.GameCloudWrapper;
+import auth.helpers.ScreenHelpers;
 import auth.pagination.PaginationUIElement;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pusher.client.PusherOptions;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.SubscriptionEventListener;
@@ -16,18 +24,25 @@ import gamedata.Instance;
 import gamedata.Resource;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
 import uiutils.panes.BottomPane;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static auth.Colors.*;
 import static auth.Dimensions.*;
 import static auth.Strings.*;
+import static auth.helpers.DataHelpers.SERVICE_ACCOUNT_JSON_PATH;
 import static auth.helpers.DataHelpers.createNewScene;
+import static auth.helpers.MenuClickHandlers.*;
 import static auth.helpers.ScreenHelpers.*;
 
 public class CanvasScreen extends Screen {
@@ -53,10 +68,8 @@ public class CanvasScreen extends Screen {
         this.gameCloudWrapper = gcw;
     }
 
-    private boolean selfTrigger = false;
     public void triggerEvent(String gameID) {
-        pusherSender.trigger("mainChannel", "update", gameID);
-        selfTrigger = true;
+        pusherSender.trigger("mainChannel", "update", gameID+"|"+getLoggedInUsername());
     }
 
     public VBox getObjectGrid() {
@@ -115,9 +128,36 @@ public class CanvasScreen extends Screen {
         channel.bind("update", new SubscriptionEventListener() {
             @Override
             public void onEvent(String channel, String event, String data) {
-                if (!selfTrigger) {
-                    System.out.println("Received request to update " + data);
-                    selfTrigger = true;
+                data = data.replaceAll("\"","");
+                String[] c = data.split("\\|");
+                if (!c[1].equals(getLoggedInUsername())) {
+                    try {
+                        // System.out.println("Received request to update " + data);
+                        // Instantiates a client
+                        Storage storage =
+                                StorageOptions.newBuilder()
+                                        .setCredentials(
+                                                ServiceAccountCredentials.fromStream(
+                                                        new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                                        .setProjectId("tmtp-spec")
+                                        .build()
+                                        .getService();
+                        String name = c[0];
+                        Blob blob = storage.get(BlobId.of("voogasalad-files", name));
+                        String contents = new String(blob.getContent());
+                        GameCloudWrapper gcw = (new Gson().fromJson(contents, new TypeToken<GameCloudWrapper>() {
+                        }.getType()));
+                        changeTitle(name);
+                            Game game = gcw.game;
+                            setGameCloudWrapper(gcw);
+                            ScreenHelpers.closeMenu(CanvasScreen.this, paneA, paneB, paneContainer, namePane);
+                            setGame(game);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        // TODO: Tell user it's not a good file
+                    }
+                } else {
+                    // System.out.println("Self trigger. Ignore.");
                 }
             }
         });

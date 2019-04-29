@@ -151,6 +151,7 @@ public class DataHelpers {
             BlobId blobId = BlobId.of("voogasalad-files", gcw.gameID);
             BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
             Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+            context.triggerEvent(gcw.gameID);
         } catch (Exception e) {
             e.printStackTrace();
         }

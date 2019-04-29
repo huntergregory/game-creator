@@ -15,20 +15,19 @@ public class GameController {
     private Game myGame;
 
 
-    public GameController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
-                      List<String> gameScript) {
+    public GameController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight, Game game) {
 
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
         myScreenHeight = screenHeight;
         myLevelWidth = levelWidth;
         myLevelHeight = levelHeight;
-        myGameScript = gameScript;
-        myGame = new Game();
+        myGame = game;
     }
 
-    public LevelController getLevelController(int levelIndex){
-        return new LevelController(myStepTime, myScreenWidth, myScreenHeight, myLevelWidth, myLevelHeight, myGame, myGameScript.get(levelIndex), levelIndex);
+    public LevelController getLevelController(){
+        myGame.currentLevel = myGame.currentLevel + 1;
+        return new LevelController(myStepTime, myScreenWidth, myScreenHeight, myLevelWidth, myLevelHeight, myGame);
     }
 
 

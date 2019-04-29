@@ -39,7 +39,7 @@ public class LevelController {
     private Map<Integer, Timer> myTimers;
     private Map<Pair<String>, String> myCollisionResponses;
     private Set<Instance> myInstances;
-    private String mySceneLogic;
+    private String myLevelRules;
 
     private Instance myUserInstance;
     private double myStepTime;
@@ -56,7 +56,7 @@ public class LevelController {
     private GroovyShell myShell;
 
     public LevelController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
-                           Game game, String sceneScript, int levelNumber) {
+                           Game game) {
 
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
@@ -64,24 +64,24 @@ public class LevelController {
         myLevelWidth = levelWidth;
         myLevelHeight = levelHeight;
 
-        myInstances = new HashSet<>();
-        mySceneLogic = "";
+        myLevelRules = "";
         myCollisionResponses = new HashMap<>();
         myHotKeys = new HashMap<>();
         myTimerSequences = new ArrayList<>();
         myTimers = new HashMap<>();
 
-        var parser = new EngineParser(myInstances, mySceneLogic, myCollisionResponses, myHotKeys, myTimerSequences, myTimers);
-        parser.initializeDataTypes(sceneScript);
+        myGame = game;
+        Integer levelIndex = game.currentLevel;
+        Scene scene = myGame.scenes.get(levelIndex);
+        myInstances = scene.instances;
+        String sceneLogic = scene.sceneLogic;
+
+        var parser = new EngineParser(myLevelRules, myCollisionResponses, myHotKeys, myTimerSequences, myTimers);
+        parser.initializeDataTypes(sceneLogic);
 
         for (Pair<String> objectPair : myCollisionResponses.keySet()) {
             System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + myCollisionResponses.get(objectPair));
         }
-
-        myGame = game;
-        Scene scene = new Scene(myInstances, mySceneLogic, Integer.toString(levelNumber));
-        myGame.addScene(scene);
-        myGame.setCurrentScene(scene);
 
         myIterationCounter = 0;
         myDebugLog = new DebugLog();
@@ -124,7 +124,7 @@ public class LevelController {
     }
 
     public void updateScene() {
-        Script script = myShell.parse(mySceneLogic);
+        Script script = myShell.parse(myLevelRules);
         script.run();
         myManager.executeEntityLogic();
         myManager.updateTimers();

@@ -52,7 +52,7 @@ import static auth.helpers.DimensionCalculator.computeMarginToBottomEdge;
 import static auth.helpers.RectangleHelpers.createStyledRectangle;
 
 public class ScreenHelpers {
-    private static final String STYLE_SHEET = "authoring.css";
+/*    private static final String STYLE_SHEET = "authoring.css";
     public static final String DRAGGING_CLONE = "DRAGGING_CLONE";
 
     private static Color selectedShadowColor = Color.rgb(255, 255, 255, 0.75);
@@ -585,5 +585,5 @@ public class ScreenHelpers {
             });
             context.registerNewUIElement(new UIElementWrapper(view, "CANVAS_ITEM"));
         }
-    }
+    }*/
 }

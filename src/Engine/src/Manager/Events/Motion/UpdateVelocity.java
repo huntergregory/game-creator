@@ -14,14 +14,11 @@ public class UpdateVelocity extends MotionEvent {
     @Override
     protected void modifyComponents(Instance instance, Object ... args) {
         var motionComponent = instance.getComponent(MotionComponent.class);
-        var environmentComponent = motionComponent.getEnvironmentImmersedIn();
         double xVel = motionComponent.getXVelocity();
         double yVel = motionComponent.getYVelocity();
-        double xAcc = environmentComponent.getAccelX();
-        double yAcc = environmentComponent.getAccelY();
-        double maxXVel = environmentComponent.getMaxXVelocity();
-        double maxYVel = environmentComponent.getMaxYVelocity();
-        motionComponent.setXVelocity(Math.min(xVel + xAcc, maxXVel));
-        motionComponent.setYVelocity(Math.min(yVel + yAcc, maxYVel));
+        double xAcc = motionComponent.getXAccel();
+        double yAcc = motionComponent.getYAccel();
+        motionComponent.setXVelocity(xVel + xAcc);
+        motionComponent.setYVelocity(yVel + yAcc);
     }
 }

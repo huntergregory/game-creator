@@ -6,6 +6,8 @@ package gamedata.GameObjects.Components;
 public class MotionComponent extends Component {
     private final double MY_DEFAULT_X_ACCEL;
     private final double MY_DEFAULT_Y_ACCEL;
+    private final double MY_DEFAULT_MOVEMENT_X_VEL;
+    private final double MY_DEFAULT_MOVEMENT_Y_VEL;
     private double myXVelocity;
     private double myYVelocity;
     private double myMovementXVelocity;
@@ -13,11 +15,13 @@ public class MotionComponent extends Component {
     private double myXAccel;
     private double myYAccel;
 
-    public MotionComponent(double xVelocity, double yVelocity, double movementXVelocity, double movementYVelocity, double defaultAccelX, double defaultAccelY) {
+    public MotionComponent(double xVelocity, double yVelocity, double defaultMovementXVelocity, double defaultMovementYVelocity, double defaultAccelX, double defaultAccelY) {
         this.myXVelocity = xVelocity;
         this.myYVelocity = yVelocity;
-        this.myMovementXVelocity = movementXVelocity;
-        this.myMovementYVelocity = movementYVelocity;
+        this.myMovementXVelocity = defaultMovementXVelocity;
+        this.myMovementYVelocity = defaultMovementYVelocity;
+        this.MY_DEFAULT_MOVEMENT_X_VEL = defaultMovementXVelocity;
+        this.MY_DEFAULT_MOVEMENT_Y_VEL = defaultMovementYVelocity;
         this.myXAccel = defaultAccelX;
         this.myYAccel = defaultAccelY;
         this.MY_DEFAULT_X_ACCEL = defaultAccelX;
@@ -75,4 +79,12 @@ public class MotionComponent extends Component {
     public void resetXAccel() { myXAccel = MY_DEFAULT_X_ACCEL; }
 
     public void resetYAccel() { myYAccel = MY_DEFAULT_Y_ACCEL; }
+
+    public double getDefaultMovementXVel() { return MY_DEFAULT_MOVEMENT_X_VEL; }
+
+    public double getDefaultMovementYVel() { return MY_DEFAULT_MOVEMENT_Y_VEL; }
+
+    public void resetMovementXVel() { myMovementXVelocity = MY_DEFAULT_MOVEMENT_X_VEL; }
+
+    public void resetMovementYVel() { myMovementYVelocity = MY_DEFAULT_MOVEMENT_Y_VEL; }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FXML Controller for the identity pane that shows information about the user after they have successfully logged in,
+ * FXML LevelController for the identity pane that shows information about the user after they have successfully logged in,
  * including display name and high scores for the games in the social center.
  */
 public class IdentityController {

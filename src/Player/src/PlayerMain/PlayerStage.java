@@ -4,7 +4,7 @@ import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.Component;
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Components.MotionComponent;
-import Engine.src.Controller.Controller;
+import Engine.src.Controller.LevelController;
 import gamedata.Game;
 import hud.DataTracker;
 import hud.HUDView;
@@ -48,7 +48,7 @@ public class PlayerStage {
     private BorderPane myBorderPane;
     private HUDView myHud;
 
-    private Controller myGameController;
+    private LevelController myGameController;
     private Pane myGameRoot;
     private Map<Integer, Map<Class<? extends Component>, Component>> myGameEntityMap;
     private Map<Integer, ImageView> myImageViewMap;

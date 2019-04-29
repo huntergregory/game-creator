@@ -9,13 +9,14 @@ import Engine.src.ECS.CollisionHandler;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
 import gamedata.GameObjects.Instance;
+import gamedata.Scene;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 import java.util.*;
 
-public class Controller {
+public class LevelController {
     //FIXME remove eventually
     private static final boolean SCROLLS_HORIZONTALLY = true;
     private static final boolean SCROLLS_VERTICALLY = false;
@@ -52,9 +53,8 @@ public class Controller {
     private Binding myBinding;
     private GroovyShell myShell;
 
-    public Controller(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
-                      Game game, Map<Pair<String>, Pair<String>> collisionResponses, Map<String, String> hotkeys,
-                      List<TimerSequence> timerSequences, Map<Integer, Timer> timers) {
+    public LevelController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
+                           Game game, String sceneScript, int levelNumber) {
 
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
@@ -62,13 +62,20 @@ public class Controller {
         myLevelWidth = levelWidth;
         myLevelHeight = levelHeight;
 
+        myInstances = new HashSet<>();
+        mySceneLogic = "";
+        myCollisionResponses = new HashMap<>();
+        myHotKeys = new HashMap<>();
+        myTimerSequences = new ArrayList<>();
+        myTimers = new HashMap<>();
+
+        var parser = new EngineParser(myInstances, mySceneLogic, myCollisionResponses, myHotKeys, myTimerSequences, myTimers);
+        parser.initializeDataTypes(sceneScript);
+
         myGame = game;
-        myInstances = game.currentScene.instances;
-        mySceneLogic = game.currentScene.sceneLogic;
-        myCollisionResponses = collisionResponses;
-        myHotKeys = hotkeys;
-        myTimerSequences = timerSequences;
-        myTimers = timers;
+        Scene scene = new Scene(myInstances, mySceneLogic, Integer.toString(levelNumber));
+        myGame.addScene(scene);
+        myGame.setCurrentScene(scene);
 
         myIterationCounter = 0;
         myDebugLog = new DebugLog();

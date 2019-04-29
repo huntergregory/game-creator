@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Controller for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
+ * The LevelController for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
  * under the resources folder.
  *
  * This controller defines all actions that occur when a user interacts with the GUI. It also defines several parts of

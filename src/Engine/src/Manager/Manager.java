@@ -88,14 +88,6 @@ public class Manager {
         }
     }
 
-    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
-        int max = 0;
-        for(int ID : myTimers.keySet()){
-            if (ID > max) max = ID;
-        }
-        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, myCount));
-    }
-
     public void updateSequences() {
         for (TimerSequence sequence : myTimerSequences) {
             Timer currentTimer = sequence.getCurrentTimer();

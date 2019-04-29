@@ -1,13 +1,13 @@
 package Player.PlayerMain;
 
 import Engine.src.Controller.GameController;
+import Engine.src.EngineData.EngineInstance;
 import Player.Features.DebugConsole;
-import gamedata.GameObjects.Components.BasicComponent;
-import gamedata.GameObjects.Components.HealthComponent;
-import gamedata.GameObjects.Components.MotionComponent;
+import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.HealthComponent;
+import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
 import gamedata.Game;
-import gamedata.GameObjects.Instance;
 import gamedata.serialization.Serializer;
 import hud.DataTracker;
 import hud.HUDView;
@@ -61,8 +61,8 @@ public class PlayerStage {
     private LevelController myLevelController;
     private GameController myGameController;
     private Pane myGameRoot;
-    private Set<Instance> myInstances;
-    private Map<Instance, ImageView> myImageViewMap;
+    private Set<EngineInstance> myEngineInstances;
+    private Map<EngineInstance, ImageView> myImageViewMap;
     private int myLevelNumber;
 
     private NumericalDataTracker<Double> myXPosTracker;
@@ -118,7 +118,7 @@ public class PlayerStage {
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController(myLevelNumber);
         Stage gameStage = new Stage();
-        myInstances = myLevelController.getEntities();
+        myEngineInstances = myLevelController.getEntities();
         initDataTrackers();
         initBorderPane();
         addNewImageViews();
@@ -184,32 +184,32 @@ public class PlayerStage {
     }
 
     private void updateOrRemoveImageViews() {
-        for (Instance instance : myImageViewMap.keySet()) {
-            if (myInstances.contains(instance))
-                myGameRoot.getChildren().remove(myImageViewMap.get(instance));
-            updateImageView(instance);
+        for (EngineInstance engineInstance : myImageViewMap.keySet()) {
+            if (myEngineInstances.contains(engineInstance))
+                myGameRoot.getChildren().remove(myImageViewMap.get(engineInstance));
+            updateImageView(engineInstance);
         }
     }
 
     private void addNewImageViews() {
-        for (Instance instance : myInstances) {
-            if (myImageViewMap.containsKey(instance))
+        for (EngineInstance engineInstance : myEngineInstances) {
+            if (myImageViewMap.containsKey(engineInstance))
                 continue;
             var newImageView = new ImageView();
-            myImageViewMap.put(instance, newImageView);
+            myImageViewMap.put(engineInstance, newImageView);
             myGameRoot.getChildren().add(newImageView);
-            updateImageView(instance);
+            updateImageView(engineInstance);
         }
     }
 
-    private void updateImageView(Instance instance) {
-        BasicComponent basicComponent = instance.getComponent(BasicComponent.class);
-        MotionComponent motionComponent = instance.getComponent(MotionComponent.class);
-        HealthComponent healthComponent = instance.getComponent(HealthComponent.class);
+    private void updateImageView(EngineInstance engineInstance) {
+        BasicComponent basicComponent = engineInstance.getComponent(BasicComponent.class);
+        MotionComponent motionComponent = engineInstance.getComponent(MotionComponent.class);
+        HealthComponent healthComponent = engineInstance.getComponent(HealthComponent.class);
         if (basicComponent == null)
             return;
 
-        ImageView imageView = myImageViewMap.get(instance.getID());
+        ImageView imageView = myImageViewMap.get(engineInstance.getID());
         moveAndResize(imageView, basicComponent);
         setImageIfNecessary(imageView, basicComponent);
     }
@@ -242,9 +242,9 @@ public class PlayerStage {
     }
 
     private void updateDataTrackers() {
-        Instance userInstance = myLevelController.getUserInstance();
-        BasicComponent basicComponent = userInstance.getComponent(BasicComponent.class);
-        MotionComponent motionComponent = userInstance.getComponent(MotionComponent.class);
+        EngineInstance userEngineInstance = myLevelController.getUserInstance();
+        BasicComponent basicComponent = userEngineInstance.getComponent(BasicComponent.class);
+        MotionComponent motionComponent = userEngineInstance.getComponent(MotionComponent.class);
         myTimeTracker.storeData(myCount * 1.0); //TODO get actual time
         myXPosTracker.storeData(basicComponent.getX());
         myYPosTracker.storeData(basicComponent.getY());

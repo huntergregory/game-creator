@@ -1,15 +1,9 @@
 package Engine.src.Controller;
 
-import Engine.src.ECS.EntityManager;
 import Engine.src.Manager.Events.Event;
 import Engine.src.Manager.Manager;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
-import gamedata.GameObjects.Components.LogicComponent;
-import gamedata.GameObjects.Instance;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
 
 import java.util.List;
 import java.util.Map;

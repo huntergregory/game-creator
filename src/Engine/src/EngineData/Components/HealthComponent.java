@@ -1,4 +1,4 @@
-package gamedata.GameObjects.Components;
+package Engine.src.EngineData.Components;
 
 public class HealthComponent extends Component {
     private int myHealth;

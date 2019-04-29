@@ -1,17 +1,13 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
-import Engine.src.Timers.TimerSequence;
-import gamedata.GameObjects.Components.Component;
 import Engine.src.Timers.Timer;
-import gamedata.GameObjects.Instance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 import java.util.*;
 import java.util.Map;
-import java.util.Set;
 
 public class EngineParser {
 

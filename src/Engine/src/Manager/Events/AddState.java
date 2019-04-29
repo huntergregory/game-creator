@@ -1,18 +1,18 @@
 package Engine.src.Manager.Events;
 
-import gamedata.GameObjects.Components.LogicComponent;
-import gamedata.GameObjects.Components.StateComponent;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.Components.LogicComponent;
+import Engine.src.EngineData.Components.StateComponent;
 
 import java.util.Set;
 
 public class AddState extends ComponentDependentEvent {
-    public AddState(Set<Instance> instances) {
-        super(instances, LogicComponent.class, String.class);
+    public AddState(Set<EngineInstance> engineInstances) {
+        super(engineInstances, LogicComponent.class, String.class);
     }
 
     @Override
-    protected void modifyComponents(Instance instance, Object... args) {
-        instance.getComponent(StateComponent.class).addState((String) args[0]);
+    protected void modifyComponents(EngineInstance engineInstance, Object... args) {
+        engineInstance.getComponent(StateComponent.class).addState((String) args[0]);
     }
 }

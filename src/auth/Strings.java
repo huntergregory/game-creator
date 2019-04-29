@@ -20,5 +20,5 @@ public class Strings {
     public static String IMG_RES_PROPERTIES_TITLE = "Image Resource Properties";
     public static String AUD_RES_PROPERTIES_TITLE = "Audio Resource Properties";
     public static String COL_RES_PROPERTIES_TITLE = "Color Resource Properties";
-    public static String INSTANCE_PROPERTIES_TITLE = "Instance Properties";
+    public static String INSTANCE_PROPERTIES_TITLE = "EngineInstance Properties";
 }

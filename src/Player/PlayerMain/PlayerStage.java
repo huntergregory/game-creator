@@ -1,6 +1,8 @@
 package Player.PlayerMain;
 
 import Engine.src.Controller.GameController;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Components.MotionComponent;
@@ -24,10 +26,10 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 
@@ -51,6 +53,7 @@ public class PlayerStage {
     private static final int HUD_UPDATE_DELAY = 10;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
 
+    private Game myGame;
     private Scene myScene;
     private GridPane myVisualRoot;
     private BorderPane myBorderPane;
@@ -71,6 +74,7 @@ public class PlayerStage {
     private NumericalDataTracker<Integer> myScoreTracker;
     private DataTracker<String> myPowerupTracker;
 
+    private final String FILE_NOT_FOUND = "File not found";
     private int myCount;
     private int gamePaused;
 
@@ -102,19 +106,28 @@ public class PlayerStage {
         }
     }
 
-    public void load(String gameName) {
+    public void save(File file){
+        String contents = new Gson().toJson(myGame, new TypeToken<Game>(){}.getType());
         try {
-
-            myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, game);
-            myLevelNumber = loader.getMyLevelNumber();
-            startNewLevel();
-        } catch (IOException e) {
-            System.out.println("Loading " + gameName + " did not work.");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
+            writer.write(contents);
+            writer.close();
+        }
+        catch (IOException e){
+            System.out.println(FILE_NOT_FOUND);
         }
     }
 
+    public void load(String fileName) {
+            String contents = new Scanner(fileName).useDelimiter("\\Z").next();
+            myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
+            myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
+            myLevelNumber = myGame.currentLevel;
+            startNewLevel();
+    }
+
     private void startNewLevel() {
-        myLevelController = myGameController.getLevelController(myLevelNumber);
+        myLevelController = myGameController.getLevelController();
         Stage gameStage = new Stage();
         myInstances = myLevelController.getEntities();
 
@@ -161,7 +174,7 @@ public class PlayerStage {
         setGamePaused();
         if (gamePaused == 0) {
             if (myLevelController.levelPassed()) {
-                myLevelNumber++;
+                myGame.currentLevel = myGame.currentLevel + 1;
                 startNewLevel();
             }
             myLevelController.updateScene();

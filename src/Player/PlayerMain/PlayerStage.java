@@ -91,6 +91,11 @@ public class PlayerStage {
         }
     }
 
+    public static void main(String[] args) {
+        var stage = new PlayerStage();
+        stage.load("");
+    }
+
     public void run(Game game, Boolean debug) {
         if (debug) {
             // TODO: make method, adding console for debug mode

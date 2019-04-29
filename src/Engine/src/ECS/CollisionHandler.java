@@ -194,7 +194,7 @@ public class CollisionHandler {
 
     private void setInEnvironment(Instance i, MotionComponent motion, EnvironmentComponent environment) {
         motion.setXAccel(environment.getUpdatedAccelX(motion.getXVelocity()));
-        motion.setYAccel(environment.getUpdatedAccelY(motion.getYVelocity());
+        motion.setYAccel(environment.getUpdatedAccelY(motion.getYVelocity()));
     }
 
     //TODO fix if Timers.Events are changed

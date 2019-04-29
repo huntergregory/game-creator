@@ -330,21 +330,11 @@ public class PlayerStage {
         return gamePaused;
     }
 
-    public void saveGame(String s) {
+    public void saveGame() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text doc(*.txt)", "*.txt"));
         File potentialFile = fileChooser.showSaveDialog(myGameStage);
-
-        if (potentialFile != null) {
-            try {
-                PrintWriter writer;
-                writer = new PrintWriter(potentialFile);
-                writer.println(s);
-                writer.close();
-            } catch (IOException e) {
-                //TODO: ERROR CATCH - DEBUG LOG?
-            }
-        }
+        save(potentialFile);
     }
 
     public void storeScore() {

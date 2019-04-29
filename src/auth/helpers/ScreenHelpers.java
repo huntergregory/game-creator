@@ -46,7 +46,7 @@ import static auth.RunAuth.bebasKaiMedium;
 import static auth.Strings.*;
 import static auth.Styles.BG_STYLE;
 import static auth.Styles.CANVAS_STYLE;
-import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
+//import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.centreVertical;
 import static auth.helpers.DimensionCalculator.computeMarginToBottomEdge;
 import static auth.helpers.RectangleHelpers.createStyledRectangle;

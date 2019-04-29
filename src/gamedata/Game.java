@@ -15,6 +15,6 @@ public class Game {
         scenes = new ArrayList<>();
         gameObjects = new ArrayList<>();
         resources = new ArrayList<>();
+        currentLevel = 0;
     }
-
 }

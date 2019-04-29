@@ -3,6 +3,7 @@ package Player.PlayerMain;
 import Engine.src.Controller.GameController;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import Player.Features.DebugConsole;
 import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Components.MotionComponent;
@@ -58,6 +59,7 @@ public class PlayerStage {
     private GridPane myVisualRoot;
     private BorderPane myBorderPane;
     private HUDView myHud;
+    private DebugConsole myDebugConsole;
 
     private LevelController myLevelController;
     private GameController myGameController;
@@ -77,6 +79,7 @@ public class PlayerStage {
     private final String FILE_NOT_FOUND = "File not found";
     private int myCount;
     private int gamePaused;
+    private Boolean debugMode = false;
 
     public PlayerStage() {
         myVisualRoot = new GridPane();
@@ -88,7 +91,7 @@ public class PlayerStage {
         //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
         myScene.getStylesheets().add(STYLESHEET);
         try {
-            new Serializer().serialize(List.of("addCollision('Mario', 'Block', 'script');", "addCollision('Mario', 'Turtle');"));
+            new Serializer().serialize(List.of("parser.printHere(); parser.addCollision('Mario', 'Block', 'script');", "parser.addCollision('Mario', 'Turtle');"));
         }
         catch (IOException e) {
             System.out.println("Couldn't write to file.");
@@ -101,9 +104,8 @@ public class PlayerStage {
     }
 
     public void run(Game game, Boolean debug) {
-        if (debug) {
-            // TODO: make method, adding console for debug mode
-        }
+        debugMode = debug;
+        startNewLevel();
     }
 
     public void save(File file){
@@ -130,14 +132,10 @@ public class PlayerStage {
         myLevelController = myGameController.getLevelController();
         Stage gameStage = new Stage();
         myInstances = myLevelController.getEntities();
-
         initDataTrackers();
         initBorderPane();
-
         addNewImageViews();
-
         Scene gameScene = new Scene(myBorderPane, GAME_BG);
-        //gameScene.getStylesheets().add("style.css");
         gameScene.getStylesheets().add("hud.css");
         gameStage.setScene(gameScene);
         gameStage.show();
@@ -154,11 +152,20 @@ public class PlayerStage {
                 myPowerupTracker);
     }
 
+    private void setDebugConsole() {
+        myDebugConsole = new DebugConsole(HUD_WIDTH, ST_HEIGHT);
+    }
+
     private void initBorderPane() {
         myBorderPane = new BorderPane();
         myGameRoot = new Pane();
         myBorderPane.setCenter(myGameRoot);
         setHud();
+        if (debugMode == true) {
+            setDebugConsole();
+            myDebugConsole.addText("");
+            myBorderPane.setRight(myDebugConsole.getMainComponent());
+        }
         myBorderPane.setLeft(myHud.getNode());
     }
 

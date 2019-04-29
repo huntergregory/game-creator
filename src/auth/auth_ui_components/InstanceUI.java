@@ -12,7 +12,16 @@ import javafx.scene.shape.Rectangle;
 import static auth.helpers.ScreenHelpers.*;
 
 public class InstanceUI implements Selectable {
-    private Instance instance; private Game game;
+    @Override
+    public void select() {
+
+    }
+
+    @Override
+    public void deselect() {
+
+    }
+    /*    private Instance instance; private Game game;
     private Node view;
     public InstanceUI (Instance instance, Game game) {
         this.instance = instance; this.game = game;
@@ -63,5 +72,5 @@ public class InstanceUI implements Selectable {
 
     public Node getView() {
         return view;
-    }
+    }*/
 }

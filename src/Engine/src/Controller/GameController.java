@@ -26,7 +26,6 @@ public class GameController {
     }
 
     public LevelController getLevelController(){
-        myGame.currentLevel = myGame.currentLevel + 1;
         return new LevelController(myStepTime, myScreenWidth, myScreenHeight, myLevelWidth, myLevelHeight, myGame);
     }
 

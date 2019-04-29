@@ -1,9 +1,8 @@
 package Engine.src.ECS;
 
-import Engine.src.Manager.Manager;
-import gamedata.GameObjects.Components.ImpassableComponent;
-import gamedata.GameObjects.Components.BasicComponent;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.Components.ImpassableComponent;
+import Engine.src.EngineData.Components.BasicComponent;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -29,10 +28,10 @@ public class CollisionDetector {
     private double height1;
     private double height2;
 
-    public ArrayList<Instance> getImpassableColliders(Instance entity, Set<Instance> allEntities) {
-        ArrayList<Instance> impassables = new ArrayList<>();
+    public ArrayList<EngineInstance> getImpassableColliders(EngineInstance entity, Set<EngineInstance> allEntities) {
+        ArrayList<EngineInstance> impassables = new ArrayList<>();
 
-        for (Instance other : allEntities) {
+        for (EngineInstance other : allEntities) {
             if (other.equals(entity))
                 continue;
             var impassableComponent = other.getComponent(ImpassableComponent.class);
@@ -42,14 +41,14 @@ public class CollisionDetector {
         return impassables;
     }
 
-    public boolean collides(Instance collider, Instance target) {
+    public boolean collides(EngineInstance collider, EngineInstance target) {
         return collideFromLeft(collider, target) ||
                 collideFromLeft(target, collider) ||
                 collideFromTop(collider, target) ||
                 collideFromTop(target, collider);
     }
 
-    public boolean collideFromLeft(Instance collider, Instance target) {
+    public boolean collideFromLeft(EngineInstance collider, EngineInstance target) {
         setCurrCollisionValues(collider, target);
 
         boolean overlapsFromLeft = x1 < x2 && x2 <= x1 + width1 && x1 + width1 <= x2 + width2;
@@ -57,7 +56,7 @@ public class CollisionDetector {
         return overlapsFromLeft && overlapsVertically;
     }
 
-    public boolean collideFromTop(Instance collider, Instance target) {
+    public boolean collideFromTop(EngineInstance collider, EngineInstance target) {
         setCurrCollisionValues(collider, target);
 
         boolean overlapsFromTop = y1 < y2 && y2 <= y1 + height1 && y1 + height1 <= y2 + height2;
@@ -65,7 +64,7 @@ public class CollisionDetector {
         return overlapsFromTop && overlapsHorizontally;
     }
 
-    private void setCurrCollisionValues(Instance collider, Instance target) {
+    private void setCurrCollisionValues(EngineInstance collider, EngineInstance target) {
         var colliderComponent = collider.getComponent(BasicComponent.class);
         var targetComponent = target.getComponent(BasicComponent.class);
         x1 = colliderComponent.getX();

@@ -1,7 +1,6 @@
 package Engine.src.Controller;
 
 import Engine.src.Manager.Events.Event;
-import gamedata.GameObjects.Components.*;
 import Engine.src.ECS.Pair;
 
 import java.util.ArrayList;

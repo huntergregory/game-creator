@@ -1,30 +1,29 @@
 package Engine.src.Manager.Events.Motion;
 
 import Engine.src.ECS.CollisionDetector;
-import Engine.src.Manager.Events.Motion.MotionEvent;
-import gamedata.GameObjects.Components.BasicComponent;
-import gamedata.GameObjects.Components.Component;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.Component;
 
 import java.util.ArrayList;
 import java.util.Set;
 
 public class SetXPosition extends MotionEvent {
-    public SetXPosition(Set<Instance> instances, Class<? extends Component>[] componentClasses) {
-        super(instances, componentClasses, Double.class);
+    public SetXPosition(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
+        super(engineInstances, componentClasses, Double.class);
     }
 
     @Override
-    protected void modifyComponents(Instance instance, Object ... args) {
-        var basicComponent = instance.getComponent(BasicComponent.class);
+    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+        var basicComponent = engineInstance.getComponent(BasicComponent.class);
         double currentX = basicComponent.getX();
         double finalX = (double) args[0];
         double newX = (double) args[0];
         CollisionDetector collisionDetector = new CollisionDetector();
-        ArrayList<Instance> impassableColliders = collisionDetector.getImpassableColliders(instance, myInstances);
-        for(Instance impassable : impassableColliders){
-            if ((collisionDetector.collideFromLeft(impassable, instance) && newX < currentX) ||
-                    (collisionDetector.collideFromLeft(instance, impassable) && newX > currentX)) {
+        ArrayList<EngineInstance> impassableColliders = collisionDetector.getImpassableColliders(engineInstance, myEngineInstances);
+        for(EngineInstance impassable : impassableColliders){
+            if ((collisionDetector.collideFromLeft(impassable, engineInstance) && newX < currentX) ||
+                    (collisionDetector.collideFromLeft(engineInstance, impassable) && newX > currentX)) {
                 finalX = currentX;
             }
         }

@@ -1,17 +1,17 @@
 package Engine.src.Manager.Events.Aim;
 
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.Set;
 
 public class RotateClockwise extends AimModifierEvent{
 
-    public RotateClockwise(Set<Instance> instanceSet){
-        super(instanceSet);
+    public RotateClockwise(Set<EngineInstance> engineInstanceSet){
+        super(engineInstanceSet);
     }
 
     @Override
-    protected void modifyComponents(Instance instance, Object... args) {
-        rotateAim(instance, true);
+    protected void modifyComponents(EngineInstance engineInstance, Object... args) {
+        rotateAim(engineInstance, true);
     }
 }

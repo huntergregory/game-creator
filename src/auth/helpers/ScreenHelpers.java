@@ -187,7 +187,7 @@ public class ScreenHelpers {
                 var fxmlPane = (javafx.scene.layout.Pane) loader.load();
                 loader.<ScenePropsController>getController().initData(propsPane, context);
                 contentPane.getChildren().add(fxmlPane);
-            } else if (context.selectedType == GameObject.class) {
+            } else if (context.selectedType == EngineGameObject.class) {
                 // Show props for game object
                 ((Text) ((BorderPane) propsPane.getChildren().get(0)).getTop()).setText(OBJECTS_PROPERTIES_TITLE);
                 FXMLLoader loader = new FXMLLoader(ScreenHelpers.class.getResource("/properties_pane_fxml/objprops.fxml"));
@@ -206,7 +206,7 @@ public class ScreenHelpers {
                 // Show props for color resource
                 ((Text) ((BorderPane) propsPane.getChildren().get(0)).getTop()).setText(COL_RES_PROPERTIES_TITLE);
                 loadResourceFXML(context, propsPane, contentPane);
-            } else if (context.selectedType == Instance.class) {
+            } else if (context.selectedType == EngineInstance.class) {
                 // Show props for instance
                 ((Text) ((BorderPane) propsPane.getChildren().get(0)).getTop()).setText(INSTANCE_PROPERTIES_TITLE);
                 FXMLLoader loader = new FXMLLoader(ScreenHelpers.class.getResource("/properties_pane_fxml/insprops.fxml"));
@@ -416,7 +416,7 @@ public class ScreenHelpers {
                         context.currentlySelected = thisIcon;
                         thisIcon.select();
                         context.selectedID = o.objectID;
-                        context.selectedType = GameObject.class;
+                        context.selectedType = EngineGameObject.class;
                         repopulatePropertiesPane(context);
                         System.out.println("Object icon clicked for "+o.objectID);
                     } else {
@@ -435,7 +435,7 @@ public class ScreenHelpers {
                 icon = new ImageIcon(getImageById(context.getGame(), o.bgImage), o.objectID, callback);
                 duplicate = new ImageIcon(getImageById(context.getGame(), o.bgImage), "", e -> {});
             }
-            if(context.selectedType == GameObject.class && context.selectedID.equals(o.objectID))
+            if(context.selectedType == EngineGameObject.class && context.selectedID.equals(o.objectID))
                 icon.select();
 
             icon.getView().setOnMousePressed(t -> {
@@ -481,10 +481,10 @@ public class ScreenHelpers {
         context.getObjectGrid().getChildren().add(row);
     }
 
-    private static void createNewInstance(CanvasScreen context, Game game, GameObject instanceOf, double absoluteX, double absoluteY) {
+    private static void createNewInstance(CanvasScreen context, Game game, EngineGameObject instanceOf, double absoluteX, double absoluteY) {
         if (absoluteX >= CONSOLE_HORIZONTAL_OFFSET && absoluteX <= CONSOLE_HORIZONTAL_OFFSET + CANVAS_WIDTH &&
         absoluteY >= CANVAS_VERTICAL_OFFSET && absoluteY <= CANVAS_VERTICAL_OFFSET + CANVAS_HEIGHT) {
-            var newInstance = new Instance();
+            var newInstance = new EngineInstance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
             newInstance.instanceID = "instance_"+game.scenes.get(context.getCurrentScene()).instances.size();
             newInstance.x = absoluteX - CONSOLE_HORIZONTAL_OFFSET;
@@ -493,7 +493,7 @@ public class ScreenHelpers {
             newInstance.width = (instanceOf.width > 0 ? instanceOf.width : 60);
             newInstance.height = (instanceOf.height > 0 ? instanceOf.height : 60);
             game.scenes.get(context.getCurrentScene()).instances.add(newInstance);
-            System.out.println("Instance created requested for " + instanceOf.objectID +" at ("+absoluteX+","+absoluteY+")");
+            System.out.println("EngineInstance created requested for " + instanceOf.objectID +" at ("+absoluteX+","+absoluteY+")");
             refreshCanvas(context);
         }
     }
@@ -577,7 +577,7 @@ public class ScreenHelpers {
                     context.currentlySelected = null;
                 } else {
                     iui.select();
-                    context.selectedType = Instance.class;
+                    context.selectedType = EngineInstance.class;
                     context.selectedID = i.instanceID;
                     context.currentlySelected = iui;
                 }

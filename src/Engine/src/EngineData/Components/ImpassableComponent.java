@@ -1,4 +1,4 @@
-package gamedata.GameObjects.Components;
+package Engine.src.EngineData.Components;
 
 public class ImpassableComponent extends Component {
     private boolean myImpassable;

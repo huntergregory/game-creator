@@ -1,11 +1,6 @@
 
 package Engine.src.ECS;
 
-import gamedata.GameObjects.Components.*;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
-
 import java.util.Map;
 
 @Deprecated

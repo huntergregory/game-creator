@@ -1,9 +1,9 @@
-package gamedata.GameObjects;
+package Engine.src.EngineData;
 
-import gamedata.GameObjects.ComponentExceptions.BasicComponentException;
-import gamedata.GameObjects.ComponentExceptions.NoComponentException;
-import gamedata.GameObjects.Components.BasicComponent;
-import gamedata.GameObjects.Components.Component;
+import Engine.src.EngineData.ComponentExceptions.BasicComponentException;
+import Engine.src.EngineData.ComponentExceptions.NoComponentException;
+import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.Component;
 
 import java.util.HashMap;
 import java.util.Map;

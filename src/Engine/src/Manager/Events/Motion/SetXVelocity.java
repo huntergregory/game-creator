@@ -1,19 +1,18 @@
 package Engine.src.Manager.Events.Motion;
 
-import Engine.src.Manager.Events.Motion.MotionEvent;
-import gamedata.GameObjects.Components.MotionComponent;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.Components.MotionComponent;
 
 import java.util.Set;
 
 public class SetXVelocity extends MotionEvent {
-    public SetXVelocity(Set<Instance> instances) {
-        super(instances, Double.class);
+    public SetXVelocity(Set<EngineInstance> engineInstances) {
+        super(engineInstances, Double.class);
     }
 
     @Override
-    protected void modifyComponents(Instance instance, Object ... args) {
-        var motionComponent = instance.getComponent(MotionComponent.class);
+    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+        var motionComponent = engineInstance.getComponent(MotionComponent.class);
         motionComponent.setXVelocity((double) args[0]);
     }
 }

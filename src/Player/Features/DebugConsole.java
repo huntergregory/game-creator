@@ -5,11 +5,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DebugConsole extends Feature {
     private HBox myHBox;
     private ScrollPane myScrollPane;
     protected Label myTextArea;
     protected String text = "";
+    private List<String> debugLog = new ArrayList<>();
 
     /**
      * Constructor for a DebugConsole object
@@ -38,9 +42,16 @@ public class DebugConsole extends Feature {
         myTextArea.setText(newString);
     }
 
-    public void update(String s) {
-        clearText();
-        text += s;
+    public void update(List<String> s) {
+        if (s.size() <= debugLog.size()) {
+            return;
+        }
+        for (int k = debugLog.size() - 1; k < s.size(); k++) {
+            text += s.get(k);
+            if (k != s.size() - 1) {
+                text += "\n";
+            }
+        }
         addText(text);
     }
 

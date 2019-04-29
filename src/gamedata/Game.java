@@ -1,7 +1,5 @@
 package gamedata;
 
-import gamedata.GameObjects.GameObject;
-
 import java.util.ArrayList;
 import java.util.List;
 

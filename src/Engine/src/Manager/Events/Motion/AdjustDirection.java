@@ -1,18 +1,17 @@
 package Engine.src.Manager.Events.Motion;
 
-import Engine.src.Manager.Events.Motion.MotionEvent;
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.Set;
 
 public class AdjustDirection extends MotionEvent {
-    public AdjustDirection(Set<Instance> instances) {
-        super(instances, Double.class);
+    public AdjustDirection(Set<EngineInstance> engineInstances) {
+        super(engineInstances, Double.class);
     }
 
     @Override
-    protected void modifyComponents(Instance instance, Object ... args) {
-        double angle = getAngle(instance) + (double) args[0];
-        adjustVelocitiesByAngle(instance, angle);
+    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+        double angle = getAngle(engineInstance) + (double) args[0];
+        adjustVelocitiesByAngle(engineInstance, angle);
     }
 }

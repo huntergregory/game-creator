@@ -15,7 +15,7 @@ import static auth.helpers.DataHelpers.*;
 
 public class ObjPropsController extends JXMLController {
 /*    private Game game;
-    private GameObject selectedObject;
+    private EngineGameObject selectedObject;
 
     @FXML
     public TextField objectIDField, widthField, heightField, bgImgField, bgColorField;
@@ -29,7 +29,7 @@ public class ObjPropsController extends JXMLController {
         populateFormUsingObjectInfo(selectedObject);
     }
 
-    private void populateFormUsingObjectInfo(GameObject object) {
+    private void populateFormUsingObjectInfo(EngineGameObject object) {
         objectIDField.setText(object.objectID);
         widthField.setText(String.format( "%.2f", object.width));
         heightField.setText(String.format( "%.2f", object.height));

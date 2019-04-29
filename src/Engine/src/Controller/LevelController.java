@@ -1,16 +1,17 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
+import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.ScoreComponent;
+import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.DebugLog;
 import Engine.src.Manager.Manager;
 import Engine.src.Manager.Sounds;
 import gamedata.Game;
-import gamedata.GameObjects.Components.*;
 import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
-import gamedata.GameObjects.Instance;
 import gamedata.Scene;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -38,10 +39,10 @@ public class LevelController {
     private List<TimerSequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
     private Map<Pair<String>, String> myCollisionResponses;
-    private Set<Instance> myInstances;
+    private Set<EngineInstance> myEngineInstances;
     private String myLevelRules;
 
-    private Instance myUserInstance;
+    private EngineInstance myUserEngineInstance;
     private double myStepTime;
     private double myIterationCounter;
     private double[] myOffset;
@@ -73,7 +74,7 @@ public class LevelController {
         myGame = game;
         Integer levelIndex = game.currentLevel;
         Scene scene = myGame.scenes.get(levelIndex);
-        myInstances = scene.instances;
+        myEngineInstances = scene.instances;
         String sceneLogic = scene.sceneLogic;
 
         var parser = new EngineParser(myLevelRules, myCollisionResponses, myHotKeys, myTimerSequences, myTimers);
@@ -104,10 +105,10 @@ public class LevelController {
     }
 
     private void setUser(){
-        for (Instance instance : myInstances) {
-            String type = instance.getType();
+        for (EngineInstance engineInstance : myEngineInstances) {
+            String type = engineInstance.getType();
             if (type.equals("USER")) {
-                myUserInstance = instance;
+                myUserEngineInstance = engineInstance;
                 break;
             }
         }
@@ -117,7 +118,7 @@ public class LevelController {
         if (myHotKeys.containsKey(key)) {
             String event = myHotKeys.get(key);
             GroovyShell shell = new GroovyShell(myBinding);
-            myBinding.setProperty("instance", myUserInstance);
+            myBinding.setProperty("instance", myUserEngineInstance);
             Script script = shell.parse(event);
             script.run();
         } else ; //TODO:error
@@ -130,12 +131,12 @@ public class LevelController {
         myManager.updateTimers();
         myManager.updateSequences();
         myManager.updateCount();
-        myCollisionHandler.handleCollisions(myInstances, myCollisionResponses);
+        myCollisionHandler.handleCollisions(myEngineInstances, myCollisionResponses);
         myOffset = updateOffset();
     }
 
     private double[] updateOffset() {
-        BasicComponent basic = myUserInstance.getComponent(BasicComponent.class);
+        BasicComponent basic = myUserEngineInstance.getComponent(BasicComponent.class);
         double userX = basic.getX();
         double userY = basic.getY();
         double userWidth = basic.getWidth();
@@ -176,17 +177,17 @@ public class LevelController {
         return myOffset;
     }
 
-    public Set<Instance> getEntities() {
-        return myInstances;
+    public Set<EngineInstance> getEntities() {
+        return myEngineInstances;
     }
 
-    public double getScore(Instance instance) {
-        ScoreComponent score = instance.getComponent(ScoreComponent.class);
+    public double getScore(EngineInstance engineInstance) {
+        ScoreComponent score = engineInstance.getComponent(ScoreComponent.class);
         return score.getScore();
     }
 
-    public Instance getUserInstance() {
-        return myUserInstance;
+    public EngineInstance getUserInstance() {
+        return myUserEngineInstance;
     }
 
     public boolean levelPassed() {

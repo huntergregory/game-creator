@@ -1,20 +1,19 @@
 package Engine.src.Manager.Events;
 
-import gamedata.GameObjects.Instance;
+import Engine.src.EngineData.EngineInstance;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";
 
-    protected Set<Instance> myInstances;
+    protected Set<EngineInstance> myEngineInstances;
     private Class[] myParameters;
     //private String myConditionalScript;
     private final String SUBFOLDER = "";
 
-    public Event(Set<Instance> instances, Class ... parameterTypes) {
-        myInstances = instances;
+    public Event(Set<EngineInstance> engineInstances, Class ... parameterTypes) {
+        myEngineInstances = engineInstances;
         myParameters = parameterTypes;
         //myConditionalScript = "";
     }
@@ -22,19 +21,19 @@ public abstract class Event {
     /**
      *
      * All subclasses of Event assume that Event does full error checking of both the number and type of args in execute.
-     * @param instance
+     * @param engineInstance
      * @param args
      */
-    protected abstract void execute(Instance instance, Object ... args);
+    protected abstract void execute(EngineInstance engineInstance, Object ... args);
 
     public Class[] getNonInstanceParameters() {
         return myParameters;
     }
 
-    public void activate(Instance instance, Object ... args) throws IllegalArgumentException {
+    public void activate(EngineInstance engineInstance, Object ... args) throws IllegalArgumentException {
         if (!parametersMatch(args))
             throw new IllegalArgumentException(ERROR_MESSAGE);
-        execute(instance, args);
+        execute(engineInstance, args);
     }
 
     private boolean parametersMatch(Object ... args) {

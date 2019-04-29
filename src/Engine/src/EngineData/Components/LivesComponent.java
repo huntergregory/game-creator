@@ -1,5 +1,5 @@
 
-package gamedata.GameObjects.Components;
+package Engine.src.EngineData.Components;
 
 public class LivesComponent extends Component{
     private int myLives;

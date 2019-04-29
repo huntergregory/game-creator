@@ -1,20 +1,17 @@
 package Engine.src.Manager;
 
+import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.Manager.Events.Event;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
 import gamedata.Game;
-import gamedata.GameObjects.Components.*;
-import gamedata.GameObjects.GameObject;
-import gamedata.GameObjects.Instance;
-import gamedata.Scene;
+import Engine.src.EngineData.EngineInstance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import voogasalad.util.reflection.Reflection;
 import voogasalad.util.reflection.ReflectionException;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,9 +26,9 @@ public class Manager {
     private static final String EVENTS_FILE_PATH = "Engine.src.Manager.Events.";
     private static final String[] SUBFOLDERS = {"", "AI", "Aim", "Health"};
 
-    private Game myGame;
     private double myStepTime;
 
+    private Set<EngineInstance> myEngineInstances;
     private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
     private double myCount;
@@ -44,14 +41,14 @@ public class Manager {
         var basic = new BasicComponent("", 50, 50, 100, 100);
         var motion = new MotionComponent(5, 5, 5,5, defaultEnvironment);
         var health = new HealthComponent(1, 5);
-        var mario = new GameObject("mario");
+        var mario = new EngineGameObject("mario");
         mario.addComponent(basic, motion, health);
-        var block = new GameObject("block");
+        var block = new EngineGameObject("block");
         block.addComponent(basic);
         var instance1 = mario.createInstance("mario1");
         var instance2 = block.createInstance("block1");
 
-        HashSet<Instance> instances = new HashSet<>();
+        HashSet<EngineInstance> instances = new HashSet<>();
         instances.add(instance1);
         instances.add(instance2);
         var scene = new Scene();
@@ -63,19 +60,19 @@ public class Manager {
         manager.call("AddToHealth", instance1, 2);
     }
 */
-    public Manager(Game game, double stepTime, Binding binding) {
-        myGame = game;
+    public Manager(Set<EngineInstance> engineInstances, double stepTime, Binding binding) {
+        myEngineInstances = engineInstances;
         myStepTime = stepTime;
         myBinding = binding;
         myShell = new GroovyShell(myBinding);
         levelPassed = false;
     }
 
-    public void call(String eventClass, Instance instance, Object ... args) {
+    public void call(String eventClass, EngineInstance engineInstance, Object ... args) {
         for(String subfolder : SUBFOLDERS) {
             try {
-                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + eventClass, getCurrentInstances());
-                event.activate(instance, args);
+                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + eventClass, myEngineInstances);
+                event.activate(engineInstance, args);
             } catch (ReflectionException e) {
                 System.out.println(REFLECTION_ERROR);
             } catch (ClassCastException e) {
@@ -125,10 +122,10 @@ public class Manager {
     }
 
     public void executeEntityLogic() {
-        for (Instance instance : getCurrentInstances()) {
-            LogicComponent logicComponent = instance.getComponent(LogicComponent.class);
+        for (EngineInstance engineInstance : myEngineInstances) {
+            LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
             String logic = logicComponent.getLogic();
-            myBinding.setProperty("instance", instance);
+            myBinding.setProperty("engineInstance", engineInstance);
             Script script = myShell.parse(logic);
             script.run();
         }
@@ -145,9 +142,5 @@ public class Manager {
 
     public boolean levelPassed() {
         return levelPassed;
-    }
-
-    private Set<Instance> getCurrentInstances() {
-        return myGame.scenes.get(myGame.currentLevel).instances;
     }
 }

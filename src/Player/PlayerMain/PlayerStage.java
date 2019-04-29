@@ -1,6 +1,7 @@
 package Player.PlayerMain;
 
 import Engine.src.Controller.GameController;
+import GameCenter.main.GameCenterController;
 import Player.Features.DebugConsole;
 import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.HealthComponent;
@@ -52,12 +53,14 @@ public class PlayerStage {
     private static final int HUD_UPDATE_DELAY = 10;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
 
+    private Stage myGameStage;
     private Scene myScene;
     private GridPane myVisualRoot;
     private BorderPane myBorderPane;
     private HUDView myHud;
     private DebugConsole myDebugConsole;
 
+    private GameCenterController myGameCenterController;
     private LevelController myLevelController;
     private GameController myGameController;
     private Pane myGameRoot;
@@ -77,7 +80,8 @@ public class PlayerStage {
     private int gamePaused;
     private Boolean debugMode = false;
 
-    public PlayerStage() {
+    public PlayerStage(GameCenterController gameCenterController) {
+        myGameCenterController = myGameCenterController;
         myVisualRoot = new GridPane();
         //mySidePanelWidth = ST_WIDTH / 3.0;
         //myLeftPanel = new SidePanel(mySidePanelWidth);
@@ -94,10 +98,10 @@ public class PlayerStage {
         }
     }
 
-    public static void main(String[] args) {
-        var stage = new PlayerStage();
-        stage.load("");
-    }
+//    public static void main(String[] args) {
+//        var stage = new PlayerStage();
+//        stage.load("");
+//    }
 
     public void run(Game game, Boolean debug) {
         debugMode = debug;
@@ -118,21 +122,21 @@ public class PlayerStage {
 
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController(myLevelNumber);
-        Stage gameStage = new Stage();
+        myGameStage = new Stage();
         myInstances = myLevelController.getEntities();
         initDataTrackers();
         initBorderPane();
         addNewImageViews();
         Scene gameScene = new Scene(myBorderPane, GAME_BG);
         gameScene.getStylesheets().add("hud.css");
-        gameStage.setScene(gameScene);
-        gameStage.show();
+        myGameStage.setScene(gameScene);
+        myGameStage.show();
         gameScene.setOnKeyPressed(e -> myLevelController.processKey(e.getCode().toString()));
         animate();
     }
 
     private void setHud() {
-        myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
+        myHud = new HUDView(this, myGameCenterController, HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
                 myYPosTracker,
                 myYVelocity,
                 myTimeTracker,
@@ -273,6 +277,10 @@ public class PlayerStage {
         return ret;
     }
 
+    public void removeGameStage() {
+        myGameStage.close();
+    }
+
     private void setGamePaused() {
         gamePaused = myHud.getGamePaused();
     }
@@ -280,5 +288,10 @@ public class PlayerStage {
     public int getGamePaused() {
         return gamePaused;
     }
+
+    public void saveGame() {
+
+    }
+
 
 }

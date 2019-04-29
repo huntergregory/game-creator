@@ -66,7 +66,7 @@ public class CollisionHandler {
         }
 
         for (Instance entity : allEntities) {
-            if (notInteractingWithEnvironment(entity))
+            if (!notInteractingWithEnvironment(entity))
                 setInDefaultEnvironment(entity);
         }
         myPreviousCollisions = myCurrentCollisions;
@@ -76,6 +76,7 @@ public class CollisionHandler {
         for (Instance i : allEntities){
             var motionComponent = i.getComponent(MotionComponent.class);
             if (motionComponent != null) {
+                //TODO make the calls to manager
                 //myEntityManager.move(id);
                 //motionComponent.updateVelocity();
 
@@ -85,6 +86,7 @@ public class CollisionHandler {
         }
     }
 
+    //TODO adjust this with the new motion component
     private boolean notInteractingWithEnvironment(Instance i) {
         if (myCurrentCollisions.containsKey(i)) {
             Set<Instance> possibleEnvironments = myCurrentCollisions.get(i);
@@ -99,13 +101,14 @@ public class CollisionHandler {
     private void setInDefaultEnvironment(Instance i) {
         myEntityCurrentEnvironments.put(i, null);
         var motion = i.getComponent(MotionComponent.class);
+        //TODO adjust this with the actual default environments
         if (motion != null) {
             //motion.setXAcceleration(MY_DEFAULT_ACCEL_X);
             //motion.setYAcceleration(MY_DEFAULT_ACCEL_Y);
         }
     }
 
-    //FIXME Directional collisional logic
+    //FIXME Directional collisional logic - might be handled by script user
     private void checkCollision(Instance i, Instance j) {
         Pair<String>[] collisionTagPairs = findRelevantTagPairs(i, j);
         if (!myCollisionDetector.collides(i, j))
@@ -190,6 +193,7 @@ public class CollisionHandler {
         var tags2 = j.getComponent(TagsComponent.class);
 
         if (tags1 == null || tags2 == null)
+            //Is this right?
             return tagPairs.toArray(new Pair[0]);
 
         for (String tag1 : tags1.getTags()) {
@@ -199,7 +203,7 @@ public class CollisionHandler {
                     tagPairs.add(tagPair);
             }
         }
-
+        //Is this right?
         return tagPairs.toArray(new Pair[0]);
     }
 
@@ -207,21 +211,17 @@ public class CollisionHandler {
         myCurrentCollisions.putIfAbsent(current, new HashSet<>());
         myCurrentCollisions.get(current).add(other);
         var currentMotionComponent = current.getComponent(MotionComponent.class);
-        var otherEnvironmentComponent = current.getComponent(EnvironmentComponent.class);
-
-        if (currentMotionComponent == null || otherEnvironmentComponent == null)
-            return;
-
+        var otherEnvironmentComponent = other.getComponent(EnvironmentComponent.class);
         if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).contains(other))
             setInEnvironment(current, currentMotionComponent, otherEnvironmentComponent);
     }
 
     private void setInEnvironment(Instance i, MotionComponent motion, EnvironmentComponent environment) {
         myEntityCurrentEnvironments.put(i, environment);
-
         double scaleFactor = environment.getVelDamper();
         motion.setXVelocity(scaleFactor * motion.getXVelocity());
         motion.setYVelocity(scaleFactor * motion.getYVelocity());
+        motion.setEnvironmentImmersedIn(environment);
     }
 
     //TODO fix if Timers.Events are changed

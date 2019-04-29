@@ -1,7 +1,9 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
+import Engine.src.Manager.DebugLog;
 import Engine.src.Manager.Manager;
+import Engine.src.Manager.Sounds;
 import gamedata.Game;
 import gamedata.GameObjects.Components.*;
 import Engine.src.ECS.Pair;

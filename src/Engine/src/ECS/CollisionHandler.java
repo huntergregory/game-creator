@@ -15,31 +15,19 @@ import java.util.*;
 
 import static java.lang.Math.abs;
 
-/**
- * FIXME
- * Bugs: default gravity etc not set
- *       impassables don't allow movement at all
- */
 public class CollisionHandler {
     private Manager myManager;
     private CollisionDetector myCollisionDetector;
     private Map<Pair<String>, Pair<String>> myCollisionResponses;
     private Map<Instance, Set<Instance>> myPreviousCollisions;
     private Map<Instance, Set<Instance>> myCurrentCollisions;
-    private Map<Instance, EnvironmentComponent> myEntityCurrentEnvironments;
     private Binding mySetter;
-
-    //FIXME
-    private static final double MY_DEFAULT_ACCEL_Y = 5;
-    private static final double MY_DEFAULT_ACCEL_X = 0;
-    //FIXME
 
     public CollisionHandler(Manager manager) {
         myManager = manager;
         myCollisionResponses = new HashMap<>();
         myPreviousCollisions = new HashMap<>();
         myCurrentCollisions = new HashMap<>();
-        myEntityCurrentEnvironments = new HashMap<>();
         myCollisionDetector = new CollisionDetector();
         mySetter = new Binding();
         mySetter.setProperty("manager", myManager);
@@ -66,8 +54,8 @@ public class CollisionHandler {
         }
 
         for (Instance entity : allEntities) {
-            if (!notInteractingWithEnvironment(entity))
-                setInDefaultEnvironment(entity);
+            if (!isInteractingWithEnvironment(entity))
+                setDefaultAccel(entity);
         }
         myPreviousCollisions = myCurrentCollisions;
     }
@@ -76,18 +64,13 @@ public class CollisionHandler {
         for (Instance i : allEntities){
             var motionComponent = i.getComponent(MotionComponent.class);
             if (motionComponent != null) {
-                //TODO make the calls to manager
-                //myEntityManager.move(id);
-                //motionComponent.updateVelocity();
-
-                //myManager.call(Move.class, i);
-                //myManager.call(Move.class, i)
+                myManager.call("Move", i);
+                myManager.call("UpdateVelocity", i);
             }
         }
     }
 
-    //TODO adjust this with the new motion component
-    private boolean notInteractingWithEnvironment(Instance i) {
+    private boolean isInteractingWithEnvironment(Instance i) {
         if (myCurrentCollisions.containsKey(i)) {
             Set<Instance> possibleEnvironments = myCurrentCollisions.get(i);
             for (Instance possibleEnvironment : possibleEnvironments) {
@@ -98,25 +81,22 @@ public class CollisionHandler {
         return false;
     }
 
-    private void setInDefaultEnvironment(Instance i) {
-        myEntityCurrentEnvironments.put(i, null);
+    private void setDefaultAccel(Instance i) {
         var motion = i.getComponent(MotionComponent.class);
-        //TODO adjust this with the actual default environments
         if (motion != null) {
-            //motion.setXAcceleration(MY_DEFAULT_ACCEL_X);
-            //motion.setYAcceleration(MY_DEFAULT_ACCEL_Y);
+            motion.resetXAccel();
+            motion.resetYAccel();
         }
     }
 
-    //FIXME Directional collisional logic - might be handled by script user
     private void checkCollision(Instance i, Instance j) {
         Pair<String>[] collisionTagPairs = findRelevantTagPairs(i, j);
         if (!myCollisionDetector.collides(i, j))
             return;
         if (collisionTagPairs.length != 0 ) {
 
-            handleEnvironments(i, j);
-            handleEnvironments(j, i);
+            addCollisionAndHandleEnvironments(i, j);
+            addCollisionAndHandleEnvironments(j, i);
 
             for (Pair<String> tagPair : collisionTagPairs) {
                 Pair<String> responseListPair = myCollisionResponses.get(tagPair);
@@ -130,8 +110,7 @@ public class CollisionHandler {
         dealWithImpassable(j, i);
     }
 
-    //FIXME account for movement velocities in motioncomponent - save keyinputs for movement portion of collisionhandler
-    private boolean correctClipping(Instance toAdjust, Instance other) {
+    private void correctClipping(Instance toAdjust, Instance other) {
         var environmentComponent = other.getComponent(EnvironmentComponent.class);
         var motionComponent = toAdjust.getComponent(MotionComponent.class);
         var adjBasic = toAdjust.getComponent(BasicComponent.class);
@@ -165,10 +144,8 @@ public class CollisionHandler {
                 }
             }
         }
-        return false;
     }
 
-    //FIXME duplicated between parts of collision handler and parts of Entity manager
     private void dealWithImpassable(Instance mover, Instance impassable) {
         var impassableComponent = impassable.getComponent(ImpassableComponent.class);
         if (impassableComponent != null && impassableComponent.getImpassable()) {
@@ -207,7 +184,7 @@ public class CollisionHandler {
         return tagPairs.toArray(new Pair[0]);
     }
 
-    private void handleEnvironments(Instance current, Instance other) {
+    private void addCollisionAndHandleEnvironments(Instance current, Instance other) {
         myCurrentCollisions.putIfAbsent(current, new HashSet<>());
         myCurrentCollisions.get(current).add(other);
         var currentMotionComponent = current.getComponent(MotionComponent.class);
@@ -217,11 +194,11 @@ public class CollisionHandler {
     }
 
     private void setInEnvironment(Instance i, MotionComponent motion, EnvironmentComponent environment) {
-        myEntityCurrentEnvironments.put(i, environment);
-        double scaleFactor = environment.getVelDamper();
-        motion.setXVelocity(scaleFactor * motion.getXVelocity());
-        motion.setYVelocity(scaleFactor * motion.getYVelocity());
-        motion.setEnvironmentImmersedIn(environment);
+        double velScaleFactor = environment.getVelDamper();
+        motion.setXVelocity(Math.min(velScaleFactor * motion.getXVelocity(), environment.getMaxXVelocity()));
+        motion.setYVelocity(Math.min(velScaleFactor * motion.getYVelocity(), environment.getMaxYVelocity()));
+        motion.setXAccel(environment.getAccelX());
+        motion.setYAccel(environment.getAccelY());
     }
 
     //TODO fix if Timers.Events are changed

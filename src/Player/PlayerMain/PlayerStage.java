@@ -3,6 +3,7 @@ package Player.PlayerMain;
 import Engine.src.Controller.GameController;
 import GameCenter.main.GameCenterController;
 import Player.Features.DebugConsole;
+import Player.Features.PlayerButtons;
 import gamedata.GameObjects.Components.BasicComponent;
 import gamedata.GameObjects.Components.HealthComponent;
 import gamedata.GameObjects.Components.MotionComponent;
@@ -21,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -53,11 +55,13 @@ public class PlayerStage {
     private static final int HUD_UPDATE_DELAY = 10;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
 
+    private VBox myVBox;
     private Stage myGameStage;
     private Scene myScene;
     private GridPane myVisualRoot;
     private BorderPane myBorderPane;
     private HUDView myHud;
+    private PlayerButtons myPlayerButtons;
     private DebugConsole myDebugConsole;
 
     private GameCenterController myGameCenterController;
@@ -138,6 +142,10 @@ public class PlayerStage {
                 myPowerupTracker);
     }
 
+    private void setPlayerButtons() {
+        myPlayerButtons = new PlayerButtons(this);
+    }
+
     private void setDebugConsole() {
         myDebugConsole = new DebugConsole(HUD_WIDTH, ST_HEIGHT);
     }
@@ -147,12 +155,16 @@ public class PlayerStage {
         myGameRoot = new Pane();
         myBorderPane.setCenter(myGameRoot);
         setHud();
-        if (debugMode == true) {
+        setPlayerButtons();
+        myVBox = new VBox();
+        myVBox.getChildren().add(myPlayerButtons.getNode());
+        if (debugMode) {
             setDebugConsole();
             myDebugConsole.addText("");
-            myBorderPane.setRight(myDebugConsole.getMainComponent());
+            myVBox.getChildren().add(myDebugConsole.getMainComponent());
         }
         myBorderPane.setLeft(myHud.getNode());
+        myBorderPane.setRight(myVBox);
     }
 
     private void animate() {
@@ -285,14 +297,14 @@ public class PlayerStage {
     }
 
     private void setGamePaused() {
-        gamePaused = myHud.getGamePaused();
+        gamePaused = myPlayerButtons.getGamePaused();
     }
 
     public int getGamePaused() {
         return gamePaused;
     }
 
-    public void saveGame(String file) {
+    public void saveGame() {
 
     }
 

@@ -3,6 +3,7 @@ package Player.Features;
 import Player.Features.Sliders.LivesSlider;
 import Player.Features.Sliders.TimeSlider;
 import Player.PlayerMain.PlayerStage;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -21,10 +22,6 @@ public class PlayerButtons {
 
     private VBox myVBox;
     private static final double INTER_VALUES_SPACING = 2;
-    private static final String TITLE_ID_CSS = "hud-title";
-    private static final String DATA_LABEL_CLASS_CSS = "data-label";
-    private static final String SCROLL_PANE_CLASS_CSS = "scroll-pane";
-
 
     public PlayerButtons(PlayerStage stage) {
         myPlayerStage = stage;
@@ -101,5 +98,9 @@ public class PlayerButtons {
 
     private void saveGame() {
         myPlayerStage.saveGame();
+    }
+
+    public Node getNode() {
+        return myVBox;
     }
 }

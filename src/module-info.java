@@ -12,11 +12,14 @@ module voogasalad.crackingopen {
     requires org.codehaus.groovy;
     requires org.apache.commons.lang3;
     requires gson;
+    requires google.cloud.storage;
+    requires google.oauth.client;
+    requires google.auth.library.credentials;
+    requires google.auth.library.oauth2.http;
+    requires google.api.client;
 
-    exports Launcher.src.Initial;
-    exports auth.auth_fxml_controllers;
     exports gamecenter;
-    exports gamedata to gson;
+    exports auth.auth_fxml_controllers;
 
     opens ez_engine to org.codehaus.groovy, java.scripting;
     opens dummy_player to org.codehaus.groovy, java.scripting;

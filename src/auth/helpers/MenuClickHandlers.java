@@ -1,6 +1,11 @@
 package auth.helpers;
 
 import auth.screens.CanvasScreen;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.BucketInfo;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -14,6 +19,7 @@ import uiutils.panes.Pane;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.Scanner;
 
@@ -68,8 +74,28 @@ public class MenuClickHandlers {
     }
 
     public static void handleSaveToCloud (CanvasScreen context) {
-        // TODO
-        System.out.println("handleSaveToCloud called");
+        try {
+            String SERVICE_ACCOUNT_JSON_PATH = "/Users/anshudwibhashi/work/school/CS308/voogasalad_crackingopen/lib/TMTP-b2dc645337e7.json";
+            // Instantiates a client
+            Storage storage =
+                    StorageOptions.newBuilder()
+                            .setCredentials(
+                                    ServiceAccountCredentials.fromStream(
+                                            new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                            .setProjectId("tmtp-spec")
+                            .build()
+                            .getService();
+
+            // The name for the new bucket
+            String bucketName = "voogasalad-anshudwibhashi-userfiles";
+
+            // Creates the new bucket
+            Bucket bucket = storage.create(BucketInfo.of(bucketName));
+
+            System.out.printf("Bucket %s created.%n", bucket.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void handleLoadFromCloud (CanvasScreen context) {

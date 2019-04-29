@@ -10,11 +10,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import static auth.helpers.DataHelpers.*;
-import static auth.helpers.ScreenHelpers.initialiseObjectsGrid;
-import static auth.helpers.ScreenHelpers.refreshCanvas;
+//import static auth.helpers.ScreenHelpers.initialiseObjectsGrid;
+//import static auth.helpers.ScreenHelpers.refreshCanvas;
 
 public class ObjPropsController extends JXMLController {
-    private Game game;
+/*    private Game game;
     private GameObject selectedObject;
 
     @FXML
@@ -113,5 +113,5 @@ public class ObjPropsController extends JXMLController {
             else
                 bgColorField.setText(selectedObject.bgColor);
         }
-    }
+    }*/
 }

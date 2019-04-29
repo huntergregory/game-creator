@@ -7,7 +7,7 @@ import gamedata.Resource;
 import gamedata.Scene;
 
 public class DataHelpers {
-    public static Scene createNewScene(int number) {
+    /*public static Scene createNewScene(int number) {
         var scene = new Scene();
         scene.sceneID = "scene_"+number;
         return scene;
@@ -113,6 +113,6 @@ public class DataHelpers {
                 o.bgColor = newID;
             }
         }
-    }
+    }*/
 
 }

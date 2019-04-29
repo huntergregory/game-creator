@@ -1,7 +1,9 @@
 package Engine.src.ECS;
 
-import gamedata.GameObjects.Components.BasicComponent;
+import Engine.src.Manager.Manager;
 import gamedata.GameObjects.Components.ImpassableComponent;
+import gamedata.GameObjects.Components.BasicComponent;
+import gamedata.GameObjects.Instance;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -15,8 +17,6 @@ public class CollisionDetector {
     private final double BUFFER_HORIZ = 6;
     private final double BUFFER_VERT = 10;
 
-    private EntityManager myEntityManager;
-
     /**
      * Position and dimension data for a specific collision, where 1 is the collider and 2 is the target
      */
@@ -29,31 +29,27 @@ public class CollisionDetector {
     private double height1;
     private double height2;
 
-    public CollisionDetector(EntityManager entityManager) {
-        myEntityManager = entityManager;
-    }
+    public ArrayList<Instance> getImpassableColliders(Instance entity, Set<Instance> allEntities) {
+        ArrayList<Instance> impassables = new ArrayList<>();
 
-    public Integer[] getImpassableColliders(Integer entity, Set<Integer> allEntities) {
-        ArrayList<Integer> impassables = new ArrayList<>();
-
-        for (Integer other : allEntities) {
+        for (Instance other : allEntities) {
             if (other.equals(entity))
                 continue;
-            var impassableComponent = myEntityManager.getComponent(other, ImpassableComponent.class);
+            var impassableComponent = other.getComponent(ImpassableComponent.class);
             if (impassableComponent != null && impassableComponent.getImpassable())
                 impassables.add(other);
         }
-        return impassables.toArray(new Integer[0]);
+        return impassables;
     }
 
-    public boolean collides(Integer collider, Integer target) {
+    public boolean collides(Instance collider, Instance target) {
         return collideFromLeft(collider, target) ||
                 collideFromLeft(target, collider) ||
                 collideFromTop(collider, target) ||
                 collideFromTop(target, collider);
     }
 
-    public boolean collideFromLeft(Integer collider, Integer target) {
+    public boolean collideFromLeft(Instance collider, Instance target) {
         setCurrCollisionValues(collider, target);
 
         boolean overlapsFromLeft = x1 < x2 && x2 <= x1 + width1 && x1 + width1 <= x2 + width2;
@@ -61,7 +57,7 @@ public class CollisionDetector {
         return overlapsFromLeft && overlapsVertically;
     }
 
-    public boolean collideFromTop(Integer collider, Integer target) {
+    public boolean collideFromTop(Instance collider, Instance target) {
         setCurrCollisionValues(collider, target);
 
         boolean overlapsFromTop = y1 < y2 && y2 <= y1 + height1 && y1 + height1 <= y2 + height2;
@@ -69,9 +65,9 @@ public class CollisionDetector {
         return overlapsFromTop && overlapsHorizontally;
     }
 
-    private void setCurrCollisionValues(Integer collider, Integer target) {
-        var colliderComponent = myEntityManager.getComponent(collider, BasicComponent.class);
-        var targetComponent = myEntityManager.getComponent(target, BasicComponent.class);
+    private void setCurrCollisionValues(Instance collider, Instance target) {
+        var colliderComponent = collider.getComponent(BasicComponent.class);
+        var targetComponent = target.getComponent(BasicComponent.class);
         x1 = colliderComponent.getX();
         x2 = targetComponent.getX();
         y1 = colliderComponent.getY();

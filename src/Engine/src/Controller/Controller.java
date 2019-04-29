@@ -1,19 +1,19 @@
 package Engine.src.Controller;
 
+import Engine.src.ECS.CollisionDetector;
+import Engine.src.Manager.Manager;
+import gamedata.Game;
 import gamedata.GameObjects.Components.*;
-import Engine.src.ECS.AI;
-import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
+import gamedata.GameObjects.Instance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Controller {
     //FIXME remove eventually
@@ -28,69 +28,76 @@ public class Controller {
 
     private final double myScreenWidth;
     private final double myScreenHeight;
+    private double myLevelWidth;
+    private double myLevelHeight;
 
     private Map<String, String> myHotKeys;
     private List<TimerSequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
     private Map<Pair<String>, Pair<String>> myCollisionResponses;
-    private Map<Integer, Map<Class<? extends Component>, Component>> myActiveObjects;
-    private String myTriggers;
+    private Set<Instance> myInstances;
+    private String mySceneLogic;
 
-    private int myUserID;
+    private Instance myUserInstance;
     private double myStepTime;
     private double myIterationCounter;
     private double[] myOffset;
 
     private CollisionHandler myCollisionHandler;
-    private EntityManager myEntityManager;
-    private LevelManager myLevelManager;
-    private AI myAI;
+    private Manager myManager;
+    private Game myGame;
     private DebugLog myDebugLog;
     private Sounds mySounds;
 
     private Binding myBinding;
+    private GroovyShell myShell;
 
-    public Controller(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight) {
-        myHotKeys = new HashMap<>();
-        myTimers = new HashMap<>();
-        myCollisionResponses = new HashMap<>();
-        myTriggers = "";
+    public Controller(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
+                      Game game, Map<Pair<String>, Pair<String>> collisionResponses, Map<String, String> hotkeys,
+                      List<TimerSequence> timerSequences, Map<Integer, Timer> timers) {
+
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
         myScreenHeight = screenHeight;
-        //myDataManager = new DataManager();
-        initializeDataVariables();
-        myLevelManager = new LevelManager(myTimers, myTimerSequences, myEntityManager, myIterationCounter, levelWidth, levelHeight);
-        myEntityManager = new EntityManager(myActiveObjects, myStepTime);
-        myCollisionHandler = new CollisionHandler(myEntityManager, myLevelManager);
+        myLevelWidth = levelWidth;
+        myLevelHeight = levelHeight;
+
+        myGame = game;
+        myInstances = game.currentScene.instances;
+        mySceneLogic = game.currentScene.sceneLogic;
+        myCollisionResponses = collisionResponses;
+        myHotKeys = hotkeys;
+        myTimerSequences = timerSequences;
+        myTimers = timers;
+
         myIterationCounter = 0;
         myDebugLog = new DebugLog();
-        setDefaultKeys();
-        setDefaultTriggers();
         myOffset = updateOffset();
+
+        initializeGroovyShell();
+        myManager = new Manager(myGame, myStepTime, myBinding);
+        myCollisionHandler = new CollisionHandler(myManager);
+
+        setUser();
     }
 
-    //FIXME??
-    public void initializeDataVariables() {
-        myActiveObjects = new DefaultGame().getActiveObjects(); //FIXME remove for non default, hardcoded game
-        //myCollisionResponses = new DefaultGame().getCollisionMap();
-        //myActiveObjects = myDataManager.loadDefaultObjects();
-        //myHotKeys = myDataManager.loadHotKeyMap();
-        //myCollisionResponses = myDataManager.loadCollisionResponseMap();
-        //myTimers = myDataManager.loadTimerMap();
-        //myTriggers = myDataManager.loadTriggers();
-        myAI = new AI(myEntityManager);
-        for (int id : myActiveObjects.keySet()) {
-            Component type = myActiveObjects.get(id).get(TagsComponent.class);
-            if (((TagsComponent) type).contains("USER")) {
-                myUserID = id;
+    private void initializeGroovyShell() {
+        myBinding = new Binding();
+        myBinding.setProperty("manager", myManager);
+        myBinding.setProperty("collisionHandler", myCollisionHandler);
+        myBinding.setProperty("collisionDetector", new CollisionDetector());
+        myBinding.setProperty("debugLogger", myDebugLog);
+        myShell = new GroovyShell(myBinding);
+    }
+
+    private void setUser(){
+        for (Instance instance : myInstances) {
+            TagsComponent type = instance.getComponent(TagsComponent.class);
+            if (type.contains("USER")) {
+                myUserInstance = instance;
                 break;
             }
         }
-        myBinding.setProperty("entityManager", myEntityManager);
-        myBinding.setProperty("collisionHandler", myCollisionHandler);
-        //Is this valid?
-        myBinding.setProperty("debugLogger", myDebugLog);
     }
 
     private void setDefaultKeys() {
@@ -116,58 +123,75 @@ public class Controller {
         if (myHotKeys.containsKey(key)) {
             String event = myHotKeys.get(key);
             GroovyShell shell = new GroovyShell(myBinding);
-            myBinding.setProperty("ID", myUserID);
+            myBinding.setProperty("instance", myUserInstance);
             Script script = shell.parse(event);
             script.run();
         } else ; //TODO:error
     }
 
     public void updateScene() {
-        GroovyShell shell = new GroovyShell();
-        Script script = shell.parse(myTriggers);
+        Script script = myShell.parse(mySceneLogic);
         script.run();
-        executeEntityLogic();
-        myLevelManager.updateTimers();
-        myLevelManager.updateSequences();
-        myCollisionHandler.handleCollisions(myActiveObjects.keySet(), myCollisionResponses);
+        myManager.executeEntityLogic();
+        myManager.updateTimers();
+        myManager.updateSequences();
+        myCollisionHandler.handleCollisions(myInstances, myCollisionResponses);
         myOffset = updateOffset();
     }
 
-    private void executeEntityLogic() {
-        GroovyShell shell = new GroovyShell(myBinding);
-        for (int entityID : myActiveObjects.keySet()) {
-            LogicComponent logicComponent = myEntityManager.getComponent(entityID, LogicComponent.class);
-            String logic = logicComponent.getLogic();
-            myBinding.setProperty("ID", entityID);
-            Script script = shell.parse(logic);
-            script.run();
-        }
-    }
-
     private double[] updateOffset() {
-        BasicComponent basic = (BasicComponent) myActiveObjects.get(myUserID).get(BasicComponent.class);
+        BasicComponent basic = myUserInstance.getComponent(BasicComponent.class);
         double userX = basic.getX();
         double userY = basic.getY();
         double userWidth = basic.getWidth();
         double userHeight = basic.getHeight();
-        return myLevelManager.determineOffset(userX, userY, userWidth, userHeight, myScreenWidth, myScreenHeight);
+        return determineOffset(userX, userY, userWidth, userHeight, myScreenWidth, myScreenHeight);
+    }
+
+
+    public double[] determineOffset(double userX, double userY, double userWidth, double userHeight, double screenWidth,
+                                    double screenHeight) {
+        double offsetX;
+        double offsetY;
+
+        if (userX <= .5 * screenWidth - .5 * userWidth) {
+            offsetX = 0;
+        }
+        /*else if (myLevelWidth - userX <= .5 * screenWidth + .5 * userWidth) {
+            offsetX = myLevelWidth - screenWidth;
+        }*/ //FIXME restricting max scroll to very small even when level width is large...
+        else {
+            offsetX = userX + .5 * userWidth - .5 * screenWidth;
+        }
+
+        if (userY <= .5 * screenHeight - .5 * userHeight) {
+            offsetY = 0;
+        }
+        else if (myLevelHeight - userY <= .5 * screenHeight + .5 * userHeight) {
+            offsetY = myLevelHeight - screenHeight;
+        }
+        else {
+            offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
+        }
+
+        return new double[]{offsetX, 0}; //FIXME hardcoding 0 offset in y direction for demo
     }
 
     public double[] getOffset() {
         return myOffset;
     }
 
-    public Map<Integer, Map<Class<? extends Component>, Component>> getEntities() {
-        return myActiveObjects;
+    public Set<Instance> getEntities() {
+        return myInstances;
     }
 
-    public double getScore(int entityID) {
-        ScoreComponent score = myEntityManager.getComponent(entityID, ScoreComponent.class);
+    public double getScore(Instance instance) {
+        ScoreComponent score = instance.getComponent(ScoreComponent.class);
         return score.getScore();
     }
 
-    public int getUserID() {
-        return myUserID;
+    public Instance getUserInstance() {
+        return myUserInstance;
     }
 
 //    public List<String> debugLog() {

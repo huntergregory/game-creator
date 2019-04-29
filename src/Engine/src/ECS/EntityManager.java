@@ -1,6 +1,6 @@
+
 package Engine.src.ECS;
 
-import NoEntityException;
 import gamedata.GameObjects.Components.*;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -8,16 +8,17 @@ import groovy.lang.Script;
 
 import java.util.Map;
 
+@Deprecated
 public class EntityManager {
-    private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
+   private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
     private double myStepTime;
-
+    /*
     public EntityManager(Map<Integer, Map<Class<? extends Component>, Component>> entityMap, double stepTime) {
         myEntityMap = entityMap;
         myStepTime = stepTime;
     }
-
-    public void addComponent(int entityID, Component component) {
+    */
+    /*public void addComponent(int entityID, Component component) {
         try {
             var components = getAllComponents(entityID);
             components.put(component.getClass(), component);
@@ -54,9 +55,9 @@ public class EntityManager {
         if (components == null)
             throw new NoEntityException("Entity " + entityID + " does not exist");
         return components;
-    }
+    }*/
 
-    public void die(int entityID) {
+    /*public void die(int entityID) {
         //TODO error checking, does removing a non-existent Entity work
         if(hasComponent(entityID, LivesComponent.class)){
             LivesComponent lives = getComponent(entityID, LivesComponent.class);
@@ -76,9 +77,9 @@ public class EntityManager {
         GroovyShell shell = new GroovyShell(binding);
         Script instructions = shell.parse(respawnInstructions);
         instructions.run();
-    }
+    }*/
 
-    public void setToCheckpoint(int entityID){
+    /*public void setToCheckpoint(int entityID){
         CheckpointComponent checkpoint = getComponent(entityID, CheckpointComponent.class);
         BasicComponent basic = getComponent(entityID, BasicComponent.class);
         basic.setX(checkpoint.getX());
@@ -88,9 +89,9 @@ public class EntityManager {
     public void create(int entityID, Map<Class<? extends Component>, Component> components) {
         //TODO error checking
         myEntityMap.put(entityID, components);
-    }
+    }*/
 
-    public void move(int entityID) {
+    /*public void move(int entityID) {
         var motionComponent = getComponent(entityID, MotionComponent.class);
         var basicComponent = getComponent(entityID, BasicComponent.class);
         if (motionComponent != null && basicComponent != null) {
@@ -99,9 +100,9 @@ public class EntityManager {
             basicComponent.setX(newX);
             basicComponent.setY(newY);
         }
-    }
+    }*/
 
-    public void adjustDirection(int entityID, double delta) {
+    /*public void adjustDirection(int entityID, double delta) {
         var motionComponent = getComponent(entityID, MotionComponent.class);
         if (motionComponent != null)
             motionComponent.adjustDirection(delta);
@@ -111,9 +112,9 @@ public class EntityManager {
         var motionComponent = getComponent(entityID, MotionComponent.class);
         if (motionComponent != null)
             motionComponent.setDirection(angle);
-    }
+    }*/
 
-    public void setYVelocity(int entityID, double vel) {
+    /*public void setYVelocity(int entityID, double vel) {
         var motionComponent = getComponent(entityID, MotionComponent.class);
         if (motionComponent != null)
             motionComponent.setYVelocity(vel);
@@ -123,9 +124,9 @@ public class EntityManager {
         var motionComponent = getComponent(entityID, MotionComponent.class);
         if (motionComponent != null)
             motionComponent.setXVelocity(vel);
-    }
+    }*/
 
-    public void adjustHealth(int entityID, int delta) {
+    /*public void adjustHealth(int entityID, int delta) {
         var healthComponent = getComponent(entityID, HealthComponent.class);
         if (healthComponent != null) {
             int currentHealth = healthComponent.getHealth();
@@ -138,9 +139,9 @@ public class EntityManager {
                 healthComponent.setHealth(newHealth);
             }
         }
-    }
+    }*/
 
-    public void setHealth(int entityID, int health) {
+    /*public void setHealth(int entityID, int health) {
         var healthComponent = getComponent(entityID, HealthComponent.class);
         if (healthComponent != null) {
             int maxHealth = healthComponent.getMaxHealth();
@@ -152,16 +153,16 @@ public class EntityManager {
                 healthComponent.setHealth(maxHealth);
             }
         }
-    }
+    }*/
 
     //Not sure if done here and how states would be referenced non-specifically
 
-    public void increaseScore(int entityID, double gain) {
+    /*public void increaseScore(int entityID, double gain) {
         ScoreComponent score = getComponent(entityID, ScoreComponent.class);
         score.setScore(score.getScore() + gain);
-    }
+    }*/
 
-    public boolean hasState(int entityID, String state){
+    /*public boolean hasState(int entityID, String state){
         StateComponent states = getComponent(entityID, StateComponent.class);
         return states.hasState(state);
     }
@@ -174,37 +175,37 @@ public class EntityManager {
     public void removeState(int entityID, String state){
         StateComponent states = getComponent(entityID, StateComponent.class);
         states.removeState(state);
-    }
+    }*/
 
-    public boolean healthBelow(int entityID, double threshhold){
+    /*public boolean healthBelow(int entityID, double threshhold){
         HealthComponent health = getComponent(entityID, HealthComponent.class);
         return health.getHealth() < threshhold;
-    }
+    }*/
 
-    public void addPowerup(int entityID, int otherEntityID) {
+    /*public void addPowerup(int entityID, int otherEntityID) {
 
-    }
+    }*/
 
-    public void stop(int entityID) {
+    /*public void stop(int entityID) {
         var motionComponent = (MotionComponent) getComponent(entityID, MotionComponent.class);
         if (motionComponent != null) {
             //might want to split this up into x and y stop methods
             motionComponent.setXVelocity(0);
             motionComponent.setYVelocity(0);
         }
-    }
+    }*/
 
-    public void jump(int entityID) {
+    /*public void jump(int entityID) {
         var jumpComponent = (JumpComponent) getComponent(entityID, JumpComponent.class);
         var motionComponent = (MotionComponent) getComponent(entityID, MotionComponent.class);
         if (jumpComponent != null && motionComponent != null) {
             double jumpVelocity = jumpComponent.getJumpVelocity();
             motionComponent.setYVelocity(jumpVelocity);
         }
-    }
+    }*/
 
     //TODO remove duplication between horizontal and vertical
-    public void moveVertical(Integer entity, boolean down) {
+    /*public void moveVertical(Integer entity, boolean down) {
         var basic = getComponent(entity, BasicComponent.class);
         var motion = getComponent(entity, MotionComponent.class);
         if (basic == null || motion == null)
@@ -227,10 +228,10 @@ public class EntityManager {
         double xVel = motion.getMovementXVelocity();
         int direction = right ? 1 : -1;
         setX(entity, xPos + direction * xVel * myStepTime);
-    }
+    }*/
 
     //TODO remove duplication between setY and also in collision handler and detector
-    public void setX(int obj, double newX){
+    /*public void setX(int obj, double newX){
         BasicComponent basic = getComponent(obj, BasicComponent.class);
         double currentX = basic.getX();
         double finalX = newX;
@@ -259,9 +260,9 @@ public class EntityManager {
             }
         }
         basic.setY(finalY);
-    }
+    }*/
 
-    public void rotateAimClockwise(int obj){
+    /*public void rotateAimClockwise(int obj){
         rotateAim(obj, "CLOCKWISE");
     }
 
@@ -277,8 +278,8 @@ public class EntityManager {
         else newAngle = currentAngle - aim.getRotationRate();
         aim.setXAim(Math.cos(newAngle));
         aim.setYAim(Math.sin(newAngle));
-    }
-
+    }*/
+    /*
     public double getStepTime() {
         return myStepTime;
     }
@@ -290,9 +291,9 @@ public class EntityManager {
         double tempYVel = tempVel * direction[1];
         setX(entityID, tempXVel * getStepTime());
         setY(entityID, tempYVel * getStepTime());
-    }
+    }*/
 
-    public boolean targetEntityObscured(int targetID, int referenceID) {
+    /*public boolean targetEntityObscured(int targetID, int referenceID) {
         BasicComponent targetBasic = getComponent(targetID, BasicComponent.class);
         double targetX = targetBasic.getX();
         double targetY = targetBasic.getY();
@@ -322,11 +323,12 @@ public class EntityManager {
         }
 
         return false;
-    }
+    }*/
 
-    public void addLogic(int entityID, String additionalLogic) {
+    /*public void addLogic(int entityID, String additionalLogic) {
         LogicComponent logic = getComponent(entityID, LogicComponent.class);
         logic.setLogic(logic.getLogic() + additionalLogic);
-    }
+    }*/
+
 
 }

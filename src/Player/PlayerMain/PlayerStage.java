@@ -27,6 +27,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
@@ -74,6 +76,7 @@ public class PlayerStage {
     private Pane myGameRoot;
     private Set<EngineInstance> myEngineInstances;
     private Map<EngineInstance, ImageView> myImageViewMap;
+    private List<MediaPlayer> mySounds;
     private int myLevelNumber;
 
     private NumericalDataTracker<Double> myXPosTracker;
@@ -148,6 +151,7 @@ public class PlayerStage {
         myEngineInstances = myLevelController.getEngineInstances();
         myGameStage = new Stage();
         myEngineInstances = myLevelController.getEngineInstances();
+        initAndRemoveSounds();
         initDataTrackers();
         initBorderPane();
         addNewImageViews();
@@ -212,6 +216,7 @@ public class PlayerStage {
             addNewImageViews();
             updateOrRemoveImageViews();
             updateDebugLog();
+            updateSounds();
             if (myCount % HUD_UPDATE_DELAY == 0) {
                 updateDataTrackers();
                 myHud.update();
@@ -223,6 +228,35 @@ public class PlayerStage {
     private void updateDebugLog() {
         List<String> debugLog = myLevelController.debugLog();
         myDebugConsole.update(debugLog);
+    }
+
+    private void updateSounds() {
+//        Media sound = new Media(new File(sound.getKey()).toURI().toString());
+//        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+//        mediaPlayer.play();
+        Map<String, Boolean> sounds = myLevelController.playSound();
+        for(Map.Entry<String, Boolean> sound : sounds.entrySet()) {
+            MediaPlayer a = new MediaPlayer(new Media(getClass().getResource(sound.getKey()).toString()));
+            if(sound.getValue()) {
+                a.setOnEndOfMedia(() -> a.seek(Duration.ZERO));
+            }
+            else {
+                a.setOnEndOfMedia(() -> mySounds.remove(a));
+            }
+            mySounds.add(a);
+            a.play();
+        }
+    }
+
+    private void initAndRemoveSounds() {
+        if (mySounds == null) {
+            mySounds = new ArrayList<>();
+            return;
+        }
+        for(MediaPlayer m: mySounds) {
+            m.setMute(true);
+        }
+        mySounds.clear();
     }
 
     private void updateOrRemoveImageViews() {

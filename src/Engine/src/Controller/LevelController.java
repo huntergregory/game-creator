@@ -167,10 +167,10 @@ public class LevelController {
         return myDebugLog.getLog();
     }
 
-//    public Map<String, Boolean> playSound(String audioFilename) {
-//        Map<String, Boolean> temp = mySounds.getSounds();
-//        mySounds.clearSounds();
-//        return temp;
-//    }
+    public Map<String, Boolean> playSound() {
+        Map<String, Boolean> temp = mySounds.getSounds();
+        mySounds.clearSounds();
+        return temp;
+    }
 
 }

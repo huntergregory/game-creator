@@ -17,7 +17,7 @@ public class Sounds {
     }
 
     public Map<String, Boolean> getSounds() {
-        return new HashMap<>(mySounds);
+        return mySounds;
     }
 
     public void clearSounds() {

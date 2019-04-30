@@ -76,6 +76,7 @@ public class PlayerStage {
     private Pane myGameRoot;
     private Set<EngineInstance> myEngineInstances;
     private Map<EngineInstance, ImageView> myImageViewMap;
+    private List<MediaPlayer> mySounds;
     private int myLevelNumber;
 
     private NumericalDataTracker<Double> myXPosTracker;
@@ -150,6 +151,7 @@ public class PlayerStage {
         myEngineInstances = myLevelController.getEngineInstances();
         myGameStage = new Stage();
         myEngineInstances = myLevelController.getEngineInstances();
+        initAndRemoveSounds();
         initDataTrackers();
         initBorderPane();
         addNewImageViews();
@@ -238,8 +240,23 @@ public class PlayerStage {
             if(sound.getValue()) {
                 a.setOnEndOfMedia(() -> a.seek(Duration.ZERO));
             }
+            else {
+                a.setOnEndOfMedia(() -> mySounds.remove(a));
+            }
+            mySounds.add(a);
             a.play();
         }
+    }
+
+    private void initAndRemoveSounds() {
+        if (mySounds == null) {
+            mySounds = new ArrayList<>();
+            return;
+        }
+        for(MediaPlayer m: mySounds) {
+            m.setMute(true);
+        }
+        mySounds.clear();
     }
 
     private void updateOrRemoveImageViews() {

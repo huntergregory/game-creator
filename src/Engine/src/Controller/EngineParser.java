@@ -64,6 +64,12 @@ public class EngineParser {
             EngineGameObject object = new EngineGameObject(objectType);
             binding.setProperty("object", object);
             String objectLogic = serializedObject.objectLogic;
+//            shell.evaluate("import Engine.src.EngineData.Components.BasicComponent");
+//            shell.evaluate("import Engine.src.EngineData.Components.MotionComponent");
+//            shell.evaluate("import Engine.src.EngineData.Components.HealthComponent");
+//            shell.evaluate("import Engine.src.EngineData.Components.JumpComponent");
+//            shell.evaluate("import Engine.src.EngineData.Components.LivesComponent");
+//            shell.evaluate("import Engine.src.EngineData.Components.ScoreComponent");
             Script objectInitialzer = shell.parse(objectLogic);
             objectInitialzer.run();
             myGameEngineObjects.add(object);

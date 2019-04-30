@@ -71,10 +71,10 @@ public class LevelController {
         myParser = new EngineParser();
         myParser.parse(sceneLogic, serializedObjects, serializedInstances);
 
-        initializeDataTypes("parser.printMessage('Dang!')");
+        initializeDataTypes("parser.addCollision('Mario', 'Block', 'script')");
 
         for (Pair<String> objectPair : myParser.getCollisions().keySet()) {
-            System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + myParser.getCollisions().get(objectPair));
+            System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + " " + myParser.getCollisions().get(objectPair));
         }
 
         myIterationCounter = 0;

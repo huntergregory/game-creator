@@ -79,6 +79,9 @@ public class EngineParser {
             }
         }
 
+    public void printHere() {
+        System.out.println("here");
+    }
 
     public void addCollision(String type1, String type2, String response){
         myCollisionResponses.put(new Pair<>(type1, type2), response);

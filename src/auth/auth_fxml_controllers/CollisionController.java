@@ -10,5 +10,6 @@ public class CollisionController {
     public void addCollision(){
         script = object1ID.getText() + ".addCollision(" + object2ID.getText() + ", \"" + scriptField.getText() + "\");";
         object1ID.getScene().getWindow().hide();
+
     }
 }

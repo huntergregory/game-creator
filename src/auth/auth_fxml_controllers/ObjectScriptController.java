@@ -8,9 +8,11 @@ public class ObjectScriptController {
     public TextField objectScript;
     public TextField objectID;
     public String script;
+    public String objID;
 
     public void addObjectScript(){
-        script = objectID.getText() + "." + objectScript.getText();
+        objID = objectID.getText();
+        script = "." + objectScript.getText() + ";";
         objectScript.getScene().getWindow().hide();
     }
 }

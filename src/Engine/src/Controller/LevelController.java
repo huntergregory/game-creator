@@ -2,6 +2,7 @@ package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
 import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.DebugLog;
@@ -41,6 +42,7 @@ public class LevelController {
     private double myIterationCounter;
     private double[] myOffset;
 
+    private TimerController myTimerController;
     private EngineParser myParser;
     private CollisionHandler myCollisionHandler;
     private Manager myManager;
@@ -69,7 +71,8 @@ public class LevelController {
         myDebugLog = new DebugLog();
         myOffset = updateOffset();
         initializeGroovyShell();
-        myManager = new Manager(myParser.getEngineInstances(), myStepTime, myBinding);
+        myTimerController = new TimerController(myShell);
+        myManager = new Manager(myParser.getEngineInstances(), myTimerController);
         myCollisionHandler = new CollisionHandler(myManager);
     }
 
@@ -95,12 +98,20 @@ public class LevelController {
     public void updateScene() {
         Script script = myShell.parse(myParser.getLevelRules());
         script.run();
-        myManager.executeEntityLogic();
-        myManager.updateTimers();
-        myManager.updateSequences();
-        myManager.updateCount();
+        executeEntityLogic();
+        myTimerController.update();
         myCollisionHandler.handleCollisions(myParser.getEngineInstances(), myParser.getCollisions());
         myOffset = updateOffset();
+    }
+
+    private void executeEntityLogic() {
+        for (EngineInstance engineInstance : myParser.getEngineInstances()) {
+            LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
+            String logic = logicComponent.getLogic();
+            myBinding.setProperty("instance", engineInstance);
+            Script script = myShell.parse(logic);
+            script.run();
+        }
     }
 
     private double[] updateOffset() {
@@ -114,7 +125,7 @@ public class LevelController {
 
 
     //FIXME doesn't modify y offset
-    public double[] determineOffset(double userX, double userY, double userWidth, double userHeight, double screenWidth,
+    private double[] determineOffset(double userX, double userY, double userWidth, double userHeight, double screenWidth,
                                     double screenHeight) {
         double offsetX;
         double offsetY;

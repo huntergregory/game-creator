@@ -207,8 +207,8 @@ public class CollisionHandler {
         //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
 
         GroovyShell shell = new GroovyShell(mySetter);
-        mySetter.setProperty("engineInstance1", engineInstance1);
-        mySetter.setProperty("engineInstance2", engineInstance2);
+        mySetter.setProperty("instance1", engineInstance1);
+        mySetter.setProperty("instance2", engineInstance2);
         Script script = shell.parse(responses);
         script.run();
 

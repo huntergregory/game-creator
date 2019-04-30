@@ -12,12 +12,7 @@ import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
-<<<<<<< HEAD
 import gamedata.GameObject;
-import gamedata.GameObjects.GameObject;
-import gamedata.GameObjects.Instance;
-=======
->>>>>>> e34269a34d2319d8af56961a8ca71d72c40d61c2
 import gamedata.Instance;
 import gamedata.Scene;
 import groovy.lang.Binding;
@@ -86,9 +81,10 @@ public class LevelController {
 
         String sceneLogic = scene.sceneLogic;
 
-        var parser = new EngineParser(myLevelRules, myCollisionResponses,
+        EngineParser parser = new EngineParser(myLevelRules, myCollisionResponses,
                                         myHotKeys, myTimerSequences, myTimers);
-        parser.initializeDataTypes(sceneLogic);
+
+        parser.parse(sceneLogic, serializedObjects, serializedInstances);
 
         for (Pair<String> objectPair : myCollisionResponses.keySet()) {
             System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + myCollisionResponses.get(objectPair));

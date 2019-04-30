@@ -9,6 +9,7 @@ import gamedata.Instance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
+import groovy.lang.Sequence;
 
 import java.util.*;
 import java.util.Map;
@@ -20,21 +21,21 @@ public class EngineParser {
     private String myLevelRules;
     private Set<EngineGameObject> myGameEngineObjects;
     private Set<EngineInstance> myEngineInstances;
+    private List<Sequence> myTimerSequences;
+    private Map<Integer, Timer> myTimers;
 
     public EngineParser(String levelRules, Map collisionResponses, Map hotKeys, List timerSequences, Map timers){
         myLevelRules = levelRules;
         myCollisionResponses = collisionResponses;
         myHotKeys = hotKeys;
+        myTimerSequences = timerSequences;
+        myTimers = timers;
+
         myEngineInstances = new HashSet<>();
         myGameEngineObjects = new HashSet<>();
     }
 
-    private void parseSceneLogic(String sceneLogic){
-        Script script = shell.parse(sceneLogic);
-        script.run();
-    }
-
-    private void parse(String sceneLogic, Set<GameObject> serializedObjects, Set<Instance> serializedInstances){
+    public void parse(String sceneLogic, List<GameObject> serializedObjects, Set<Instance> serializedInstances){
         Binding binding = new Binding();
         GroovyShell shell = new GroovyShell(binding);
         binding.setProperty("parser", this);

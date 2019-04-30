@@ -64,6 +64,7 @@ public class LevelController {
         Scene scene = myGame.scenes.get(levelIndex);
 
         myParser = new EngineParser();
+        initializeDataTypes("parser.printMessage('Dang!')");
 
         for (Pair<String> objectPair : myParser.getCollisions().keySet()) {
             System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + myParser.getCollisions().get(objectPair));
@@ -79,9 +80,10 @@ public class LevelController {
     }
 
     private void initializeDataTypes(String sceneLogic){
+        System.out.println(sceneLogic);
         Binding binding = new Binding();
-        binding.setProperty("parser", this);
-        GroovyShell shell = new GroovyShell();
+        binding.setProperty("parser", myParser);
+        GroovyShell shell = new GroovyShell(binding);
         Script script = shell.parse(sceneLogic);
         script.run();
     }

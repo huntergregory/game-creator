@@ -1,11 +1,12 @@
 package Player.PlayerMain;
 
+import GameCenter.main.GameCenterController;
 import javafx.stage.Stage;
 
 public class GameLoop {
 
     public Stage getStage() {
-        PlayerStage player = new PlayerStage();
+        PlayerStage player = new PlayerStage(new GameCenterController());
         return player.makeStage();
     }
 

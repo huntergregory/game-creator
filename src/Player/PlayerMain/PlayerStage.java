@@ -12,6 +12,7 @@ import Engine.src.EngineData.Components.HealthComponent;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
 import gamedata.Game;
+import gamedata.Instance;
 import gamedata.serialization.Serializer;
 import hud.DataTracker;
 import hud.HUDView;
@@ -31,10 +32,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 
 public class PlayerStage {
@@ -109,7 +107,7 @@ public class PlayerStage {
 
     public static void main(String[] args) {
         var stage = new PlayerStage(new GameCenterController());
-        stage.load("");
+        stage.load("", false);
     }
 
     public void run(Game game, Boolean debug) {
@@ -129,9 +127,15 @@ public class PlayerStage {
         }
     }
 
-    public void load(String fileName) {
-            String contents = new Scanner(fileName).useDelimiter("\\Z").next();
-            myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
+    public void load(String fileName, boolean debugMode) {
+            //String contents = new Scanner(fileName).useDelimiter("\\Z").next();
+            //myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
+            myGame = new Game();
+            myGame.scenes = new ArrayList<>();
+            gamedata.Scene scene = new gamedata.Scene();
+            scene.instances = new HashSet<>();
+            scene.instances.add(new Instance());
+            myGame.scenes.add(scene);
             myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
             myLevelNumber = myGame.currentLevel;
             startNewLevel();
@@ -139,7 +143,6 @@ public class PlayerStage {
 
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController();
-        Stage gameStage = new Stage();
         myEngineInstances = myLevelController.getEngineInstances();
         myGameStage = new Stage();
         myEngineInstances = myLevelController.getEngineInstances();
@@ -310,7 +313,6 @@ public class PlayerStage {
         return ret;
     }
 
-<<<<<<< HEAD
     public void updateLives(int lives) {
         System.out.println(lives);
     }

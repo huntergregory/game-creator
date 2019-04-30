@@ -4,7 +4,6 @@ import Engine.src.ECS.Pair;
 import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Timers.Timer;
-import Engine.src.Timers.TimerSequence;
 import gamedata.GameObject;
 import gamedata.Instance;
 import groovy.lang.Binding;
@@ -24,24 +23,25 @@ public class EngineParser {
     private Set<EngineInstance> myEngineInstances;
     private List<Sequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
+    private EngineInstance myUserEngineInstance;
 
-    public EngineParser(String levelRules, Map collisionResponses, Map hotKeys, List timerSequences, Map timers){
-        myLevelRules = levelRules;
-        myCollisionResponses = collisionResponses;
-        myHotKeys = hotKeys;
-        myTimerSequences = timerSequences;
-        myTimers = timers;
+    public EngineParser(){
+        myLevelRules = "";
+        myCollisionResponses = new HashMap<>();
+        myHotKeys = new HashMap<>();
+        myTimerSequences = new ArrayList<>();
+        myTimers = new HashMap<>();
 
         myEngineInstances = new HashSet<>();
         myGameEngineObjects = new HashSet<>();
     }
 
-    public void parse(String sceneLogic, List<GameObject> serializedObjects, Set<Instance> serializedInstances){
+    protected void parse(String sceneLogic, List<GameObject> serializedObjects, Set<Instance> serializedInstances) {
         Binding binding = new Binding();
         GroovyShell shell = new GroovyShell(binding);
         binding.setProperty("parser", this);
 
-        for(GameObject serializedObject : serializedObjects){
+        for (GameObject serializedObject : serializedObjects) {
             String objectType = serializedObject.objectID;
             EngineGameObject object = new EngineGameObject(objectType);
             binding.setProperty("object", object);
@@ -50,7 +50,7 @@ public class EngineParser {
             objectInitialzer.run();
             myGameEngineObjects.add(object);
 
-            for(Instance serializedInstance : serializedInstances){
+            for (Instance serializedInstance : serializedInstances) {
                 String instanceOf = serializedInstance.instanceOf;
 
                 if (instanceOf.equals(objectType)) {
@@ -64,9 +64,21 @@ public class EngineParser {
                     myEngineInstances.add(instance);
                 }
             }
-            Script dataInitializer = shell.parse(sceneLogic);
-            dataInitializer.run();
+            shell.evaluate(sceneLogic);
+            setUser();
         }
+    }
+
+    private void setUser() {
+            for (EngineInstance engineInstance : myEngineInstances) {
+                String type = engineInstance.getType();
+                if (type.equals("user")) {
+                    myUserEngineInstance = engineInstance;
+                    break;
+                }
+            }
+        }
+
 
     public void addCollision(String type1, String type2, String response){
         myCollisionResponses.put(new Pair<>(type1, type2), response);
@@ -108,4 +120,6 @@ public class EngineParser {
     protected EngineInstance getUserEngineInstance() {
         return myUserEngineInstance;
     }
+
+
 }

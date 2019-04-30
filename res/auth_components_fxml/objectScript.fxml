@@ -18,7 +18,8 @@
 
     <Label fx:id="titleLabel" text="Object Script" GridPane.rowIndex="0" styleClass="label"/>
     <TextField fx:id="objectScript" promptText="Enter object script" GridPane.rowIndex="1" styleClass="textfield"/>
-    <Button fx:id="addButton" text="Add Scene Script" GridPane.rowIndex="2" styleClass="button" onMouseClicked="#addObjectScript"/>
+    <TextField fx:id="objectID" promptText="Enter object ID" GridPane.rowIndex="2" styleClass="textfield"/>
+    <Button fx:id="addButton" text="Add Scene Script" GridPane.rowIndex="3" styleClass="button" onMouseClicked="#addObjectScript"/>
 
     <stylesheets>
         <URL value="@styles/popup.css" />

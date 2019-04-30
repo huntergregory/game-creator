@@ -78,7 +78,7 @@ public class MenuClickHandlers {
             FXMLLoader loader = addPopup("/auth_components_fxml/objectScript.fxml");
             ObjectScriptController controller = loader.getController();
             Game o = context.getGame();
-            Scene scene = o.scenes.get(0);
+            Scene scene = o.scenes.get(context.getCurrentScene());
             scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
@@ -90,7 +90,7 @@ public class MenuClickHandlers {
             FXMLLoader loader = addPopup("/auth_components_fxml/collision.fxml");
             CollisionController controller = loader.getController();
             Game o = context.getGame();
-            Scene scene = o.scenes.get(0);
+            Scene scene = o.scenes.get(context.getCurrentScene());
             scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
@@ -102,7 +102,7 @@ public class MenuClickHandlers {
             FXMLLoader loader = addPopup("/auth_components_fxml/keyEvent.fxml");
             KeyEventController controller = loader.getController();
             Game o = context.getGame();
-            Scene scene = o.scenes.get(0);
+            Scene scene = o.scenes.get(context.getCurrentScene());
             scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
@@ -114,7 +114,7 @@ public class MenuClickHandlers {
             FXMLLoader loader = addPopup("/auth_components_fxml/sceneScript.fxml");
             SceneScriptController controller = loader.getController();
             Game o = context.getGame();
-            Scene scene = o.scenes.get(0);
+            Scene scene = o.scenes.get(context.getCurrentScene());
             scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");

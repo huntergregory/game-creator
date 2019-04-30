@@ -6,11 +6,11 @@ import javafx.scene.control.TextField;
 public class ObjectScriptController {
     @FXML
     public TextField objectScript;
-
+    public TextField objectID;
     public String script;
 
     public void addObjectScript(){
-        script = objectScript.getText();
+        script = objectID.getText() + "." + objectScript.getText();
         objectScript.getScene().getWindow().hide();
     }
 }

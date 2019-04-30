@@ -28,6 +28,7 @@ module voogasalad.crackingopen {
     opens Engine.src.Timers to org.codehaus.groovy, java.scripting;
     opens Engine.src.EngineData.Components to org.codehaus.groovy, java.scripting;
     opens Engine.src.EngineData.ComponentExceptions to org.codehaus.groovy, java.scripting;
+    opens gamedata to org.codehaus.groovy, java.scripting;
 
     exports auth.screens;
     exports auth.auth_fxml_controllers;
@@ -45,5 +46,6 @@ module voogasalad.crackingopen {
     exports Engine.src.Timers;
     exports Engine.src.EngineData.Components;
     exports Engine.src.EngineData.ComponentExceptions;
+    exports gamedata;
 }
 

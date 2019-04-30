@@ -79,7 +79,7 @@ public class MenuClickHandlers {
             ObjectScriptController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(0);
-            scene.sceneLogic = scene.sceneLogic + controller.myScript;
+            scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }
@@ -91,7 +91,7 @@ public class MenuClickHandlers {
             CollisionController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(0);
-            scene.sceneLogic = scene.sceneLogic + controller.myScript;
+            scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }
@@ -103,7 +103,7 @@ public class MenuClickHandlers {
             KeyEventController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(0);
-            scene.sceneLogic = scene.sceneLogic + controller.myScript;
+            scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }
@@ -115,7 +115,7 @@ public class MenuClickHandlers {
             SceneScriptController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(0);
-            scene.sceneLogic = scene.sceneLogic + controller.myScript;
+            scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }

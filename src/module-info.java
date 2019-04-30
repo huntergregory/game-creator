@@ -11,13 +11,16 @@ module voogasalad.crackingopen {
     requires gson;
     requires org.codehaus.groovy;
     requires java.desktop;
+    requires java.scripting;
 
     opens GameCenter.main to javafx.fxml, javafx.graphics;
     opens GameCenter.gameData to gson;
+    opens Engine to org.codehaus.groovy, java.scripting;
 
     exports auth.screens;
     exports auth.auth_fxml_controllers;
     exports network_account;
     exports GameCenter.main;
+    exports Engine.src.Controller;
 }
 

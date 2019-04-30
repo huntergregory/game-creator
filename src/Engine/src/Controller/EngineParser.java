@@ -42,14 +42,16 @@ public class EngineParser {
     private void parse(Game game) {
         Binding binding = new Binding();
         GroovyShell shell = new GroovyShell(binding);
-        binding.setProperty("parser", this);
 
         Integer levelIndex = game.currentLevel;
         Scene scene = game.scenes.get(levelIndex);
         Set<Instance> serializedInstances = scene.instances;
         List<GameObject> serializedObjects = game.gameObjects;
         String sceneLogic = scene.sceneLogic;
+
         initEngineObjectsAndInstances(serializedObjects, serializedInstances, binding, shell);
+
+        binding.setProperty("parser", this);
         shell.evaluate(sceneLogic);
         setUser();
     }

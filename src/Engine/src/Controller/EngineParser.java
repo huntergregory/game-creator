@@ -1,6 +1,8 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
+import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Timers.Timer;

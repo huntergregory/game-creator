@@ -37,16 +37,16 @@ public class LevelController {
     private double myLevelWidth;
     private double myLevelHeight;
 
-    EngineParser myParser;
-
     private double myStepTime;
     private double myIterationCounter;
     private double[] myOffset;
 
+    private EngineParser myParser;
     private CollisionHandler myCollisionHandler;
     private Manager myManager;
     private Game myGame;
     private DebugLog myDebugLog;
+
     private Sounds mySounds;
 
     private Binding myBinding;
@@ -68,10 +68,8 @@ public class LevelController {
         List<GameObject> serializedObjects = game.gameObjects;
         String sceneLogic = scene.sceneLogic;
 
-        EngineParser parser = new EngineParser(myLevelRules, myCollisionResponses,
-                                        myHotKeys, myTimerSequences, myTimers);
-
-        parser.parse(sceneLogic, serializedObjects, serializedInstances);
+        myParser = new EngineParser();
+        myParser.parse(sceneLogic, serializedObjects, serializedInstances);
 
         initializeDataTypes("parser.printMessage('Dang!')");
 
@@ -82,7 +80,6 @@ public class LevelController {
         myIterationCounter = 0;
         myDebugLog = new DebugLog();
         myOffset = updateOffset();
-
         initializeGroovyShell();
         myManager = new Manager(myParser.getEngineInstances(), myStepTime, myBinding);
         myCollisionHandler = new CollisionHandler(myManager);

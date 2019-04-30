@@ -12,7 +12,9 @@ import Engine.src.EngineData.Components.HealthComponent;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
 import gamedata.Game;
+import gamedata.GameObject;
 import gamedata.Instance;
+import gamedata.Resource;
 import gamedata.serialization.Serializer;
 import hud.DataTracker;
 import hud.HUDView;
@@ -111,8 +113,63 @@ public class PlayerStage {
     }
 
     public static void main(String[] args) {
+        Resource userResource = new Resource();
+        userResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
+        userResource.resourceID = "Mario Picture";
+        userResource.src = "/img/mario.jpg";
+        Resource blockResource = new Resource();
+        blockResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
+        blockResource.resourceID = "Block Picture";
+        blockResource.src = "/img/block.jpg";
+        GameObject user = new GameObject();
+        user.objectID = "User";
+        user.objectLogic = "addComponent(BasicComponent(\"/img/block.jpg\", (double)50.0, (double)50.0, (double)50.0, (double)50.0, 1), " +
+                "MotionComponent(0, 0, 10, 10, 0, 9), HealthComponent(100, 100), JumpComponent(5), " +
+                "LivesComponent(3, \" \"), ScoreComponent(0))";
+        user.bgColor = "FFFFFF";
+        user.bgImage = "Mario Picture";
+        GameObject block = new GameObject();
+        block.objectID = "Block";
+        block.objectLogic = "";
+        block.bgColor = "FFFFFF";
+        block.bgImage = "Block Picture";
+        Instance user1 = new Instance();
+        user1.instanceOf = "User";
+        user1.instanceID = "Mario";
+        user1.instanceLogic = "";
+        user1.bgColor = "";
+        user1.bgImage = "";
+        user1.height = 50;
+        user1.width = 50;
+        user1.x = 50;
+        user1.y = 50;
+        user1.zIndex = 1;
+        Instance block1 = new Instance();
+        block1.instanceOf = "Block";
+        block1.instanceID = "Block1";
+        block1.instanceLogic = "";
+        block1.bgColor = "";
+        block1.bgImage = "";
+        block1.height = 50;
+        block1.width = 500;
+        block1.x = 0;
+        block1.y = 200;
+        block1.zIndex = 2;
+        gamedata.Scene scene1 = new gamedata.Scene();
+        scene1.instances.add(user1);
+        scene1.instances.add(block1);
+        //scene1.sceneLogic = ;
+        scene1.sceneID = "Level1";
+        scene1.bgColor = "";
+        scene1.bgImage = "";
+        Game game = new Game();
+        game.scenes.add(scene1);
+        game.gameObjects.add(user);
+        game.gameObjects.add(block);
+        game.resources.add(userResource);
+        game.resources.add(blockResource);
         var stage = new PlayerStage(new GameCenterController());
-        stage.load("", false);
+        stage.load(game);
     }
 
     public void run(Game game, Boolean debug) {
@@ -132,15 +189,16 @@ public class PlayerStage {
         }
     }
 
-    public void load(String fileName, boolean debugMode) {
+    public void load(Game game) {
             //String contents = new Scanner(fileName).useDelimiter("\\Z").next();
             //myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
-            myGame = new Game();
-            myGame.scenes = new ArrayList<>();
-            gamedata.Scene scene = new gamedata.Scene();
-            scene.instances = new HashSet<>();
-            scene.instances.add(new Instance());
-            myGame.scenes.add(scene);
+//            myGame = new Game();
+//            myGame.scenes = new ArrayList<>();
+//            gamedata.Scene scene = new gamedata.Scene();
+//            scene.instances = new HashSet<>();
+//            scene.instances.add(new Instance());
+//            myGame.scenes.add(scene);
+            myGame = game;
             myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
             myLevelNumber = myGame.currentLevel;
             startNewLevel();

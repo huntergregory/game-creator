@@ -17,9 +17,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <AnchorPane id="parentPane" prefHeight="500.0" prefWidth="975.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GameCenter.main.GameCenterController">
 
     <padding><Insets left="25.0" top="25.0" /></padding>
@@ -37,19 +34,6 @@
     <!-- Social Pane -->
     <GridPane fx:id="socialPane" layoutX="25" layoutY="85.0" prefHeight="390.0" prefWidth="200" styleClass="centerPane">
         <columnConstraints>
-<<<<<<< HEAD
-            <ColumnConstraints percentWidth="100"  />
-        </columnConstraints>
-
-        <Label fx:id="nameLabel" text="Hello Test" styleClass="socialLabel" GridPane.rowIndex="0"/>
-        <Label fx:id="friendsLabel" text="Friends: " styleClass="socialLabel" GridPane.rowIndex="1"/>
-        <ScrollPane fx:id="friendsHolder" GridPane.rowIndex="2" styleClass="socialScrollPane">
-            <GridPane fx:id="friendPane" styleClass="centerPane">
-            </GridPane>
-        </ScrollPane>
-        <Button fx:id="addFriendButton" text="Add Friends" GridPane.rowIndex="3" styleClass="socialButton" GridPane.halignment="CENTER"/>
-        <Label fx:id="highScoreLabel" text="High Scores: " styleClass="socialLabel" GridPane.rowIndex="4"/>
-=======
             <ColumnConstraints percentWidth="100" />
         </columnConstraints>
         <Label fx:id="friendsLabel" styleClass="socialLabel" text="Friends: " GridPane.rowIndex="1" />
@@ -59,22 +43,11 @@
         </ScrollPane>
         <Button fx:id="addFriendButton" styleClass="smallButton" text="Add Friends" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
         <Label fx:id="highScoreLabel" styleClass="socialLabel" text="High Scores: " GridPane.rowIndex="4" />
->>>>>>> master
         <GridPane fx:id="highScorePane" GridPane.rowIndex="5">
             <columnConstraints>
                 <ColumnConstraints percentWidth="20" />
                 <ColumnConstraints percentWidth="80" />
             </columnConstraints>
-<<<<<<< HEAD
-            <Label fx:id="scoreLabel1" text="1st" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="socialScoreLabel"/>
-            <Label fx:id="scoreLabel2" text="2nd" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="socialScoreLabel"/>
-            <Label fx:id="scoreLabel3" text="3rd" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="socialScoreLabel"/>
-
-            <Label fx:id="score1" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="socialScoreLabel"/>
-            <Label fx:id="score2" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="socialScoreLabel"/>
-            <Label fx:id="score3" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="socialScoreLabel"/>
-        </GridPane>
-=======
             <Label fx:id="scoreLabel1" styleClass="socialScoreLabel" text="1st" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <Label fx:id="scoreLabel2" styleClass="socialScoreLabel" text="2nd" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <Label fx:id="scoreLabel3" styleClass="socialScoreLabel" text="3rd" GridPane.columnIndex="0" GridPane.rowIndex="2" />
@@ -96,7 +69,6 @@
          <RowConstraints maxHeight="79.0" minHeight="0.0" prefHeight="36.0" />
          <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" />
       </rowConstraints>
->>>>>>> master
     </GridPane>
 
 
@@ -111,11 +83,7 @@
     <!-- Favorite Pane -->
    <Pane fx:id="favoritePane" layoutX="625.0" layoutY="20.0" prefHeight="50.0" prefWidth="50.0" styleClass="centerPane" visible="false">
        <children>
-<<<<<<< HEAD
-           <Button fx:id="favoriteButton" prefHeight="40" prefWidth="40" onAction="#favoriteGame" styleClass="favoriteButton"/>
-=======
            <Button fx:id="favoriteButton" onAction="#favoriteGame" prefHeight="40" prefWidth="40" styleClass="favoriteButton" />
->>>>>>> master
        </children>
    </Pane>
 

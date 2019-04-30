@@ -62,20 +62,8 @@ public class LevelController {
         myLevelHeight = levelHeight;
 
         myGame = game;
-        Integer levelIndex = game.currentLevel;
-        Scene scene = myGame.scenes.get(levelIndex);
-        Set<Instance> serializedInstances = scene.instances;
-        List<GameObject> serializedObjects = game.gameObjects;
-        String sceneLogic = scene.sceneLogic;
 
-        myParser = new EngineParser();
-        myParser.parse(sceneLogic, serializedObjects, serializedInstances);
-
-        initializeDataTypes("parser.addCollision('Mario', 'Block', 'script')");
-
-        for (Pair<String> objectPair : myParser.getCollisions().keySet()) {
-            System.out.println(objectPair.getItem1() + " with " + objectPair.getItem2() + " " + myParser.getCollisions().get(objectPair));
-        }
+        myParser = new EngineParser(myGame);
 
         myIterationCounter = 0;
         myDebugLog = new DebugLog();
@@ -83,15 +71,6 @@ public class LevelController {
         initializeGroovyShell();
         myManager = new Manager(myParser.getEngineInstances(), myStepTime, myBinding);
         myCollisionHandler = new CollisionHandler(myManager);
-    }
-
-    private void initializeDataTypes(String sceneLogic){
-        System.out.println(sceneLogic);
-        Binding binding = new Binding();
-        binding.setProperty("parser", myParser);
-        GroovyShell shell = new GroovyShell(binding);
-        Script script = shell.parse(sceneLogic);
-        script.run();
     }
 
     private void initializeGroovyShell() {

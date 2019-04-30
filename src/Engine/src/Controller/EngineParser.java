@@ -4,8 +4,10 @@ import Engine.src.ECS.Pair;
 import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Timers.Timer;
+import gamedata.Game;
 import gamedata.GameObject;
 import gamedata.Instance;
+import gamedata.Scene;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -25,7 +27,7 @@ public class EngineParser {
     private Map<Integer, Timer> myTimers;
     private EngineInstance myUserEngineInstance;
 
-    public EngineParser(){
+    public EngineParser(Game game){
         myLevelRules = "";
         myCollisionResponses = new HashMap<>();
         myHotKeys = new HashMap<>();
@@ -34,13 +36,25 @@ public class EngineParser {
 
         myEngineInstances = new HashSet<>();
         myGameEngineObjects = new HashSet<>();
+        parse(game);
     }
 
-    protected void parse(String sceneLogic, List<GameObject> serializedObjects, Set<Instance> serializedInstances) {
+    private void parse(Game game) {
         Binding binding = new Binding();
         GroovyShell shell = new GroovyShell(binding);
         binding.setProperty("parser", this);
 
+        Integer levelIndex = game.currentLevel;
+        Scene scene = game.scenes.get(levelIndex);
+        Set<Instance> serializedInstances = scene.instances;
+        List<GameObject> serializedObjects = game.gameObjects;
+        String sceneLogic = scene.sceneLogic;
+        initEngineObjectsAndInstances(serializedObjects, serializedInstances, binding, shell);
+        shell.evaluate(sceneLogic);
+        setUser();
+    }
+
+    private void initEngineObjectsAndInstances(List<GameObject> serializedObjects, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
         for (GameObject serializedObject : serializedObjects) {
             String objectType = serializedObject.objectID;
             EngineGameObject object = new EngineGameObject(objectType);
@@ -64,39 +78,33 @@ public class EngineParser {
                     myEngineInstances.add(instance);
                 }
             }
-            shell.evaluate(sceneLogic);
-            setUser();
         }
     }
 
     private void setUser() {
-            for (EngineInstance engineInstance : myEngineInstances) {
-                String type = engineInstance.getType();
-                if (type.equals("user")) {
-                    myUserEngineInstance = engineInstance;
-                    break;
-                }
+        for (EngineInstance engineInstance : myEngineInstances) {
+            String type = engineInstance.getType();
+            if (type.equals("user")) {
+                myUserEngineInstance = engineInstance;
+                break;
             }
         }
-
-    public void printHere() {
-        System.out.println("here");
     }
 
     public void addCollision(String type1, String type2, String response){
         myCollisionResponses.put(new Pair<>(type1, type2), response);
     }
 
-    private void addKey(String key, String entry) {
+    public void addKey(String key, String entry) {
         myHotKeys.put(key, entry);
     }
 
-    private void addLevelRules(String rules){
+    public void addLevelRules(String rules){
         myLevelRules += rules;
     }
 
 
-    private void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
+    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
         int max = 0;
         for(int ID : myTimers.keySet()){
             if (ID > max) max = ID;

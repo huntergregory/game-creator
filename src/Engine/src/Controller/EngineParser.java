@@ -1,6 +1,7 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
+import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Timers.Timer;
@@ -66,21 +67,32 @@ public class EngineParser {
             objectInitialzer.run();
             myGameEngineObjects.add(object);
 
-            for (Instance serializedInstance : serializedInstances) {
-                String instanceOf = serializedInstance.instanceOf;
+            makeEngineInstancesOfType(serializedInstances, binding, shell, objectType);
+        }
+    }
 
-                if (instanceOf.equals(objectType)) {
-                    object = new EngineGameObject(objectType);
-                    String instanceID = serializedInstance.instanceID;
-                    EngineInstance instance = object.createInstance(instanceID);
-                    binding.setProperty("instance", instance);
-                    String instanceLogic = serializedInstance.instanceLogic;
-                    Script instanceInitializer = shell.parse(instanceLogic);
-                    instanceInitializer.run();
-                    myEngineInstances.add(instance);
-                }
+    private void makeEngineInstancesOfType(Set<Instance> serializedInstances, Binding binding, GroovyShell shell, String objectType) {
+        EngineGameObject object;
+        for (Instance serializedInstance : serializedInstances) {
+            String instanceOf = serializedInstance.instanceOf;
+
+            if (instanceOf.equals(objectType)) {
+                object = new EngineGameObject(objectType);
+                String instanceID = serializedInstance.instanceID;
+                EngineInstance engineInstance = object.createInstance(instanceID);
+                updateBasicComponent(engineInstance, serializedInstance);
+                binding.setProperty("instance", engineInstance);
+                String instanceLogic = serializedInstance.instanceLogic;
+                Script instanceInitializer = shell.parse(instanceLogic);
+                instanceInitializer.run();
+                myEngineInstances.add(engineInstance);
             }
         }
+    }
+
+    private void updateBasicComponent(EngineInstance engineInstance, Instance  instance) {
+        var basic = new BasicComponent(instance.bgImage, instance.x, instance.y, instance.width, instance.height, instance.zIndex);
+        engineInstance.addComponent(basic);
     }
 
     private void setUser() {

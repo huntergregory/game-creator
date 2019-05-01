@@ -158,7 +158,7 @@ public class PlayerStage {
         gamedata.Scene scene1 = new gamedata.Scene();
         scene1.instances.add(user1);
         scene1.instances.add(block1);
-        //scene1.sceneLogic = ;
+        //scene1.sceneLogic = "";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
         scene1.bgImage = "";
@@ -208,7 +208,7 @@ public class PlayerStage {
         myLevelController = myGameController.getLevelController();
         myEngineInstances = myLevelController.getEngineInstances();
         //myGameStage = new Stage(); //FIXME ExceptionInInitializerError
-        myEngineInstances = myLevelController.getEngineInstances();
+        myImageViewMap = new HashMap<>();
         initAndRemoveSounds();
         initDataTrackers();
         initBorderPane();
@@ -344,9 +344,9 @@ public class PlayerStage {
         if (basicComponent == null)
             return;
         //FIXME is it instance.getID or is it instance
-        ImageView imageView = myImageViewMap.get(engineInstance.getID());
-        moveAndResize(imageView, basicComponent);
+        ImageView imageView = myImageViewMap.get(engineInstance);
         setImageIfNecessary(imageView, basicComponent);
+        moveAndResize(imageView, basicComponent);
     }
 
     private void moveAndResize(ImageView imageView, BasicComponent basicComponent) {
@@ -438,5 +438,4 @@ public class PlayerStage {
     public void storeScore() {
         int myFinalScore = (int) myScoreTracker.getLatestValue();
     }
-
 }

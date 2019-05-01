@@ -1,0 +1,42 @@
+[
+  {
+    "name" : "Save To File",
+    "handler" :  "handleSaveToFile"
+  },
+  {
+    "name" : "Load From File",
+    "handler" :  "handleLoadFromFile"
+  },
+  {
+    "name" : "Save To Cloud",
+    "handler" :  "handleSaveToCloud"
+  },
+  {
+    "name" : "Load From Cloud",
+    "handler" :  "handleLoadFromCloud"
+  },
+  {
+    "name" : "Add Collaborators",
+    "handler" : "handleAddCollaborators"
+  },
+
+  {
+    "name" : "Add Object Script",
+    "handler" : "handleAddObjectScript"
+  },
+
+  {
+    "name" : "Add Collision",
+    "handler" : "handleAddCollision"
+  },
+
+  {
+    "name" : "Add Key Event",
+    "handler" : "handleAddKeyEvent"
+  },
+
+  {
+    "name" : "Add Scene Script",
+    "handler" : "handleAddSceneScript"
+  }
+]

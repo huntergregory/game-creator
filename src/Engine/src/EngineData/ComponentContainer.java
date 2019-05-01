@@ -11,7 +11,6 @@ import java.util.Map;
 public abstract class ComponentContainer {
     private String myID;
     public Map<Class<? extends Component>, Component> myComponents;
-    private final String COMPONENT_CLASSPATH = "Engine.src.EngineData.Components.";
 
     ComponentContainer(String id) {
         myID = id;

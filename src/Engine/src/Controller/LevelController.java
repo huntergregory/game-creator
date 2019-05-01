@@ -53,6 +53,7 @@ public class LevelController {
     private Sounds mySounds;
 
     private Binding myBinding;
+    private BinderHelper myBinderHelper;
     private GroovyShell myShell;
 
     public LevelController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
@@ -75,6 +76,7 @@ public class LevelController {
         myTimerController = new TimerController(myShell);
         myManager = new Manager(myParser.getEngineInstances(), myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
+        myBinderHelper = new BinderHelper();
         initializeGroovyShell();
     }
 
@@ -84,6 +86,7 @@ public class LevelController {
         myBinding.setProperty("collisionHandler", myCollisionHandler);
         myBinding.setProperty("collisionDetector", new CollisionDetector());
         myBinding.setProperty("debugLogger", myDebugLog);
+        myBinderHelper.bindComponentClasses(myBinding);
         myShell = new GroovyShell(myBinding);
     }
 
@@ -117,7 +120,7 @@ public class LevelController {
                 script.run();
             }
             catch(NoComponentException e) {
-                System.out.println("No Component");
+                System.out.println("No Logic Component");
             }
         }
     }

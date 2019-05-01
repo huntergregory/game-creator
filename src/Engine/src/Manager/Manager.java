@@ -53,7 +53,6 @@ public class Manager {
                 if (isClass(className)) {
                     var event = (Event) Reflection.createInstance(className, myEngineInstances);
                     event.activate(engineInstance, myStepTime, args);
-                    //myEngineInstances = event.getMyEngineInstances();
                     break;
                 }
             }

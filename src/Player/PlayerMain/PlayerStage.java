@@ -607,8 +607,9 @@ public class PlayerStage extends Application {
         GameObject user = new GameObject();
         user.objectID = "user";
         user.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
-                "new LivesComponent('3', 'engineInstance.getComponent(BasicComponent).setX((Double) 500)'), new ScoreComponent('0'));";
+                "new MotionComponent('0', '0', '10', '10', '0', '1'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new LivesComponent('3', 'engineInstance.getComponent(BasicComponent).setX((Double) 800)'), new ScoreComponent('0'), " +
+                "new LogicComponent('if(Mario.getComponent(HealthComponent).getHealth() < 0) { manager.call(\"Die\", Mario); manager.call(\"AddToHealth\", Mario, 100) }'));";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
@@ -616,7 +617,7 @@ public class PlayerStage extends Application {
         block.objectID = "Block";
         block.objectLogic = "object.addComponent(" +
                 "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), " +
-                "new ScoreComponent('0'), new ImpassableComponent('true'))";
+                "new ImpassableComponent('true'))";
         //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
@@ -651,7 +652,7 @@ public class PlayerStage extends Application {
                 "parser.addKey('W', 'manager.call(\"KeyMoveUp\", instance)');" +
                 "parser.addKey('S', 'manager.call(\"KeyMoveDown\", instance)');" +
                 "parser.addKey('M', 'manager.call(\"Jump\", instance)');" +
-                "parser.addCollision('user', 'Block', 'manager.call(\"Die\", Block); manager.call(\"Die\", user)')";
+                "parser.addCollision('user', 'Block', 'manager.call(\"AddToHealth\", user, -50)');";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
         scene1.bgImage = "";

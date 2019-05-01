@@ -2,6 +2,7 @@ package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
 import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Timers.Timer;
@@ -14,6 +15,7 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import groovy.lang.Sequence;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.Map;
 
@@ -28,7 +30,7 @@ public class EngineParser {
     private Map<Integer, Timer> myTimers;
     private EngineInstance myUserEngineInstance;
 
-    public EngineParser(Game game){
+    protected EngineParser(Game game) {
         myLevelRules = "";
         myCollisionResponses = new HashMap<>();
         myHotKeys = new HashMap<>();
@@ -40,6 +42,54 @@ public class EngineParser {
         parse(game);
     }
 
+    ////// Groovy API   ////////
+
+    public void addCollision(String type1, String type2, String response){
+        myCollisionResponses.put(new Pair<>(type1, type2), response);
+    }
+
+    public void addKey(String key, String entry) {
+        myHotKeys.put(key, entry);
+    }
+
+    public void addLevelRules(String rules){
+        myLevelRules += rules;
+    }
+
+
+    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
+        int max = 0;
+        for(int ID : myTimers.keySet()){
+            if (ID > max) max = ID;
+        }
+        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, 0));
+    }
+
+
+    ////// Getters for Engine ///////
+
+    protected Map<String, String> getHotKeys() {
+        return myHotKeys;
+    }
+
+    protected Map<Pair<String>, String> getCollisions() {
+        return myCollisionResponses;
+    }
+
+    protected String getLevelRules() {
+        return myLevelRules;
+    }
+
+    protected Set<EngineInstance> getEngineInstances() {
+        return myEngineInstances;
+    }
+
+    protected EngineInstance getUserEngineInstance() {
+        return myUserEngineInstance;
+    }
+
+
+
     private void parse(Game game) {
         Binding binding = new Binding();
         GroovyShell shell = new GroovyShell(binding);
@@ -50,6 +100,7 @@ public class EngineParser {
         List<GameObject> serializedObjects = game.gameObjects;
         String sceneLogic = scene.sceneLogic;
 
+        bindComponents(binding);
         initEngineObjectsAndInstances(serializedObjects, serializedInstances, binding, shell);
 
         binding.setProperty("parser", this);
@@ -57,14 +108,25 @@ public class EngineParser {
         setUser();
     }
 
+    private void bindComponents(Binding binding) {
+        try {
+            for (Class componentClass : new ClassGrabber().getClassesForPackage(Component.class.getPackageName()))
+                binding.setProperty(componentClass.getSimpleName(), componentClass);
+        }
+        catch (ClassNotFoundException | IOException e) {
+            System.out.println("Couldn't bind component classes in Groovy. Groovy exception is likely to occur.");
+        }
+    }
+
+
     private void initEngineObjectsAndInstances(List<GameObject> serializedObjects, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
         for (GameObject serializedObject : serializedObjects) {
             String objectType = serializedObject.objectID;
             EngineGameObject object = new EngineGameObject(objectType);
             binding.setProperty("object", object);
             String objectLogic = serializedObject.objectLogic;
-            Script objectInitialzer = shell.parse(objectLogic);
-            objectInitialzer.run();
+            Script objectInitializer = shell.parse(objectLogic);
+            objectInitializer.run();
             myGameEngineObjects.add(object);
 
             makeEngineInstancesOfType(serializedInstances, binding, shell, objectType);
@@ -98,53 +160,11 @@ public class EngineParser {
     private void setUser() {
         for (EngineInstance engineInstance : myEngineInstances) {
             String type = engineInstance.getType();
-            if (type.equals("user")) {
+            if (type.equals("User")) {
                 myUserEngineInstance = engineInstance;
                 break;
             }
         }
     }
-
-    public void addCollision(String type1, String type2, String response){
-        myCollisionResponses.put(new Pair<>(type1, type2), response);
-    }
-
-    public void addKey(String key, String entry) {
-        myHotKeys.put(key, entry);
-    }
-
-    public void addLevelRules(String rules){
-        myLevelRules += rules;
-    }
-
-
-    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
-        int max = 0;
-        for(int ID : myTimers.keySet()){
-            if (ID > max) max = ID;
-        }
-        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, 0));
-    }
-
-    protected Map<String, String> getHotKeys() {
-        return myHotKeys;
-    }
-
-    protected Map<Pair<String>, String> getCollisions() {
-        return myCollisionResponses;
-    }
-
-    protected String getLevelRules() {
-        return myLevelRules;
-    }
-
-    protected Set<EngineInstance> getEngineInstances() {
-        return myEngineInstances;
-    }
-
-    protected EngineInstance getUserEngineInstance() {
-        return myUserEngineInstance;
-    }
-
 
 }

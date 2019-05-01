@@ -155,7 +155,7 @@ public class PlayerStage extends Application {
         user1.bgImage = "Mario Picture";
         user1.height = 50;
         user1.width = 50;
-        user1.x = 300;
+        user1.x = 150;
         user1.y = 50;
         user1.zIndex = 1;
         Instance block1 = new Instance();
@@ -351,7 +351,7 @@ public class PlayerStage extends Application {
     private void updateOrRemoveImageViews() {
         for (EngineInstance engineInstance : myImageViewMap.keySet()) {
             //FIXME removes imageview from game root without the !
-            if (myEngineInstances.contains(engineInstance))
+            if (!myEngineInstances.contains(engineInstance))
                 myGameRoot.getChildren().remove(myImageViewMap.get(engineInstance));
             updateImageView(engineInstance);
         }
@@ -389,9 +389,15 @@ public class PlayerStage extends Application {
 
     private void setImageIfNecessary(ImageView imageView, BasicComponent entity) {
         //Set filename to one based on resource
-        InputStream newInputStream = this.getClass().getResourceAsStream(entity.getMyFilename());
-        if (newInputStream == null)
+        InputStream newInputStream = null;
+        for(Resource resource: myGame.resources) {
+            if(entity.getMyFilename().equals(resource.resourceID)) {
+                newInputStream = this.getClass().getResourceAsStream(resource.src);
+            }
+        }
+        if (newInputStream == null) {
             return;
+        }
 
         Image newImage = new Image(newInputStream);
         if (!newImage.equals(imageView.getImage()))

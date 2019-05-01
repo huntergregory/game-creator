@@ -8,8 +8,8 @@ import Engine.src.EngineData.EngineInstance;
 import java.util.Set;
 
 public class Jump extends MotionEvent {
-    public Jump(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
-        super(engineInstances, componentClasses);
+    public Jump(Set<EngineInstance> engineInstances) {
+        super(engineInstances, new Class[]{MotionComponent.class, JumpComponent.class});
     }
 
     @Override

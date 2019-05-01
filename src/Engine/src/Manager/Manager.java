@@ -2,6 +2,7 @@ package Engine.src.Manager;
 
 import Engine.src.Controller.TimerController;
 import Engine.src.EngineData.Components.LogicComponent;
+import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.Manager.Events.Event;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;

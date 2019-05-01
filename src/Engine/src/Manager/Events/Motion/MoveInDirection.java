@@ -8,8 +8,8 @@ import Engine.src.EngineData.Components.MotionComponent;
 import java.util.Set;
 
 public class MoveInDirection extends MotionEvent {
-    public MoveInDirection(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
-        super(engineInstances, componentClasses, Double.class, Double.class, Double.class);
+    public MoveInDirection(Set<EngineInstance> engineInstances) {
+        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class, Double.class, Double.class);
     }
 
     @Override

@@ -2,13 +2,14 @@ package Engine.src.Manager.Events.Motion;
 
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
+import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.EngineData.EngineInstance;
 
 import java.util.Set;
 
 public class Move extends MotionEvent {
-    public Move(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
-        super(engineInstances, componentClasses, Double.class);
+    public Move(Set<EngineInstance> engineInstances) {
+        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class);
     }
 
     @Override

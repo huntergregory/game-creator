@@ -8,8 +8,8 @@ import Engine.src.EngineData.Components.MotionComponent;
 import java.util.Set;
 
 public class KeyMoveRight extends MotionEvent {
-    public KeyMoveRight(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
-        super(engineInstances, componentClasses, Double.class);
+    public KeyMoveRight(Set<EngineInstance> engineInstances) {
+        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class);
     }
 
     @Override

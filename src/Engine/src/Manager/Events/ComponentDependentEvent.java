@@ -29,7 +29,9 @@ public abstract class ComponentDependentEvent extends InstanceDependentEvent {
     @Override
     protected void modifyInstance(EngineInstance engineInstance, Object ... args) {
         for (Class<? extends Component> componentClass : myComponentClasses) {
-            if (!engineInstance.hasComponent(componentClass)) return;
+            if (!engineInstance.hasComponent(componentClass)) {
+                return;
+            }
         }
         modifyComponents(engineInstance, args);
     }

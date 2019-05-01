@@ -62,7 +62,7 @@ public class CollisionHandler {
         for (EngineInstance i : allEntities){
             try {
                 var motionComponent = i.getComponent(MotionComponent.class);
-                myManager.call("Move", i);
+                myManager.call("Move", i, 10.0);
                 myManager.call("UpdateVelocity", i);
             }
             catch(NoComponentException e) {

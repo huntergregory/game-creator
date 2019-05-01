@@ -133,7 +133,7 @@ public class PlayerStage extends Application {
         GameObject user = new GameObject();
         user.objectID = "user";
         user.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
                 "new LivesComponent('3', ' '), new ScoreComponent('0'))";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
@@ -141,7 +141,7 @@ public class PlayerStage extends Application {
         GameObject block = new GameObject();
         block.objectID = "Block";
         block.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
                 "new LivesComponent('3', ' '), new ScoreComponent('0'))";
         //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
         block.bgColor = "FFFFFF";

@@ -29,6 +29,7 @@ public class EngineParser {
     private List<Sequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
     private EngineInstance myUserEngineInstance;
+    private BinderHelper myBinderHelper;
 
     protected EngineParser(Game game) {
         myLevelRules = "";
@@ -39,6 +40,7 @@ public class EngineParser {
 
         myEngineInstances = new HashMap<>();
         myGameEngineObjects = new HashSet<>();
+        myBinderHelper = new BinderHelper();
         parse(game);
     }
 
@@ -109,8 +111,8 @@ public class EngineParser {
 
 
     private void initEngineObjectsAndInstances(List<GameObject> serializedObjects, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
-        bindComponentClasses(binding);
-        String importStatements = getComponentImportStatements();
+        myBinderHelper.bindComponentClasses(binding);
+        String importStatements = myBinderHelper.getComponentImportStatements();
         for (GameObject serializedObject : serializedObjects) {
             String objectType = serializedObject.objectID;
             EngineGameObject object = new EngineGameObject(objectType);
@@ -123,29 +125,7 @@ public class EngineParser {
         }
     }
 
-    private void bindComponentClasses(Binding binding) {
-        try {
-            var classGrabber = new ClassGrabber();
-            for (Class componentClass : classGrabber.getClassesForPackage(Component.class.getPackageName()))
-                binding.setProperty(componentClass.getSimpleName(), componentClass);
-        }
-        catch (ClassNotFoundException | IOException e) {
-            System.out.println("Couldn't bind component classes in Groovy. Groovy exception is likely to occur.");
-        }
-    }
 
-    private String getComponentImportStatements() {
-        String result = "";
-        try {
-            var classGrabber = new ClassGrabber();
-            for (Class componentClass : classGrabber.getClassesForPackage(Component.class.getPackageName()))
-                result += "import " + componentClass.getName() + ";\n";
-        }
-        catch (ClassNotFoundException | IOException e) {
-            System.out.println("Couldn't bind component classes in Groovy. Groovy exception is likely to occur.");
-        }
-        return result;
-    }
 
     private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
         for (Instance serializedInstance : serializedInstances) {

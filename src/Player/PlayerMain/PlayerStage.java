@@ -607,8 +607,8 @@ public class PlayerStage extends Application {
         GameObject user = new GameObject();
         user.objectID = "user";
         user.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '1'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
-                "new LivesComponent('3', ' '), new ScoreComponent('0'));";
+                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new LivesComponent('3', 'engineInstance.getComponent(BasicComponent).setX((Double) 500)'), new ScoreComponent('0'));";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
@@ -651,7 +651,7 @@ public class PlayerStage extends Application {
                 "parser.addKey('W', 'manager.call(\"KeyMoveUp\", instance)');" +
                 "parser.addKey('S', 'manager.call(\"KeyMoveDown\", instance)');" +
                 "parser.addKey('M', 'manager.call(\"Jump\", instance)');" +
-                "parser.addCollision(''";
+                "parser.addCollision('user', 'Block', 'manager.call(\"Die\", Block); manager.call(\"Die\", user)')";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
         scene1.bgImage = "";

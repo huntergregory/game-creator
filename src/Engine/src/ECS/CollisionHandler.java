@@ -37,7 +37,6 @@ public class CollisionHandler {
     public void handleCollisions(Map<String, EngineInstance> allEntities, Map<Pair<String>, String> collisionResponses) {
         myCollisionResponses = collisionResponses;
         myCurrentCollisions = new HashMap<>();
-
         moveThenUpdateVelocities(allEntities);
 
         List<EngineInstance> allEntitiesList = new ArrayList<>();
@@ -81,8 +80,13 @@ public class CollisionHandler {
             Map<String, EngineInstance> possibleEnvironments = myCurrentCollisions.get(i);
             for (String ID : possibleEnvironments.keySet()) {
                 EngineInstance possibleEnvironment = possibleEnvironments.get(ID);
-                if (possibleEnvironment.getComponent(EnvironmentComponent.class) != null)
+                try {
+                    var envComponent = possibleEnvironment.getComponent(EnvironmentComponent.class);
                     return true;
+                }
+                catch(NoComponentException e) {
+                    continue;
+                }
             }
         }
         return false;
@@ -102,23 +106,21 @@ public class CollisionHandler {
     }
 
     private void checkCollision(EngineInstance i, EngineInstance j) {
-        Pair<String>[] collisionTagPairs = findRelevantTagPairs(i, j);
+        Pair<String> collisionTagPair = findRelevantTagPairs(i, j);
         if (!myCollisionDetector.collides(i, j))
             return;
-        if (collisionTagPairs.length != 0 ) {
-
+        if (collisionTagPair != null ) {
             addCollisionAndHandleEnvironments(i, j);
             addCollisionAndHandleEnvironments(j, i);
-
-            for (Pair<String> tagPair : collisionTagPairs) {
-                String responses = myCollisionResponses.get(tagPair);
-                activateEvents(i, j, responses);
-            }
         }
         correctClipping(i, j);
         correctClipping(j, i);
         dealWithImpassable(i, j);
         dealWithImpassable(j, i);
+        if (collisionTagPair != null ) {
+            String responses = myCollisionResponses.get(collisionTagPair);
+            activateEvents(i, j, responses);
+        }
     }
 
     private void correctClipping(EngineInstance toAdjust, EngineInstance other) {
@@ -187,40 +189,30 @@ public class CollisionHandler {
         }
     }
 
-    private Pair<String>[] findRelevantTagPairs(EngineInstance i, EngineInstance j) {
+    private Pair<String> findRelevantTagPairs(EngineInstance i, EngineInstance j) {
         ArrayList<Pair<String>> tagPairs = new ArrayList<>();
+        String objectType1 = i.getType();
+        String objectType2 = j.getType();
+        var tagPair = new Pair(objectType1, objectType2);
 
-        try {
-            var tags1 = i.getComponent(TagsComponent.class);
-            var tags2 = j.getComponent(TagsComponent.class);
-
-            if (tags1 == null || tags2 == null)
-                //Is this right?
-                return tagPairs.toArray(new Pair[0]);
-
-            for (String tag1 : tags1.getTags()) {
-                for (String tag2 : tags2.getTags()) {
-                    var tagPair = new Pair(tag1, tag2);
-                    if (myCollisionResponses.containsKey(tagPair))
-                        tagPairs.add(tagPair);
-                }
-            }
-            //Is this right?
-            return tagPairs.toArray(new Pair[0]);
+        if(myCollisionResponses.containsKey(tagPair)) {
+            return tagPair;
         }
-        catch(NoComponentException e) {
-            System.out.println("No Tag Component");
-            return new Pair[0];
-        }
+        return null;
     }
 
     private void addCollisionAndHandleEnvironments(EngineInstance current, EngineInstance other) {
         myCurrentCollisions.putIfAbsent(current, new HashMap<>());
         myCurrentCollisions.get(current).put(other.getID(), other);
-        var currentMotionComponent = current.getComponent(MotionComponent.class);
-        var otherEnvironmentComponent = other.getComponent(EnvironmentComponent.class);
-        if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).containsKey(other.getID()))
-            setInEnvironment(current, currentMotionComponent, otherEnvironmentComponent);
+        try {
+            var currentMotionComponent = current.getComponent(MotionComponent.class);
+            var otherEnvironmentComponent = other.getComponent(EnvironmentComponent.class);
+            if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).containsKey(other.getID()))
+                setInEnvironment(current, currentMotionComponent, otherEnvironmentComponent);
+        }
+        catch (NoComponentException e) {
+            System.out.println("No environment component OR no motion component");
+        }
     }
 
     private void setInEnvironment(EngineInstance i, MotionComponent motion, EnvironmentComponent environment) {
@@ -239,8 +231,10 @@ public class CollisionHandler {
         //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
 
         GroovyShell shell = new GroovyShell(mySetter);
-        mySetter.setProperty(engineInstance1.getID(), engineInstance1);
-        mySetter.setProperty(engineInstance2.getID(), engineInstance2);
+        mySetter.setProperty(engineInstance1.getType(), engineInstance1);
+        mySetter.setProperty(engineInstance2.getType(), engineInstance2);
+        System.out.println(mySetter.getProperty("manager"));
+        System.out.println(responses);
         Script script = shell.parse(responses);
         script.run();
 

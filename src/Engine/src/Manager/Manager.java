@@ -43,10 +43,17 @@ public class Manager {
     public void call(String eventClass, EngineInstance engineInstance, Object ... args) {
         try {
             for(String subfolder : SUBFOLDERS) {
-                String className = EVENTS_FILE_PATH + subfolder + "." + eventClass;
+                String className;
+                if(subfolder == "") {
+                    className = EVENTS_FILE_PATH + subfolder + eventClass;
+                }
+                else {
+                    className = EVENTS_FILE_PATH + subfolder + "." + eventClass;
+                }
                 if (isClass(className)) {
                     var event = (Event) Reflection.createInstance(className, myEngineInstances);
                     event.activate(engineInstance, myStepTime, args);
+                    //myEngineInstances = event.getMyEngineInstances();
                     break;
                 }
             }

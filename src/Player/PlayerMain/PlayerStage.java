@@ -124,8 +124,8 @@ public class PlayerStage {
         GameObject user = new GameObject();
         user.objectID = "user";
         user.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'), " +
-                "new Engine.src.EngineData.Components.MotionComponent(0, 0, 10, 10, 0, 9), new Engine.src.EngineData.Components.HealthComponent(100, 100), new Engine.src.EngineData.Components.JumpComponent(5), " +
-                "new Engine.src.EngineData.Components.LivesComponent(3, ' '), new Engine.src.EngineData.Components.ScoreComponent(0))";
+                "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new LivesComponent('3', ' '), new ScoreComponent('0'))";
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
         GameObject block = new GameObject();

@@ -1,5 +1,7 @@
 package Engine.src.EngineData.Components;
 
+import static java.lang.Double.parseDouble;
+
 public class JumpComponent extends Component {
     public double myJumpVelocity;
 
@@ -7,8 +9,8 @@ public class JumpComponent extends Component {
      * Input a positive value to jump up
      * @param jumpVelocity
      */
-    public JumpComponent(double jumpVelocity) {
-        myJumpVelocity = -jumpVelocity;
+    public JumpComponent(String jumpVelocity) {
+        myJumpVelocity = -parseDouble(jumpVelocity);
     }
 
     public double getJumpVelocity() {

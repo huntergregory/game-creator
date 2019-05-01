@@ -10,12 +10,13 @@ import java.util.Map;
 
 public abstract class ComponentContainer {
     private String myID;
-    private Map<Class<? extends Component>, Component> myComponents;
+    public Map<Class<? extends Component>, Component> myComponents;
+    private final String COMPONENT_CLASSPATH = "Engine.src.EngineData.Components.";
 
     ComponentContainer(String id) {
         myID = id;
         myComponents = new HashMap<>();
-        addComponent(new BasicComponent("", 0,0,0,0)); //FIXME add default properties file
+        //addComponent(new BasicComponent("", "0","0","0","0")); //FIXME add default properties file
     }
 
     ComponentContainer(String id, Map<Class<? extends Component>, Component> components) {
@@ -25,8 +26,8 @@ public abstract class ComponentContainer {
     }
 
     public void addComponent(Component ... components) {
-        for (Component component : components)
-            myComponents.put(component.getClass(), component);
+        for (Component component : components) myComponents.put(component.getClass(), component);
+        //System.out.println(myComponents.size());
     }
 
     public <T extends Component> T getComponent(Class<T> componentClass) throws NoComponentException {

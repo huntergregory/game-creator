@@ -122,10 +122,10 @@ public class PlayerStage {
         blockResource.resourceID = "Block Picture";
         blockResource.src = "/img/block.jpg";
         GameObject user = new GameObject();
-        user.objectID = "User";
-        user.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', (double)50.0, (double)50.0, (double)50.0, (double)50.0, 1), " +
-                "new MotionComponent(0, 0, 10, 10, 0, 9), new HealthComponent(100, 100), new JumpComponent(5), " +
-                "new LivesComponent(3, ' '), new ScoreComponent(0))";
+        user.objectID = "user";
+        user.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'), " +
+                "new Engine.src.EngineData.Components.MotionComponent(0, 0, 10, 10, 0, 9), new Engine.src.EngineData.Components.HealthComponent(100, 100), new Engine.src.EngineData.Components.JumpComponent(5), " +
+                "new Engine.src.EngineData.Components.LivesComponent(3, ' '), new Engine.src.EngineData.Components.ScoreComponent(0))";
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
         GameObject block = new GameObject();
@@ -134,7 +134,7 @@ public class PlayerStage {
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
         Instance user1 = new Instance();
-        user1.instanceOf = "User";
+        user1.instanceOf = "user";
         user1.instanceID = "Mario";
         user1.instanceLogic = "";
         user1.bgColor = "";

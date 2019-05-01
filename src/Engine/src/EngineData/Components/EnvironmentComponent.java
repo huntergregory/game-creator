@@ -1,5 +1,7 @@
 package Engine.src.EngineData.Components;
 
+import static java.lang.Double.parseDouble;
+
 public class EnvironmentComponent extends Component{
 
     private double myAccelX;
@@ -8,12 +10,12 @@ public class EnvironmentComponent extends Component{
     private double myMaxYVelocity;
     private double myDragCoeff;
 
-    public EnvironmentComponent(double accelX, double accelY, double dragCoeff, double maxXVel, double maxYVel) {
-        myAccelX = accelX;
-        myAccelX = accelY;
-        myDragCoeff = dragCoeff;
-        myMaxXVelocity = maxXVel;
-        myMaxYVelocity = maxYVel;
+    public EnvironmentComponent(String accelX, String accelY, String dragCoeff, String maxXVel, String maxYVel) {
+        myAccelX = parseDouble(accelX);
+        myAccelX = parseDouble(accelY);
+        myDragCoeff = parseDouble(dragCoeff);
+        myMaxXVelocity = parseDouble(maxXVel);
+        myMaxYVelocity = parseDouble(maxYVel);
     }
     //Using k*v instead of k*v^2
     public double getUpdatedAccel(double velocity) {

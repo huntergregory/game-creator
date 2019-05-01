@@ -1,10 +1,12 @@
 package Engine.src.EngineData.Components;
 
+import static java.lang.Boolean.parseBoolean;
+
 public class ImpassableComponent extends Component {
     private boolean myImpassable;
 
-    public ImpassableComponent(boolean impassable) {
-        myImpassable = impassable;
+    public ImpassableComponent(String impassable) {
+        myImpassable = parseBoolean(impassable);
     }
 
     public boolean getImpassable() {

@@ -64,12 +64,17 @@ public class EngineParser {
             EngineGameObject object = new EngineGameObject(objectType);
             binding.setProperty("object", object);
             String objectLogic = serializedObject.objectLogic;
-//            shell.evaluate("import Engine.src.EngineData.Components.BasicComponent");
-//            shell.evaluate("import Engine.src.EngineData.Components.MotionComponent");
-//            shell.evaluate("import Engine.src.EngineData.Components.HealthComponent");
-//            shell.evaluate("import Engine.src.EngineData.Components.JumpComponent");
-//            shell.evaluate("import Engine.src.EngineData.Components.LivesComponent");
-//            shell.evaluate("import Engine.src.EngineData.Components.ScoreComponent");
+            objectLogic = "import Engine.src.EngineData.Components.BasicComponent; " + objectLogic;
+            //binding.setProperty("BasicComponent", BasicComponent.class);
+//            shell.evaluate("import Engine.src.EngineData.Components.BasicComponent as BasicComponent;");
+//            shell.evaluate("import Engine.src.EngineData.Components.MotionComponent as MotionComponent;");
+//            shell.evaluate("import Engine.src.EngineData.Components.HealthComponent as HealthComponent;");
+//            shell.evaluate("import Engine.src.EngineData.Components.JumpComponent as JumpComponent;");
+//            shell.evaluate("import Engine.src.EngineData.Components.LivesComponent as LivesComponent;");
+//            shell.evaluate("import Engine.src.EngineData.Components.ScoreComponent as ScoreComponent;");
+//            shell.evaluate("import Engine.src.EngineData.Components.Component as Component;");
+//            shell.evaluate("import Engine.src.EngineData.ComponentContainer as ComponentContainer;");
+//            shell.evaluate("import Engine.src.EngineData.EngineGameObject as EngineGameObject;");
             Script objectInitialzer = shell.parse(objectLogic);
             objectInitialzer.run();
             myGameEngineObjects.add(object);
@@ -78,16 +83,14 @@ public class EngineParser {
         }
     }
 
-    private void makeEngineInstancesOfType(Set<Instance> serializedInstances, Binding binding, GroovyShell shell, String objectType) {
-        EngineGameObject object;
+    private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell, String objectType) {
         for (Instance serializedInstance : serializedInstances) {
             String instanceOf = serializedInstance.instanceOf;
 
             if (instanceOf.equals(objectType)) {
-                object = new EngineGameObject(objectType);
                 String instanceID = serializedInstance.instanceID;
                 EngineInstance engineInstance = object.createInstance(instanceID);
-                updateBasicComponent(engineInstance, serializedInstance);
+                //updateBasicComponent(engineInstance, serializedInstance);
                 binding.setProperty("instance", engineInstance);
                 String instanceLogic = serializedInstance.instanceLogic;
                 Script instanceInitializer = shell.parse(instanceLogic);
@@ -96,12 +99,12 @@ public class EngineParser {
             }
         }
     }
-
+/*
     private void updateBasicComponent(EngineInstance engineInstance, Instance  instance) {
         var basic = new BasicComponent(instance.bgImage, instance.x, instance.y, instance.width, instance.height, instance.zIndex);
         engineInstance.addComponent(basic);
     }
-
+*/
     private void setUser() {
         for (EngineInstance engineInstance : myEngineInstances) {
             String type = engineInstance.getType();

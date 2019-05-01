@@ -1,12 +1,14 @@
 package Engine.src.EngineData.Components;
 
+import static java.lang.Integer.parseInt;
+
 public class HealthComponent extends Component {
     private int myHealth;
     private int myMaxHealth;
 
-    public HealthComponent(int health, int maxHealth) {
-        myHealth = health;
-        myMaxHealth = maxHealth;
+    public HealthComponent(String health, String maxHealth) {
+        myHealth = parseInt(health);
+        myMaxHealth = parseInt(maxHealth);
     }
 
     public HealthComponent(int health) {

@@ -3,9 +3,8 @@ package Engine.src.ECS;
 import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.*;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.Manager.Manager;
+import Engine.src.Controller.Manager;
 
-import ez_engine.Engine;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;

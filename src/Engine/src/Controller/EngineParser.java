@@ -90,6 +90,15 @@ public class EngineParser {
         return myUserEngineInstance;
     }
 
+    //FIXMe
+    protected EngineInstance createFromInstance(String objectType, EngineInstance instance) throws NoObjectException {
+        for (EngineGameObject engineGameObject : myGameEngineObjects) {
+            if (objectType.equals(engineGameObject.getID()))
+                return engineGameObject.createInstance(engineGameObject.getID() + 1); //FIXME //no way to know what the other instance ids are, might override another instance
+        }
+        throw new NoObjectException(objectType);
+    }
+
 
 
     private void parse(Game game) {
@@ -124,7 +133,6 @@ public class EngineParser {
             makeEngineInstancesOfType(object, serializedInstances, binding, shell);
         }
     }
-
 
 
     private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {

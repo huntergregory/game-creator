@@ -313,8 +313,10 @@ public class PlayerStage extends Application {
     }
 
     private void updateDebugLog() {
-        List<String> debugLog = myLevelController.debugLog();
-        myDebugConsole.update(debugLog);
+        if (debugMode) {
+            List<String> debugLog = myLevelController.debugLog();
+            myDebugConsole.update(debugLog);
+        }
     }
 
     private void updateSounds() {

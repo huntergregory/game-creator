@@ -25,7 +25,7 @@ public class Manager {
     private static final String CAST_ERROR = "Class created is not an Event.";
     private static final String ILLEGAL_ARGS_ERROR = "Arguments for event did not match.";
     private static final String EVENTS_FILE_PATH = "Engine.src.Manager.Events.";
-    private static final String[] SUBFOLDERS = {"", "AI", "Aim", "Health"};
+    private static final String[] SUBFOLDERS = {"", "AI", "Aim", "Health", "Motion"};
 
     private Set<EngineInstance> myEngineInstances;
     private TimerController myTimerController;
@@ -40,7 +40,7 @@ public class Manager {
     public void call(String eventClass, EngineInstance engineInstance, Object ... args) {
         for(String subfolder : SUBFOLDERS) {
             try {
-                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + eventClass, myEngineInstances);
+                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + "." + eventClass, myEngineInstances);
                 event.activate(engineInstance, args);
             } catch (ReflectionException e) {
                 System.out.println(REFLECTION_ERROR);

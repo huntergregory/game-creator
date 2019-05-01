@@ -76,7 +76,7 @@ public class EngineParser {
             objectLogic = IMPORT_STATEMENTS + objectLogic;
             shell.evaluate(objectLogic);
             myGameEngineObjects.add(object);
-
+            System.out.println(object.myComponents);
             makeEngineInstancesOfType(object, serializedInstances, binding, shell);
         }
     }

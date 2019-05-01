@@ -70,6 +70,7 @@ public class LevelController {
 
         myIterationCounter = 0;
         myDebugLog = new DebugLog();
+        mySounds = new Sounds();
         myOffset = updateOffset();
         initializeGroovyShell();
         myTimerController = new TimerController(myShell);

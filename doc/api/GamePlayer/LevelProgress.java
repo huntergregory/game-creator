@@ -25,12 +25,12 @@ public interface LevelProgress {
     void resume();
 
     /**
-     *  Win condition(s) for current level is reached. Control is transferred back to LevelController.
+     *  Win condition(s) for current level is reached. Control is transferred back to Controller.
      */
     void win();
 
     /**
-     *  Lose condition(s) for current level is reached. Control is transferred back to LevelController.
+     *  Lose condition(s) for current level is reached. Control is transferred back to Controller.
      */
     void lose();
 

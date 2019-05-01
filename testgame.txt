@@ -1,1 +1,0 @@
-["parser.printHere(); parser.addCollision(\u0027Mario\u0027, \u0027Block\u0027, \u0027script\u0027);","parser.addCollision(\u0027Mario\u0027, \u0027Turtle\u0027);"]

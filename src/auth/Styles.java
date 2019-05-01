@@ -10,7 +10,7 @@ public class Styles {
             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" +
             "-fx-border-radius: 15 0 0 15;" +
             "-fx-background-radius: 15 0 0 15;";
-    public static String BOTTOM_PANE_STYLE = "-fx-background-color : #272822;" +
+    public static String BOTTOM_PANE_STYLE = "-fx-background-color : #333333;" +
             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);" +
             "-fx-border-radius: 15 15 0 0;" +
             "-fx-background-radius: 15 15 0 0;";

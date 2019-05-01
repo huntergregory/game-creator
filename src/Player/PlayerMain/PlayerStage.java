@@ -1,21 +1,11 @@
 package Player.PlayerMain;
 
-import Engine.src.Controller.GameController;
-import Player.Features.PlayerButtons;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import GameCenter.main.GameCenterController;
-import Engine.src.EngineData.EngineInstance;
-import Player.Features.DebugConsole;
-import Engine.src.EngineData.Components.BasicComponent;
-import Engine.src.EngineData.Components.HealthComponent;
-import Engine.src.EngineData.Components.MotionComponent;
-import Engine.src.Controller.LevelController;
+import Engine.src.Components.BasicComponent;
+import Engine.src.Components.Component;
+import Engine.src.Components.HealthComponent;
+import Engine.src.Components.MotionComponent;
+import Engine.src.Controller.Controller;
 import gamedata.Game;
-import gamedata.GameObject;
-import gamedata.Instance;
-import gamedata.Resource;
-import gamedata.serialization.Serializer;
 import hud.DataTracker;
 import hud.HUDView;
 import hud.NumericalDataTracker;
@@ -27,17 +17,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.*;
-import java.util.*;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class PlayerStage {
@@ -60,25 +47,15 @@ public class PlayerStage {
     private static final int HUD_UPDATE_DELAY = 10;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
 
-
-    private VBox myVBox;
-    private Game myGame;
-    private Stage myGameStage;
     private Scene myScene;
     private GridPane myVisualRoot;
     private BorderPane myBorderPane;
     private HUDView myHud;
-    private PlayerButtons myPlayerButtons;
-    private DebugConsole myDebugConsole;
 
-    private GameCenterController myGameCenterController;
-    private LevelController myLevelController;
-    private GameController myGameController;
+    private Controller myGameController;
     private Pane myGameRoot;
-    private Map<String, EngineInstance> myEngineInstances;
-    private Map<EngineInstance, ImageView> myImageViewMap;
-    private List<MediaPlayer> mySounds;
-    private int myLevelNumber;
+    private Map<Integer, Map<Class<? extends Component>, Component>> myGameEntityMap;
+    private Map<Integer, ImageView> myImageViewMap;
 
     private NumericalDataTracker<Double> myXPosTracker;
     private NumericalDataTracker<Double> myYPosTracker;
@@ -88,13 +65,10 @@ public class PlayerStage {
     private NumericalDataTracker<Integer> myScoreTracker;
     private DataTracker<String> myPowerupTracker;
 
-    private final String FILE_NOT_FOUND = "File not found";
     private int myCount;
     private int gamePaused;
-    private Boolean debugMode = false;
 
-    public PlayerStage(GameCenterController gameCenterController) {
-        myGameCenterController = myGameCenterController;
+    public PlayerStage() {
         myVisualRoot = new GridPane();
         //mySidePanelWidth = ST_WIDTH / 3.0;
         //myLeftPanel = new SidePanel(mySidePanelWidth);
@@ -103,71 +77,42 @@ public class PlayerStage {
         myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, ST_COLOR);
         //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
         myScene.getStylesheets().add(STYLESHEET);
-        try {
-            new Serializer().serialize(List.of("parser.printHere(); parser.addCollision('Mario', 'Block', 'script');", "parser.addCollision('Mario', 'Turtle');"));
-        }
-        catch (IOException e) {
-            System.out.println("Couldn't write to file.");
-        }
     }
 
     public void run(Game game, Boolean debug) {
-        debugMode = debug;
-        startNewLevel();
-    }
-
-    public void save(File file){
-        String contents = new Gson().toJson(myGame, new TypeToken<Game>(){}.getType());
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
-            writer.write(contents);
-            writer.close();
-        }
-        catch (IOException e){
-            System.out.println(FILE_NOT_FOUND);
+        if (debug) {
+            // TODO: make method, adding console for debug mode
         }
     }
 
-    public void load(String fileName) {
-            String contents = new Scanner(fileName).useDelimiter("\\Z").next();
-            myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
-            myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
-            myLevelNumber = myGame.currentLevel;
-            startNewLevel();
-    }
+    public void run(String gameName) {
+        Stage gameStage = new Stage();
 
-    private void startNewLevel() {
-        myLevelController = myGameController.getLevelController();
-        myEngineInstances = myLevelController.getEngineInstances();
-        //myGameStage = new Stage(); //FIXME ExceptionInInitializerError
-        myImageViewMap = new HashMap<>();
-        initAndRemoveSounds();
+        myImageViewMap = new HashMap<>(); //FIXME go full screen
+        myGameController = new Controller(STEP_TIME, myScene.getWidth(), myScene.getHeight(), GAME_WIDTH / 3.0, GAME_HEIGHT);
+        myGameEntityMap = myGameController.getEntities();
+
         initDataTrackers();
         initBorderPane();
+
         addNewImageViews();
+
         Scene gameScene = new Scene(myBorderPane, GAME_BG);
+        //gameScene.getStylesheets().add("style.css");
         gameScene.getStylesheets().add("hud.css");
-        myGameStage.setScene(gameScene);
-        myGameStage.show();
-        gameScene.setOnKeyPressed(e -> myLevelController.processKey(e.getCode().toString()));
+        gameStage.setScene(gameScene);
+        gameStage.show();
+        gameScene.setOnKeyPressed(e -> myGameController.processKey(e.getCode().toString()));
         animate();
     }
 
     private void setHud() {
-        myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
-                myYPosTracker,
-                myYVelocity,
-                myTimeTracker,
-                myLivesTracker,
-                myPowerupTracker);
-    }
-
-    private void setPlayerButtons() {
-        myPlayerButtons = new PlayerButtons(this);
-    }
-
-    private void setDebugConsole() {
-        myDebugConsole = new DebugConsole(HUD_WIDTH, ST_HEIGHT);
+        myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "Level 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
+                                                                                        myYPosTracker,
+                                                                                        myYVelocity,
+                                                                                        myTimeTracker,
+                                                                                        myLivesTracker,
+                                                                                        myPowerupTracker);
     }
 
     private void initBorderPane() {
@@ -175,16 +120,7 @@ public class PlayerStage {
         myGameRoot = new Pane();
         myBorderPane.setCenter(myGameRoot);
         setHud();
-        setPlayerButtons();
-        myVBox = new VBox();
-        myVBox.getChildren().add(myPlayerButtons.getNode());
-        if (debugMode) {
-            setDebugConsole();
-            myDebugConsole.addText("");
-            myVBox.getChildren().add(myDebugConsole.getMainComponent());
-        }
         myBorderPane.setLeft(myHud.getNode());
-        myBorderPane.setRight(myVBox);
     }
 
     private void animate() {
@@ -198,15 +134,10 @@ public class PlayerStage {
     private void step() {
         setGamePaused();
         if (gamePaused == 0) {
-            if (myLevelController.levelPassed()) {
-                myGame.currentLevel = myGame.currentLevel + 1;
-                startNewLevel();
-            }
-            myLevelController.updateScene();
+            myGameController.updateScene();
             addNewImageViews();
             updateOrRemoveImageViews();
-            updateDebugLog();
-            updateSounds();
+
             if (myCount % HUD_UPDATE_DELAY == 0) {
                 updateDataTrackers();
                 myHud.update();
@@ -215,76 +146,40 @@ public class PlayerStage {
         }
     }
 
-    private void updateDebugLog() {
-        List<String> debugLog = myLevelController.debugLog();
-        myDebugConsole.update(debugLog);
-    }
-
-    private void updateSounds() {
-//        Media sound = new Media(new File(sound.getKey()).toURI().toString());
-//        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-//        mediaPlayer.play();
-        Map<String, Boolean> sounds = myLevelController.playSound();
-        for(Map.Entry<String, Boolean> sound : sounds.entrySet()) {
-            MediaPlayer a = new MediaPlayer(new Media(getClass().getResource(sound.getKey()).toString()));
-            if(sound.getValue()) {
-                a.setOnEndOfMedia(() -> a.seek(Duration.ZERO));
-            }
-            else {
-                a.setOnEndOfMedia(() -> mySounds.remove(a));
-            }
-            mySounds.add(a);
-            a.play();
-        }
-    }
-
-    private void initAndRemoveSounds() {
-        if (mySounds == null) {
-            mySounds = new ArrayList<>();
-            return;
-        }
-        for(MediaPlayer m: mySounds) {
-            m.setMute(true);
-        }
-        mySounds.clear();
-    }
-
     private void updateOrRemoveImageViews() {
-        for (EngineInstance engineInstance : myImageViewMap.keySet()) {
-            //FIXME removes imageview from game root without the !
-            if (myEngineInstances.containsKey(engineInstance.getID()))
-                myGameRoot.getChildren().remove(myImageViewMap.get(engineInstance));
-            updateImageView(engineInstance);
+        for (int id : myImageViewMap.keySet()) {
+            if (!myGameEntityMap.containsKey(id))
+                myGameRoot.getChildren().remove(myImageViewMap.get(id));
+            updateImageView(id);
         }
     }
 
     private void addNewImageViews() {
-        for (String ID : myEngineInstances.keySet()) {
-            EngineInstance engineInstance = myEngineInstances.get(ID);
-            if (myImageViewMap.containsKey(engineInstance))
+        for (int id : myGameEntityMap.keySet()) {
+            if (myImageViewMap.containsKey(id))
                 continue;
             var newImageView = new ImageView();
-            myImageViewMap.put(engineInstance, newImageView);
+            myImageViewMap.put(id, newImageView);
             myGameRoot.getChildren().add(newImageView);
-            updateImageView(engineInstance);
+            updateImageView(id);
         }
     }
 
-    private void updateImageView(EngineInstance engineInstance) {
-        BasicComponent basicComponent = engineInstance.getComponent(BasicComponent.class);
-        MotionComponent motionComponent = engineInstance.getComponent(MotionComponent.class);
-        HealthComponent healthComponent = engineInstance.getComponent(HealthComponent.class);
+    private void updateImageView(int id) {
+        BasicComponent basicComponent = (BasicComponent) myGameEntityMap.get(id).get(BasicComponent.class);
+        MotionComponent motionComponent = (MotionComponent) myGameEntityMap.get(id).get(MotionComponent.class);
+        HealthComponent healthComponent = (HealthComponent) myGameEntityMap.get(id).get(HealthComponent.class);
         if (basicComponent == null)
             return;
-        //FIXME is it instance.getID or is it instance
-        ImageView imageView = myImageViewMap.get(engineInstance);
-        setImageIfNecessary(imageView, basicComponent);
+
+        ImageView imageView = myImageViewMap.get(id);
         moveAndResize(imageView, basicComponent);
+        setImageIfNecessary(imageView, basicComponent);
     }
 
     private void moveAndResize(ImageView imageView, BasicComponent basicComponent) {
-        imageView.setX(basicComponent.getX() - myLevelController.getOffset()[0]);
-        imageView.setY(basicComponent.getY() - myLevelController.getOffset()[1]);
+        imageView.setX(basicComponent.getX() - myGameController.getOffset()[0]);
+        imageView.setY(basicComponent.getY() - myGameController.getOffset()[1]);
         imageView.setFitWidth(basicComponent.getWidth());
         imageView.setFitHeight(basicComponent.getHeight());
     }
@@ -310,9 +205,8 @@ public class PlayerStage {
     }
 
     private void updateDataTrackers() {
-        EngineInstance userEngineInstance = myLevelController.getUserEngineInstance();
-        BasicComponent basicComponent = userEngineInstance.getComponent(BasicComponent.class);
-        MotionComponent motionComponent = userEngineInstance.getComponent(MotionComponent.class);
+        BasicComponent basicComponent = (BasicComponent) myGameEntityMap.get(0).get(BasicComponent.class);
+        MotionComponent motionComponent = (MotionComponent) myGameEntityMap.get(0).get(MotionComponent.class);
         myTimeTracker.storeData(myCount * 1.0); //TODO get actual time
         myXPosTracker.storeData(basicComponent.getX());
         myYPosTracker.storeData(basicComponent.getY());
@@ -323,7 +217,7 @@ public class PlayerStage {
     }
 
     /**
-     * edit(), rate() currently placeholder. Update these methods.
+     *    edit(), rate() currently placeholder. Update these methods.
      */
     public void edit(String gameName) {
 //        System.out.println(gameName + " is being edited!");
@@ -340,35 +234,12 @@ public class PlayerStage {
         return ret;
     }
 
-    public void updateLives(int lives) {
-        System.out.println(lives);
-    }
-
-    public void updateTime(int time) {
-        System.out.println(time);
-    }
-
-    public void restartGame() {
-        myGameStage.close();
-
-    }
-
     private void setGamePaused() {
-        gamePaused = myPlayerButtons.getGamePaused();
+        gamePaused = myHud.getGamePaused();
     }
 
     public int getGamePaused() {
         return gamePaused;
     }
 
-    public void saveGame() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text doc(*.txt)", "*.txt"));
-        File potentialFile = fileChooser.showSaveDialog(myGameStage);
-        save(potentialFile);
-    }
-
-    public void storeScore() {
-        int myFinalScore = (int) myScoreTracker.getLatestValue();
-    }
 }

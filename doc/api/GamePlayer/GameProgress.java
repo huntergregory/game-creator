@@ -19,7 +19,7 @@ public interface GameProgress {
      * Interacts with LevelProgress to load a new level. GameProgress keeps track of current level.
      *
      * @param level number of next level
-     * @return a GameLoader object
+     * @return a Level object
      */
     Level loadLevel(int level);
 }

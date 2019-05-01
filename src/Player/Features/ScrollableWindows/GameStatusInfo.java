@@ -35,7 +35,7 @@ public class GameStatusInfo extends ScrollableWindow {
         gameStatus = "";
         gameName += ("Game: " + gameName + "\n");
         gameStatus += ("Lives: " + myLives + "\n");
-        gameStatus += ("GameLoader: " + myLevel + "\n");
+        gameStatus += ("Level: " + myLevel + "\n");
         gameStatus += ("Enemies Alive: " + enemiesAlive + "\n");
         gameStatus += ("Enemies Dead: " + enemiesDead + "\n");
         gameStatus += ("X Postion: " + myX + "\n");

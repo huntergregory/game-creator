@@ -33,7 +33,6 @@ module voogasalad.crackingopen {
     opens ez_engine to org.codehaus.groovy, java.scripting;
     opens dummy_player to org.codehaus.groovy, java.scripting;
 
-
     exports auth;
     exports gamecenter;
     exports auth.screens;

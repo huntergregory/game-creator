@@ -14,6 +14,9 @@ import java.util.*;
 import static java.lang.Math.abs;
 
 public class CollisionHandler {
+    private static final String COLLISION_KEYWORD1 = "object1";
+    private static final String COLLISION_KEYWORD2 = "object2";
+
     private Manager myManager;
     private CollisionDetector myCollisionDetector;
     private Map<Pair<String>, String> myCollisionResponses;
@@ -230,8 +233,8 @@ public class CollisionHandler {
         //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
 
         GroovyShell shell = new GroovyShell(mySetter);
-        mySetter.setProperty(engineInstance1.getType(), engineInstance1);
-        mySetter.setProperty(engineInstance2.getType(), engineInstance2);
+        mySetter.setProperty(COLLISION_KEYWORD1, engineInstance1);
+        mySetter.setProperty(COLLISION_KEYWORD2, engineInstance2);
         System.out.println(mySetter.getProperty("manager"));
         System.out.println(responses);
         Script script = shell.parse(responses);

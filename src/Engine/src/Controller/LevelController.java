@@ -17,15 +17,7 @@ import groovy.lang.Script;
 import java.util.*;
 
 public class LevelController {
-    //FIXME remove eventually
-    private static final boolean SCROLLS_HORIZONTALLY = true;
-    private static final boolean SCROLLS_VERTICALLY = false;
-    private static final boolean IS_AUTO_SCROLLER = false;
-    private static final double SCROLL_SPEED = 10;                        //if auto scroller
-    private static final double CHARACTER_DISTANCE_FROM_SCROLL_WALL = 20; //if auto scroller
-    private static final double START_X = 0;
-    private static final double START_Y = 0;
-    //FIXME remove eventually
+    private static final String LOGIC_COMPONENT_KEYWORD = "instance";
 
     private final double myScreenWidth;
     private final double myScreenHeight;
@@ -108,7 +100,7 @@ public class LevelController {
             try {
                 LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
                 String logic = logicComponent.getLogic();
-                myBinding.setProperty(engineInstance.getID(), engineInstance);
+                myBinding.setProperty(LOGIC_COMPONENT_KEYWORD, engineInstance);
                 Script script = myShell.parse(logic);
                 script.run();
             }

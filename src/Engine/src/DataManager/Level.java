@@ -1,6 +1,6 @@
 package Engine.src.DataManager;
 
-import Engine.src.Manager.Events.Event;
+import Engine.src.Controller.Events.Event;
 import Engine.src.EngineData.Components.Component;
 
 import java.util.Collections;

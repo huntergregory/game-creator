@@ -90,6 +90,15 @@ public class EngineParser {
         return myUserEngineInstance;
     }
 
+    //FIXMe
+    protected EngineInstance createFromInstance(String objectType, EngineInstance instance) throws NoObjectException {
+        for (EngineGameObject engineGameObject : myGameEngineObjects) {
+            if (objectType.equals(engineGameObject.getID()))
+                return engineGameObject.createInstance(engineGameObject.getID() + 1); //FIXME //no way to know what the other instance ids are, might override another instance
+        }
+        throw new NoObjectException(objectType);
+    }
+
 
 
     private void parse(Game game) {
@@ -126,7 +135,6 @@ public class EngineParser {
     }
 
 
-
     private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
         for (Instance serializedInstance : serializedInstances) {
             String instanceOf = serializedInstance.instanceOf;
@@ -145,7 +153,6 @@ public class EngineParser {
         }
     }
 
-    //TODO: FIX THIS TO ACTUALLY ADJUST BASIC COMPONENT
     private void updateBasicComponent(EngineInstance engineInstance, Instance  instance) {
         var basic = new BasicComponent(instance.bgImage, Double.toString(instance.x), Double.toString(instance.y), Double.toString(instance.width), Double.toString(instance.height), Integer.toString(instance.zIndex));
         engineInstance.addComponent(basic);

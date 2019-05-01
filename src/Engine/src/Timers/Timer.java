@@ -1,10 +1,5 @@
 package Engine.src.Timers;
 
-import Engine.src.Manager.Manager;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
-
 public class Timer {
     double myCount;
     double myDuration;

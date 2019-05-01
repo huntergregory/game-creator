@@ -11,7 +11,7 @@ public class UpdateVelocity extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double xVel = motionComponent.getXVelocity();
         double yVel = motionComponent.getYVelocity();

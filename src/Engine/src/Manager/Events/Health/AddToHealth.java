@@ -11,7 +11,7 @@ public class AddToHealth extends HealthModifierEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var healthComponent = engineInstance.getComponent(HealthComponent.class);
         int health = healthComponent.getHealth();
         setHealth(engineInstance, (int) args[0] + health);

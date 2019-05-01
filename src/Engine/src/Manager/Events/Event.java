@@ -24,16 +24,16 @@ public abstract class Event {
      * @param engineInstance
      * @param args
      */
-    protected abstract void execute(EngineInstance engineInstance, Object ... args);
+    protected abstract void execute(EngineInstance engineInstance, double stepTime, Object ... args);
 
     public Class[] getNonInstanceParameters() {
         return myParameters;
     }
 
-    public void activate(EngineInstance engineInstance, Object ... args) throws IllegalArgumentException {
+    public void activate(EngineInstance engineInstance, double stepTime, Object ... args) throws IllegalArgumentException {
         if (!parametersMatch(args))
             throw new IllegalArgumentException(ERROR_MESSAGE);
-        execute(engineInstance, args);
+        execute(engineInstance, stepTime, args);
     }
 
     private boolean parametersMatch(Object ... args) {

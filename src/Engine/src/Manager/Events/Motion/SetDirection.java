@@ -10,7 +10,7 @@ public class SetDirection extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         double angle = (double) args[0];
         adjustVelocitiesByAngle(engineInstance, angle);
     }

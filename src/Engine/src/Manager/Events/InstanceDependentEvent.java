@@ -9,12 +9,12 @@ public abstract class InstanceDependentEvent extends Event {
         super(engineInstances, parameterTypes);
     }
 
-    protected abstract void modifyInstance(EngineInstance engineInstance, Object ... args);
+    protected abstract void modifyInstance(EngineInstance engineInstance, double stepTime, Object ... args);
 
     @Override
-    protected void execute(EngineInstance engineInstance, Object... args) {
+    protected void execute(EngineInstance engineInstance, double stepTime, Object... args) {
         if (!myEngineInstances.contains(engineInstance))
             return;
-        modifyInstance(engineInstance, args);
+        modifyInstance(engineInstance, stepTime, args);
     }
 }

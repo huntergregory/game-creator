@@ -30,20 +30,22 @@ public class Manager {
     private Set<EngineInstance> myEngineInstances;
     private TimerController myTimerController;
     boolean levelPassed;
+    private double myStepTime;
 
-    public Manager(Set<EngineInstance> engineInstances, TimerController timerController) {
+    public Manager(Set<EngineInstance> engineInstances, TimerController timerController, double stepTime) {
         myEngineInstances = engineInstances;
         myTimerController = timerController;
         levelPassed = false;
+        myStepTime = stepTime;
     }
 
     public void call(String eventClass, EngineInstance engineInstance, Object ... args) {
         try {
             for(String subfolder : SUBFOLDERS) {
-                String className = EVENTS_FILE_PATH + subfolder + eventClass;
+                String className = EVENTS_FILE_PATH + subfolder + "." + eventClass;
                 if (isClass(className)) {
                     var event = (Event) Reflection.createInstance(className, myEngineInstances);
-                    event.activate(engineInstance, args);
+                    event.activate(engineInstance, myStepTime, args);
                     break;
                 }
             }

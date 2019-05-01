@@ -13,7 +13,7 @@ public class Jump extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var jumpComponent = engineInstance.getComponent(JumpComponent.class);
         var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double jumpVelocity = jumpComponent.getJumpVelocity();

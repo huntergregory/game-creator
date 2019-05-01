@@ -10,7 +10,7 @@ public class SetHealth extends HealthModifierEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         setHealth(engineInstance, (int) args[0]);
     }
 }

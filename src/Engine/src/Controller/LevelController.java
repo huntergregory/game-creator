@@ -72,7 +72,7 @@ public class LevelController {
         myOffset = updateOffset();
         initializeGroovyShell();
         myTimerController = new TimerController(myShell);
-        myManager = new Manager(myParser.getEngineInstances(), myTimerController);
+        myManager = new Manager(myParser.getEngineInstances(), myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
     }
 
@@ -82,6 +82,9 @@ public class LevelController {
         myBinding.setProperty("collisionHandler", myCollisionHandler);
         myBinding.setProperty("collisionDetector", new CollisionDetector());
         myBinding.setProperty("debugLogger", myDebugLog);
+        for(EngineInstance instance : getEngineInstances()){
+            myBinding.setProperty(instance.getID(), instance);
+        }
         myShell = new GroovyShell(myBinding);
     }
 

@@ -11,8 +11,8 @@ public class Flee extends AIEvent{
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object... args) {
-        flee(engineInstance, (EngineInstance) args[0], (Double) args[1]) ;
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object... args) {
+        flee(engineInstance, (EngineInstance) args[0], stepTime) ;
     }
 
    }

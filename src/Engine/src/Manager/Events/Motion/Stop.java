@@ -11,7 +11,7 @@ public class Stop extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var motionComponent = engineInstance.getComponent(MotionComponent.class);
         motionComponent.setXVelocity(0);
         motionComponent.setYVelocity(0);

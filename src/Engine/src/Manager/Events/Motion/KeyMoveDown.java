@@ -13,10 +13,9 @@ public class KeyMoveDown extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var motionComponent = engineInstance.getComponent(MotionComponent.class);
         var basicComponent = engineInstance.getComponent(BasicComponent.class);
-        double stepTime = (double) args[0];
         double yPos = basicComponent.getY();
         double yVel = motionComponent.getMovementYVelocity();
         Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};

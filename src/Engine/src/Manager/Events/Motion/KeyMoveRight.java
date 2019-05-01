@@ -13,12 +13,11 @@ public class KeyMoveRight extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var motionComponent = engineInstance.getComponent(MotionComponent.class);
         var basicComponent = engineInstance.getComponent(BasicComponent.class);
         double xVel = motionComponent.getMovementXVelocity();
         double xPos = basicComponent.getX();
-        double stepTime = (double) args[0];
         Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
         SetXPosition setX = new SetXPosition(myEngineInstances, components);
         setX.activate(engineInstance, xPos - xVel * stepTime);

@@ -14,7 +14,7 @@ public class SetXPosition extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var basicComponent = engineInstance.getComponent(BasicComponent.class);
         double currentX = basicComponent.getX();
         double finalX = (double) args[0];

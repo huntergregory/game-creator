@@ -11,7 +11,7 @@ public class AddLogic extends ComponentDependentEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object... args) {
         LogicComponent logic = engineInstance.getComponent(LogicComponent.class);
         logic.setLogic(logic.getLogic() + args[0]);
     }

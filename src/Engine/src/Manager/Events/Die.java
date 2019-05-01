@@ -16,7 +16,7 @@ public class Die extends InstanceDependentEvent {
     }
 
     @Override
-    protected void modifyInstance(EngineInstance engineInstance, Object... args) {
+    protected void modifyInstance(EngineInstance engineInstance, double stepTime, Object... args) {
 
         if(engineInstance.hasComponent(LivesComponent.class)){
             LivesComponent lives = engineInstance.getComponent(LivesComponent.class);

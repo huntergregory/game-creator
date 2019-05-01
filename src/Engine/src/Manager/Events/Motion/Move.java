@@ -12,9 +12,8 @@ public class Move extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var basicComponent = engineInstance.getComponent(BasicComponent.class);
-        double stepTime = (double) args[0];
         double newX = getNewX(engineInstance, basicComponent.getX(), stepTime);
         double newY = getNewY(engineInstance, basicComponent.getY(), stepTime);
         basicComponent.setX(newX);

@@ -11,7 +11,7 @@ public class BaseAim extends AIEvent{
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object... args) {
         baseAim(engineInstance, (EngineInstance) args[0], (Double) args[1]);
     }
 }

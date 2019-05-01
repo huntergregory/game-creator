@@ -13,12 +13,11 @@ public class MoveInDirection extends MotionEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var motionComponent = engineInstance.getComponent(MotionComponent.class);
         double tempVel = motionComponent.getMovementVelocity();
         double tempXVel = tempVel * (double) args[0];
         double tempYVel = tempVel * (double) args[1];
-        double stepTime = (double) args[2];
         Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
         SetXPosition setX = new SetXPosition(myEngineInstances, components);
         SetYPosition setY = new SetYPosition(myEngineInstances, components);

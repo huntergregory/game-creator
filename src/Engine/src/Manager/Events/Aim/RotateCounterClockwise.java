@@ -10,7 +10,7 @@ public class RotateCounterClockwise extends AimModifierEvent {
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object... args) {
         rotateAim(engineInstance, false);
     }
 }

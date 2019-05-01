@@ -1,5 +1,7 @@
 package Engine.src.EngineData.Components;
 
+import static java.lang.Double.parseDouble;
+
 /**
  * Assumes time step is 1 (multiplies velocity by 1 when returning new position or acceleration by 1 when updating velocity)
  */
@@ -15,17 +17,17 @@ public class MotionComponent extends Component {
     private double myXAccel;
     private double myYAccel;
 
-    public MotionComponent(double xVelocity, double yVelocity, double defaultMovementXVelocity, double defaultMovementYVelocity, double defaultAccelX, double defaultAccelY) {
-        this.myXVelocity = xVelocity;
-        this.myYVelocity = yVelocity;
-        this.myMovementXVelocity = defaultMovementXVelocity;
-        this.myMovementYVelocity = defaultMovementYVelocity;
-        this.MY_DEFAULT_MOVEMENT_X_VEL = defaultMovementXVelocity;
-        this.MY_DEFAULT_MOVEMENT_Y_VEL = defaultMovementYVelocity;
-        this.myXAccel = defaultAccelX;
-        this.myYAccel = defaultAccelY;
-        this.MY_DEFAULT_X_ACCEL = defaultAccelX;
-        this.MY_DEFAULT_Y_ACCEL = defaultAccelY;
+    public MotionComponent(String xVelocity, String yVelocity, String defaultMovementXVelocity, String defaultMovementYVelocity, String defaultAccelX, String defaultAccelY) {
+        this.myXVelocity = parseDouble(xVelocity);
+        this.myYVelocity = parseDouble(yVelocity);
+        this.myMovementXVelocity = parseDouble(defaultMovementXVelocity);
+        this.myMovementYVelocity = parseDouble(defaultMovementYVelocity);
+        this.MY_DEFAULT_MOVEMENT_X_VEL = parseDouble(defaultMovementXVelocity);
+        this.MY_DEFAULT_MOVEMENT_Y_VEL = parseDouble(defaultMovementYVelocity);
+        this.myXAccel = parseDouble(defaultAccelX);
+        this.myYAccel = parseDouble(defaultAccelY);
+        this.MY_DEFAULT_X_ACCEL = parseDouble(defaultAccelX);
+        this.MY_DEFAULT_Y_ACCEL = parseDouble(defaultAccelY);
     }
 
     public double getMovementXVelocity() {

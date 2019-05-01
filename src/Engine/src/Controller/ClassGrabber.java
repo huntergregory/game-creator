@@ -17,6 +17,7 @@ import java.util.jar.JarFile;
  * @author Hunter Gregory
  */
 public class ClassGrabber {
+    private static final String UTF_ENCODING = "UTF-8";
     private static final String CLASS_EXTENSION = ".class";
 
     private ArrayList<Class> myClasses;
@@ -42,7 +43,7 @@ public class ClassGrabber {
             if (connection instanceof JarURLConnection)
                 addClassesFromJar((JarURLConnection) connection, packageName);
             else
-                addClassesFromDirectory(new File(URLDecoder.decode(url.getPath(), "UTF-8")), packageName);
+                addClassesFromDirectory(new File(URLDecoder.decode(url.getPath(), UTF_ENCODING)), packageName);
         }
 
         return myClasses.toArray(new Class[0]);
@@ -56,7 +57,7 @@ public class ClassGrabber {
 
         for (String file : files) {
             if (file.endsWith(CLASS_EXTENSION)) {
-                String className = packageName + '.' + file.substring(0, file.length() - CLASS_EXTENSION.length());
+                String className = packageName + '.' + getClassFileName(file);
                 myClasses.add(Class.forName(className));
             }
             else {
@@ -73,12 +74,16 @@ public class ClassGrabber {
             JarEntry jarEntry = entries.nextElement();
             String fileName = jarEntry.getName();
             if (fileName.contains(CLASS_EXTENSION)) {
-                fileName = fileName.substring(0, fileName.length() - CLASS_EXTENSION.length()).replace('/', '.');
+                fileName = getClassFileName(fileName).replace('/', '.');
 
                 if (fileName.contains(packageName)) {
                     myClasses.add(Class.forName(fileName));
                 }
             }
         }
+    }
+
+    private String getClassFileName(String fileName) {
+        return fileName.substring(0, fileName.length() - CLASS_EXTENSION.length());
     }
 }

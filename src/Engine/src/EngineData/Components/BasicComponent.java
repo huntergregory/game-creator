@@ -12,19 +12,19 @@ public class BasicComponent extends Component {
     private int myZIndex;
     private String myLogic;
 
-    public BasicComponent(String filename, double xPos, double yPos, double width, double height) {
+    public BasicComponent(String filename, String xPos, String yPos, String width, String height) {
         myFilename = filename;
-        myXPos = xPos;
-        myYPos = yPos;
-        myWidth = width;
-        myHeight = height;
+        myXPos = Double.parseDouble(xPos);
+        myYPos = Double.parseDouble(yPos);
+        myWidth = Double.parseDouble(width);
+        myHeight = Double.parseDouble(height);
         myLogic = "";
         myZIndex = 0;
     }
 
-    public BasicComponent(String filename, double xPos, double yPos, double width, double height, int zIndex) {
+    public BasicComponent(String filename, String xPos, String yPos, String width, String height, String zIndex) {
         this(filename, xPos, yPos, width, height);
-        myZIndex = zIndex;
+        myZIndex = Integer.parseInt(zIndex);
     }
 
 

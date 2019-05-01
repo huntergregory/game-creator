@@ -100,7 +100,6 @@ public class EngineParser {
         List<GameObject> serializedObjects = game.gameObjects;
         String sceneLogic = scene.sceneLogic;
 
-        bindComponents(binding);
         initEngineObjectsAndInstances(serializedObjects, serializedInstances, binding, shell);
 
         binding.setProperty("parser", this);
@@ -108,9 +107,26 @@ public class EngineParser {
         setUser();
     }
 
-    private void bindComponents(Binding binding) {
+
+    private void initEngineObjectsAndInstances(List<GameObject> serializedObjects, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
+        bindComponentClasses(binding);
+        String importStatements = getComponentImportStatements();
+        for (GameObject serializedObject : serializedObjects) {
+            String objectType = serializedObject.objectID;
+            EngineGameObject object = new EngineGameObject(objectType);
+            binding.setProperty("object", object);
+            String objectLogic = importStatements + serializedObject.objectLogic;
+            shell.evaluate(objectLogic);
+            myGameEngineObjects.add(object);
+
+            makeEngineInstancesOfType(object, serializedInstances, binding, shell);
+        }
+    }
+
+    private void bindComponentClasses(Binding binding) {
         try {
-            for (Class componentClass : new ClassGrabber().getClassesForPackage(Component.class.getPackageName()))
+            var classGrabber = new ClassGrabber();
+            for (Class componentClass : classGrabber.getClassesForPackage(Component.class.getPackageName()))
                 binding.setProperty(componentClass.getSimpleName(), componentClass);
         }
         catch (ClassNotFoundException | IOException e) {
@@ -118,28 +134,25 @@ public class EngineParser {
         }
     }
 
-
-    private void initEngineObjectsAndInstances(List<GameObject> serializedObjects, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
-        for (GameObject serializedObject : serializedObjects) {
-            String objectType = serializedObject.objectID;
-            EngineGameObject object = new EngineGameObject(objectType);
-            binding.setProperty("object", object);
-            String objectLogic = serializedObject.objectLogic;
-            Script objectInitializer = shell.parse(objectLogic);
-            objectInitializer.run();
-            myGameEngineObjects.add(object);
-
-            makeEngineInstancesOfType(serializedInstances, binding, shell, objectType);
+    private String getComponentImportStatements() {
+        String result = "";
+        try {
+            var classGrabber = new ClassGrabber();
+            for (Class componentClass : classGrabber.getClassesForPackage(Component.class.getPackageName()))
+                result += "import " + componentClass.getName() + ";\n";
         }
+        catch (ClassNotFoundException | IOException e) {
+            System.out.println("Couldn't bind component classes in Groovy. Groovy exception is likely to occur.");
+        }
+        return result;
     }
 
-    private void makeEngineInstancesOfType(Set<Instance> serializedInstances, Binding binding, GroovyShell shell, String objectType) {
-        EngineGameObject object;
+    private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
         for (Instance serializedInstance : serializedInstances) {
             String instanceOf = serializedInstance.instanceOf;
+            String objectType = object.getID();
 
             if (instanceOf.equals(objectType)) {
-                object = new EngineGameObject(objectType);
                 String instanceID = serializedInstance.instanceID;
                 EngineInstance engineInstance = object.createInstance(instanceID);
                 updateBasicComponent(engineInstance, serializedInstance);
@@ -153,14 +166,14 @@ public class EngineParser {
     }
 
     private void updateBasicComponent(EngineInstance engineInstance, Instance  instance) {
-        var basic = new BasicComponent(instance.bgImage, instance.x, instance.y, instance.width, instance.height, instance.zIndex);
+        var basic = new BasicComponent(instance.bgImage, Double.toString(instance.x), Double.toString(instance.y), Double.toString(instance.width), Double.toString(instance.height), Integer.toString(instance.zIndex));
         engineInstance.addComponent(basic);
     }
 
     private void setUser() {
         for (EngineInstance engineInstance : myEngineInstances) {
             String type = engineInstance.getType();
-            if (type.equals("User")) {
+            if (type.equals("user")) {
                 myUserEngineInstance = engineInstance;
                 break;
             }

@@ -122,10 +122,10 @@ public class PlayerStage {
         blockResource.resourceID = "Block Picture";
         blockResource.src = "/img/block.jpg";
         GameObject user = new GameObject();
-        user.objectID = "User";
-        user.objectLogic = "object.addComponent(BasicComponent.newInstance('/img/block.jpg', (double)50.0, (double)50.0, (double)50.0, (double)50.0, 1), " +
-                "MotionComponent.newInstance(0, 0, 10, 10, 0, 9), HealthComponent.newInstance(100, 100), JumpComponent.newInstance(5), " +
-                "LivesComponent.newInstance(3, ' '), ScoreComponent.newInstance(0))";
+        user.objectID = "user";
+        user.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'), " +
+                "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new LivesComponent('3', ' '), new ScoreComponent('0'))";
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
         GameObject block = new GameObject();
@@ -134,9 +134,9 @@ public class PlayerStage {
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
         Instance user1 = new Instance();
-        user1.instanceOf = "User";
+        user1.instanceOf = "user";
         user1.instanceID = "Mario";
-        user1.instanceLogic = "";
+        user1.instanceLogic = "instance.getComponent(BasicComponent).setX( '50.0')";
         user1.bgColor = "";
         user1.bgImage = "";
         user1.height = 50;
@@ -207,7 +207,7 @@ public class PlayerStage {
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController();
         myEngineInstances = myLevelController.getEngineInstances();
-        myGameStage = new Stage();
+        //myGameStage = new Stage(); //FIXME ExceptionInInitializerError
         myEngineInstances = myLevelController.getEngineInstances();
         initAndRemoveSounds();
         initDataTrackers();

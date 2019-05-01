@@ -54,7 +54,7 @@ public class Launcher extends Application {
 
     private void initializePlayerStage() {
         GameLoop player = new GameLoop();
-        myPlayerStage = player.getStage();
+        //myPlayerStage = player.getStage();
     }
 
     private void initializeAuthoringStage() {

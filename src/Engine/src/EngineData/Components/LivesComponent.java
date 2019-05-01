@@ -1,12 +1,14 @@
 
 package Engine.src.EngineData.Components;
 
+import static java.lang.Integer.parseInt;
+
 public class LivesComponent extends Component{
     private int myLives;
     private String myRespawnInstructions;
 
-    public LivesComponent(int lives, String respawnInstructions){
-        myLives = lives;
+    public LivesComponent(String lives, String respawnInstructions){
+        myLives = parseInt(lives);
         myRespawnInstructions = respawnInstructions;
     }
 

@@ -1,15 +1,17 @@
 package Engine.src.EngineData.Components;
 
+import static java.lang.Double.parseDouble;
+
 public class AimComponent extends Component{
 
     double myXAim;
     double myYAim;
     double myRotationRate;
 
-    public AimComponent( double xAim, double yAim, double rotationRate){
-        myXAim = xAim;
-        myYAim = yAim;
-        myRotationRate = rotationRate;
+    public AimComponent( String xAim, String yAim, String rotationRate){
+        myXAim = parseDouble(xAim);
+        myYAim = parseDouble(yAim);
+        myRotationRate = parseDouble(rotationRate);
     }
 
     public double getXAim(){

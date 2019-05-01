@@ -19,8 +19,7 @@ public class KeyMoveRight extends MotionEvent {
         double xVel = motionComponent.getMovementXVelocity();
         double xPos = basicComponent.getX();
         double stepTime = (double) args[0];
-        Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
-        SetXPosition setX = new SetXPosition(myEngineInstances, components);
+        SetXPosition setX = new SetXPosition(myEngineInstances);
         setX.activate(engineInstance, xPos - xVel * stepTime);
     }
 }

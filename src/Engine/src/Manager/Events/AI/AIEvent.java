@@ -149,9 +149,8 @@ public abstract class AIEvent extends ComponentDependentEvent {
         double tempVel = motion.getMovementVelocity();
         double tempXVel = tempVel * direction[0];
         double tempYVel = tempVel * direction[1];
-        Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
-        SetXPosition setX = new SetXPosition(myEngineInstances, components);
-        SetYPosition setY = new SetYPosition(myEngineInstances, components);
+        SetXPosition setX = new SetXPosition(myEngineInstances);
+        SetYPosition setY = new SetYPosition(myEngineInstances);
         setX.activate(engineInstance, tempXVel * stepTime);
         setY.activate(engineInstance, tempYVel * stepTime);
     }

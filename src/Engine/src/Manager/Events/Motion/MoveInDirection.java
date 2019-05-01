@@ -19,9 +19,8 @@ public class MoveInDirection extends MotionEvent {
         double tempXVel = tempVel * (double) args[0];
         double tempYVel = tempVel * (double) args[1];
         double stepTime = (double) args[2];
-        Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
-        SetXPosition setX = new SetXPosition(myEngineInstances, components);
-        SetYPosition setY = new SetYPosition(myEngineInstances, components);
+        SetXPosition setX = new SetXPosition(myEngineInstances);
+        SetYPosition setY = new SetYPosition(myEngineInstances);
         setX.activate(engineInstance, tempXVel * stepTime);
         setY.activate(engineInstance, tempYVel * stepTime);
     }

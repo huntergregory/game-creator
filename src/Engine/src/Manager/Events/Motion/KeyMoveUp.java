@@ -19,8 +19,7 @@ public class KeyMoveUp extends MotionEvent {
         double stepTime = (double) args[0];
         double yVel = motionComponent.getMovementYVelocity();
         double yPos = basicComponent.getY();
-        Class<? extends Component>[] components = new Class[]{MotionComponent.class, BasicComponent.class};
-        SetYPosition setY = new SetYPosition(myEngineInstances, components);
+        SetYPosition setY = new SetYPosition(myEngineInstances);
         setY.activate(engineInstance,yPos - yVel * stepTime);
     }
 }

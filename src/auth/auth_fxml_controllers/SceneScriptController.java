@@ -10,7 +10,7 @@ public class SceneScriptController {
     public String script;
 
     public void addSceneScript(){
-        script = sceneScript.getText();
+        script = sceneScript.getText() + ";";
         sceneScript.getScene().getWindow().hide();
     }
 }

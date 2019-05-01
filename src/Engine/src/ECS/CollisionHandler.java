@@ -5,6 +5,7 @@ import Engine.src.EngineData.Components.*;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.Manager;
 
+import ez_engine.Engine;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -17,8 +18,8 @@ public class CollisionHandler {
     private Manager myManager;
     private CollisionDetector myCollisionDetector;
     private Map<Pair<String>, String> myCollisionResponses;
-    private Map<EngineInstance, Set<EngineInstance>> myPreviousCollisions;
-    private Map<EngineInstance, Set<EngineInstance>> myCurrentCollisions;
+    private Map<EngineInstance, Map<String, EngineInstance>> myPreviousCollisions;
+    private Map<EngineInstance, Map<String, EngineInstance>> myCurrentCollisions;
     private Binding mySetter;
 
     public CollisionHandler(Manager manager) {
@@ -33,14 +34,16 @@ public class CollisionHandler {
     }
 
     //assumes collisionResponses and entities are nonnull
-    public void handleCollisions(Set<EngineInstance> allEntities, Map<Pair<String>, String> collisionResponses) {
+    public void handleCollisions(Map<String, EngineInstance> allEntities, Map<Pair<String>, String> collisionResponses) {
         myCollisionResponses = collisionResponses;
         myCurrentCollisions = new HashMap<>();
 
         moveThenUpdateVelocities(allEntities);
 
         List<EngineInstance> allEntitiesList = new ArrayList<>();
-        allEntitiesList.addAll(allEntities);
+        for(String ID : allEntities.keySet()) {
+            allEntitiesList.add(allEntities.get(ID));
+        }
 
         for (int k = 0; k < allEntitiesList.size(); k++) {
             for (int j = 0; j < allEntitiesList.size(); j++) {
@@ -51,18 +54,20 @@ public class CollisionHandler {
             }
         }
 
-        for (EngineInstance entity : allEntities) {
+        for (String ID : allEntities.keySet()) {
+            EngineInstance entity = allEntities.get(ID);
             if (!isInteractingWithEnvironment(entity))
                 setDefaultMotion(entity);
         }
         myPreviousCollisions = myCurrentCollisions;
     }
 
-    private void moveThenUpdateVelocities(Set<EngineInstance> allEntities) {
-        for (EngineInstance i : allEntities){
+    private void moveThenUpdateVelocities(Map<String, EngineInstance> allEntities) {
+        for (String ID : allEntities.keySet()){
+            EngineInstance i = allEntities.get(ID);
             try {
                 var motionComponent = i.getComponent(MotionComponent.class);
-                myManager.call("Move", i, 10.0);
+                myManager.call("Move", i);
                 myManager.call("UpdateVelocity", i);
             }
             catch(NoComponentException e) {
@@ -73,8 +78,9 @@ public class CollisionHandler {
 
     private boolean isInteractingWithEnvironment(EngineInstance i) {
         if (myCurrentCollisions.containsKey(i)) {
-            Set<EngineInstance> possibleEnvironments = myCurrentCollisions.get(i);
-            for (EngineInstance possibleEnvironment : possibleEnvironments) {
+            Map<String, EngineInstance> possibleEnvironments = myCurrentCollisions.get(i);
+            for (String ID : possibleEnvironments.keySet()) {
+                EngineInstance possibleEnvironment = possibleEnvironments.get(ID);
                 if (possibleEnvironment.getComponent(EnvironmentComponent.class) != null)
                     return true;
             }
@@ -196,11 +202,11 @@ public class CollisionHandler {
     }
 
     private void addCollisionAndHandleEnvironments(EngineInstance current, EngineInstance other) {
-        myCurrentCollisions.putIfAbsent(current, new HashSet<>());
-        myCurrentCollisions.get(current).add(other);
+        myCurrentCollisions.putIfAbsent(current, new HashMap<>());
+        myCurrentCollisions.get(current).put(other.getID(), other);
         var currentMotionComponent = current.getComponent(MotionComponent.class);
         var otherEnvironmentComponent = other.getComponent(EnvironmentComponent.class);
-        if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).contains(other))
+        if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).containsKey(other.getID()))
             setInEnvironment(current, currentMotionComponent, otherEnvironmentComponent);
     }
 
@@ -220,8 +226,8 @@ public class CollisionHandler {
         //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
 
         GroovyShell shell = new GroovyShell(mySetter);
-        mySetter.setProperty("instance1", engineInstance1);
-        mySetter.setProperty("instance2", engineInstance2);
+        mySetter.setProperty(engineInstance1.getID(), engineInstance1);
+        mySetter.setProperty(engineInstance2.getID(), engineInstance2);
         Script script = shell.parse(responses);
         script.run();
 

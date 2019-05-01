@@ -6,17 +6,18 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
+import java.util.Map;
 import java.util.Set;
 
 //FIXME
 public class Die extends InstanceDependentEvent {
 
-    public Die(Set<EngineInstance> engineInstances) {
+    public Die(Map<String, EngineInstance> engineInstances) {
         super(engineInstances);
     }
 
     @Override
-    protected void modifyInstance(EngineInstance engineInstance, Object... args) {
+    protected void modifyInstance(EngineInstance engineInstance, double stepTime, Object... args) {
 
         if(engineInstance.hasComponent(LivesComponent.class)){
             LivesComponent lives = engineInstance.getComponent(LivesComponent.class);

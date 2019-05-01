@@ -11,6 +11,7 @@ public class Scene {
         instances = new HashSet<>();
         sceneLogic = "";
         bgColor = "";
+        sceneLogic = "";
         sceneID = "";
         bgImage = "";
     }

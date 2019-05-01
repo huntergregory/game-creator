@@ -7,15 +7,17 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 
 public class SetYPosition extends MotionEvent {
-    public SetYPosition(Set<EngineInstance> engineInstances) {
+
+    public SetYPosition(Map<String, EngineInstance> engineInstances) {
         super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class);
     }
 
     @Override
-    protected void modifyComponents(EngineInstance engineInstance, Object ... args) {
+    protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object ... args) {
         var basicComponent = engineInstance.getComponent(BasicComponent.class);
         double currentY = basicComponent.getY();
         double finalY = (double) args[0];

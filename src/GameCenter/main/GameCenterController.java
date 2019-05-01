@@ -3,7 +3,6 @@ package GameCenter.main;
 import GameCenter.gameData.DataParser;
 import GameCenter.gameData.DataStruct;
 import GameCenter.utilities.Thumbnail;
-import Player.PlayerMain.PlayerStage;
 import auth.RunAuth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

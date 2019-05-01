@@ -9,6 +9,7 @@ import Engine.src.Manager.Events.Motion.SetXPosition;
 import Engine.src.Manager.Events.Motion.SetYPosition;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public abstract class AIEvent extends ComponentDependentEvent {
     private final double CORRECTION_DISTANCE = 150;
 
 
-    public AIEvent(Set<EngineInstance> engineInstanceSet, Class<?>... parameterTypes) {
+    public AIEvent(Map<String, EngineInstance> engineInstanceSet, Class<?>... parameterTypes) {
         super(engineInstanceSet, BasicComponent.class, parameterTypes);
     }
 
@@ -38,8 +39,8 @@ public abstract class AIEvent extends ComponentDependentEvent {
         double referenceX = referenceBasic.getX();
         double referenceY = referenceBasic.getY();
 
-        for (EngineInstance engineInstance : myEngineInstances){
-            String ID = engineInstance.getID();
+        for (String ID : myEngineInstances.keySet()){
+            EngineInstance engineInstance = myEngineInstances.get(ID);
             if (!ID.equals(targetID) && !ID.equals(referenceEngineInstance.getID())){
                 BasicComponent basic = engineInstance.getComponent(BasicComponent.class);
                 Pair<Double> topLeftCorner = new Pair(basic.getX(), basic.getY());

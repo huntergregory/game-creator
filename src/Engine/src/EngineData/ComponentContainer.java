@@ -57,4 +57,5 @@ public abstract class ComponentContainer {
     protected Map<Class<? extends Component>, Component> getComponents() {
         return myComponents;
     }
+
 }

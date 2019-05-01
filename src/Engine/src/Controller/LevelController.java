@@ -74,7 +74,7 @@ public class LevelController {
         myOffset = updateOffset();
         initializeGroovyShell();
         myTimerController = new TimerController(myShell);
-        myManager = new Manager(myParser.getEngineInstances(), myTimerController);
+        myManager = new Manager(myParser.getEngineInstances(), myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
     }
 
@@ -107,11 +107,12 @@ public class LevelController {
     }
 
     private void executeEntityLogic() {
-        for (EngineInstance engineInstance : myParser.getEngineInstances()) {
+        for (String ID : myParser.getEngineInstances().keySet()) {
+            EngineInstance engineInstance = myParser.getEngineInstances().get(ID);
             try {
                 LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
                 String logic = logicComponent.getLogic();
-                myBinding.setProperty("instance", engineInstance);
+                myBinding.setProperty(engineInstance.getID(), engineInstance);
                 Script script = myShell.parse(logic);
                 script.run();
             }
@@ -164,7 +165,7 @@ public class LevelController {
         return myOffset;
     }
 
-    public Set<EngineInstance> getEngineInstances() {
+    public Map<String, EngineInstance> getEngineInstances() {
         return myParser.getEngineInstances();
     }
 

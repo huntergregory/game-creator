@@ -4,10 +4,11 @@ import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.Events.ComponentDependentEvent;
 import Engine.src.EngineData.Components.AimComponent;
 
+import java.util.Map;
 import java.util.Set;
 
 public abstract class AimModifierEvent extends ComponentDependentEvent {
-    public AimModifierEvent(Set<EngineInstance> engineInstances, Class<?> ... parameterTypes) {
+    public AimModifierEvent(Map<String, EngineInstance> engineInstances, Class<?> ... parameterTypes) {
         super(engineInstances, AimComponent.class, parameterTypes);
     }
 

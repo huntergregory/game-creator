@@ -28,28 +28,47 @@ public class Manager {
     private static final String EVENTS_FILE_PATH = "Engine.src.Manager.Events.";
     private static final String[] SUBFOLDERS = {"", "AI", "Aim", "Health", "Motion"};
 
-    private Set<EngineInstance> myEngineInstances;
+    private Map<String, EngineInstance> myEngineInstances;
     private TimerController myTimerController;
     boolean levelPassed;
+    private double myStepTime;
 
-    public Manager(Set<EngineInstance> engineInstances, TimerController timerController) {
+    public Manager(Map<String, EngineInstance> engineInstances, TimerController timerController, double stepTime) {
         myEngineInstances = engineInstances;
         myTimerController = timerController;
         levelPassed = false;
+        myStepTime = stepTime;
     }
 
     public void call(String eventClass, EngineInstance engineInstance, Object ... args) {
-        for(String subfolder : SUBFOLDERS) {
-            try {
-                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + "." + eventClass, myEngineInstances);
-                event.activate(engineInstance, args);
-            } catch (ReflectionException e) {
-                System.out.println(REFLECTION_ERROR);
-            } catch (ClassCastException e) {
-                System.out.println(CAST_ERROR);
-            } catch (IllegalArgumentException e) {
-                System.out.println(ILLEGAL_ARGS_ERROR);
+        try {
+            for(String subfolder : SUBFOLDERS) {
+                String className = EVENTS_FILE_PATH + subfolder + "." + eventClass;
+                if (isClass(className)) {
+                    var event = (Event) Reflection.createInstance(className, myEngineInstances);
+                    event.activate(engineInstance, myStepTime, args);
+                    break;
+                }
             }
+        }
+        catch (ReflectionException e) {
+            System.out.println(REFLECTION_ERROR);
+        }
+        catch (ClassCastException e) {
+            System.out.println(CAST_ERROR);
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(ILLEGAL_ARGS_ERROR);
+        }
+    }
+
+    private boolean isClass(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        }
+        catch (ClassNotFoundException e) {
+            return false;
         }
     }
 

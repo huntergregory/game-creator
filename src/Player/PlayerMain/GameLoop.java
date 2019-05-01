@@ -1,8 +1,5 @@
 package Player.PlayerMain;
 
-import GameCenter.main.GameCenterController;
-import javafx.stage.Stage;
-
 public class GameLoop {
 
     //public Stage getStage() {

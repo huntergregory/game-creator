@@ -21,8 +21,6 @@ import hud.HUDView;
 import hud.NumericalDataTracker;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,7 +42,7 @@ import java.util.*;
 import static javafx.application.Application.launch;
 
 
-public class PlayerStage extends Application {
+public class PlayerStage {
     private final String STYLESHEET = "style.css";
     private final double HUD_WIDTH = 300;
 
@@ -79,7 +77,7 @@ public class PlayerStage extends Application {
     private LevelController myLevelController;
     private GameController myGameController;
     private Pane myGameRoot;
-    private Set<EngineInstance> myEngineInstances;
+    private Map<String, EngineInstance> myEngineInstances;
     private Map<EngineInstance, ImageView> myImageViewMap;
     private List<MediaPlayer> mySounds;
     private int myLevelNumber;
@@ -119,8 +117,7 @@ public class PlayerStage extends Application {
         launch(args);
 
     }
-
-    @Override
+    
     public void start(Stage stage) {
         Resource userResource = new Resource();
         userResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
@@ -183,6 +180,9 @@ public class PlayerStage extends Application {
         game.resources.add(userResource);
         game.resources.add(blockResource);
         myGameStage = stage;
+    }
+
+    public PlayerStage(GameCenterController gameCenterController) {
         myGameCenterController = myGameCenterController;
         myVisualRoot = new GridPane();
         //mySidePanelWidth = ST_WIDTH / 3.0;
@@ -198,8 +198,6 @@ public class PlayerStage extends Application {
         catch (IOException e) {
             System.out.println("Couldn't write to file.");
         }
-        myGameStage.setScene(myScene);
-        load(game);
     }
 
     public void run(Game game, Boolean debug) {
@@ -219,16 +217,9 @@ public class PlayerStage extends Application {
         }
     }
 
-    public void load(Game game) {
-            //String contents = new Scanner(fileName).useDelimiter("\\Z").next();
-            //myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
-//            myGame = new Game();
-//            myGame.scenes = new ArrayList<>();
-//            gamedata.Scene scene = new gamedata.Scene();
-//            scene.instances = new HashSet<>();
-//            scene.instances.add(new Instance());
-//            myGame.scenes.add(scene);
-            myGame = game;
+    public void load(String fileName) {
+            String contents = new Scanner(fileName).useDelimiter("\\Z").next();
+            myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
             myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
             myLevelNumber = myGame.currentLevel;
             startNewLevel();
@@ -237,6 +228,7 @@ public class PlayerStage extends Application {
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController();
         myEngineInstances = myLevelController.getEngineInstances();
+        //myGameStage = new Stage(); //FIXME ExceptionInInitializerError
         myImageViewMap = new HashMap<>();
         initAndRemoveSounds();
         initDataTrackers();
@@ -351,14 +343,15 @@ public class PlayerStage extends Application {
     private void updateOrRemoveImageViews() {
         for (EngineInstance engineInstance : myImageViewMap.keySet()) {
             //FIXME removes imageview from game root without the !
-            if (!myEngineInstances.contains(engineInstance))
+            if (!myEngineInstances.containsKey(engineInstance.getID()))
                 myGameRoot.getChildren().remove(myImageViewMap.get(engineInstance));
             updateImageView(engineInstance);
         }
     }
 
     private void addNewImageViews() {
-        for (EngineInstance engineInstance : myEngineInstances) {
+        for (String ID : myEngineInstances.keySet()) {
+            EngineInstance engineInstance = myEngineInstances.get(ID);
             if (myImageViewMap.containsKey(engineInstance))
                 continue;
             var newImageView = new ImageView();
@@ -476,5 +469,4 @@ public class PlayerStage extends Application {
     public void storeScore() {
         int myFinalScore = (int) myScoreTracker.getLatestValue();
     }
-
 }

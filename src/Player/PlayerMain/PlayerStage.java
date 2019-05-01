@@ -111,66 +111,6 @@ public class PlayerStage {
         }
     }
 
-    public static void main(String[] args) {
-        Resource userResource = new Resource();
-        userResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
-        userResource.resourceID = "Mario Picture";
-        userResource.src = "/img/mario.jpg";
-        Resource blockResource = new Resource();
-        blockResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
-        blockResource.resourceID = "Block Picture";
-        blockResource.src = "/img/block.jpg";
-        GameObject user = new GameObject();
-        user.objectID = "user";
-        user.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'), " +
-                "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
-                "new LivesComponent('3', ' '), new ScoreComponent('0'))";
-        user.bgColor = "FFFFFF";
-        user.bgImage = "Mario Picture";
-        GameObject block = new GameObject();
-        block.objectID = "Block";
-        block.objectLogic = "";
-        block.bgColor = "FFFFFF";
-        block.bgImage = "Block Picture";
-        Instance user1 = new Instance();
-        user1.instanceOf = "user";
-        user1.instanceID = "Mario";
-        user1.instanceLogic = "instance.getComponent(BasicComponent).setX( (Double)50.0)";
-        user1.bgColor = "";
-        user1.bgImage = "";
-        user1.height = 50;
-        user1.width = 50;
-        user1.x = 50;
-        user1.y = 50;
-        user1.zIndex = 1;
-        Instance block1 = new Instance();
-        block1.instanceOf = "Block";
-        block1.instanceID = "Block1";
-        block1.instanceLogic = "";
-        block1.bgColor = "";
-        block1.bgImage = "";
-        block1.height = 50;
-        block1.width = 500;
-        block1.x = 0;
-        block1.y = 200;
-        block1.zIndex = 2;
-        gamedata.Scene scene1 = new gamedata.Scene();
-        scene1.instances.add(user1);
-        scene1.instances.add(block1);
-        //scene1.sceneLogic = "";
-        scene1.sceneID = "Level1";
-        scene1.bgColor = "";
-        scene1.bgImage = "";
-        Game game = new Game();
-        game.scenes.add(scene1);
-        game.gameObjects.add(user);
-        game.gameObjects.add(block);
-        game.resources.add(userResource);
-        game.resources.add(blockResource);
-        var stage = new PlayerStage(new GameCenterController());
-        stage.load(game);
-    }
-
     public void run(Game game, Boolean debug) {
         debugMode = debug;
         startNewLevel();
@@ -188,16 +128,9 @@ public class PlayerStage {
         }
     }
 
-    public void load(Game game) {
-            //String contents = new Scanner(fileName).useDelimiter("\\Z").next();
-            //myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
-//            myGame = new Game();
-//            myGame.scenes = new ArrayList<>();
-//            gameData.Scene scene = new gameData.Scene();
-//            scene.instances = new HashSet<>();
-//            scene.instances.add(new Instance());
-//            myGame.scenes.add(scene);
-            myGame = game;
+    public void load(String fileName) {
+            String contents = new Scanner(fileName).useDelimiter("\\Z").next();
+            myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
             myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
             myLevelNumber = myGame.currentLevel;
             startNewLevel();

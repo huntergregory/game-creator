@@ -1,15 +1,18 @@
 package gamedata;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
-    public ArrayList<Scene> scenes;
-    public ArrayList<GameObject> gameObjects;
-    public ArrayList<Resource> resources;
+    public List<Scene> scenes;
+    public List<GameObject> gameObjects;
+    public List<Resource> resources;
+    public int currentLevel;
 
     public Game() {
         scenes = new ArrayList<>();
         gameObjects = new ArrayList<>();
         resources = new ArrayList<>();
+        currentLevel = 0;
     }
 }

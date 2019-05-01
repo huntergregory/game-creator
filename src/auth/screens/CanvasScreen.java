@@ -2,12 +2,10 @@ package auth.screens;
 
 import auth.RunAuth;
 import auth.UIElement;
-import auth.auth_ui_components.InstanceUI;
 import auth.auth_ui_components.Selectable;
 import auth.helpers.DataHelpers;
 import auth.pagination.PaginationUIElement;
 import gamedata.Game;
-import gamedata.Instance;
 import gamedata.Resource;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -18,13 +16,15 @@ import uiutils.panes.BottomPane;
 import java.util.ArrayList;
 import java.util.List;
 
-import static auth.Colors.*;
-import static auth.Dimensions.*;
-import static auth.Strings.*;
-import static auth.helpers.DataHelpers.createNewScene;
+import static auth.Colors.BG_COLOR;
+import static auth.Dimensions.ENV_WINDOW_HEIGHT;
+import static auth.Dimensions.ENV_WINDOW_WIDTH;
+import static auth.Strings.CONSOLE_PANE_ID;
+import static auth.Strings.DEFAULT_TITLE;
 import static auth.helpers.ScreenHelpers.*;
 
 public class CanvasScreen extends Screen {
+
     private RunAuth context;
     private Group container;
     private Stage stage;

@@ -10,10 +10,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import static auth.helpers.DataHelpers.*;
-import static auth.helpers.ScreenHelpers.*;
+import static auth.helpers.ScreenHelpers.refreshCanvas;
+import static auth.helpers.ScreenHelpers.refreshCanvas;
 
 public class ScenePropsController extends JXMLController{
-    private Game game;
+   private Game game;
     private int currentScene;
 
     @FXML public TextField sceneIDField, bgImgField, bgColorField;

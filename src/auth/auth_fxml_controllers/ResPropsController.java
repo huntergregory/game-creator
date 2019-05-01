@@ -3,7 +3,6 @@ package auth.auth_fxml_controllers;
 import auth.screens.CanvasScreen;
 import gamedata.Game;
 import gamedata.Resource;
-import gamedata.Scene;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;

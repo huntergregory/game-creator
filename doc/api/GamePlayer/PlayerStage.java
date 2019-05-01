@@ -1,8 +1,8 @@
-package Player.src.Regions;
+package Player.Regions;
 
 /**
  * Interface for PlayerStage, the GUI provided for the user to select which game to play. The PlayerStage should be
- * closed and only interacts with other Components in Player, i.e. is internal. PlayerStage should load several regions
+ * closed and only interacts with other cmop in Player, i.e. is internal. PlayerStage should load several regions
  * that each define a game or an action for the user.
  */
 public interface PlayerStage {

@@ -3,21 +3,15 @@ package auth.auth_fxml_controllers;
 import auth.screens.CanvasScreen;
 import gamedata.Game;
 import gamedata.GameObject;
-import gamedata.Resource;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
-import javafx.scene.paint.Color;
-
-import java.util.Map;
 
 import static auth.helpers.DataHelpers.*;
-import static auth.helpers.ScreenHelpers.*;
-import static java.util.Map.entry;
+import static auth.helpers.ScreenHelpers.initialiseObjectsGrid;
+import static auth.helpers.ScreenHelpers.refreshCanvas;
 
 public class ObjPropsController extends JXMLController {
     private Game game;

@@ -6,7 +6,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import static gamecenter.RunGameCenter.bebasKaiMedium;
+import static auth.RunAuth.bebasKaiMedium;
 
 public class ButtonGenerator {
     public static Group createButton(String content) {

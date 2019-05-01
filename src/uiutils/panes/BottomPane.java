@@ -1,7 +1,7 @@
 package uiutils.panes;
 
-import static auth.Styles.*;
-import static auth.Dimensions.*;
+import static auth.Dimensions.ENV_WINDOW_HEIGHT;
+import static auth.Styles.BOTTOM_PANE_STYLE;
 
 public class BottomPane extends Pane {
     public BottomPane(double x, double width, double height) {

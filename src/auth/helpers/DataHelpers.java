@@ -1,5 +1,6 @@
 package auth.helpers;
 
+import Engine.src.EngineData.EngineGameObject;
 import auth.screens.CanvasScreen;
 import gamedata.*;
 

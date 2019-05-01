@@ -15,6 +15,9 @@ import gamedata.Instance;
 import gamedata.Resource;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import javafx.collections.ListChangeListener;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +39,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.web.WebView;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.w3c.dom.Document;
 import uiutils.components.TextGenerator;
@@ -55,12 +57,12 @@ import java.util.Set;
 
 import static auth.Colors.DEFAULT_TEXT_COLOR;
 import static auth.Dimensions.*;
+import static auth.RunAuth.*;
 import static auth.Styles.*;
 import static auth.Strings.*;
 import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.*;
 import static auth.helpers.RectangleHelpers.createStyledRectangle;
-import static gamecenter.RunGameCenter.*;
 
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";
@@ -507,7 +509,7 @@ public class ScreenHelpers {
 
     private static void createNewInstance(CanvasScreen context, Game game, GameObject instanceOf, double absoluteX, double absoluteY) {
         if (absoluteX-30 >= CONSOLE_HORIZONTAL_OFFSET && absoluteX-30 <= CONSOLE_HORIZONTAL_OFFSET + CANVAS_WIDTH &&
-        absoluteY-30 >= CANVAS_VERTICAL_OFFSET && absoluteY <= CANVAS_VERTICAL_OFFSET-30 + CANVAS_HEIGHT) {
+                absoluteY-30 >= CANVAS_VERTICAL_OFFSET && absoluteY <= CANVAS_VERTICAL_OFFSET-30 + CANVAS_HEIGHT) {
             var newInstance = new Instance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
             newInstance.instanceID = "instance_"+(game.scenes.get(context.getCurrentScene()).instances.size()+1);

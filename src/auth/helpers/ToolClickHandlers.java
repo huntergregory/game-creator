@@ -18,8 +18,8 @@ import javafx.stage.Stage;
 import java.io.File;
 
 import static auth.Colors.DEFAULT_TEXT_COLOR;
+import static auth.RunAuth.bebasKaiMedium;
 import static auth.helpers.ScreenHelpers.*;
-import static gamecenter.RunGameCenter.bebasKaiMedium;
 import static gamedata.Resource.ResourceType.*;
 
 /**

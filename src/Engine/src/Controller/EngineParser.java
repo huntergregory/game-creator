@@ -28,6 +28,15 @@ public class EngineParser {
     private List<Sequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
     private EngineInstance myUserEngineInstance;
+    private final String IMPORT_STATEMENTS = "import Engine.src.EngineData.Components.BasicComponent; " +
+                                            "import Engine.src.EngineData.Components.MotionComponent; " +
+                                            "import Engine.src.EngineData.Components.HealthComponent; " +
+                                            "import Engine.src.EngineData.Components.JumpComponent as JumpComponent; " +
+                                            "import Engine.src.EngineData.Components.LivesComponent as LivesComponent; " +
+                                            "import Engine.src.EngineData.Components.ScoreComponent as ScoreComponent; " +
+                                            "import Engine.src.EngineData.Components.Component as Component; " +
+                                            "import Engine.src.EngineData.ComponentContainer as ComponentContainer; " +
+                                            "import Engine.src.EngineData.EngineGameObject as EngineGameObject; ";
 
     public EngineParser(Game game){
         myLevelRules = "";
@@ -64,28 +73,19 @@ public class EngineParser {
             EngineGameObject object = new EngineGameObject(objectType);
             binding.setProperty("object", object);
             String objectLogic = serializedObject.objectLogic;
-            objectLogic = "import Engine.src.EngineData.Components.BasicComponent; " + objectLogic;
-            //binding.setProperty("BasicComponent", BasicComponent.class);
-//            shell.evaluate("import Engine.src.EngineData.Components.BasicComponent as BasicComponent;");
-//            shell.evaluate("import Engine.src.EngineData.Components.MotionComponent as MotionComponent;");
-//            shell.evaluate("import Engine.src.EngineData.Components.HealthComponent as HealthComponent;");
-//            shell.evaluate("import Engine.src.EngineData.Components.JumpComponent as JumpComponent;");
-//            shell.evaluate("import Engine.src.EngineData.Components.LivesComponent as LivesComponent;");
-//            shell.evaluate("import Engine.src.EngineData.Components.ScoreComponent as ScoreComponent;");
-//            shell.evaluate("import Engine.src.EngineData.Components.Component as Component;");
-//            shell.evaluate("import Engine.src.EngineData.ComponentContainer as ComponentContainer;");
-//            shell.evaluate("import Engine.src.EngineData.EngineGameObject as EngineGameObject;");
+            objectLogic = IMPORT_STATEMENTS + objectLogic;
             Script objectInitialzer = shell.parse(objectLogic);
             objectInitialzer.run();
             myGameEngineObjects.add(object);
 
-            makeEngineInstancesOfType(serializedInstances, binding, shell, objectType);
+            makeEngineInstancesOfType(object, serializedInstances, binding, shell);
         }
     }
 
-    private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell, String objectType) {
+    private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
         for (Instance serializedInstance : serializedInstances) {
             String instanceOf = serializedInstance.instanceOf;
+            String objectType = object.getID();
 
             if (instanceOf.equals(objectType)) {
                 String instanceID = serializedInstance.instanceID;
@@ -99,12 +99,12 @@ public class EngineParser {
             }
         }
     }
-/*
+
     private void updateBasicComponent(EngineInstance engineInstance, Instance  instance) {
-        var basic = new BasicComponent(instance.bgImage, instance.x, instance.y, instance.width, instance.height, instance.zIndex);
+        var basic = new BasicComponent(instance.bgImage, Double.toString(instance.x), Double.toString(instance.y), Double.toString(instance.width), Double.toString(instance.height), Double.toString(instance.zIndex));
         engineInstance.addComponent(basic);
     }
-*/
+
     private void setUser() {
         for (EngineInstance engineInstance : myEngineInstances) {
             String type = engineInstance.getType();

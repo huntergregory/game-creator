@@ -39,10 +39,6 @@ public abstract class Event {
 
     private boolean parametersMatch(Object ... args) {
         if (args.length != myParameters.length) {
-            System.out.println(args.length);
-            for (Class<?> clazz: myParameters) {
-                System.out.println(clazz);
-            }
             return false;
         }
 

@@ -72,10 +72,10 @@ public class LevelController {
         myDebugLog = new DebugLog();
         mySounds = new Sounds();
         myOffset = updateOffset();
-        initializeGroovyShell();
         myTimerController = new TimerController(myShell);
         myManager = new Manager(myParser.getEngineInstances(), myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
+        initializeGroovyShell();
     }
 
     private void initializeGroovyShell() {

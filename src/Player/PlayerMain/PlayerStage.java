@@ -24,6 +24,7 @@ import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -606,16 +607,16 @@ public class PlayerStage extends Application {
         GameObject user = new GameObject();
         user.objectID = "user";
         user.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
-                "new LivesComponent('3', ' '), new ScoreComponent('0'))";
+                "new MotionComponent('0', '0', '10', '10', '0', '1'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new LivesComponent('3', ' '), new ScoreComponent('0'));";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
         GameObject block = new GameObject();
         block.objectID = "Block";
         block.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
-                "new LivesComponent('3', ' '), new ScoreComponent('0'))";
+                "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), " +
+                "new ScoreComponent('0'), new ImpassableComponent('true'))";
         //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
@@ -645,7 +646,12 @@ public class PlayerStage extends Application {
         gamedata.Scene scene1 = new gamedata.Scene();
         scene1.instances.add(user1);
         scene1.instances.add(block1);
-        //scene1.sceneLogic = "";
+        scene1.sceneLogic = "parser.addKey('D', 'manager.call(\"KeyMoveRight\", instance)');" +
+                "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", instance)');" +
+                "parser.addKey('W', 'manager.call(\"KeyMoveUp\", instance)');" +
+                "parser.addKey('S', 'manager.call(\"KeyMoveDown\", instance)');" +
+                "parser.addKey('M', 'manager.call(\"Jump\", instance)');" +
+                "parser.addCollision(''";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
         scene1.bgImage = "";

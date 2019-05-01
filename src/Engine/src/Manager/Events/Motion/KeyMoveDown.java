@@ -21,6 +21,6 @@ public class KeyMoveDown extends MotionEvent {
         double yPos = basicComponent.getY();
         double yVel = motionComponent.getMovementYVelocity();
         SetYPosition setY = new SetYPosition(myEngineInstances);
-        setY.activate(engineInstance,yPos + yVel * stepTime);
+        setY.activate(engineInstance,stepTime, yPos + yVel * stepTime);
     }
 }

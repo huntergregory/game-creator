@@ -21,7 +21,6 @@ import hud.HUDView;
 import hud.NumericalDataTracker;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -41,10 +40,8 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.*;
 
-import static javafx.application.Application.launch;
 
-
-public class PlayerStage extends Application {
+public class PlayerStage {
     private final String STYLESHEET = "style.css";
     private final double HUD_WIDTH = 300;
 
@@ -97,31 +94,25 @@ public class PlayerStage extends Application {
     private int gamePaused;
     private Boolean debugMode = false;
 
-    //public PlayerStage(GameCenterController gameCenterController) {
-//        myGameCenterController = myGameCenterController;
-//        myVisualRoot = new GridPane();
-//        //mySidePanelWidth = ST_WIDTH / 3.0;
-//        //myLeftPanel = new SidePanel(mySidePanelWidth);
-//        //myBorderPane = new BorderPane();
-//        //myBorderPane.setLeft(myLeftPanel.getPane());
-//        myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, ST_COLOR);
-//        //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
-//        myScene.getStylesheets().add(STYLESHEET);
-//        try {
-//            new Serializer().serialize(List.of("parser.printHere(); parser.addCollision('Mario', 'Block', 'script');", "parser.addCollision('Mario', 'Turtle');"));
-//        }
-//        catch (IOException e) {
-//            System.out.println("Couldn't write to file.");
-//        }
-    //}
-
-    public static void main(String[] args) {
-        launch(args);
-
+    public PlayerStage(GameCenterController gameCenterController) {
+        myGameCenterController = myGameCenterController;
+        myVisualRoot = new GridPane();
+        //mySidePanelWidth = ST_WIDTH / 3.0;
+        //myLeftPanel = new SidePanel(mySidePanelWidth);
+        //myBorderPane = new BorderPane();
+        //myBorderPane.setLeft(myLeftPanel.getPane());
+        myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, ST_COLOR);
+        //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
+        myScene.getStylesheets().add(STYLESHEET);
+        try {
+            new Serializer().serialize(List.of("parser.printHere(); parser.addCollision('Mario', 'Block', 'script');", "parser.addCollision('Mario', 'Turtle');"));
+        }
+        catch (IOException e) {
+            System.out.println("Couldn't write to file.");
+        }
     }
 
-    @Override
-    public void start(Stage stage) {
+    public static void main(String[] args) {
         Resource userResource = new Resource();
         userResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         userResource.resourceID = "Mario Picture";
@@ -139,9 +130,7 @@ public class PlayerStage extends Application {
         user.bgImage = "Mario Picture";
         GameObject block = new GameObject();
         block.objectID = "Block";
-        block.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'), " +
-                "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
-                "new LivesComponent('3', ' '), new ScoreComponent('0'))";
+        block.objectLogic = "";
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
         Instance user1 = new Instance();
@@ -179,24 +168,8 @@ public class PlayerStage extends Application {
         game.gameObjects.add(block);
         game.resources.add(userResource);
         game.resources.add(blockResource);
-        myGameStage = stage;
-        myGameCenterController = myGameCenterController;
-        myVisualRoot = new GridPane();
-        //mySidePanelWidth = ST_WIDTH / 3.0;
-        //myLeftPanel = new SidePanel(mySidePanelWidth);
-        //myBorderPane = new BorderPane();
-        //myBorderPane.setLeft(myLeftPanel.getPane());
-        myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, ST_COLOR);
-        //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
-        myScene.getStylesheets().add(STYLESHEET);
-        try {
-            new Serializer().serialize(List.of("parser.printHere(); parser.addCollision('Mario', 'Block', 'script');", "parser.addCollision('Mario', 'Turtle');"));
-        }
-        catch (IOException e) {
-            System.out.println("Couldn't write to file.");
-        }
-        myGameStage.setScene(myScene);
-        load(game);
+        var stage = new PlayerStage(new GameCenterController());
+        stage.load(game);
     }
 
     public void run(Game game, Boolean debug) {
@@ -234,8 +207,6 @@ public class PlayerStage extends Application {
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController();
         myEngineInstances = myLevelController.getEngineInstances();
-        myEngineInstances = myLevelController.getEngineInstances();
-        myImageViewMap = new HashMap<>();
         initAndRemoveSounds();
         initDataTrackers();
         initBorderPane();

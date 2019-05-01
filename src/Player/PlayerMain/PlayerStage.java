@@ -136,7 +136,7 @@ public class PlayerStage {
         Instance user1 = new Instance();
         user1.instanceOf = "user";
         user1.instanceID = "Mario";
-        user1.instanceLogic = "instance.getComponent(BasicComponent).setX( '50.0')";
+        user1.instanceLogic = "instance.getComponent(BasicComponent).setX( (Double)50.0)";
         user1.bgColor = "";
         user1.bgImage = "";
         user1.height = 50;

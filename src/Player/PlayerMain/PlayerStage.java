@@ -234,7 +234,6 @@ public class PlayerStage extends Application {
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController();
         myEngineInstances = myLevelController.getEngineInstances();
-        myEngineInstances = myLevelController.getEngineInstances();
         myImageViewMap = new HashMap<>();
         initAndRemoveSounds();
         initDataTrackers();

@@ -18,6 +18,7 @@ import java.util.*;
 
 public class LevelController {
     private static final String LOGIC_COMPONENT_KEYWORD = "instance";
+    private static final String USER_KEYWORD = "user";
 
     private final double myScreenWidth;
     private final double myScreenHeight;
@@ -76,7 +77,7 @@ public class LevelController {
         if (myParser.getHotKeys().containsKey(key)) {
             String event = myParser.getHotKeys().get(key);
             GroovyShell shell = new GroovyShell(myBinding);
-            myBinding.setProperty("instance", myParser.getUserEngineInstance());
+            myBinding.setProperty(USER_KEYWORD, myParser.getUserEngineInstance());
             Script script = shell.parse(event);
             script.run();
         } else ; //TODO:error

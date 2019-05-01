@@ -4,10 +4,11 @@ import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.StateComponent;
 
+import java.util.Map;
 import java.util.Set;
 
 public class AddState extends ComponentDependentEvent {
-    public AddState(Set<EngineInstance> engineInstances) {
+    public AddState(Map<String, EngineInstance> engineInstances) {
         super(engineInstances, LogicComponent.class, String.class);
     }
 

@@ -2,10 +2,11 @@ package Engine.src.Manager.Events.Health;
 
 import Engine.src.EngineData.EngineInstance;
 
+import java.util.Map;
 import java.util.Set;
 
 public class SetHealth extends HealthModifierEvent {
-    public SetHealth(Set<EngineInstance> engineInstances) {
+    public SetHealth(Map<String, EngineInstance> engineInstances) {
         super(engineInstances, Integer.class);
     }
 

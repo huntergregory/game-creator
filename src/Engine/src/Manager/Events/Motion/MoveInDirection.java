@@ -5,10 +5,11 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.Components.MotionComponent;
 
+import java.util.Map;
 import java.util.Set;
 
 public class MoveInDirection extends MotionEvent {
-    public MoveInDirection(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
+    public MoveInDirection(Map<String, EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
         super(engineInstances, componentClasses, Double.class, Double.class, Double.class);
     }
 

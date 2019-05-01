@@ -25,7 +25,7 @@ public class EngineParser {
     private Map<Pair<String>, String> myCollisionResponses;
     private String myLevelRules;
     private Set<EngineGameObject> myGameEngineObjects;
-    private Set<EngineInstance> myEngineInstances;
+    private Map<String, EngineInstance> myEngineInstances;
     private List<Sequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
     private EngineInstance myUserEngineInstance;
@@ -37,7 +37,7 @@ public class EngineParser {
         myTimerSequences = new ArrayList<>();
         myTimers = new HashMap<>();
 
-        myEngineInstances = new HashSet<>();
+        myEngineInstances = new HashMap<>();
         myGameEngineObjects = new HashSet<>();
         parse(game);
     }
@@ -80,7 +80,7 @@ public class EngineParser {
         return myLevelRules;
     }
 
-    protected Set<EngineInstance> getEngineInstances() {
+    protected Map<String, EngineInstance> getEngineInstances() {
         return myEngineInstances;
     }
 
@@ -160,7 +160,7 @@ public class EngineParser {
                 String instanceLogic = serializedInstance.instanceLogic;
                 Script instanceInitializer = shell.parse(instanceLogic);
                 instanceInitializer.run();
-                myEngineInstances.add(engineInstance);
+                myEngineInstances.put(instanceID, engineInstance);
             }
         }
     }
@@ -171,7 +171,8 @@ public class EngineParser {
     }
 
     private void setUser() {
-        for (EngineInstance engineInstance : myEngineInstances) {
+        for (String id : myEngineInstances.keySet()) {
+            EngineInstance engineInstance = myEngineInstances.get(id);
             String type = engineInstance.getType();
             if (type.equals("user")) {
                 myUserEngineInstance = engineInstance;

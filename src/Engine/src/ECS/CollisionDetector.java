@@ -5,6 +5,7 @@ import Engine.src.EngineData.Components.ImpassableComponent;
 import Engine.src.EngineData.Components.BasicComponent;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 
 public class CollisionDetector {
@@ -28,10 +29,11 @@ public class CollisionDetector {
     private double height1;
     private double height2;
 
-    public ArrayList<EngineInstance> getImpassableColliders(EngineInstance entity, Set<EngineInstance> allEntities) {
+    public ArrayList<EngineInstance> getImpassableColliders(EngineInstance entity, Map<String, EngineInstance> allEntities) {
         ArrayList<EngineInstance> impassables = new ArrayList<>();
 
-        for (EngineInstance other : allEntities) {
+        for (String ID : allEntities.keySet()) {
+            EngineInstance other = allEntities.get(ID);
             if (other.equals(entity))
                 continue;
             var impassableComponent = other.getComponent(ImpassableComponent.class);

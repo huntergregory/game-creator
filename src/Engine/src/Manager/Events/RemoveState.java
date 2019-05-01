@@ -3,10 +3,11 @@ package Engine.src.Manager.Events;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.StateComponent;
 
+import java.util.Map;
 import java.util.Set;
 
 public class RemoveState extends ComponentDependentEvent {
-    public RemoveState(Set<EngineInstance> engineInstances) {
+    public RemoveState(Map<String, EngineInstance> engineInstances) {
         super(engineInstances, StateComponent.class, String.class);
     }
 

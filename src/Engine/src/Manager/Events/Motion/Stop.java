@@ -3,10 +3,11 @@ package Engine.src.Manager.Events.Motion;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.EngineData.EngineInstance;
 
+import java.util.Map;
 import java.util.Set;
 
 public class Stop extends MotionEvent {
-    public Stop(Set<EngineInstance> engineInstances) {
+    public Stop(Map<String, EngineInstance> engineInstances) {
         super(engineInstances);
     }
 

@@ -27,12 +27,12 @@ public class Manager {
     private static final String EVENTS_FILE_PATH = "Engine.src.Manager.Events.";
     private static final String[] SUBFOLDERS = {"", "AI", "Aim", "Health"};
 
-    private Set<EngineInstance> myEngineInstances;
+    private Map<String, EngineInstance> myEngineInstances;
     private TimerController myTimerController;
     boolean levelPassed;
     private double myStepTime;
 
-    public Manager(Set<EngineInstance> engineInstances, TimerController timerController, double stepTime) {
+    public Manager(Map<String, EngineInstance> engineInstances, TimerController timerController, double stepTime) {
         myEngineInstances = engineInstances;
         myTimerController = timerController;
         levelPassed = false;

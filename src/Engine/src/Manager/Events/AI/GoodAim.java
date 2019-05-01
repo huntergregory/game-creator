@@ -2,11 +2,12 @@ package Engine.src.Manager.Events.AI;
 
 import Engine.src.EngineData.EngineInstance;
 
+import java.util.Map;
 import java.util.Set;
 
 public class GoodAim extends AIEvent{
 
-    public GoodAim(Set<EngineInstance> engineInstanceSet){
+    public GoodAim(Map<String, EngineInstance> engineInstanceSet){
         super(engineInstanceSet, EngineInstance.class, Double.class, Double.class);
     }
 

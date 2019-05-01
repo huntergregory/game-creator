@@ -3,10 +3,11 @@ package Engine.src.Manager.Events;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.LogicComponent;
 
+import java.util.Map;
 import java.util.Set;
 
 public class AddLogic extends ComponentDependentEvent {
-    public AddLogic(Set<EngineInstance> engineInstances) {
+    public AddLogic(Map<String, EngineInstance> engineInstances) {
         super(engineInstances, LogicComponent.class, String.class);
     }
 

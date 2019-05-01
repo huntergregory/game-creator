@@ -2,17 +2,18 @@ package Engine.src.Manager.Events;
 
 import Engine.src.EngineData.EngineInstance;
 
+import java.util.Map;
 import java.util.Set;
 
 public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";
 
-    protected Set<EngineInstance> myEngineInstances;
+    protected Map<String, EngineInstance> myEngineInstances;
     private Class[] myParameters;
     //private String myConditionalScript;
     private final String SUBFOLDER = "";
 
-    public Event(Set<EngineInstance> engineInstances, Class ... parameterTypes) {
+    public Event(Map<String, EngineInstance> engineInstances, Class ... parameterTypes) {
         myEngineInstances = engineInstances;
         myParameters = parameterTypes;
         //myConditionalScript = "";

@@ -5,10 +5,11 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.Components.MotionComponent;
 
+import java.util.Map;
 import java.util.Set;
 
 public class KeyMoveRight extends MotionEvent {
-    public KeyMoveRight(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
+    public KeyMoveRight(Map<String, EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
         super(engineInstances, componentClasses, Double.class);
     }
 

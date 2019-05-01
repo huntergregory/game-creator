@@ -6,10 +6,11 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 
 public class SetYPosition extends MotionEvent {
-    public SetYPosition(Set<EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
+    public SetYPosition(Map<String, EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {
         super(engineInstances, componentClasses, Double.class);
     }
 

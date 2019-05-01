@@ -82,9 +82,6 @@ public class LevelController {
         myBinding.setProperty("collisionHandler", myCollisionHandler);
         myBinding.setProperty("collisionDetector", new CollisionDetector());
         myBinding.setProperty("debugLogger", myDebugLog);
-        for(EngineInstance instance : getEngineInstances()){
-            myBinding.setProperty(instance.getID(), instance);
-        }
         myShell = new GroovyShell(myBinding);
     }
 
@@ -108,10 +105,11 @@ public class LevelController {
     }
 
     private void executeEntityLogic() {
-        for (EngineInstance engineInstance : myParser.getEngineInstances()) {
+        for (String ID : myParser.getEngineInstances().keySet()) {
+            EngineInstance engineInstance = myParser.getEngineInstances().get(ID);
             LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
             String logic = logicComponent.getLogic();
-            myBinding.setProperty("instance", engineInstance);
+            myBinding.setProperty(engineInstance.getID(), engineInstance);
             Script script = myShell.parse(logic);
             script.run();
         }
@@ -160,7 +158,7 @@ public class LevelController {
         return myOffset;
     }
 
-    public Set<EngineInstance> getEngineInstances() {
+    public Map<String, EngineInstance> getEngineInstances() {
         return myParser.getEngineInstances();
     }
 

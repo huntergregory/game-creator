@@ -2,11 +2,12 @@ package Engine.src.Manager.Events.AI;
 
 import Engine.src.EngineData.EngineInstance;
 
+import java.util.Map;
 import java.util.Set;
 
 public class Flee extends AIEvent{
 
-    public Flee(Set<EngineInstance> engineInstanceSet) {
+    public Flee(Map<String, EngineInstance> engineInstanceSet) {
         super(engineInstanceSet, EngineInstance.class, Double.class);
     }
 

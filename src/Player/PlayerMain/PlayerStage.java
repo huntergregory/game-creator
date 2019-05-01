@@ -75,7 +75,7 @@ public class PlayerStage {
     private LevelController myLevelController;
     private GameController myGameController;
     private Pane myGameRoot;
-    private Set<EngineInstance> myEngineInstances;
+    private Map<String, EngineInstance> myEngineInstances;
     private Map<EngineInstance, ImageView> myImageViewMap;
     private List<MediaPlayer> mySounds;
     private int myLevelNumber;
@@ -252,14 +252,15 @@ public class PlayerStage {
     private void updateOrRemoveImageViews() {
         for (EngineInstance engineInstance : myImageViewMap.keySet()) {
             //FIXME removes imageview from game root without the !
-            if (myEngineInstances.contains(engineInstance))
+            if (myEngineInstances.containsKey(engineInstance.getID()))
                 myGameRoot.getChildren().remove(myImageViewMap.get(engineInstance));
             updateImageView(engineInstance);
         }
     }
 
     private void addNewImageViews() {
-        for (EngineInstance engineInstance : myEngineInstances) {
+        for (String ID : myEngineInstances.keySet()) {
+            EngineInstance engineInstance = myEngineInstances.get(ID);
             if (myImageViewMap.containsKey(engineInstance))
                 continue;
             var newImageView = new ImageView();

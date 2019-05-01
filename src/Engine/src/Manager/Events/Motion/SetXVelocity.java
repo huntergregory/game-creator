@@ -3,10 +3,11 @@ package Engine.src.Manager.Events.Motion;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.MotionComponent;
 
+import java.util.Map;
 import java.util.Set;
 
 public class SetXVelocity extends MotionEvent {
-    public SetXVelocity(Set<EngineInstance> engineInstances) {
+    public SetXVelocity(Map<String, EngineInstance> engineInstances) {
         super(engineInstances, Double.class);
     }
 

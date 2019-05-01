@@ -207,6 +207,7 @@ public class PlayerStage {
     private void startNewLevel() {
         myLevelController = myGameController.getLevelController();
         myEngineInstances = myLevelController.getEngineInstances();
+        myImageViewMap = new HashMap<>();
         initAndRemoveSounds();
         initDataTrackers();
         initBorderPane();
@@ -342,9 +343,9 @@ public class PlayerStage {
         if (basicComponent == null)
             return;
         //FIXME is it instance.getID or is it instance
-        ImageView imageView = myImageViewMap.get(engineInstance.getID());
-        moveAndResize(imageView, basicComponent);
+        ImageView imageView = myImageViewMap.get(engineInstance);
         setImageIfNecessary(imageView, basicComponent);
+        moveAndResize(imageView, basicComponent);
     }
 
     private void moveAndResize(ImageView imageView, BasicComponent basicComponent) {
@@ -436,5 +437,4 @@ public class PlayerStage {
     public void storeScore() {
         int myFinalScore = (int) myScoreTracker.getLatestValue();
     }
-
 }

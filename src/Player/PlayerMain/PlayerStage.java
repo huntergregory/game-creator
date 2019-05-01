@@ -139,7 +139,9 @@ public class PlayerStage extends Application {
         user.bgImage = "Mario Picture";
         GameObject block = new GameObject();
         block.objectID = "Block";
-        block.objectLogic = "";
+        block.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'), " +
+                "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new LivesComponent('3', ' '), new ScoreComponent('0'))";
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
         Instance user1 = new Instance();
@@ -233,6 +235,7 @@ public class PlayerStage extends Application {
         myLevelController = myGameController.getLevelController();
         myEngineInstances = myLevelController.getEngineInstances();
         myEngineInstances = myLevelController.getEngineInstances();
+        myImageViewMap = new HashMap<>();
         initAndRemoveSounds();
         initDataTrackers();
         initBorderPane();

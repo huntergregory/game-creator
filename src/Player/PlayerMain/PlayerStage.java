@@ -155,7 +155,7 @@ public class PlayerStage extends Application {
         user1.bgImage = "Mario Picture";
         user1.height = 50;
         user1.width = 50;
-        user1.x = 50;
+        user1.x = 300;
         user1.y = 50;
         user1.zIndex = 1;
         Instance block1 = new Instance();
@@ -388,6 +388,7 @@ public class PlayerStage extends Application {
     }
 
     private void setImageIfNecessary(ImageView imageView, BasicComponent entity) {
+        //Set filename to one based on resource
         InputStream newInputStream = this.getClass().getResourceAsStream(entity.getMyFilename());
         if (newInputStream == null)
             return;

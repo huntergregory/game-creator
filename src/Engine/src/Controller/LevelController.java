@@ -6,17 +6,10 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.Manager.DebugLog;
-import Engine.src.Manager.Manager;
-import Engine.src.Manager.Sounds;
+import Engine.src.Controller.DebugLog;
+import Engine.src.Controller.Sounds;
 import gamedata.Game;
-import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;
-import Engine.src.Timers.Timer;
-import Engine.src.Timers.TimerSequence;
-import gamedata.GameObject;
-import gamedata.Instance;
-import gamedata.Scene;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -73,7 +66,7 @@ public class LevelController {
         mySounds = new Sounds();
         myOffset = updateOffset();
         myTimerController = new TimerController(myShell);
-        myManager = new Manager(myParser.getEngineInstances(), myTimerController, myStepTime);
+        myManager = new Manager(myParser, myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
         initializeGroovyShell();
     }

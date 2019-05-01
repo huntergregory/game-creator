@@ -1,7 +1,6 @@
 package Engine.src.Controller;
 
-import Engine.src.Manager.Events.Event;
-import Engine.src.Manager.Manager;
+import Engine.src.Controller.Events.Event;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
 

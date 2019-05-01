@@ -132,7 +132,7 @@ public class PlayerStage extends Application {
         blockResource.src = "/img/block.jpg";
         GameObject user = new GameObject();
         user.objectID = "user";
-        user.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'), " +
+        user.objectLogic = "object.addComponent(new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'), " +
                 "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
                 "new LivesComponent('3', ' '), new ScoreComponent('0'))";
         user.bgColor = "FFFFFF";
@@ -371,9 +371,9 @@ public class PlayerStage extends Application {
         if (basicComponent == null)
             return;
         //FIXME is it instance.getID or is it instance
-        ImageView imageView = myImageViewMap.get(engineInstance.getID());
-        moveAndResize(imageView, basicComponent);
+        ImageView imageView = myImageViewMap.get(engineInstance);
         setImageIfNecessary(imageView, basicComponent);
+        moveAndResize(imageView, basicComponent);
     }
 
     private void moveAndResize(ImageView imageView, BasicComponent basicComponent) {

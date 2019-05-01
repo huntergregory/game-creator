@@ -89,7 +89,7 @@ public class EngineParser {
             if (instanceOf.equals(objectType)) {
                 String instanceID = serializedInstance.instanceID;
                 EngineInstance engineInstance = object.createInstance(instanceID);
-                //updateBasicComponent(engineInstance, serializedInstance);
+                updateBasicComponent(engineInstance, serializedInstance);
                 binding.setProperty("instance", engineInstance);
                 String instanceLogic = serializedInstance.instanceLogic;
                 instanceLogic = IMPORT_STATEMENTS + instanceLogic;

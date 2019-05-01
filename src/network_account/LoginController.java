@@ -1,6 +1,6 @@
 package network_account;
 
-import GameCenter.main.GameCenter;
+import gamecenter.main.GameCenter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -93,7 +93,7 @@ public class LoginController {
                     gameCenter.start(new Stage());
                     ((Node) event.getSource()).getScene().getWindow().hide();
                 } catch(Exception e) {
-                    System.out.println("Could not open GameCenter");
+                    System.out.println("Could not open gamecenter");
                 }
             }
             resetFields();

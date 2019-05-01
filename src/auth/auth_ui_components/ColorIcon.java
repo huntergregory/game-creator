@@ -13,7 +13,7 @@ public class ColorIcon extends Icon {
     public void deselect() {
 
     }
-    /*    public ColorIcon(Color color, String tooltipText, Callback onClickCallback) {
+        public ColorIcon(Color color, String tooltipText, Callback onClickCallback) {
         super(color, tooltipText, onClickCallback);
-    }*/
+    }
 }

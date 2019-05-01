@@ -1,29 +1,27 @@
 package auth.auth_ui_components;
 
+import auth.Dimensions;
+import auth.UIElement;
+import auth.helpers.ScreenHelpers;
 import gamedata.Game;
 import gamedata.Instance;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.io.File;
+
+import static auth.Dimensions.*;
 import static auth.helpers.ScreenHelpers.*;
 
 public class InstanceUI implements Selectable {
-    @Override
-    public void select() {
-
-    }
-
-    @Override
-    public void deselect() {
-
-    }
-    /*    private EngineInstance instance; private Game game;
+    private Instance instance; private Game game;
     private Node view;
-    public InstanceUI (EngineInstance instance, Game game) {
+    public InstanceUI (Instance instance, Game game) {
         this.instance = instance; this.game = game;
 
         try {
@@ -31,7 +29,8 @@ public class InstanceUI implements Selectable {
                 view = new ImageView();
                 ((ImageView) view).setFitWidth(instance.width); ((ImageView) view).setFitHeight(instance.height);
                 ((ImageView) view).setImage(getImageById(game, instance.bgImage));
-                ((ImageView) view).setX(instance.x); ((ImageView) view).setY(instance.y);
+                ((ImageView) view).setX(instance.x + CONSOLE_HORIZONTAL_OFFSET);
+                ((ImageView) view).setY(instance.y + CANVAS_VERTICAL_OFFSET);
             } else {
                 setBackgroundColor();
             }
@@ -48,7 +47,8 @@ public class InstanceUI implements Selectable {
         ((Rectangle) view).setWidth(instance.width); ((Rectangle) view).setHeight(instance.height);
         Color backgroundColor = (instance.bgColor.isEmpty() ? Color.WHITE : getColorByID(game, instance.bgColor));
         ((Rectangle) view).setFill(backgroundColor);
-        ((Rectangle) view).setX(instance.x); ((Rectangle) view).setY(instance.y);
+        ((Rectangle) view).setX(instance.x + CONSOLE_HORIZONTAL_OFFSET);
+        ((Rectangle) view).setY(instance.y + CANVAS_VERTICAL_OFFSET);
     }
 
     @Override
@@ -72,5 +72,5 @@ public class InstanceUI implements Selectable {
 
     public Node getView() {
         return view;
-    }*/
+    }
 }

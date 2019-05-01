@@ -10,12 +10,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import static auth.helpers.DataHelpers.*;
-//import static auth.helpers.ScreenHelpers.initialiseObjectsGrid;
-//import static auth.helpers.ScreenHelpers.refreshCanvas;
+import static auth.helpers.ScreenHelpers.initialiseObjectsGrid;
+import static auth.helpers.ScreenHelpers.refreshCanvas;
 
 public class ObjPropsController extends JXMLController {
-/*    private Game game;
-    private EngineGameObject selectedObject;
+    private Game game;
+    private GameObject selectedObject;
 
     @FXML
     public TextField objectIDField, widthField, heightField, bgImgField, bgColorField;
@@ -29,7 +29,7 @@ public class ObjPropsController extends JXMLController {
         populateFormUsingObjectInfo(selectedObject);
     }
 
-    private void populateFormUsingObjectInfo(EngineGameObject object) {
+    private void populateFormUsingObjectInfo(GameObject object) {
         objectIDField.setText(object.objectID);
         widthField.setText(String.format( "%.2f", object.width));
         heightField.setText(String.format( "%.2f", object.height));
@@ -113,5 +113,5 @@ public class ObjPropsController extends JXMLController {
             else
                 bgColorField.setText(selectedObject.bgColor);
         }
-    }*/
+    }
 }

@@ -19,7 +19,7 @@ import static auth.helpers.ScreenHelpers.*;
 import static java.util.Map.entry;
 
 public class ResPropsController extends JXMLController{
-/*    private Game game;
+    private Game game;
     private String selectedID;
     private Class selectedType;
 
@@ -86,5 +86,5 @@ public class ResPropsController extends JXMLController{
             else
             resourceIDField.setText(selectedResource.resourceID);
         }
-    }*/
+    }
 }

@@ -9,11 +9,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-//import static auth.helpers.ScreenHelpers.makeShadow;
-//import static auth.helpers.ScreenHelpers.makeShadowSelected;
+import static auth.helpers.ScreenHelpers.makeShadow;
+import static auth.helpers.ScreenHelpers.makeShadowSelected;
 
 public abstract class Icon implements Selectable {
-/*
+
     private Group view;
     private Circle bgCircle;
     private ImageView icon;
@@ -131,7 +131,5 @@ public abstract class Icon implements Selectable {
 
         view.getChildren().add(icon);
     }
-
-*/
 
 }

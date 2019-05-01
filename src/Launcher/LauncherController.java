@@ -1,6 +1,6 @@
 package Launcher;
 
-import GameCenter.main.GameCenter;
+import gamecenter.main.GameCenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -41,7 +41,7 @@ public class LauncherController {
             new GameCenter().start(new Stage());
             ((Node) event.getSource()).getScene().getWindow().hide();
         } catch(IOException e) {
-            System.out.println("Could not open GameCenter");
+            System.out.println("Could not open gamecenter");
         }
     }
 

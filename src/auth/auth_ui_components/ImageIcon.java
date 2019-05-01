@@ -13,7 +13,7 @@ public class ImageIcon extends Icon {
     public void deselect() {
 
     }
-    /*    public ImageIcon(Image img, String tooltipText, Callback onClickCallback) {
+        public ImageIcon(Image img, String tooltipText, Callback onClickCallback) {
         super(img, tooltipText, onClickCallback);
-    }*/
+    }
 }

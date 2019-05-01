@@ -12,12 +12,12 @@ public class ToolIcon extends Icon{
     public void deselect() {
 
     }
-    /*    public ToolIcon(String iconID, String tooltipText, Callback onClickCallback) {
+        public ToolIcon(String iconID, String tooltipText, Callback onClickCallback) {
         super(iconID, tooltipText, onClickCallback);
         super.setSelectable(false);
     }
     public ToolIcon(String iconID, String tooltipText, Callback onClickCallback, boolean selectable) {
         super(iconID, tooltipText, onClickCallback);
         super.setSelectable(selectable);
-    }*/
+    }
 }

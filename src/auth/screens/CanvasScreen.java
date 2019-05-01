@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import uiutils.panes.BottomPane;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +19,13 @@ import java.util.List;
 import static auth.Colors.BG_COLOR;
 import static auth.Dimensions.ENV_WINDOW_HEIGHT;
 import static auth.Dimensions.ENV_WINDOW_WIDTH;
+import static auth.Strings.CONSOLE_PANE_ID;
 import static auth.Strings.DEFAULT_TITLE;
 import static auth.helpers.ScreenHelpers.*;
 
 public class CanvasScreen extends Screen {
-    @Override
-    public Stage createScreen(Stage s, RunAuth a) {
-        return null;
-    }
-    /*    private RunAuth context;
+
+    private RunAuth context;
     private Group container;
     private Stage stage;
     private Game game;
@@ -88,8 +87,18 @@ public class CanvasScreen extends Screen {
         return game.scenes.size();
     }
 
+    public void changeTitle(String title) {
+        stage.setTitle(title);
+    }
+
     public Game getGame() {
         return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+        switchToScene(0, true);
+        initialiseGrids(this);
     }
 
     public int getResourcesCount(Resource.ResourceType type) {
@@ -101,6 +110,15 @@ public class CanvasScreen extends Screen {
         return count;
     }
 
+    public String getLoggedInUsername() {
+        // TODO: Softcode this
+        return "anshudwibhashi";
+    }
+
+    public String getLoggedInName() {
+        return "Anshu";
+    }
+
     public void switchToScene(int index, boolean deselect) {
         currentScene = index;
         if (deselect) {
@@ -108,10 +126,10 @@ public class CanvasScreen extends Screen {
             selectedID = null;
             currentlySelected = null; // deselect everything so scene has focus
         }
-        // TODO: loadScene(index);
         System.out.println("Current scene is "+currentScene+" and it has "+game.scenes.get(currentScene).instances.size()+" instances.");
         refreshCanvas(this);
         repopulatePropertiesPane(this);
+        populateConsolePane(this, (BottomPane)getUIElementById(CONSOLE_PANE_ID));
     }
 
     public int getCurrentScene() {
@@ -139,12 +157,12 @@ public class CanvasScreen extends Screen {
         }
     }
 
-    *//**
+    /**
      * Method to create create a new stage
      * @param stage Parent stage
      * @param context Reference to the parent object
      * @return a stage representing the main stage
-     *//*
+     */
     public Stage createScreen(Stage stage, RunAuth context) {
         var root = new Group();
         container = new Group();
@@ -159,5 +177,5 @@ public class CanvasScreen extends Screen {
         stage.setTitle(DEFAULT_TITLE);
         initialiseGrids(this);
         return stage;
-    }*/
+    }
 }

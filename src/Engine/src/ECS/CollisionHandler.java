@@ -52,7 +52,7 @@ public class CollisionHandler {
                 checkCollision(allEntitiesList.get(k), allEntitiesList.get(j));
             }
         }
-
+        //FIXME fix this ordering
         for (String ID : allEntities.keySet()) {
             EngineInstance entity = allEntities.get(ID);
             if (!isInteractingWithEnvironment(entity))

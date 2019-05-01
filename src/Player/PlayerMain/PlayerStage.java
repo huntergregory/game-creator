@@ -652,10 +652,12 @@ public class PlayerStage extends Application {
                 "parser.addKey('W', 'manager.call(\"KeyMoveUp\", instance)');" +
                 "parser.addKey('S', 'manager.call(\"KeyMoveDown\", instance)');" +
                 "parser.addKey('M', 'manager.call(\"Jump\", instance)');" +
-                "parser.addCollision('user', 'Block', 'manager.call(\"AddToHealth\", user, -50)');";
+                "parser.addCollision('user', 'Block', 'manager.call(\"IncreaseScore\", user, (Double) 50)');";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
         scene1.bgImage = "";
+        gamedata.Scene scene2 = new gamedata.Scene();
+        scene2.instances.add(user1);
         Game game = new Game();
         game.scenes.add(scene1);
         game.gameObjects.add(user);

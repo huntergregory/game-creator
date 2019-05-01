@@ -122,55 +122,68 @@ public class CollisionHandler {
     }
 
     private void correctClipping(EngineInstance toAdjust, EngineInstance other) {
-        var environmentComponent = other.getComponent(EnvironmentComponent.class);
-        var motionComponent = toAdjust.getComponent(MotionComponent.class);
-        var adjBasic = toAdjust.getComponent(BasicComponent.class);
-        var otherBasic = other.getComponent(BasicComponent.class);
-        if (environmentComponent == null && motionComponent != null && adjBasic != null && otherBasic != null) {
-            Map<String, Double> shortestClipping = new HashMap<>();
-            if (myCollisionDetector.collideFromTop(toAdjust, other)) {
-                shortestClipping.put("top", otherBasic.getY() - adjBasic.getHeight() - adjBasic.getY());
-            }
-            if (myCollisionDetector.collideFromTop(other, toAdjust)) {
-                shortestClipping.put("bottom", otherBasic.getY() + otherBasic.getHeight() - adjBasic.getY());
-            }
-            if (myCollisionDetector.collideFromLeft(toAdjust, other)) {
-                shortestClipping.put("left", otherBasic.getX() - adjBasic.getWidth() - adjBasic.getX());
-            }
-            if (myCollisionDetector.collideFromLeft(other, toAdjust)) {
-                shortestClipping.put("right", otherBasic.getX() + otherBasic.getWidth() - adjBasic.getX());
-            }
-            Map.Entry<String, Double> min = null;
-            for (Map.Entry<String, Double> entry : shortestClipping.entrySet()) {
-                if (min == null || abs(min.getValue()) > abs(entry.getValue())) {
-                    min = entry;
+        try {
+            var environmentComponent = other.getComponent(EnvironmentComponent.class);
+        }
+        catch (NoComponentException e) {
+            try {
+                var impassableComponent = other.getComponent(ImpassableComponent.class);
+                var motionComponent = toAdjust.getComponent(MotionComponent.class);
+                var adjBasic = toAdjust.getComponent(BasicComponent.class);
+                var otherBasic = other.getComponent(BasicComponent.class);
+                Map<String, Double> shortestClipping = new HashMap<>();
+                if (myCollisionDetector.collideFromTop(toAdjust, other)) {
+                    shortestClipping.put("top", otherBasic.getY() - adjBasic.getHeight() - adjBasic.getY());
+                }
+                if (myCollisionDetector.collideFromTop(other, toAdjust)) {
+                    shortestClipping.put("bottom", otherBasic.getY() + otherBasic.getHeight() - adjBasic.getY());
+                }
+                if (myCollisionDetector.collideFromLeft(toAdjust, other)) {
+                    shortestClipping.put("left", otherBasic.getX() - adjBasic.getWidth() - adjBasic.getX());
+                }
+                if (myCollisionDetector.collideFromLeft(other, toAdjust)) {
+                    shortestClipping.put("right", otherBasic.getX() + otherBasic.getWidth() - adjBasic.getX());
+                }
+                Map.Entry<String, Double> min = null;
+                for (Map.Entry<String, Double> entry : shortestClipping.entrySet()) {
+                    if (min == null || abs(min.getValue()) > abs(entry.getValue())) {
+                        min = entry;
+                    }
+                }
+                if (min != null) {
+                    if (min.getKey().equals("top") || min.getKey().equals("bottom")) {
+                        adjBasic.setY(adjBasic.getY() + min.getValue());
+                    }
+                    else if (min.getKey().equals("left") || min.getKey().equals("right")) {
+                        adjBasic.setX(adjBasic.getX() + min.getValue());
+                    }
                 }
             }
-            if (min != null) {
-                if (min.getKey().equals("top") || min.getKey().equals("bottom")) {
-                    adjBasic.setY(adjBasic.getY() + min.getValue());
-                }
-                else if (min.getKey().equals("left") || min.getKey().equals("right")) {
-                    adjBasic.setX(adjBasic.getX() + min.getValue());
-                }
+            catch(NoComponentException e2) {
+                System.out.println("Correct Clipping cannot be done");
             }
         }
     }
 
     private void dealWithImpassable(EngineInstance mover, EngineInstance impassable) {
-        var impassableComponent = impassable.getComponent(ImpassableComponent.class);
-        if (impassableComponent != null && impassableComponent.getImpassable()) {
-            var motion = mover.getComponent(MotionComponent.class);
-            if (motion == null)
-                return;
-            if (myCollisionDetector.collideFromTop(mover, impassable) && motion.getYVelocity() > 0
-                    || myCollisionDetector.collideFromTop(impassable, mover) && motion.getYVelocity() < 0) {
-                motion.setYVelocity(0);
+        try {
+            var impassableComponent = impassable.getComponent(ImpassableComponent.class);
+            if (impassableComponent != null && impassableComponent.getImpassable()) {
+                var motion = mover.getComponent(MotionComponent.class);
+                if (motion == null)
+                    return;
+                if (myCollisionDetector.collideFromTop(mover, impassable) && motion.getYVelocity() > 0
+                        || myCollisionDetector.collideFromTop(impassable, mover) && motion.getYVelocity() < 0) {
+                    motion.setYVelocity(0);
+                }
+                else if (myCollisionDetector.collideFromLeft(mover, impassable) && motion.getXVelocity() > 0
+                        || myCollisionDetector.collideFromLeft(impassable, mover) && motion.getXVelocity() < 0) {
+                    motion.setXVelocity(0);
+                }
             }
-            else if (myCollisionDetector.collideFromLeft(mover, impassable) && motion.getXVelocity() > 0
-                    || myCollisionDetector.collideFromLeft(impassable, mover) && motion.getXVelocity() < 0) {
-                motion.setXVelocity(0);
-            }
+        }
+        catch (NoComponentException e) {
+            System.out.println("No impassable to deal with");
         }
     }
 

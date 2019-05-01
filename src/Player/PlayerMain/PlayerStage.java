@@ -702,7 +702,7 @@ public class PlayerStage extends Application {
 //            scene.instances.add(new Instance());
 //            myGame.scenes.add(scene);
         myGame = game;
-        myGameController = new GameController(MILLISECOND_DELAY, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
+        myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
         myLevelNumber = myGame.currentLevel;
         startNewLevel();
     }

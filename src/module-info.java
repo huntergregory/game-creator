@@ -11,6 +11,7 @@ module voogasalad.crackingopen {
     requires gson;
     requires org.codehaus.groovy;
     requires java.desktop;
+
     requires java.scripting;
     requires org.apache.commons.lang3;
 
@@ -18,6 +19,11 @@ module voogasalad.crackingopen {
     opens gamecenter.gamedata to gson;
     //opens Engine to org.codehaus.groovy, java.scripting;
     opens Engine.src.Controller to org.codehaus.groovy, java.scripting;
+
+    opens GameCenter.main to javafx.fxml, javafx.graphics;
+    opens Player.PlayerMain to javafx.graphics;
+    opens GameCenter.gameData to gson;
+    opens Engine to org.codehaus.groovy, java.scripting;
     opens Engine.src.EngineData to org.codehaus.groovy, java.scripting;
     opens Engine.src.ECS to org.codehaus.groovy, java.scripting;
     opens Engine.src.Manager to org.codehaus.groovy, java.scripting;
@@ -40,6 +46,7 @@ module voogasalad.crackingopen {
     exports network_account;
     exports gamecenter.main;
     exports Engine.src.Controller;
+    exports Engine.src.EngineData.Components;
     exports Engine.src.EngineData;
     exports Engine.src.ECS;
     exports Engine.src.Manager;
@@ -49,7 +56,6 @@ module voogasalad.crackingopen {
     exports Engine.src.Manager.Events.Health;
     exports Engine.src.Manager.Events.Motion;
     exports Engine.src.Timers;
-    exports Engine.src.EngineData.Components;
     exports Engine.src.EngineData.ComponentExceptions;
     exports gamedata;
     exports ez_engine;

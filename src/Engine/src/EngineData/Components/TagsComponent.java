@@ -1,13 +1,17 @@
 package Engine.src.EngineData.Components;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class TagsComponent extends Component {
     private List<String> myTags;
 
-    public TagsComponent(List<String> tags) {
-        myTags = tags;
+    public TagsComponent(String ... tags) {
+        myTags = new ArrayList<>();
+        for (String tag: tags) {
+            myTags.add(tag);
+        }
     }
 
     public List<String> getTags() {

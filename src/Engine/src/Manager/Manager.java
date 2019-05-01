@@ -38,17 +38,34 @@ public class Manager {
     }
 
     public void call(String eventClass, EngineInstance engineInstance, Object ... args) {
-        for(String subfolder : SUBFOLDERS) {
-            try {
-                var event = (Event) Reflection.createInstance(EVENTS_FILE_PATH + subfolder + eventClass, myEngineInstances);
-                event.activate(engineInstance, args);
-            } catch (ReflectionException e) {
-                System.out.println(REFLECTION_ERROR);
-            } catch (ClassCastException e) {
-                System.out.println(CAST_ERROR);
-            } catch (IllegalArgumentException e) {
-                System.out.println(ILLEGAL_ARGS_ERROR);
+        try {
+            for(String subfolder : SUBFOLDERS) {
+                String className = EVENTS_FILE_PATH + subfolder + eventClass;
+                if (isClass(className)) {
+                    var event = (Event) Reflection.createInstance(className, myEngineInstances);
+                    event.activate(engineInstance, args);
+                    break;
+                }
             }
+        }
+        catch (ReflectionException e) {
+            System.out.println(REFLECTION_ERROR);
+        }
+        catch (ClassCastException e) {
+            System.out.println(CAST_ERROR);
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(ILLEGAL_ARGS_ERROR);
+        }
+    }
+
+    private boolean isClass(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        }
+        catch (ClassNotFoundException e) {
+            return false;
         }
     }
 

@@ -31,12 +31,12 @@ public class EngineParser {
     private final String IMPORT_STATEMENTS = "import Engine.src.EngineData.Components.BasicComponent; " +
                                             "import Engine.src.EngineData.Components.MotionComponent; " +
                                             "import Engine.src.EngineData.Components.HealthComponent; " +
-                                            "import Engine.src.EngineData.Components.JumpComponent as JumpComponent; " +
-                                            "import Engine.src.EngineData.Components.LivesComponent as LivesComponent; " +
-                                            "import Engine.src.EngineData.Components.ScoreComponent as ScoreComponent; " +
-                                            "import Engine.src.EngineData.Components.Component as Component; " +
-                                            "import Engine.src.EngineData.ComponentContainer as ComponentContainer; " +
-                                            "import Engine.src.EngineData.EngineGameObject as EngineGameObject; ";
+                                            "import Engine.src.EngineData.Components.JumpComponent; " +
+                                            "import Engine.src.EngineData.Components.LivesComponent; " +
+                                            "import Engine.src.EngineData.Components.ScoreComponent; " +
+                                            "import Engine.src.EngineData.Components.Component; " +
+                                            "import Engine.src.EngineData.ComponentContainer; " +
+                                            "import Engine.src.EngineData.EngineGameObject; ";
 
     public EngineParser(Game game){
         myLevelRules = "";
@@ -74,8 +74,7 @@ public class EngineParser {
             binding.setProperty("object", object);
             String objectLogic = serializedObject.objectLogic;
             objectLogic = IMPORT_STATEMENTS + objectLogic;
-            Script objectInitialzer = shell.parse(objectLogic);
-            objectInitialzer.run();
+            shell.evaluate(objectLogic);
             myGameEngineObjects.add(object);
 
             makeEngineInstancesOfType(object, serializedInstances, binding, shell);

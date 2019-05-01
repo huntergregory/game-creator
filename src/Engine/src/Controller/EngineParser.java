@@ -93,6 +93,7 @@ public class EngineParser {
                 //updateBasicComponent(engineInstance, serializedInstance);
                 binding.setProperty("instance", engineInstance);
                 String instanceLogic = serializedInstance.instanceLogic;
+                instanceLogic = IMPORT_STATEMENTS + instanceLogic;
                 Script instanceInitializer = shell.parse(instanceLogic);
                 instanceInitializer.run();
                 myEngineInstances.add(engineInstance);

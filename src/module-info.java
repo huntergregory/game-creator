@@ -14,6 +14,7 @@ module voogasalad.crackingopen {
     requires java.scripting;
 
     opens GameCenter.main to javafx.fxml, javafx.graphics;
+    opens Player.PlayerMain to javafx.graphics;
     opens GameCenter.gameData to gson;
     //opens Engine to org.codehaus.groovy, java.scripting;
     opens Engine.src.Controller to org.codehaus.groovy, java.scripting;

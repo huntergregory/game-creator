@@ -11,7 +11,7 @@ import java.util.Set;
 public class KeyMoveLeft extends MotionEvent {
 
     public KeyMoveLeft(Map<String, EngineInstance> engineInstances) {
-        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class);
+        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class});
     }
 
     @Override

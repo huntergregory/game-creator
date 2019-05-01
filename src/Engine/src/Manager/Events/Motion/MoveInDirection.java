@@ -11,7 +11,7 @@ import java.util.Set;
 public class MoveInDirection extends MotionEvent {
 
     public MoveInDirection(Map<String, EngineInstance> engineInstances) {
-        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class, Double.class, Double.class);
+        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class, Double.class);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class SetXVelocity extends MotionEvent {
     public SetXVelocity(Map<String, EngineInstance> engineInstances) {
-        super(engineInstances, Double.class);
+        super(engineInstances, new Class[]{MotionComponent.class}, Double.class);
     }
 
     @Override

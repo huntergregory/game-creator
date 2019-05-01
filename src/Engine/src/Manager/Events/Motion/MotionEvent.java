@@ -9,10 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class MotionEvent extends ComponentDependentEvent {
-    public MotionEvent(Map<String, EngineInstance> engineInstances, Class<?>... parameterTypes) {
-        super(engineInstances, MotionComponent.class, parameterTypes);
-    }
-
     public MotionEvent(Map<String, EngineInstance> engineInstances, Class<? extends Component>[] componentClasses, Class<?>... parameterTypes) {
         super(engineInstances, componentClasses, parameterTypes);
     }

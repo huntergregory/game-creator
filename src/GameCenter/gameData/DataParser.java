@@ -1,4 +1,4 @@
-package gamecenter.gamedata;
+package GameCenter.gameData;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package gamecenter.gamedata;
+package GameCenter.gameData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

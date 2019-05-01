@@ -1,8 +1,8 @@
-package gamecenter.main;
+package GameCenter.main;
 
-import gamecenter.gamedata.DataParser;
-import gamecenter.gamedata.DataStruct;
-import gamecenter.utilities.Thumbnail;
+import GameCenter.gameData.DataParser;
+import GameCenter.gameData.DataStruct;
+import GameCenter.utilities.Thumbnail;
 import auth.RunAuth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,7 +29,7 @@ import java.util.List;
 
 
 /**
- * The LevelController for the gamecenter. Works in conjunction with gamecenter.java and gamecenter.fxml, which can be found
+ * The LevelController for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
  * under the resources folder.
  *
  * This controller defines all actions that occur when a user interacts with the GUI. It also defines several parts of
@@ -217,7 +217,7 @@ public class GameCenterController {
 
     @FXML
     public void launchPlayer() {
-        //new PlayerStage(this).load(gamedata.get(myIndex).getSourcePath(), true);
+        //new PlayerStage(this).load(gameData.get(myIndex).getSourcePath(), true);
     }
 
     @FXML

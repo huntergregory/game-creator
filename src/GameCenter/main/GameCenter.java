@@ -1,4 +1,4 @@
-package gamecenter.main;
+package GameCenter.main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,14 +9,14 @@ import javafx.stage.Stage;
 import network_account.UserIdentity;
 
 /**
- * gamecenter.java is the launcher for the Game Center, where a user can launch games through the Player, launch the
+ * GameCenter.java is the launcher for the Game Center, where a user can launch games through the Player, launch the
  * Authoring Environment to edit games, do several actions to the game, and interact with other users through the
  * social hub.
  *
- * gamecenter.java works in conjunction with gamecenter.fxml and GUIStyle.css, both found in the resources folder, as
+ * GameCenter.java works in conjunction with GameCenter.fxml and GUIStyle.css, both found in the resources folder, as
  * well as GameCenterController.
  *
- * gamecenter.java, gamecenter.fxml & GUIStyle.css, and GameCenterController.java are the model, view, and controller,
+ * GameCenter.java, GameCenter.fxml & GUIStyle.css, and GameCenterController.java are the model, view, and controller,
  * respectively. Keep this in mind when refactoring/writing new code.
  *
  * TODO: Implement Social Hub
@@ -45,7 +45,7 @@ public class GameCenter extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/gamecenter.fxml"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/GameCenter.fxml"));
 
         this.myRoot = loader.load();
         this.myGCC = loader.getController();

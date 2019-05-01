@@ -4,7 +4,7 @@ import Engine.src.Controller.GameController;
 import Player.Features.PlayerButtons;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import gamecenter.main.GameCenterController;
+import GameCenter.main.GameCenterController;
 import Engine.src.EngineData.EngineInstance;
 import Player.Features.DebugConsole;
 import Engine.src.EngineData.Components.BasicComponent;
@@ -193,7 +193,7 @@ public class PlayerStage {
             //myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
 //            myGame = new Game();
 //            myGame.scenes = new ArrayList<>();
-//            gamedata.Scene scene = new gamedata.Scene();
+//            gameData.Scene scene = new gameData.Scene();
 //            scene.instances = new HashSet<>();
 //            scene.instances.add(new Instance());
 //            myGame.scenes.add(scene);

@@ -1,38 +1,23 @@
-package gamecenter;
+package GameCenter;
 
 // import Player.src.PlayerMain.PlayerStage;
-import auth.RunAuth;
-import demotests.RunDemo;
-import dummy_player.Player;
-import gamecenter.gamedata.DataParser;
-import gamecenter.gamedata.DataStruct;
-import gamecenter.utilities.Thumbnail;
-import javafx.geometry.Insets;
+import GameCenter.gameData.DataStruct;
+import GameCenter.utilities.Thumbnail;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import uiutils.components.ButtonGenerator;
-import uiutils.panes.CentrePane;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 /*
-import static gamecenter.Colours.*;
-import static gamecenter.Dimensions.*;
-import static gamecenter.RunGameCenter.*;
-import static gamecenter.Strings.*;
-import static gamecenter.Styles.*;
+import static GameCenter.Colours.*;
+import static GameCenter.Dimensions.*;
+import static GameCenter.RunGameCenter.*;
+import static GameCenter.Strings.*;
+import static GameCenter.Styles.*;
 */
-
-import static auth.Styles.CENTRE_PANE_STYLE;
 
 public class GCScreen {
     private Stage stage;

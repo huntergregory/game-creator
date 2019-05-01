@@ -39,6 +39,7 @@ public class EngineParser {
 
         myEngineInstances = new HashMap<>();
         myGameEngineObjects = new HashSet<>();
+        addDefaults();
         parse(game);
     }
 
@@ -179,6 +180,12 @@ public class EngineParser {
                 break;
             }
         }
+    }
+
+    private void addDefaults() {
+        myHotKeys.put("D", "manager.call('KeyMoveRight'); ");
+        myHotKeys.put("A", "manager.call('KeyMoveLeft'); ");
+        myHotKeys.put("W", "manager.call('Jump'); ");
     }
 
 }

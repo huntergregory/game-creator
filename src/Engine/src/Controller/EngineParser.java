@@ -101,7 +101,7 @@ public class EngineParser {
     }
 
     private void updateBasicComponent(EngineInstance engineInstance, Instance  instance) {
-        var basic = new BasicComponent(instance.bgImage, Double.toString(instance.x), Double.toString(instance.y), Double.toString(instance.width), Double.toString(instance.height), Double.toString(instance.zIndex));
+        var basic = new BasicComponent(instance.bgImage, Double.toString(instance.x), Double.toString(instance.y), Double.toString(instance.width), Double.toString(instance.height), Integer.toString(instance.zIndex));
         engineInstance.addComponent(basic);
     }
 

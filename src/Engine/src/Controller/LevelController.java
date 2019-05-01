@@ -1,6 +1,7 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
+import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
@@ -106,11 +107,16 @@ public class LevelController {
 
     private void executeEntityLogic() {
         for (EngineInstance engineInstance : myParser.getEngineInstances()) {
-            LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
-            String logic = logicComponent.getLogic();
-            myBinding.setProperty("instance", engineInstance);
-            Script script = myShell.parse(logic);
-            script.run();
+            try {
+                LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
+                String logic = logicComponent.getLogic();
+                myBinding.setProperty("instance", engineInstance);
+                Script script = myShell.parse(logic);
+                script.run();
+            }
+            catch(NoComponentException e) {
+                System.out.println("No Component");
+            }
         }
     }
 

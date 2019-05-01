@@ -1,5 +1,6 @@
 package Engine.src.ECS;
 
+import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.*;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.Manager;
@@ -59,10 +60,13 @@ public class CollisionHandler {
 
     private void moveThenUpdateVelocities(Set<EngineInstance> allEntities) {
         for (EngineInstance i : allEntities){
-            var motionComponent = i.getComponent(MotionComponent.class);
-            if (motionComponent != null) {
+            try {
+                var motionComponent = i.getComponent(MotionComponent.class);
                 myManager.call("Move", i);
                 myManager.call("UpdateVelocity", i);
+            }
+            catch(NoComponentException e) {
+                System.out.println("No Component");
             }
         }
     }
@@ -79,12 +83,15 @@ public class CollisionHandler {
     }
 
     private void setDefaultMotion(EngineInstance i) {
-        var motion = i.getComponent(MotionComponent.class);
-        if (motion != null) {
+        try {
+            var motion = i.getComponent(MotionComponent.class);
             motion.resetXAccel();
             motion.resetYAccel();
             motion.resetMovementXVel();
             motion.resetMovementYVel();
+        }
+        catch(NoComponentException e) {
+            System.out.println("No motion component");
         }
     }
 
@@ -164,22 +171,28 @@ public class CollisionHandler {
     private Pair<String>[] findRelevantTagPairs(EngineInstance i, EngineInstance j) {
         ArrayList<Pair<String>> tagPairs = new ArrayList<>();
 
-        var tags1 = i.getComponent(TagsComponent.class);
-        var tags2 = j.getComponent(TagsComponent.class);
+        try {
+            var tags1 = i.getComponent(TagsComponent.class);
+            var tags2 = j.getComponent(TagsComponent.class);
 
-        if (tags1 == null || tags2 == null)
+            if (tags1 == null || tags2 == null)
+                //Is this right?
+                return tagPairs.toArray(new Pair[0]);
+
+            for (String tag1 : tags1.getTags()) {
+                for (String tag2 : tags2.getTags()) {
+                    var tagPair = new Pair(tag1, tag2);
+                    if (myCollisionResponses.containsKey(tagPair))
+                        tagPairs.add(tagPair);
+                }
+            }
             //Is this right?
             return tagPairs.toArray(new Pair[0]);
-
-        for (String tag1 : tags1.getTags()) {
-            for (String tag2 : tags2.getTags()) {
-                var tagPair = new Pair(tag1, tag2);
-                if (myCollisionResponses.containsKey(tagPair))
-                    tagPairs.add(tagPair);
-            }
         }
-        //Is this right?
-        return tagPairs.toArray(new Pair[0]);
+        catch(NoComponentException e) {
+            System.out.println("No Tag Component");
+            return new Pair[0];
+        }
     }
 
     private void addCollisionAndHandleEnvironments(EngineInstance current, EngineInstance other) {

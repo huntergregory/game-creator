@@ -132,24 +132,27 @@ public class PlayerStage extends Application {
         blockResource.src = "/img/block.jpg";
         GameObject user = new GameObject();
         user.objectID = "user";
-        user.objectLogic = "object.addComponent(new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'), " +
+        user.objectLogic = "object.addComponent(" +
                 "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
                 "new LivesComponent('3', ' '), new ScoreComponent('0'))";
+        //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
         GameObject block = new GameObject();
         block.objectID = "Block";
-        block.objectLogic = "object.addComponent(new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'), " +
+        block.objectLogic = "object.addComponent(" +
                 "new MotionComponent('0', '0', '10', '10', '0', '9'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
                 "new LivesComponent('3', ' '), new ScoreComponent('0'))";
+        //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
         Instance user1 = new Instance();
         user1.instanceOf = "user";
         user1.instanceID = "Mario";
-        user1.instanceLogic = "instance.getComponent(BasicComponent.class).setX( (Double) 50.0)";
-        user1.bgColor = "";
-        user1.bgImage = "";
+        user1.instanceLogic = "";
+        //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
+        user1.bgColor = "FFFFFF";
+        user1.bgImage = "Mario Picture";
         user1.height = 50;
         user1.width = 50;
         user1.x = 50;
@@ -159,8 +162,8 @@ public class PlayerStage extends Application {
         block1.instanceOf = "Block";
         block1.instanceID = "Block1";
         block1.instanceLogic = "";
-        block1.bgColor = "";
-        block1.bgImage = "";
+        block1.bgColor = "#FFFFFF";
+        block1.bgImage = "Block Picture";
         block1.height = 50;
         block1.width = 500;
         block1.x = 0;
@@ -365,8 +368,8 @@ public class PlayerStage extends Application {
 
     private void updateImageView(EngineInstance engineInstance) {
         BasicComponent basicComponent = engineInstance.getComponent(BasicComponent.class);
-        MotionComponent motionComponent = engineInstance.getComponent(MotionComponent.class);
-        HealthComponent healthComponent = engineInstance.getComponent(HealthComponent.class);
+        //MotionComponent motionComponent = engineInstance.getComponent(MotionComponent.class);
+        //HealthComponent healthComponent = engineInstance.getComponent(HealthComponent.class);
         if (basicComponent == null)
             return;
         //FIXME is it instance.getID or is it instance

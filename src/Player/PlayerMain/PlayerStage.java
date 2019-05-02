@@ -11,6 +11,7 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.HealthComponent;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
+import com.google.gson.stream.JsonReader;
 import gamedata.Game;
 import gamedata.GameObject;
 import gamedata.Instance;
@@ -535,7 +536,7 @@ public class PlayerStage extends Application {
     public static final int FRAMES_PER_SECOND = 15;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    private static final int HUD_UPDATE_DELAY = 10;
+    private static final int HUD_UPDATE_DELAY = 50;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
 
 
@@ -604,31 +605,15 @@ public class PlayerStage extends Application {
         blockResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         blockResource.resourceID = "Block Picture";
         blockResource.src = "/img/block.jpg";
-
         GameObject user = new GameObject();
         user.objectID = "user";
-        user.objectLogic =
-                "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
-                "new LivesComponent('3', 'instance.getComponent(BasicComponent).setX((Double) 500)'), new ScoreComponent('0') ); ";
+        user.objectLogic = "object.addComponent(new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('0.05'), new LivesComponent('3', 'instance.getComponent(BasicComponent).setX((Double) 800)'), new ScoreComponent('0'), new LogicComponent('if(instance.getComponent(HealthComponent).getHealth() < 0) { manager.call(\"Die\", instance); manager.call(\"AddToHealth\", instance, 100) }'));";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
-        GameObject missile = new GameObject();
-        missile.objectID = "missile";
-        missile.bgColor = "FFFFFF";
-        missile.bgImage = "Mario Picture";
-        missile.objectLogic =
-                "object.addComponent(new MotionComponent('10', '0', '0', '0', '0', '0'), " +
-                        "new BasicComponent('/img/mario.jpg', '50', '100', '10', '10'))";
-
         GameObject block = new GameObject();
         block.objectID = "Block";
-        block.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), " +
-                "new ScoreComponent('0'), new ImpassableComponent('true'), " +
-                "new AimComponent('0', '0', '0', '10'), " +
-                "new LogicComponent('manager.call(\"BaseAim\", instance, \"Mario\", \"missile\", \"0.8\")') );";
+        block.objectLogic = "object.addComponent(new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), new ImpassableComponent('true'))";
         //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
@@ -662,16 +647,18 @@ public class PlayerStage extends Application {
                 "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", user)');" +
                 "parser.addKey('W', 'manager.call(\"KeyMoveUp\", user)');" +
                 "parser.addKey('S', 'manager.call(\"KeyMoveDown\", user)');" +
-                "parser.addKey('M', 'manager.call(\"Jump\", user)');" +
-                "parser.addCollision('user', 'Block', 'manager.call(\"Die\", object1); manager.call(\"Die\", object2)')";
+                "parser.addKey('M', 'manager.call(\"Jump\", instance)');" +
+                "parser.addCollision('user', 'Block', 'manager.call(\"IncreaseScore\", object1, (Double) 50)');";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
         scene1.bgImage = "";
+        gamedata.Scene scene2 = new gamedata.Scene();
+        scene2.instances.add(user1);
+        scene2.instances.add(block1);
         Game game = new Game();
         game.scenes.add(scene1);
         game.gameObjects.add(user);
         game.gameObjects.add(block);
-        game.gameObjects.add(missile);
         game.resources.add(userResource);
         game.resources.add(blockResource);
         myGameStage = stage;
@@ -691,7 +678,8 @@ public class PlayerStage extends Application {
             System.out.println("Couldn't write to file.");
         }
         myGameStage.setScene(myScene);
-        load(game);
+        load("/Users/cartergay/Desktop/Spring 2019/CS 308/voogasalad_crackingopen/data/DLiu.game");
+        //load(game);
     }
 
     public void run(Game game, Boolean debug) {
@@ -711,6 +699,23 @@ public class PlayerStage extends Application {
         }
     }
 
+    public void load(String filename) {
+//        Gson gson = new Gson();
+//        JsonReader reader = new JsonReader(new StringReader(filename));
+//        reader.setLenient(true);
+//        Game g = gson.fromJson(reader, Game.class);
+        String contents = null;
+        try {
+            contents = new Scanner(new File(filename)).useDelimiter("\\Z").next();
+        } catch (FileNotFoundException e) {
+            System.out.println("File was not found");
+        }
+        myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
+        myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, myGame);
+        myLevelNumber = myGame.currentLevel;
+        startNewLevel();
+    }
+
     public void load(Game game) {
         //String contents = new Scanner(fileName).useDelimiter("\\Z").next();
         //myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
@@ -721,7 +726,7 @@ public class PlayerStage extends Application {
 //            scene.instances.add(new Instance());
 //            myGame.scenes.add(scene);
         myGame = game;
-        myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
+        myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, myGame);
         myLevelNumber = myGame.currentLevel;
         startNewLevel();
     }
@@ -767,6 +772,7 @@ public class PlayerStage extends Application {
         setPlayerButtons();
         myVBox = new VBox();
         myVBox.getChildren().add(myPlayerButtons.getNode());
+        debugMode = false;
         if (debugMode) {
             setDebugConsole();
             myDebugConsole.addText("");
@@ -948,6 +954,7 @@ public class PlayerStage extends Application {
 
     public void restartGame() {
         myGameStage.close();
+        myGameCenterController.launchPlayer();
 
     }
 

@@ -9,6 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.awt.*;
+
+import static java.awt.Color.black;
+
 public class PlayerButtons {
 
     private PlayerStage myPlayerStage;
@@ -16,18 +20,24 @@ public class PlayerButtons {
     private Button myResumeButton;
     private Button myRestartButton;
     private Button mySaveButton;
-    private LivesSlider myLivesSlider;
-    private TimeSlider myTimeSlider;
+    //private LivesSlider myLivesSlider;
+    //private TimeSlider myTimeSlider;
     private int gamePaused = 0;
 
     private VBox myVBox;
+    private HBox myHBox;
+    private static final double BUTTON_SIZE = 50.0;
     private static final double INTER_VALUES_SPACING = 2;
+    private static final String PAUSE = "PAUSE";
+    private static final String RESUME = "RESUME";
+    private static final String RESTART = "RESTART";
+    private static final String SAVE = "SAVE";
 
     public PlayerButtons(PlayerStage stage) {
         myPlayerStage = stage;
         createVBox();
         addGameButtons();
-        addGameSliders();
+//        addGameSliders();
     }
 
 
@@ -37,44 +47,58 @@ public class PlayerButtons {
     }
 
     private void addGameButtons() {
-        HBox myHBox = new HBox();
-        myPauseButton = new Button("PAUSE");
+        myPauseButton = createButton(PAUSE);
+        myResumeButton = createButton(RESUME);
+        myRestartButton = createButton(RESTART);
+        mySaveButton = createButton(SAVE);
+        setButtonActions();
+        createHBox();
+        myVBox.getChildren().add(myHBox);
+    }
+
+    private Button createButton(String title) {
+        Button myButton = new Button(title);
+        myButton.setPrefHeight(BUTTON_SIZE);
+        return myButton;
+    }
+
+    private void setButtonActions() {
         myPauseButton.setOnAction(e -> pauseGame());
-        myResumeButton = new Button("RESUME");
         myResumeButton.setOnAction(e -> resumeGame());
-        myRestartButton = new Button("RESTART");
         myRestartButton.setOnAction(e -> restartGame());
-        mySaveButton = new Button("SAVE");
         mySaveButton.setOnAction(e -> saveGame());
+    }
+
+    private void createHBox() {
+        myHBox = new HBox();
         myHBox.getChildren().add(myPauseButton);
         myHBox.getChildren().add(myResumeButton);
         myHBox.getChildren().add(myRestartButton);
         myHBox.getChildren().add(mySaveButton);
-        myVBox.getChildren().add(myHBox);
     }
 
-    private void addGameSliders() {
-        addLivesSlider();
-        addTimeSlider();
-    }
+//    private void addGameSliders() {
+//        addLivesSlider();
+//        addTimeSlider();
+//    }
 
-    private void addLivesSlider() {
-        Label label = new Label("Select Lives");
-        HBox myHBox = new HBox();
-        myHBox.getChildren().add(label);
-        myLivesSlider = new LivesSlider(myPlayerStage);
-        myHBox.getChildren().add(myLivesSlider.getMainComponent());
-        myVBox.getChildren().add(myHBox);
-    }
+//    private void addLivesSlider() {
+//        Label label = new Label("Select Lives");
+//        HBox myHBox = new HBox();
+//        myHBox.getChildren().add(label);
+//        myLivesSlider = new LivesSlider(myPlayerStage);
+//        myHBox.getChildren().add(myLivesSlider.getMainComponent());
+//        myVBox.getChildren().add(myHBox);
+//    }
 
-    private void addTimeSlider() {
-        Label label = new Label("Select Time");
-        HBox myHBox = new HBox();
-        myHBox.getChildren().add(label);
-        myTimeSlider = new TimeSlider(myPlayerStage);
-        myHBox.getChildren().add(myTimeSlider.getMainComponent());
-        myVBox.getChildren().add(myHBox);
-    }
+//    private void addTimeSlider() {
+//        Label label = new Label("Select Time");
+//        HBox myHBox = new HBox();
+//        myHBox.getChildren().add(label);
+//        myTimeSlider = new TimeSlider(myPlayerStage);
+//        myHBox.getChildren().add(myTimeSlider.getMainComponent());
+//        myVBox.getChildren().add(myHBox);
+//    }
 
     private void pauseGame() {
         gamePaused = 1;

@@ -17,4 +17,3 @@ public class Follow extends AIEvent{
             follow(engineInstance, (String) args[0], stepTime) ;
         }
     }
-    

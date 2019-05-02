@@ -175,7 +175,9 @@ public abstract class AIEvent extends ComponentDependentEvent {
     public void goodAim(EngineInstance shooterEngineInstance, String targetInstance, String missile, String accuracy, double stepTime){
         EngineInstance targetEngineInstance = getInstanceByID(targetInstance);
         MotionComponent motion = targetEngineInstance.getComponent(MotionComponent.class);
-        if (motion == null) baseAim(shooterEngineInstance, targetInstance, missile, accuracy);
+        if (motion == null) {
+            baseAim(shooterEngineInstance, targetInstance, missile, accuracy);
+        }
         else {
             double xVel = motion.getXVelocity();
             double yVel = motion.getYVelocity();
@@ -190,7 +192,7 @@ public abstract class AIEvent extends ComponentDependentEvent {
 
     private void aimAndShoot(EngineInstance shooterEngineInstance, String missileObject, double angle, double accuracy){
         Random rand = new Random();
-        angle += rand.nextGaussian() * (1 - accuracy);
+        angle += rand.nextGaussian() * .5 * (1 - accuracy);
         AimComponent aim = shooterEngineInstance.getComponent(AimComponent.class);
         aim.setXAim(Math.cos(angle));
         aim.setYAim(Math.sin(angle));
@@ -205,8 +207,8 @@ public abstract class AIEvent extends ComponentDependentEvent {
         EngineInstance missileInstance = createFromInstance(missile, shooterEngineInstance);
         System.out.println(myEngineInstances.size());
         MotionComponent motion = missileInstance.getComponent(MotionComponent.class);
+        System.out.println(aim.getXAim());
         double velocity = motion.getVelocity();
-        System.out.println(velocity);
         motion.setXVelocity(aim.getXAim() * velocity);
         motion.setYVelocity(aim.getYAim() * velocity);
     }

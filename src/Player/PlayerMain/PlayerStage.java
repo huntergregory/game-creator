@@ -33,6 +33,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -619,8 +620,8 @@ public class PlayerStage extends Application {
         missile.bgColor = "FFFFFF";
         missile.bgImage = "Mario Picture";
         missile.objectLogic =
-                "object.addComponent(new MotionComponent('10', '0', '0', '0', '0', '0'), " +
-                        "new BasicComponent('/img/mario.jpg', '50', '100', '10', '10'))";
+                "object.addComponent(new MotionComponent('1', '0', '0', '0', '0', '0'), " +
+                        "new BasicComponent('Mario Picture', '50', '100', '20', '20'))";
 
         GameObject block = new GameObject();
         block.objectID = "Block";
@@ -628,7 +629,7 @@ public class PlayerStage extends Application {
                 "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), " +
                 "new ScoreComponent('0'), new ImpassableComponent('true'), " +
                 "new AimComponent('0', '0', '0', '10'), " +
-                "new LogicComponent('manager.call(\"BaseAim\", instance, \"Mario\", \"missile\", \"0.8\")') );";
+                "new LogicComponent('manager.call(\"GoodAim\", instance, \"Mario\", \"missile\", \"0.8\")') );";
         //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
@@ -857,6 +858,11 @@ public class PlayerStage extends Application {
             var newImageView = new ImageView();
             myImageViewMap.put(engineInstance, newImageView);
             myGameRoot.getChildren().add(newImageView);
+            Rectangle rect = new Rectangle(50, 50);
+            rect.setX(50);
+            rect.setY(100);
+            myGameRoot.getChildren().add(rect);
+
             updateImageView(engineInstance);
         }
     }

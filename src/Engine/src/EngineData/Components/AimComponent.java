@@ -35,7 +35,7 @@ public class AimComponent extends Component{
     }
 
     public void setYAim(double yAim){
-        myXAim = yAim;
+        myYAim = yAim;
     }
 
     public void updateTracker(){

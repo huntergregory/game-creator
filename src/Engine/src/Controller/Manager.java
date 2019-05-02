@@ -13,8 +13,8 @@ import Engine.src.EngineData.EngineInstance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
-import voogasalad.util.reflection.Reflection;
-import voogasalad.util.reflection.ReflectionException;
+import reflection.Reflection;
+import reflection.ReflectionException;
 
 import javax.swing.text.html.parser.Parser;
 import java.util.List;

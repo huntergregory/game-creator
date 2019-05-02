@@ -2,6 +2,7 @@ package Engine.src.Controller.Events.AI;
 
 import Engine.src.ECS.Line;
 import Engine.src.ECS.Pair;
+import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.*;
 import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
@@ -59,7 +60,13 @@ public abstract class AIEvent extends ComponentDependentEvent {
     }
 
     private void movementResponse(EngineInstance referenceEngineInstance, EngineInstance targetEngineInstance, String movementType, double stepTime) {
-        LOSComponent LOSComp = referenceEngineInstance.getComponent(LOSComponent.class);
+        LOSComponent LOSComp;
+        try {
+            LOSComp = referenceEngineInstance.getComponent(LOSComponent.class);
+        }
+        catch (NoComponentException e) {
+            LOSComp = null;
+        }
         double[] distanceVec = findDistanceVector(referenceEngineInstance, targetEngineInstance);
         double magnitude = calculateMagnitude(distanceVec);
         if (LOSComp == null || isInLOS(targetEngineInstance, referenceEngineInstance, magnitude, LOSComp.getLOS())) {
@@ -88,7 +95,8 @@ public abstract class AIEvent extends ComponentDependentEvent {
         movementResponse(referenceEngineInstance, targetEngineInstance, "FLEE", stepTime);
     }
 
-    public void follow(EngineInstance referenceEngineInstance, EngineInstance targetEngineInstance, double stepTime) {
+    public void follow(EngineInstance referenceEngineInstance, String target, double stepTime) {
+        EngineInstance targetEngineInstance = getInstanceByID(target);
         movementResponse(referenceEngineInstance, targetEngineInstance, "FOLLOW", stepTime);
     }
 
@@ -149,13 +157,18 @@ public abstract class AIEvent extends ComponentDependentEvent {
 
     private void moveInDirection(EngineInstance engineInstance, double[] direction, double stepTime){
         MotionComponent motion = engineInstance.getComponent(MotionComponent.class);
+        BasicComponent basic = engineInstance.getComponent(BasicComponent.class);
+        double currXPos = basic.getX();
+        double currYPos = basic.getY();
         double tempVel = motion.getMovementVelocity();
         double tempXVel = tempVel * direction[0];
         double tempYVel = tempVel * direction[1];
+        double nextXPos = currXPos + tempXVel * stepTime;
+        double nextYPos = currYPos + tempYVel * stepTime;
         SetXPosition setX = new SetXPosition(myEngineInstances, myGameEngineObjects);
         SetYPosition setY = new SetYPosition(myEngineInstances, myGameEngineObjects);
-        setX.activate(engineInstance, stepTime, tempXVel * stepTime);
-        setY.activate(engineInstance, stepTime, tempYVel * stepTime);
+        setX.activate(engineInstance, stepTime, nextXPos);
+        setY.activate(engineInstance, stepTime, nextYPos);
     }
 
 

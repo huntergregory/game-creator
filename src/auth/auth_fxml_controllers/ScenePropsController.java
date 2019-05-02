@@ -11,7 +11,6 @@ import javafx.scene.layout.Pane;
 
 import static auth.helpers.DataHelpers.*;
 import static auth.helpers.ScreenHelpers.refreshCanvas;
-import static auth.helpers.ScreenHelpers.refreshCanvas;
 
 public class ScenePropsController extends JXMLController{
    private Game game;

@@ -3,13 +3,14 @@ package Engine.src.ECS;
 import Engine.src.EngineData.Components.*;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.Manager;
-
-import ez_engine.Engine;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.lang.Math.abs;
 

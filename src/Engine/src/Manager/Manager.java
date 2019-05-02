@@ -1,21 +1,13 @@
 package Engine.src.Manager;
 
 import Engine.src.Controller.TimerController;
-import Engine.src.EngineData.Components.LogicComponent;
+import Engine.src.EngineData.EngineInstance;
 import Engine.src.Manager.Events.Event;
 import Engine.src.Timers.Timer;
-import Engine.src.Timers.TimerSequence;
-import gamedata.Game;
-import Engine.src.EngineData.EngineInstance;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
 import voogasalad.util.reflection.Reflection;
 import voogasalad.util.reflection.ReflectionException;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Combines the old LevelManager and EntityManager

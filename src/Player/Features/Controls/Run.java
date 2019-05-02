@@ -1,7 +1,6 @@
 package Player.Features.Controls;
 
 import Player.PlayerMain.PlayerStage;
-import gamedata.Game;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 

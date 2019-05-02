@@ -9,6 +9,8 @@ import gamedata.Game;
 import gamedata.Resource;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uiutils.panes.BottomPane;
@@ -19,8 +21,7 @@ import java.util.List;
 import static auth.Colors.BG_COLOR;
 import static auth.Dimensions.ENV_WINDOW_HEIGHT;
 import static auth.Dimensions.ENV_WINDOW_WIDTH;
-import static auth.Strings.CONSOLE_PANE_ID;
-import static auth.Strings.DEFAULT_TITLE;
+import static auth.Strings.*;
 import static auth.helpers.ScreenHelpers.*;
 
 public class CanvasScreen extends Screen {
@@ -140,6 +141,13 @@ public class CanvasScreen extends Screen {
         for (UIElement element : elements) {
             this.possessedElements.add(element);
             this.container.getChildren().add(element.getView());
+        }
+    }
+
+    public void registerNewIcon(UIElement... elements){
+        for(UIElement element : elements){
+            this.possessedElements.add(element);
+            ((Pane)((ScrollPane)getUIElementById(CANVAS_ID).getView()).getContent()).getChildren().add(element.getView());
         }
     }
 

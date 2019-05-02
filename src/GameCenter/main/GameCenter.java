@@ -2,10 +2,7 @@ package GameCenter.main;
 
 import auth.RunAuth;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import network_account.UserIdentity;
 

@@ -1,10 +1,9 @@
 package Engine.src.Manager.Events;
 
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.LogicComponent;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.Map;
-import java.util.Set;
 
 public class AddLogic extends ComponentDependentEvent {
     public AddLogic(Map<String, EngineInstance> engineInstances) {

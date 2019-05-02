@@ -1,12 +1,11 @@
 package Engine.src.Manager.Events.Motion;
 
-import Engine.src.EngineData.EngineInstance;
-import Engine.src.Manager.Events.ComponentDependentEvent;
 import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.Components.MotionComponent;
+import Engine.src.EngineData.EngineInstance;
+import Engine.src.Manager.Events.ComponentDependentEvent;
 
 import java.util.Map;
-import java.util.Set;
 
 public abstract class MotionEvent extends ComponentDependentEvent {
     public MotionEvent(Map<String, EngineInstance> engineInstances, Class<?>... parameterTypes) {

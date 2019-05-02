@@ -3,7 +3,6 @@ package Engine.src.Manager.Events;
 import Engine.src.EngineData.EngineInstance;
 
 import java.util.Map;
-import java.util.Set;
 
 public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";

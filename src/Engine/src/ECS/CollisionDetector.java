@@ -1,12 +1,11 @@
 package Engine.src.ECS;
 
-import Engine.src.EngineData.EngineInstance;
-import Engine.src.EngineData.Components.ImpassableComponent;
 import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.ImpassableComponent;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 
 public class CollisionDetector {
 

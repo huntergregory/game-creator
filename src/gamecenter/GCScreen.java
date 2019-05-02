@@ -282,7 +282,6 @@ public class GCScreen {
         parent.setPrefHeight(GC_WINDOW_HEIGHT);
 
         return new Scene(parent);
-
     }
 
     public void show() {

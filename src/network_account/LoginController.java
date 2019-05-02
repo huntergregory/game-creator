@@ -93,6 +93,7 @@ public class LoginController {
                     gameCenter.start(new Stage());
                     ((Node) event.getSource()).getScene().getWindow().hide();
                 } catch(Exception e) {
+                    e.printStackTrace();
                     System.out.println("Could not open GameCenter");
                 }
             }

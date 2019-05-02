@@ -25,6 +25,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import network_account.UserIdentity;
 import uiutils.panes.BottomPane;
 
 import java.io.FileInputStream;
@@ -106,10 +107,11 @@ public class CanvasScreen extends Screen {
 
     private List<UIElement> possessedElements;
 
-    public CanvasScreen() {
+    public CanvasScreen(UserIdentity userIdentity) {
         possessedElements = new ArrayList<>();
         game = new Game();
         game.scenes.add(DataHelpers.createNewScene(game.scenes.size()+1));
+        this.userIdentity = userIdentity;
         objectGrid = new VBox(5);
         imageGrid = new VBox(5);
         audioGrid = new VBox(5);
@@ -195,12 +197,11 @@ public class CanvasScreen extends Screen {
     }
 
     public String getLoggedInUsername() {
-        // TODO: Softcode this
-        return "anshudwibhashi";
+        return userIdentity.getUsername();
     }
 
     public String getLoggedInName() {
-        return "Anshu";
+        return userIdentity.getName();
     }
 
     public void switchToScene(int index, boolean deselect) {
@@ -241,6 +242,8 @@ public class CanvasScreen extends Screen {
         }
     }
 
+    UserIdentity userIdentity;
+
     /**
      * Method to create create a new stage
      * @param stage Parent stage
@@ -252,6 +255,8 @@ public class CanvasScreen extends Screen {
         container = new Group();
         this.stage = stage;
         root.getChildren().add(container);
+
+        this.userIdentity = userIdentity;
 
         var scene = new Scene(root, ENV_WINDOW_WIDTH, ENV_WINDOW_HEIGHT, BG_COLOR);
         initScene(this, scene, root);

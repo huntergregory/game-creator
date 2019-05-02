@@ -203,16 +203,6 @@ public abstract class AIEvent extends ComponentDependentEvent {
         }
     }
 
-    private void shoot(EngineInstance shooterEngineInstance, String missile, AimComponent aim){
-        EngineInstance missileInstance = createFromInstance(missile, shooterEngineInstance);
-        System.out.println(myEngineInstances.size());
-        MotionComponent motion = missileInstance.getComponent(MotionComponent.class);
-        System.out.println(aim.getXAim());
-        double velocity = motion.getVelocity();
-        motion.setXVelocity(aim.getXAim() * velocity);
-        motion.setYVelocity(aim.getYAim() * velocity);
-    }
-
 }
 
 

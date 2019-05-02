@@ -1,6 +1,7 @@
 package Player.PlayerMain;
 
 import Engine.src.Controller.GameController;
+import Engine.src.EngineData.EngineGameObject;
 import Player.Features.PlayerButtons;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -599,75 +600,70 @@ public class PlayerStage extends Application {
     public void start(Stage stage) {
         Resource userResource = new Resource();
         userResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
-        userResource.resourceID = "Mario Picture";
+        userResource.resourceID = "Your Ship";
         userResource.src = "/img/gal.png";
         Resource backGroundImage = new Resource();
         backGroundImage.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         backGroundImage.resourceID = "Space";
         backGroundImage.src = "/img/SpaceBackground.jpg";
-        Resource blockResource = new Resource();
-        blockResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
-        blockResource.resourceID = "Block Picture";
-        blockResource.src = "/img/Boss-Galaga-Sprite.webp";
+        Resource enemyShipRes = new Resource();
+        enemyShipRes.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
+        enemyShipRes.resourceID = "Enemy Ship";
+        enemyShipRes.src = "/img/Boss-Galaga-Sprite.webp";
+        Resource userMissileRes = new Resource();
+        userMissileRes.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
+        userMissileRes.resourceID = "User Missile";
+        userMissileRes.src = "/img/userMissile.png";
 
         GameObject user = new GameObject();
         user.objectID = "user";
         user.objectLogic =
                 "object.addComponent(" +
-                "new MotionComponent('0', '0', '0', '0', '0', '0.0'), new HealthComponent('100', '100'), " +
+                "new MotionComponent('0', '0', '2', '-2', '0', '0.0'), new HealthComponent('100', '100'), " +
+                        "new AimComponent('0', '1', '3', '0'), " +
                 "new LivesComponent('3', 'instance.getComponent(BasicComponent).setY((Double) 700)'), new ScoreComponent('0') ); ";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
-        user.bgImage = "Mario Picture";
-        GameObject missile = new GameObject();
-        missile.objectID = "missile";
-        missile.bgColor = "FFFFFF";
-        missile.bgImage = "Mario Picture";
-        missile.objectLogic =
-                "object.addComponent(new MotionComponent('1', '0', '0', '0', '0', '0'), " +
-                        "new BasicComponent('Mario Picture', '50', '100', '20', '20'))";
+        user.bgImage = "Your Ship";
+        GameObject userMissile = new GameObject();
+        userMissile.objectID = "userMissile";
+        userMissile.bgColor = "FFFFFF";
+        userMissile.bgImage = "User Missile";
+        userMissile.objectLogic =
+                "object.addComponent(new MotionComponent('1.5', '0', '0', '0', '0', '0'), " +
+                        "new BasicComponent('User Missile', '0', '0', '20', '20'))";
 
-        GameObject block = new GameObject();
-        block.objectID = "Block";
-        block.objectLogic = "object.addComponent(" +
+        GameObject enemy = new GameObject();
+        enemy.objectID = "Block";
+        enemy.objectLogic = "object.addComponent(" +
                 "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), " +
                 "new ScoreComponent('0'), new ImpassableComponent('true'), " +
                 "new AimComponent('0', '0', '0', '10'), " +
                 "new LogicComponent('manager.call(\"GoodAim\", instance, \"Mario\", \"missile\", \"0.8\")') );";
         //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
-        block.bgColor = "FFFFFF";
-        block.bgImage = "Block Picture";
+        enemy.bgColor = "FFFFFF";
+        enemy.bgImage = "Enemy Ship";
         Instance user1 = new Instance();
         user1.instanceOf = "user";
-        user1.instanceID = "Mario";
+        user1.instanceID = "user";
         user1.instanceLogic = "";
         //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
         user1.bgColor = "FFFFFF";
-        user1.bgImage = "Mario Picture";
+        user1.bgImage = "Your Ship";
         user1.height = 50;
         user1.width = 50;
         user1.x = GAME_WIDTH / 2;
-        user1.y = 1000;
+        user1.y = 700;
         user1.zIndex = 1;
-        Instance block1 = new Instance();
-        block1.instanceOf = "Block";
-        block1.instanceID = "Block1";
-        block1.instanceLogic = "";
-        block1.bgColor = "#FFFFFF";
-        block1.bgImage = "Block Picture";
-        block1.height = 50;
-        block1.width = 500;
-        block1.x = 0;
-        block1.y = 200;
-        block1.zIndex = 2;
         gamedata.Scene scene1 = new gamedata.Scene();
         scene1.instances.add(user1);
-        scene1.instances.add(block1);
         scene1.sceneLogic = "parser.addKey('D', 'manager.call(\"KeyMoveRight\", user)');" +
                 "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", user)');" +
                 "parser.addKey('W', 'manager.call(\"KeyMoveUp\", user)');" +
-                "parser.addKey('S', 'manager.call(\"KeyMoveDown\", user)');" +
-                "parser.addKey('M', 'manager.call(\"Jump\", user)');" +
+                "parser.addKey('D', 'manager.call(\"KeyMoveRight\", user)');" +
+                "parser.addKey('L', 'manager.call(\"RotateClockwise\", user)');" +
+                "parser.addKey('J', 'manager.call(\"RotateCounterClockwise\", user)');" +
+                "parser.addKey('K', 'manager.call(\"Shoot\", user, \"userMissile\")');" +
                 "parser.addCollision('user', 'Block', 'manager.call(\"Die\", object1); manager.call(\"Die\", object2)')";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
@@ -675,10 +671,11 @@ public class PlayerStage extends Application {
         Game game = new Game();
         game.scenes.add(scene1);
         game.gameObjects.add(user);
-        game.gameObjects.add(block);
-        game.gameObjects.add(missile);
+        game.gameObjects.add(enemy);
+        game.gameObjects.add(userMissile);
         game.resources.add(userResource);
-        game.resources.add(blockResource);
+        game.resources.add(enemyShipRes);
+        game.resources.add(userMissileRes);
         myGameStage = stage;
         myGameCenterController = myGameCenterController;
         myVisualRoot = new GridPane();
@@ -738,8 +735,8 @@ public class PlayerStage extends Application {
         initAndRemoveSounds();
         initDataTrackers();
         initBorderPane();
-        initBackGround();
-        addNewImageViews();
+        initializeImageViews();
+//        addNewImageViews();
         Scene gameScene = new Scene(myBorderPane, GAME_BG);
         gameScene.getStylesheets().add("hud.css");
         myGameStage.setScene(gameScene);
@@ -748,34 +745,37 @@ public class PlayerStage extends Application {
         animate();
     }
 
-    private void initBackGround() {
-        gamedata.Scene scene = myGame.scenes.get(myGame.currentLevel);
-
-        var newImageView = new ImageView();
-        myGameRoot.getChildren().add(newImageView);
-
+    private void initializeImageViews() {
+        //Set filename to one based on resource
         InputStream newInputStream = null;
-        for(Resource resource: myGame.resources) {
-            if(scene.bgImage.equals(resource.resourceID)) {
-                newInputStream = this.getClass().getResourceAsStream(resource.src);
+        for(String inst : myEngineInstances.keySet()) {
+            EngineInstance instance = myEngineInstances.get(inst);
+            BasicComponent basic = instance.getComponent(BasicComponent.class);
+            for (Resource resource : myGame.resources) {
+                if (basic.getMyFilename().equals(resource.resourceID)) {
+                    newInputStream = this.getClass().getResourceAsStream(resource.src);
+                }
             }
-        }
-        if (newInputStream == null) {
-            return;
-        }
+            if (newInputStream == null) {
+                return;
+            }
 
-        Image newImage = new Image(newInputStream);
-        if (!newImage.equals(newImageView.getImage()))
-            newImageView.setImage(newImage);
+            Image newImage = new Image(newInputStream);
+            ImageView imageView = new ImageView(newImage);
+            myImageViewMap.put(instance, imageView);
+            moveAndResize(imageView, basic);
+            myGameRoot.getChildren().add(imageView);
+        }
     }
-
     private void setHud() {
+
         myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
                 myYPosTracker,
                 myYVelocity,
                 myTimeTracker,
                 myLivesTracker,
                 myPowerupTracker);
+
     }
 
     private void setPlayerButtons() {
@@ -896,7 +896,7 @@ public class PlayerStage extends Application {
             return;
         //FIXME is it instance.getID or is it instance
         ImageView imageView = myImageViewMap.get(engineInstance);
-        setImageIfNecessary(imageView, basicComponent);
+        if(imageView.getImage() == null) setAnImage(imageView, basicComponent);
         moveAndResize(imageView, basicComponent);
     }
 
@@ -907,21 +907,15 @@ public class PlayerStage extends Application {
         imageView.setFitHeight(basicComponent.getHeight());
     }
 
-    private void setImageIfNecessary(ImageView imageView, BasicComponent entity) {
+    private void setAnImage(ImageView imageView, BasicComponent entity) {
         //Set filename to one based on resource
-        InputStream newInputStream = null;
         for(Resource resource: myGame.resources) {
             if(entity.getMyFilename().equals(resource.resourceID)) {
-                newInputStream = this.getClass().getResourceAsStream(resource.src);
+                InputStream newInputStream = this.getClass().getResourceAsStream(resource.src);
+                Image newImage = new Image(newInputStream);
+                imageView.setImage(newImage);
             }
         }
-        if (newInputStream == null) {
-            return;
-        }
-
-        Image newImage = new Image(newInputStream);
-        if (!newImage.equals(imageView.getImage()))
-            imageView.setImage(newImage);
     }
 
     private void initDataTrackers() {

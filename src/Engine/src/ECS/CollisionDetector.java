@@ -36,9 +36,11 @@ public class CollisionDetector {
             EngineInstance other = allEntities.get(ID);
             if (other.equals(entity))
                 continue;
-            var impassableComponent = other.getComponent(ImpassableComponent.class);
-            if (impassableComponent != null && impassableComponent.getImpassable())
-                impassables.add(other);
+            if (other.hasComponent(ImpassableComponent.class)) {
+                var impassableComponent = other.getComponent(ImpassableComponent.class);
+                if (impassableComponent != null && impassableComponent.getImpassable())
+                    impassables.add(other);
+            }
         }
         return impassables;
     }

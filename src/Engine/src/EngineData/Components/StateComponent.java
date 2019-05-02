@@ -13,6 +13,10 @@ public class StateComponent extends Component {
         }
     }
 
+    public StateComponent(List<String> states) {
+        myStates = states;
+    }
+
     public boolean hasState(String state){
         return myStates.contains(state);
     }
@@ -23,6 +27,11 @@ public class StateComponent extends Component {
 
     public void removeState(String state){
         myStates.remove(state);
+    }
+
+    @Override
+    public Component copy() {
+        return new StateComponent(myStates);
     }
 
 }

@@ -1,4 +1,4 @@
-package voogasalad.util.reflection;
+package reflection;
 
 /**
  * A general exception that represents all possible Java Reflection exceptions.

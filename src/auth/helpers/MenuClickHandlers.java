@@ -9,6 +9,7 @@ import auth.screens.CanvasScreen;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import gamedata.Game;
+import gamedata.GameObject;
 import gamedata.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +22,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 import static auth.helpers.ScreenHelpers.initialiseGrids;
@@ -63,7 +65,9 @@ public class MenuClickHandlers {
             }
             context.changeTitle(file.getName());
             try {
+                System.out.println(file);
                 String contents = new Scanner(file).useDelimiter("\\Z").next();
+                System.out.println(contents);
                 Game game = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
                 ScreenHelpers.closeMenu(context, paneA, paneB, paneContainer, namePane);
                 context.setGame(game);
@@ -78,8 +82,13 @@ public class MenuClickHandlers {
             FXMLLoader loader = addPopup("/auth_components_fxml/objectScript.fxml");
             ObjectScriptController controller = loader.getController();
             Game o = context.getGame();
-            Scene scene = o.scenes.get(context.getCurrentScene());
-            scene.sceneLogic = scene.sceneLogic + controller.script;
+            List<GameObject> gameObjects = o.gameObjects;
+            for(GameObject go:gameObjects){
+                if(go.objectID.equals(controller.objID)){
+                    go.objectLogic = go.objectLogic + controller.script;
+                    System.out.print(go.objectID + " " + go.objectLogic);
+                }
+            }
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }

@@ -132,13 +132,12 @@ public class EngineParser {
             String objectLogic = importStatements + serializedObject.objectLogic;
             shell.evaluate(objectLogic);
             myGameEngineObjects.add(object);
-            System.out.println(object.myComponents);
-            makeEngineInstancesOfType(object, serializedInstances, binding, shell);
+            makeEngineInstancesOfType(object, serializedInstances, binding, shell, importStatements);
         }
     }
 
 
-    private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
+    private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell, String importStatements) {
         for (Instance serializedInstance : serializedInstances) {
             String instanceOf = serializedInstance.instanceOf;
             String objectType = object.getID();
@@ -148,15 +147,19 @@ public class EngineParser {
                 EngineInstance engineInstance = object.createInstance(instanceID);
                 updateBasicComponent(engineInstance, serializedInstance);
                 binding.setProperty("instance", engineInstance);
-                String instanceLogic = serializedInstance.instanceLogic;
+                String instanceLogic = importStatements + serializedInstance.instanceLogic;
                 Script instanceInitializer = shell.parse(instanceLogic);
                 instanceInitializer.run();
                 myEngineInstances.put(instanceID, engineInstance);
+                System.out.println(instanceID + " " + myEngineInstances.get(instanceID).getComponent(BasicComponent.class).getX());
             }
+        }
+        for (String ID: myEngineInstances.keySet()) {
+            System.out.println(ID + " " + myEngineInstances.get(ID).getComponent(BasicComponent.class).getX());
         }
     }
 
-    private void updateBasicComponent(EngineInstance engineInstance, Instance  instance) {
+    private void updateBasicComponent(EngineInstance engineInstance, Instance instance) {
         var basic = new BasicComponent(instance.bgImage, Double.toString(instance.x), Double.toString(instance.y), Double.toString(instance.width), Double.toString(instance.height), Integer.toString(instance.zIndex));
         engineInstance.addComponent(basic);
     }

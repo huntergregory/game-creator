@@ -525,12 +525,12 @@ public class PlayerStage extends Application {
 
     public final String ST_TITLE = "Cracking Open a Scrolled One with the Boys";
     public final double ST_WIDTH = 800;
-    public final double ST_HEIGHT = 600;
+    public final double ST_HEIGHT = 800;
     public final Paint ST_COLOR = Color.web("284376");
 
     public final double STEP_TIME = 5;
     public final double GAME_WIDTH = 1400;
-    public final double GAME_HEIGHT = 800;
+    public final double GAME_HEIGHT = 700;
     public final Paint GAME_BG = Color.BLACK;
 
     public static final int FRAMES_PER_SECOND = 15;
@@ -600,7 +600,11 @@ public class PlayerStage extends Application {
         Resource userResource = new Resource();
         userResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         userResource.resourceID = "Mario Picture";
-        userResource.src = "/img/leftarrow.png";
+        userResource.src = "/img/gal.png";
+        Resource backGroundImage = new Resource();
+        backGroundImage.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
+        backGroundImage.resourceID = "Space";
+        backGroundImage.src = "/img/SpaceBackground.jpg";
         Resource blockResource = new Resource();
         blockResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         blockResource.resourceID = "Block Picture";
@@ -610,8 +614,8 @@ public class PlayerStage extends Application {
         user.objectID = "user";
         user.objectLogic =
                 "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), " +
-                "new LivesComponent('3', 'instance.getComponent(BasicComponent).setX((Double) 500)'), new ScoreComponent('0') ); ";
+                "new MotionComponent('0', '0', '0', '0', '0', '0.0'), new HealthComponent('100', '100'), " +
+                "new LivesComponent('3', 'instance.getComponent(BasicComponent).setY((Double) 700)'), new ScoreComponent('0') ); ";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
@@ -642,8 +646,8 @@ public class PlayerStage extends Application {
         user1.bgImage = "Mario Picture";
         user1.height = 50;
         user1.width = 50;
-        user1.x = 150;
-        user1.y = 50;
+        user1.x = GAME_WIDTH / 2;
+        user1.y = 1000;
         user1.zIndex = 1;
         Instance block1 = new Instance();
         block1.instanceOf = "Block";
@@ -667,7 +671,7 @@ public class PlayerStage extends Application {
                 "parser.addCollision('user', 'Block', 'manager.call(\"Die\", object1); manager.call(\"Die\", object2)')";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
-        scene1.bgImage = "";
+        scene1.bgImage = "Space";
         Game game = new Game();
         game.scenes.add(scene1);
         game.gameObjects.add(user);
@@ -734,6 +738,7 @@ public class PlayerStage extends Application {
         initAndRemoveSounds();
         initDataTrackers();
         initBorderPane();
+        initBackGround();
         addNewImageViews();
         Scene gameScene = new Scene(myBorderPane, GAME_BG);
         gameScene.getStylesheets().add("hud.css");
@@ -741,6 +746,27 @@ public class PlayerStage extends Application {
         myGameStage.show();
         gameScene.setOnKeyPressed(e -> myLevelController.processKey(e.getCode().toString()));
         animate();
+    }
+
+    private void initBackGround() {
+        gamedata.Scene scene = myGame.scenes.get(myGame.currentLevel);
+
+        var newImageView = new ImageView();
+        myGameRoot.getChildren().add(newImageView);
+
+        InputStream newInputStream = null;
+        for(Resource resource: myGame.resources) {
+            if(scene.bgImage.equals(resource.resourceID)) {
+                newInputStream = this.getClass().getResourceAsStream(resource.src);
+            }
+        }
+        if (newInputStream == null) {
+            return;
+        }
+
+        Image newImage = new Image(newInputStream);
+        if (!newImage.equals(newImageView.getImage()))
+            newImageView.setImage(newImage);
     }
 
     private void setHud() {
@@ -858,11 +884,6 @@ public class PlayerStage extends Application {
             var newImageView = new ImageView();
             myImageViewMap.put(engineInstance, newImageView);
             myGameRoot.getChildren().add(newImageView);
-            Rectangle rect = new Rectangle(50, 50);
-            rect.setX(50);
-            rect.setY(100);
-            myGameRoot.getChildren().add(rect);
-
             updateImageView(engineInstance);
         }
     }

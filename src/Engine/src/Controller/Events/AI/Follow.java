@@ -9,13 +9,12 @@ import java.util.Set;
 public class Follow extends AIEvent{
 
         public Follow(Map<String, EngineInstance> engineInstanceSet, Set<UnmodifiableEngineGameObject> engineObjects) {
-            super(engineInstanceSet, engineObjects, EngineInstance.class, Double.class);
+            super(engineInstanceSet, engineObjects, String.class);
         }
 
         @Override
         protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object... args) {
-            follow(engineInstance, (EngineInstance) args[0], stepTime) ;
+            follow(engineInstance, (String) args[0], stepTime) ;
         }
-
     }
-
+    

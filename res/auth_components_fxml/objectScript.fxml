@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+        <?import java.lang.*?>
+        <?import java.util.*?>
+        <?import javafx.scene.*?>
+        <?import javafx.scene.control.*?>
+        <?import javafx.scene.layout.*?>
+
+        <?import java.net.URL?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="auth.auth_fxml_controllers.ObjectScriptController"
+          prefHeight="400.0" prefWidth="600.0" styleClass="gridPane" alignment="CENTER">
+
+<columnConstraints>
+    <ColumnConstraints percentWidth="100"  />
+</columnConstraints>
+
+<Label fx:id="titleLabel" text="Object Script" GridPane.rowIndex="0" styleClass="label"/>
+<TextField fx:id="objectID" promptText="Enter object ID" GridPane.rowIndex="1" styleClass="textfield"/>
+<TextField fx:id="objectScript" promptText="Enter object script" GridPane.rowIndex="2" styleClass="textfield"/>
+<Button fx:id="addButton" text="Add Scene Script" GridPane.rowIndex="3" styleClass="button" onMouseClicked="#addObjectScript"/>
+
+<stylesheets>
+    <URL value="@styles/popup.css" />
+</stylesheets>
+
+</GridPane>

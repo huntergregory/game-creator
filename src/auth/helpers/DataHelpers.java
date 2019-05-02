@@ -1,15 +1,14 @@
 package auth.helpers;
 
+import Engine.src.EngineData.EngineGameObject;
 import auth.screens.CanvasScreen;
-import gamedata.Game;
-import gamedata.GameObject;
-import gamedata.Resource;
-import gamedata.Scene;
+import gamedata.*;
 
 public class DataHelpers {
     public static Scene createNewScene(int number) {
         var scene = new Scene();
         scene.sceneID = "scene_"+number;
+        scene.sceneLogic = "// Type your Groovy scripts for " + scene.sceneID + " here";
         return scene;
     }
 
@@ -61,6 +60,15 @@ public class DataHelpers {
     public static GameObject getObjectByID(Game game, String id) {
         for (var s : game.gameObjects) {
             if (s.objectID.equals(id)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public static Instance getInstanceByID(Game game, String id, int currentScene) {
+        for (var s : game.scenes.get(currentScene).instances) {
+            if (s.instanceID.equals(id)) {
                 return s;
             }
         }

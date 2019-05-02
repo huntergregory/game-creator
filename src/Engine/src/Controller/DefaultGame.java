@@ -1,10 +1,7 @@
 package Engine.src.Controller;
 
-import Engine.src.Components.*;
+import Engine.src.Manager.Events.Event;
 import Engine.src.ECS.Pair;
-import Engine.src.Triggers.Events.Event;
-import Engine.src.Triggers.Events.ObjectEvents.Deflect;
-import Engine.src.Triggers.Events.ObjectEvents.Portal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DefaultGame {
-    private static final String BLOCK_IMAGE = "/img/block.jpg";
-    private static final String USER_IMAGE = "/img/mario.png";
+/*    private static final String BLOCK_IMAGE = "/img/block.jpg";
+    private static final String USER_IMAGE = "/img/mario.jpg";
     private static final String PORTAL_IMAGE = "/img/portal.jpg";
     private static final double USER_WIDTH = 30;
     private static final double USER_HEIGHT = 50;
@@ -106,7 +103,7 @@ public class DefaultGame {
     private void makeUser() {
         Map<Class<? extends Component>, Component> user = new HashMap<>();
         user.put(BasicComponent.class, new BasicComponent(USER_IMAGE, 50, 50, USER_WIDTH, USER_HEIGHT));
-        user.put(MotionComponent.class, new MotionComponent(0, 0, 0, GRAVITY, 0, USER_MOVEMENT_VELOCITY, 0));
+        user.put(MotionComponent.class, new MotionComponent(0, 0, 0, GRAVITY, 0, USER_MOVEMENT_VELOCITY));
         user.put(JumpComponent.class, new JumpComponent(USER_JUMP_VELOCITY));
         List<String> userTag = new ArrayList<>();
         userTag.add("USER");
@@ -116,9 +113,7 @@ public class DefaultGame {
 
     private void addCollisions() {
         //makeCollision("USER", "BLOCK", new Deflect(new ArrayList<>(), 0));
-        makeCollision("USER", "TRAMPOLINE", new Deflect(new ArrayList<>(), 0));
-        makeCollision("USER", "SHOOTER", new Portal(new ArrayList<>(), true));
-        makeCollision("USER", "STOPPER", new Portal(new ArrayList<>(), false));
+
     }
 
     private void makeCollision(String tag1, String tag2, Event event) {
@@ -135,5 +130,5 @@ public class DefaultGame {
 
     public Map<Pair<String>, Pair<List<Event>>> getCollisionMap() {
         return myCollisionMap;
-    }
+    }*/
 }

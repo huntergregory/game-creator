@@ -1,7 +1,9 @@
 package auth.helpers;
 
 import auth.RunTest;
+import auth.auth_fxml_controllers.CollisionController;
 import auth.auth_fxml_controllers.KeyEventController;
+import auth.auth_fxml_controllers.ObjectScriptController;
 import auth.auth_fxml_controllers.SceneScriptController;
 import auth.screens.CanvasScreen;
 import com.google.gson.Gson;
@@ -71,6 +73,31 @@ public class MenuClickHandlers {
             }
         }
     }
+
+    public static void handleAddObjectScript(CanvasScreen context){
+        try{
+            FXMLLoader loader = addPopup("/auth_components_fxml/objectScript.fxml");
+            ObjectScriptController controller = loader.getController();
+            Game o = context.getGame();
+            Scene scene = o.scenes.get(context.getCurrentScene());
+            scene.sceneLogic = scene.sceneLogic + controller.script;
+        } catch (IOException e) {
+            System.out.println("Error loading the components fxml");
+        }
+    }
+
+    public static void handleAddCollision(CanvasScreen context){
+        try{
+            FXMLLoader loader = addPopup("/auth_components_fxml/collision.fxml");
+            CollisionController controller = loader.getController();
+            Game o = context.getGame();
+            Scene scene = o.scenes.get(context.getCurrentScene());
+            scene.sceneLogic = scene.sceneLogic + controller.script;
+        } catch (IOException e) {
+            System.out.println("Error loading the components fxml");
+        }
+    }
+
 
     public static void handleAddKeyEvent(CanvasScreen context){
         try{

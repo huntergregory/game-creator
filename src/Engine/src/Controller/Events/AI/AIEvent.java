@@ -168,9 +168,16 @@ public abstract class AIEvent extends ComponentDependentEvent {
     public void baseAim(EngineInstance shooterEngineInstance, String targetInstance, String missile, String accuracy){
         EngineInstance targetEngineInstance = getInstanceByID(targetInstance);
         double[] distanceVec = findDistanceVector(shooterEngineInstance, targetEngineInstance);
-        double angle = Math.atan(distanceVec[1] / distanceVec[0]);
+        double angle = calculateAngle(distanceVec);
+        double mag = calculateMagnitude(distanceVec);
+        if (shooterEngineInstance.hasComponent(LOSComponent.class)) {
+            if (shooterEngineInstance.getComponent(LOSComponent.class).getLOS() < mag){
+                return;
+            }
+        }
         aimAndShoot(shooterEngineInstance, missile, angle, Double.parseDouble(accuracy));
     }
+
 
     public void goodAim(EngineInstance shooterEngineInstance, String targetInstance, String missile, String accuracy, double stepTime){
         EngineInstance targetEngineInstance = getInstanceByID(targetInstance);
@@ -185,7 +192,12 @@ public abstract class AIEvent extends ComponentDependentEvent {
             double idealX = distanceVec[0] + (stepTime * xVel);
             double idealY = distanceVec[1] + (stepTime * yVel);
             double[] idealDistanceVec = {idealX, idealY};
-            double angle = Math.atan(idealDistanceVec[1] / idealDistanceVec[0]);
+            double angle = calculateAngle(idealDistanceVec);
+            if (shooterEngineInstance.hasComponent(LOSComponent.class)) {
+                if (shooterEngineInstance.getComponent(LOSComponent.class).getLOS() < calculateMagnitude(distanceVec)){
+                    return;
+                }
+            }
             aimAndShoot(shooterEngineInstance, missile, angle, Double.parseDouble(accuracy));
         }
     }
@@ -194,8 +206,10 @@ public abstract class AIEvent extends ComponentDependentEvent {
         Random rand = new Random();
         angle += rand.nextGaussian() * .5 * (1 - accuracy);
         AimComponent aim = shooterEngineInstance.getComponent(AimComponent.class);
-        aim.setXAim(Math.cos(angle));
-        aim.setYAim(Math.sin(angle));
+        double xAim = Math.cos(angle);
+        double yAim = Math.sin(angle);
+        aim.setXAim(xAim);
+        aim.setYAim(yAim);
 
         if (aim.getMyTracker() % aim.getMyShootRate() == 0){
             shoot(shooterEngineInstance, missileObject, aim);

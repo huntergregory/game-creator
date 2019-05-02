@@ -625,7 +625,7 @@ public class PlayerStage extends Application {
         user.objectLogic =
                 "object.addComponent(" +
                         "new MotionComponent('0', '0', '1', '-1', '0', '0.0'), new HealthComponent('100', '100'), " +
-                        "new AimComponent('0', '-1', '3', '10'), " +
+                        "new AimComponent('0', '-1', '3', '1'), " +
                         "new LivesComponent('3', ''), new ScoreComponent('0') ); ";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
@@ -642,15 +642,16 @@ public class PlayerStage extends Application {
         enemyMissile.bgColor = "FFFFFF";
         enemyMissile.bgImage = "Enemy Missile";
         enemyMissile.objectLogic =
-                "object.addComponent(new MotionComponent('3', '0', '0', '0', '0', '0'), " +
+                "object.addComponent(new MotionComponent('4', '0', '0', '0', '0', '0'), " +
                         "new BasicComponent('Enemy Missile', '0', '0', '20', '20'))";
 
         GameObject enemy = new GameObject();
         enemy.objectID = "enemy";
         enemy.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '2', '1.5', '1.5', '0', '0'), new HealthComponent('100', '100'), " +
-                "new AimComponent('0', '0', '0', '30'), " +
+                "new MotionComponent('0', '1', '1.5', '1.5', '0', '0'), new HealthComponent('100', '100'), " +
+                "new AimComponent('0', '0', '0', '8'), " +
                 "new BasicComponent(\"Enemy Ship\", '50.0', '50.0', '50.0', '50.0', '1'), " +
+                "new LOSComponent('500'), " +
                 "new LogicComponent('manager.call(\"GoodAim\", instance, \"user\", \"enemyMissile\", \"0.9\"); ') );";
 
         enemy.bgColor = "FFFFFF";
@@ -719,6 +720,32 @@ public class PlayerStage extends Application {
         enemy5.x = 0;
         enemy5.y = -10;
         enemy5.zIndex = 4;
+
+        Instance enemy6 = new Instance();
+        enemy6.instanceOf = "enemy";
+        enemy6.instanceID = "enemy6";
+        enemy6.instanceLogic = "";
+        //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
+        enemy6.bgColor = "FFFFFF";
+        enemy6.bgImage = "Enemy Ship";
+        enemy6.height = 50;
+        enemy6.width = 50;
+        enemy6.x = -100;
+        enemy6.y = -40;
+        enemy6.zIndex = 5;
+
+        Instance enemy7 = new Instance();
+        enemy7.instanceOf = "enemy";
+        enemy7.instanceID = "enemy7";
+        enemy7.instanceLogic = "";
+        //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
+        enemy7.bgColor = "FFFFFF";
+        enemy7.bgImage = "Enemy Ship";
+        enemy7.height = 50;
+        enemy7.width = 50;
+        enemy7.x = GAME_WIDTH /2;
+        enemy7.y = -100;
+        enemy7.zIndex = 5;
 
         gamedata.Scene scene1 = new gamedata.Scene();
         scene1.instances.add(user1);

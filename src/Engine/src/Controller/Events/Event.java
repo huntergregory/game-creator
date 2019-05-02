@@ -45,6 +45,14 @@ public abstract class Event {
         return true;
     }
 
+    protected double calculateAngle(double[] distanceVec){
+        double angle = Math.atan(distanceVec[1] / distanceVec[0]);
+        if ((distanceVec[0] < 0 && distanceVec[1] < 0) ||
+                (distanceVec[0] < 0 && distanceVec[1] > 1))
+            angle += Math.PI;
+        return angle;
+    }
+
     /**
      *
      * All subclasses of Event assume that Event does full error checking of both the number and type of args in execute.

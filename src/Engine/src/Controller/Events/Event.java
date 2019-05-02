@@ -14,7 +14,7 @@ public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";
 
     protected Map<String, EngineInstance> myEngineInstances;
-    private Set<UnmodifiableEngineGameObject> myGameEngineObjects;
+    protected Set<UnmodifiableEngineGameObject> myGameEngineObjects;
     private Class[] myParameters;
 
     public Event(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects, Class ... parameterTypes) {

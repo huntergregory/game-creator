@@ -3,6 +3,7 @@ package Engine.src.Controller.Events.AI;
 import Engine.src.ECS.Line;
 import Engine.src.ECS.Pair;
 import Engine.src.EngineData.Components.*;
+import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Controller.Events.ComponentDependentEvent;
 import Engine.src.Controller.Events.Motion.SetXPosition;
@@ -163,15 +164,15 @@ public abstract class AIEvent extends ComponentDependentEvent {
         return Math.pow(Math.pow(deltaX, 2) + Math.pow(deltaY, 2), .5);
     }
 
-    public void baseAim(EngineInstance shooterEngineInstance, EngineInstance targetEngineInstance, double accuracy){
+    public void baseAim(EngineInstance shooterEngineInstance, EngineInstance targetEngineInstance, String missile, double accuracy){
         double[] distanceVec = findDistanceVector(shooterEngineInstance, targetEngineInstance);
         double angle = Math.atan(distanceVec[1] / distanceVec[0]);
-        aim(shooterEngineInstance, angle, accuracy);
+        aimAndShoot(shooterEngineInstance, missile, angle, accuracy);
     }
 
-    public void goodAim(EngineInstance shooterEngineInstance, EngineInstance targetEngineInstance, double accuracy, double stepTime){
+    public void goodAim(EngineInstance shooterEngineInstance, EngineInstance targetEngineInstance, String missile, double accuracy, double stepTime){
         MotionComponent motion = targetEngineInstance.getComponent(MotionComponent.class);
-        if (motion == null) baseAim(shooterEngineInstance, targetEngineInstance, accuracy);
+        if (motion == null) baseAim(shooterEngineInstance, targetEngineInstance, missile, accuracy);
         else {
             double xVel = motion.getXVelocity();
             double yVel = motion.getYVelocity();
@@ -180,17 +181,32 @@ public abstract class AIEvent extends ComponentDependentEvent {
             double idealY = distanceVec[1] + (stepTime * yVel);
             double[] idealDistanceVec = {idealX, idealY};
             double angle = Math.atan(idealDistanceVec[1] / idealDistanceVec[0]);
-            aim(shooterEngineInstance, angle, accuracy);
+            aimAndShoot(shooterEngineInstance, missile, angle, accuracy);
         }
     }
 
-    private void aim(EngineInstance shooterEngineInstance, double angle, double accuracy){
+    private void aimAndShoot(EngineInstance shooterEngineInstance, String missileObject, double angle, double accuracy){
         Random rand = new Random();
         angle += rand.nextGaussian() * angle * (1 - accuracy);
         AimComponent aim = shooterEngineInstance.getComponent(AimComponent.class);
         aim.setXAim(Math.cos(angle));
         aim.setYAim(Math.sin(angle));
+        aim.updateTracker();
+        if (aim.getMyTracker() % aim.getMyShootRate() == 0){
+            shoot(shooterEngineInstance, missileObject, aim);
+        }
     }
+
+    private void shoot(EngineInstance shooterEngineInstance, String missile, AimComponent aim){
+        EngineGameObject missileObject = getObjectByID(missile);
+        EngineInstance missileInstance = createFromInstance(missileObject, shooterEngineInstance);
+        MotionComponent motion = missileInstance.getComponent(MotionComponent.class);
+        double velocity = motion.getVelocity();
+        motion.setXVelocity(aim.getXAim() * velocity);
+        motion.setYVelocity(aim.getYAim() * velocity);
+    }
+
 }
 
 
+ 

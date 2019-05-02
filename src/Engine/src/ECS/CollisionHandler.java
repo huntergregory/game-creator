@@ -186,7 +186,7 @@ public class CollisionHandler {
             }
         }
         catch (NoComponentException e) {
-            System.out.println("No impassable to deal with");
+            //System.out.println("No impassable to deal with");
         }
     }
 

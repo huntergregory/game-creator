@@ -535,11 +535,12 @@ public class PlayerStage extends Application {
     public final double GAME_HEIGHT = 700;
     public final Paint GAME_BG = Color.BLACK;
 
-    public static final int FRAMES_PER_SECOND = 1;
+    public static final int FRAMES_PER_SECOND = 15;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private static final int HUD_UPDATE_DELAY = 10;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
+
 
 
     private VBox myVBox;
@@ -625,7 +626,7 @@ public class PlayerStage extends Application {
         user.objectLogic =
                 "object.addComponent(" +
                 "new MotionComponent('0', '0', '2', '-2', '0', '0.0'), new HealthComponent('100', '100'), " +
-                        "new AimComponent('0', '1', '3', '0'), " +
+                        "new AimComponent('0', '-1', '3', '0'), " +
                 "new LivesComponent('3', 'instance.getComponent(BasicComponent).setY((Double) 700)'), new ScoreComponent('0') ); ";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
@@ -710,7 +711,7 @@ public class PlayerStage extends Application {
         Instance enemy5 = new Instance();
         enemy5.instanceOf = "enemy";
         enemy5.instanceID = "enemy5";
-        enemy5.instanceLogic = "instance.addComponent(new LogicComponent('manager.call(\"Follow\", instance, \"user\"); ')); ";
+        enemy5.instanceLogic = "";//"instance.addComponent(new LogicComponent('manager.call(\"Follow\", instance, \"user\"); ')); ";
         //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
         enemy5.bgColor = "FFFFFF";
         enemy5.bgImage = "Enemy Ship";
@@ -766,8 +767,8 @@ public class PlayerStage extends Application {
             System.out.println("Couldn't write to file.");
         }
         myGameStage.setScene(myScene);
-        load("/Users/dliu18/Duke/Classes/CS308/voogasalad_crackingopen/data/DLiu.game");
-        //load(game);
+        //load("/Users/dliu18/Duke/Classes/CS308/voogasalad_crackingopen/data/DLiu.game");
+        load(game);
     }
 
     public void run(Game game, Boolean debug) {

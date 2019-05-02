@@ -1,6 +1,7 @@
 package Player.PlayerMain;
 
 import Engine.src.Controller.GameController;
+import Engine.src.EngineData.Components.*;
 import Player.Features.PlayerButtons;
 import Player.Features.SidePanel;
 import com.google.gson.Gson;
@@ -8,12 +9,9 @@ import com.google.gson.reflect.TypeToken;
 import GameCenter.main.GameCenterController;
 import Engine.src.EngineData.EngineInstance;
 import Player.Features.DebugConsole;
-import Engine.src.EngineData.Components.BasicComponent;
-import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
 import gamedata.Game;
 import gamedata.Resource;
-import hud.DataTracker;
 import hud.HUDView;
 import hud.NumericalDataTracker;
 import javafx.animation.KeyFrame;
@@ -40,17 +38,11 @@ public class PlayerStage {
     private static final double OFFSET_THRESHOLD = 200;
     private final String STYLESHEET = "style.css";
     private final double HUD_WIDTH = 300;
-
-    public final String ST_TITLE = "Cracking Open a Scrolled One with the Boys";
     public final double ST_WIDTH = 800;
     public final double ST_HEIGHT = 600;
     public final Paint ST_COLOR = Color.web("284376");
-
     public final double STEP_TIME = 5;
-    public final double GAME_WIDTH = 1400;
-    public final double GAME_HEIGHT = 800;
     public final Paint GAME_BG = Color.BLACK;
-
     public static final int FRAMES_PER_SECOND = 15;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -83,7 +75,12 @@ public class PlayerStage {
     private NumericalDataTracker<Double> myTimeTracker;
     private NumericalDataTracker<Integer> myLivesTracker;
     private NumericalDataTracker<Integer> myScoreTracker;
-    private DataTracker<String> myPowerupTracker;
+
+    EngineInstance userEngineInstance;
+    BasicComponent basicComponent;
+    MotionComponent motionComponent;
+    LivesComponent livesComponent;
+    ScoreComponent scoreComponent;
 
     private final String FILE_NOT_FOUND = "File not found";
     private int myCount;
@@ -133,6 +130,7 @@ public class PlayerStage {
         initializeBackGround();
         Scene gameScene = new Scene(myBorderPane, GAME_BG);
         gameScene.getStylesheets().add("hud.css");
+        myGameStage = new Stage();
         myGameStage.setScene(gameScene);
         myGameStage.show();
         gameScene.setOnKeyPressed(e -> myLevelController.processKey(e.getCode().toString()));
@@ -146,7 +144,7 @@ public class PlayerStage {
 
     private void initializeImageViews() {
         InputStream newInputStream = null;
-        for(String inst : myEngineInstances.keySet()) {
+        for (String inst : myEngineInstances.keySet()) {
             EngineInstance instance = myEngineInstances.get(inst);
             BasicComponent basic = instance.getComponent(BasicComponent.class);
             for (Resource resource : myGame.resources) {
@@ -170,8 +168,7 @@ public class PlayerStage {
                 myYPosTracker,
                 myYVelocity,
                 myTimeTracker,
-                myLivesTracker,
-                myPowerupTracker);
+                myLivesTracker);
     }
 
     private void setPlayerButtons() {
@@ -234,15 +231,15 @@ public class PlayerStage {
                 basic.getX() > userBasic.getX() + (ST_WIDTH / 2) + OFFSET_THRESHOLD ||
                 basic.getY() < userBasic.getY() - (ST_HEIGHT / 2) - OFFSET_THRESHOLD ||
                 basic.getY() > userBasic.getY() + (ST_HEIGHT / 2) + OFFSET_THRESHOLD;
-
-        if  (outOfVisibleRange) myImageViewMap.remove(inst);
-        else if (!outOfVisibleRange || !myImageViewMap.containsKey(inst)){
+        if (outOfVisibleRange) {
+            myImageViewMap.remove(inst);
+        }
+        else if (! outOfVisibleRange || ! myImageViewMap.containsKey(inst)) {
             var newImageView = new ImageView();
             myImageViewMap.put(inst, newImageView);
             myGameRoot.getChildren().add(newImageView);
             updateImageView(inst);
         }
-
     }
 
     private void updateDebugLog() {
@@ -332,33 +329,29 @@ public class PlayerStage {
         myYVelocity = new NumericalDataTracker<>("Y Velocity");
         myLivesTracker = new NumericalDataTracker<>("Lives");
         myScoreTracker = new NumericalDataTracker<>("Score");
-        myPowerupTracker = new DataTracker<>("Powerup");
     }
 
     private void updateDataTrackers() {
-        EngineInstance userEngineInstance = myLevelController.getUserEngineInstance();
-        BasicComponent basicComponent = userEngineInstance.getComponent(BasicComponent.class);
-        MotionComponent motionComponent = userEngineInstance.getComponent(MotionComponent.class);
-        myTimeTracker.storeData(myCount * 1.0); //TODO get actual time
+        initComponents();
+        storeData();
+    }
+
+    private void initComponents() {
+        userEngineInstance = myLevelController.getUserEngineInstance();
+        basicComponent = userEngineInstance.getComponent(BasicComponent.class);
+        motionComponent = userEngineInstance.getComponent(MotionComponent.class);
+        livesComponent = userEngineInstance.getComponent(LivesComponent.class);
+        scoreComponent = userEngineInstance.getComponent(ScoreComponent.class);
+    }
+
+    private void storeData() {
+        myTimeTracker.storeData(myCount * 1.0);
         myXPosTracker.storeData(basicComponent.getX());
         myYPosTracker.storeData(basicComponent.getY());
         myYVelocity.storeData(motionComponent.getYVelocity());
-        myLivesTracker.storeData(2); //FIXME
-        myScoreTracker.storeData(0); //FIXME
-        myPowerupTracker.storeData("Flower"); //FIXME
+        myLivesTracker.storeData(livesComponent.getLives());
+        myScoreTracker.storeData(scoreComponent.getScore());
     }
-
-    /**
-     * edit(), rate() currently placeholder. Update these methods.
-     */
-    public void edit(String gameName) {
-//        System.out.println(gameName + " is being edited!");
-    }
-
-    public void rate(String gameName) {
-//        System.out.println("Rating for " + gameName + " is being changed!");
-    }
-
 
     public void updateLives(int lives) {
         System.out.println(lives);

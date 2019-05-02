@@ -12,6 +12,10 @@ public class LivesComponent extends Component{
         myRespawnInstructions = respawnInstructions;
     }
 
+    public int getLives() {
+        return myLives;
+    }
+
     public void addLife(){
         myLives++;
     }

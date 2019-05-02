@@ -1,12 +1,11 @@
 package Engine.src.Manager.Events.Motion;
 
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.Components.MotionComponent;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.Map;
-import java.util.Set;
 
 public class KeyMoveDown extends MotionEvent {
     public KeyMoveDown(Map<String, EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {

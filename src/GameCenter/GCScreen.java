@@ -1,11 +1,12 @@
 package GameCenter;
 
 // import Player.src.PlayerMain.PlayerStage;
+
 import GameCenter.gameData.DataStruct;
 import GameCenter.utilities.Thumbnail;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 

@@ -17,7 +17,6 @@ import groovy.lang.Sequence;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.Map;
 
 public class EngineParser {
 

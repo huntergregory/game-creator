@@ -1,6 +1,7 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
+import Engine.src.ECS.CollisionHandler;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
@@ -9,18 +10,12 @@ import Engine.src.Manager.DebugLog;
 import Engine.src.Manager.Manager;
 import Engine.src.Manager.Sounds;
 import gamedata.Game;
-import Engine.src.ECS.Pair;
-import Engine.src.ECS.CollisionHandler;
-import Engine.src.Timers.Timer;
-import Engine.src.Timers.TimerSequence;
-import gamedata.GameObject;
-import gamedata.Instance;
-import gamedata.Scene;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 public class LevelController {
     //FIXME remove eventually

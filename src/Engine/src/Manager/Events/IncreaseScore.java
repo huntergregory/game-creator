@@ -1,10 +1,9 @@
 package Engine.src.Manager.Events;
 
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.ScoreComponent;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.Map;
-import java.util.Set;
 
 public class IncreaseScore extends ComponentDependentEvent {
     public IncreaseScore(Map<String, EngineInstance> engineInstances) {

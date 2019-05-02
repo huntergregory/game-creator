@@ -1,10 +1,9 @@
 package Engine.src.Manager.Events;
 
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.Component;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.Map;
-import java.util.Set;
 
 public abstract class ComponentDependentEvent extends InstanceDependentEvent {
     private Class<? extends Component>[] myComponentClasses;

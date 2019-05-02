@@ -16,8 +16,8 @@
     "handler" :  "handleLoadFromCloud"
   },
   {
-    "name" : "Add Collaborators",
-    "handler" : "handleAddCollaborators"
+    "name" : "Change Collaborators",
+    "handler" : "handleChangeCollaborators"
   },
 
   {

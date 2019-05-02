@@ -1,13 +1,12 @@
 package Engine.src.Manager.Events;
 
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.LivesComponent;
+import Engine.src.EngineData.EngineInstance;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 import java.util.Map;
-import java.util.Set;
 
 //FIXME
 public class Die extends InstanceDependentEvent {

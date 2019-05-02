@@ -1,13 +1,12 @@
 package Engine.src.Manager.Events.Motion;
 
 import Engine.src.ECS.CollisionDetector;
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 
 public class SetXPosition extends MotionEvent {
     public SetXPosition(Map<String, EngineInstance> engineInstances, Class<? extends Component>[] componentClasses) {

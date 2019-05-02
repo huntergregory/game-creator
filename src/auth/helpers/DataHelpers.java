@@ -1,10 +1,18 @@
 package auth.helpers;
 
-import Engine.src.EngineData.EngineGameObject;
 import auth.screens.CanvasScreen;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.storage.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import gamedata.*;
 
+import java.io.FileInputStream;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class DataHelpers {
+    public static String SERVICE_ACCOUNT_JSON_PATH = "/Users/anshudwibhashi/work/school/CS308/voogasalad_crackingopen/lib/TMTP-b2dc645337e7.json";
     public static Scene createNewScene(int number) {
         var scene = new Scene();
         scene.sceneID = "scene_"+number;
@@ -120,6 +128,28 @@ public class DataHelpers {
             if (type.equals(Resource.ResourceType.COLOR_RESOURCE) && o.bgColor.equals(oldID)) {
                 o.bgColor = newID;
             }
+        }
+    }
+
+    public static void sendNewCloudData(CanvasScreen context) {
+        try {
+            GameCloudWrapper gcw = context.getGameCloudWrapper();
+            // Instantiates a client
+            Storage storage =
+                    StorageOptions.newBuilder()
+                            .setCredentials(
+                                    ServiceAccountCredentials.fromStream(
+                                            new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                            .setProjectId("tmtp-spec")
+                            .build()
+                            .getService();
+            String contents = new Gson().toJson(gcw, new TypeToken<GameCloudWrapper>() {}.getType());
+            BlobId blobId = BlobId.of("voogasalad-files", gcw.gameID);
+            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
+            Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+            context.triggerEvent(gcw.gameID);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

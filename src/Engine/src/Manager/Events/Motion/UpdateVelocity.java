@@ -1,10 +1,9 @@
 package Engine.src.Manager.Events.Motion;
 
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.MotionComponent;
+import Engine.src.EngineData.EngineInstance;
 
 import java.util.Map;
-import java.util.Set;
 
 public class UpdateVelocity extends MotionEvent {
     public UpdateVelocity(Map<String, EngineInstance> engineInstances) {

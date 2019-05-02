@@ -1,21 +1,16 @@
 package auth.auth_ui_components;
 
-import auth.Dimensions;
-import auth.UIElement;
-import auth.helpers.ScreenHelpers;
 import gamedata.Game;
 import gamedata.Instance;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.io.File;
-
-import static auth.Dimensions.*;
+import static auth.Dimensions.CANVAS_VERTICAL_OFFSET;
+import static auth.Dimensions.CONSOLE_HORIZONTAL_OFFSET;
 import static auth.helpers.ScreenHelpers.*;
 
 public class InstanceUI implements Selectable {

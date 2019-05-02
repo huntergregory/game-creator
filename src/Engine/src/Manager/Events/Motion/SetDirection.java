@@ -3,7 +3,6 @@ package Engine.src.Manager.Events.Motion;
 import Engine.src.EngineData.EngineInstance;
 
 import java.util.Map;
-import java.util.Set;
 
 public class SetDirection extends MotionEvent {
     public SetDirection(Map<String, EngineInstance> engineInstances) {

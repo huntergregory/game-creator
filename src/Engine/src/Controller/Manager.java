@@ -58,6 +58,7 @@ public class Manager {
             System.out.println(REFLECTION_ERROR);
         }
         catch (ClassCastException e) {
+            e.printStackTrace();
             System.out.println(CAST_ERROR);
         }
         catch (IllegalArgumentException e) {
@@ -73,6 +74,13 @@ public class Manager {
         catch (ClassNotFoundException e) {
             return false;
         }
+    }
+
+    public EngineInstance getUser() throws NoInstanceException {
+        var user = myParser.getUserEngineInstance();
+        if (user == null)
+            throw new NoInstanceException("user");
+        return user;
     }
 
     public void addTimer(Timer timer) {

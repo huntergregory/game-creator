@@ -151,7 +151,11 @@ public class EngineParser {
                 Script instanceInitializer = shell.parse(instanceLogic);
                 instanceInitializer.run();
                 myEngineInstances.put(instanceID, engineInstance);
+                System.out.println(instanceID + " " + myEngineInstances.get(instanceID).getComponent(BasicComponent.class).getX());
             }
+        }
+        for (String ID: myEngineInstances.keySet()) {
+            System.out.println(ID + " " + myEngineInstances.get(ID).getComponent(BasicComponent.class).getX());
         }
     }
 
@@ -171,6 +175,12 @@ public class EngineParser {
         }
     }
 
+    private void addDefaults() {
+        myHotKeys.put("D", "manager.call('KeyMoveRight'); ");
+        myHotKeys.put("A", "manager.call('KeyMoveLeft'); ");
+        myHotKeys.put("W", "manager.call('Jump'); ");
+    }
+
     public void setScrolling(boolean horiz, boolean vert) {
         scrollingHoriz = horiz;
         scrollingVert = vert;
@@ -182,12 +192,6 @@ public class EngineParser {
 
     public boolean getVertScrolling() {
         return scrollingVert;
-    }
-        
-    private void addDefaults() {
-        myHotKeys.put("D", "manager.call('KeyMoveRight'); ");
-        myHotKeys.put("A", "manager.call('KeyMoveLeft'); ");
-        myHotKeys.put("W", "manager.call('Jump'); ");
     }
 
 }

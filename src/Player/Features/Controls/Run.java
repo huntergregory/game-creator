@@ -14,6 +14,6 @@ public class Run extends Control {
 
     @Override
     protected EventHandler<MouseEvent> action() {
-        return event -> myContext.load(new Game());
+        return event -> myContext.load("x",false);
     }
 }

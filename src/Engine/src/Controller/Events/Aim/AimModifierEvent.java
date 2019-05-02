@@ -15,7 +15,10 @@ public abstract class AimModifierEvent extends ComponentDependentEvent {
 
     protected void rotateAim(EngineInstance engineInstance, boolean clockwise){
         AimComponent aim = engineInstance.getComponent(AimComponent.class);
-        double currentAngle = Math.atan(aim.getYAim()/aim.getXAim());
+        double aimX = aim.getXAim();
+        double aimY = aim.getYAim();
+        double[] vec = {aimX, aimY};
+        double currentAngle = calculateAngle(vec);
         double newAngle;
         if(clockwise)
             newAngle = currentAngle + aim.getRotationRate();
@@ -24,4 +27,5 @@ public abstract class AimModifierEvent extends ComponentDependentEvent {
         aim.setXAim(Math.cos(newAngle));
         aim.setYAim(Math.sin(newAngle));
     }
+
 }

@@ -13,7 +13,7 @@ public class AimComponent extends Component{
     public AimComponent(String xAim, String yAim, String rotationRate, String shootRate){
         myXAim = parseDouble(xAim);
         myYAim = parseDouble(yAim);
-        myRotationRate = Double.parseDouble(rotationRate);
+        myRotationRate = Math.PI / 10;
         myShootRate = Integer.parseInt(shootRate);
         myTracker = 0;
     }
@@ -35,7 +35,7 @@ public class AimComponent extends Component{
     }
 
     public void setYAim(double yAim){
-        myXAim = yAim;
+        myYAim = yAim;
     }
 
     public void updateTracker(){
@@ -48,6 +48,10 @@ public class AimComponent extends Component{
 
     public double getMyShootRate() {
         return myShootRate;
+    }
+
+    public void resetTracker(){
+        myTracker = 0;
     }
 
     @Override

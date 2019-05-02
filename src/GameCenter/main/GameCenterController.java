@@ -3,6 +3,7 @@ package GameCenter.main;
 import GameCenter.gameData.DataParser;
 import GameCenter.gameData.DataStruct;
 import GameCenter.utilities.Thumbnail;
+import Player.PlayerMain.PlayerStage;
 import auth.RunAuth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -217,7 +218,7 @@ public class GameCenterController {
 
     @FXML
     public void launchPlayer() {
-        //new PlayerStage(this).load(gameData.get(myIndex).getSourcePath(), true);
+        new PlayerStage(this).load(gameData.get(myIndex).getSourcePath(), true);
     }
 
     @FXML

@@ -11,6 +11,7 @@ public class BasicComponent extends Component {
     private String myID;
     private int myZIndex;
     private String myLogic;
+    private boolean alive;
 
     public BasicComponent(String filename, String xPos, String yPos, String width, String height) {
         myFilename = filename;
@@ -20,6 +21,7 @@ public class BasicComponent extends Component {
         myHeight = Double.parseDouble(height);
         myLogic = "";
         myZIndex = 0;
+        alive = true;
     }
 
     public BasicComponent(String filename, String xPos, String yPos, String width, String height, String zIndex) {
@@ -73,6 +75,14 @@ public class BasicComponent extends Component {
     }
 
     public void setLogic(String logic) { myLogic = logic; }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void kill(){
+        alive = false;
+    }
 
     @Override
     public Component copy() {

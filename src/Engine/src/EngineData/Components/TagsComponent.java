@@ -21,4 +21,9 @@ public class TagsComponent extends Component {
     public boolean contains(String tag){
         return myTags.contains(tag);
     }
+
+    @Override
+    public Component copy() {
+        return null;
+    }
 }

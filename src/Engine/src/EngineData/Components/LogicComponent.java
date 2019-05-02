@@ -15,4 +15,10 @@ public class LogicComponent extends Component{
     public String getLogic() {
         return myLogic;
     }
+
+    @Override
+    public Component copy() {
+        return new LogicComponent(myLogic);
+    }
+
 }

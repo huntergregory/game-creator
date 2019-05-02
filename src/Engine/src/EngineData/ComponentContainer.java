@@ -54,8 +54,18 @@ public abstract class ComponentContainer {
         return myID;
     }
 
+    /*
     protected Map<Class<? extends Component>, Component> getComponents() {
         return myComponents;
+    }
+    */
+
+    protected Map<Class<? extends Component>, Component> copyComponents() {
+        Map<Class<? extends Component>, Component> components = new HashMap<>();
+        for(Class clazz: myComponents.keySet()){
+            components.put(clazz, myComponents.get(clazz).copy());
+        }
+        return components;
     }
 
 }

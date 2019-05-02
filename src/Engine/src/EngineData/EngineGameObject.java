@@ -10,12 +10,6 @@ public class EngineGameObject extends ComponentContainer implements Cloneable {
     }
 
     public EngineInstance createInstance(String id) throws NoInstanceException {
-        try {
-            var copy = (EngineGameObject) this.clone();
-            return new EngineInstance(id, getID(), copy.getComponents());
-        }
-        catch (CloneNotSupportedException e) {
-            throw new NoObjectException(this.getID() + ". Can't clone Engine Game Object.");
-        }
+            return new EngineInstance(id, getID(), copyComponents());
     }
 }

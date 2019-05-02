@@ -93,4 +93,10 @@ public class MotionComponent extends Component {
     public void resetMovementXVel() { myMovementXVelocity = MY_DEFAULT_MOVEMENT_X_VEL; }
 
     public void resetMovementYVel() { myMovementYVelocity = MY_DEFAULT_MOVEMENT_Y_VEL; }
+
+    @Override
+    public Component copy() {
+        return new MotionComponent(Double.toString(myXVelocity), Double.toString(myYVelocity), Double.toString(myMovementXVelocity), Double.toString(myMovementYVelocity), Double.toString(myXAccel), Double.toString(myYAccel));
+    }
+
 }

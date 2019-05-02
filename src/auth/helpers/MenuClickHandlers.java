@@ -1,7 +1,9 @@
 package auth.helpers;
 
 import auth.RunTest;
+import auth.auth_fxml_controllers.CollisionController;
 import auth.auth_fxml_controllers.KeyEventController;
+import auth.auth_fxml_controllers.ObjectScriptController;
 import auth.auth_fxml_controllers.SceneScriptController;
 import auth.screens.CanvasScreen;
 import com.google.auth.oauth2.ServiceAccountCredentials;
@@ -9,6 +11,7 @@ import com.google.cloud.storage.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import gamedata.Game;
+import gamedata.GameObject;
 import gamedata.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,9 +24,14 @@ import org.apache.commons.lang3.StringUtils;
 import uiutils.panes.BottomPane;
 import uiutils.panes.Pane;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+
+import static auth.Strings.CONSOLE_PANE_ID;
 import java.io.*;
-import java.util.Arrays;
-import java.util.Optional;
 import java.util.Scanner;
 
 import static auth.Strings.CONSOLE_PANE_ID;
@@ -78,6 +86,36 @@ public class MenuClickHandlers {
             }
         }
     }
+
+    public static void handleAddObjectScript(CanvasScreen context){
+        try{
+            FXMLLoader loader = addPopup("/auth_components_fxml/objectScript.fxml");
+            ObjectScriptController controller = loader.getController();
+            Game o = context.getGame();
+            List<GameObject> gameObjects = o.gameObjects;
+            for(GameObject go:gameObjects){
+                if(go.objectID.equals(controller.objID)){
+                    go.objectLogic = go.objectLogic + controller.script;
+                    System.out.print(go.objectID + " " + go.objectLogic);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading the components fxml");
+        }
+    }
+
+    public static void handleAddCollision(CanvasScreen context){
+        try{
+            FXMLLoader loader = addPopup("/auth_components_fxml/collision.fxml");
+            CollisionController controller = loader.getController();
+            Game o = context.getGame();
+            Scene scene = o.scenes.get(context.getCurrentScene());
+            scene.sceneLogic = scene.sceneLogic + controller.script;
+        } catch (IOException e) {
+            System.out.println("Error loading the components fxml");
+        }
+    }
+
 
     public static void handleAddKeyEvent(CanvasScreen context){
         try{

@@ -23,24 +23,15 @@ import groovy.lang.Script;
 import java.util.*;
 
 public class LevelController {
-    //FIXME remove eventually
-    private static final boolean SCROLLS_HORIZONTALLY = true;
-    private static final boolean SCROLLS_VERTICALLY = false;
-    private static final boolean IS_AUTO_SCROLLER = false;
-    private static final double SCROLL_SPEED = 10;                        //if auto scroller
-    private static final double CHARACTER_DISTANCE_FROM_SCROLL_WALL = 20; //if auto scroller
-    private static final double START_X = 0;
-    private static final double START_Y = 0;
-    //FIXME remove eventually
 
     private final double myScreenWidth;
     private final double myScreenHeight;
-    private double myLevelWidth;
-    private double myLevelHeight;
+    private double[] myOffset;
+    private boolean scrollsHorizontally;
+    private boolean scrollsVertically;
 
     private double myStepTime;
     private double myIterationCounter;
-    private double[] myOffset;
 
     private TimerController myTimerController;
     private EngineParser myParser;
@@ -48,24 +39,23 @@ public class LevelController {
     private Manager myManager;
     private Game myGame;
     private DebugLog myDebugLog;
-
     private Sounds mySounds;
 
     private Binding myBinding;
     private GroovyShell myShell;
 
-    public LevelController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
-                           Game game) {
+    public LevelController(double stepTime, double screenWidth, double screenHeight, Game game) {
 
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
         myScreenHeight = screenHeight;
-        myLevelWidth = levelWidth;
-        myLevelHeight = levelHeight;
 
         myGame = game;
 
         myParser = new EngineParser(myGame);
+
+        scrollsHorizontally = myParser.getHorizScrolling();
+        scrollsVertically = myParser.getVertScrolling();
 
         myIterationCounter = 0;
         myDebugLog = new DebugLog();
@@ -125,33 +115,30 @@ public class LevelController {
     }
 
 
-    //FIXME doesn't modify y offset
+    // determine offset between actual position (within entire level) and display position (within screen), which places
+    // the user always in the center if the game is supposed to scroll
     private double[] determineOffset(double userX, double userY, double userWidth, double userHeight, double screenWidth,
                                     double screenHeight) {
-        double offsetX;
-        double offsetY;
+        double offsetX = 0;
+        double offsetY = 0;
 
-        if (userX <= .5 * screenWidth - .5 * userWidth) {
-            offsetX = 0;
+        if (scrollsHorizontally) {
+            // if user is close to the left edge of the level, no scrolling to avoid displaying out of bounds area
+            if (userX <= .5 * screenWidth - .5 * userWidth) {
+                offsetX = 0;
+            } else {
+                offsetX = userX + .5 * userWidth - .5 * screenWidth;
+            }
         }
-        /*else if (myLevelWidth - userX <= .5 * screenWidth + .5 * userWidth) {
-            offsetX = myLevelWidth - screenWidth;
-        }*/ //FIXME restricting max scroll to very small even when level width is large...
-        else {
-            offsetX = userX + .5 * userWidth - .5 * screenWidth;
-        }
-
-        if (userY <= .5 * screenHeight - .5 * userHeight) {
-            offsetY = 0;
-        }
-        else if (myLevelHeight - userY <= .5 * screenHeight + .5 * userHeight) {
-            offsetY = myLevelHeight - screenHeight;
-        }
-        else {
-            offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
+        if (scrollsVertically) {
+            if (userY <= .5 * screenHeight - .5 * userHeight) {
+                offsetY = 0;
+            } else {
+                offsetY = userY + .5 * userHeight - .5 * screenHeight; // this puts the user 3/4 the way dow the screen
+            }
         }
 
-        return new double[]{offsetX, 0}; //FIXME hardcoding 0 offset in y direction for demo
+        return new double[]{offsetX, offsetY};
     }
 
     public double[] getOffset() {

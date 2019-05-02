@@ -13,4 +13,10 @@ public class LOSComponent extends Component{
     public double getLOS(){
         return myLOS;
     }
+
+    @Override
+    public Component copy() {
+        return new LOSComponent(Double.toString(myLOS));
+    }
+
 }

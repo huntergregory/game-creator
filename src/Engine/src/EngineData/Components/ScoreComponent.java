@@ -18,4 +18,9 @@ public class ScoreComponent extends Component{
         myScore = score;
     }
 
+    @Override
+    public Component copy() {
+        return new ScoreComponent(Double.toString(myScore));
+    }
+
 }

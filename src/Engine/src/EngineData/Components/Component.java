@@ -7,4 +7,6 @@ public abstract class Component {
         return entityID;
     }
 
+    public abstract Component copy();
+
 }

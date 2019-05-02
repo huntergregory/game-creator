@@ -5,6 +5,7 @@ import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
+import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -12,8 +13,8 @@ import java.util.Set;
 
 public class SetXPosition extends MotionEvent {
 
-    public SetXPosition(Map<String, EngineInstance> engineInstances) {
-        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class);
+    public SetXPosition(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {
+        super(engineInstances, engineObjects, new Class[]{MotionComponent.class, BasicComponent.class}, Double.class);
     }
 
     @Override

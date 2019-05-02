@@ -4,14 +4,15 @@ import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.Components.MotionComponent;
+import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.Map;
 import java.util.Set;
 
 public class KeyMoveDown extends MotionEvent {
 
-    public KeyMoveDown(Map<String, EngineInstance> engineInstances) {
-        super(engineInstances, new Class[]{MotionComponent.class, BasicComponent.class});
+    public KeyMoveDown(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {
+        super(engineInstances, engineObjects, new Class[]{MotionComponent.class, BasicComponent.class});
     }
 
     @Override
@@ -20,7 +21,7 @@ public class KeyMoveDown extends MotionEvent {
         var basicComponent = engineInstance.getComponent(BasicComponent.class);
         double yPos = basicComponent.getY();
         double yVel = motionComponent.getMovementYVelocity();
-        SetYPosition setY = new SetYPosition(myEngineInstances);
+        SetYPosition setY = new SetYPosition(myEngineInstances, myGameEngineObjects);
         setY.activate(engineInstance,stepTime, yPos + yVel * stepTime);
     }
 }

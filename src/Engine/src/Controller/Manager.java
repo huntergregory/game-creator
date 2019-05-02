@@ -76,6 +76,13 @@ public class Manager {
         }
     }
 
+    public EngineInstance getUser() throws NoInstanceException {
+        var user = myParser.getUserEngineInstance();
+        if (user == null)
+            throw new NoInstanceException("user");
+        return user;
+    }
+
     public void addTimer(Timer timer) {
         myTimerController.addTimer(timer);
     }

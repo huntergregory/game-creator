@@ -5,7 +5,6 @@ import Engine.src.Components.BasicComponent;
 import Engine.src.Components.LOSComponent;
 import Engine.src.Components.MotionComponent;
 
-import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

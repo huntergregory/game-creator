@@ -6,6 +6,8 @@ package Engine.src.Components;
 public class MotionComponent extends Component {
     private static final double MAX_X_VELOCITY = 20;
     private static final double MAX_Y_VELOCITY = 20;
+    public static final double SQUARE_ROOT = .5;
+    public static final int SQUARE = 2;
 
     private double myXVelocity;
     private double myYVelocity;
@@ -81,11 +83,11 @@ public class MotionComponent extends Component {
     }
 
     public double getVelocity(){
-        return Math.pow(Math.pow(myXVelocity, 2) + Math.pow(myYVelocity, 2), .5);
+        return Math.pow(Math.pow(myXVelocity, SQUARE) + Math.pow(myYVelocity, SQUARE), SQUARE_ROOT);
     }
 
     public double getMovementVelocity(){
-        return Math.pow(Math.pow(myMovementXVelocity, 2) + Math.pow(myMovementYVelocity, 2), .5);
+        return Math.pow(Math.pow(myMovementXVelocity, SQUARE) + Math.pow(myMovementYVelocity, SQUARE), SQUARE_ROOT);
     }
 
     //Should put the three methods below into entitymanager?
@@ -120,7 +122,7 @@ public class MotionComponent extends Component {
     }
 
     private double[] calculateDirection(double angle){
-        double[] directionVec = new double[2];
+        double[] directionVec = new double[SQUARE];
         directionVec[0] = Math.cos(Math.toRadians(angle));
         directionVec[1] = Math.sin(Math.toRadians(angle));
         return directionVec;

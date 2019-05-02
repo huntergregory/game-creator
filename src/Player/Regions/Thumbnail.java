@@ -1,7 +1,7 @@
 package Player.Regions;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.StackPane;
 
 import java.io.File;
 

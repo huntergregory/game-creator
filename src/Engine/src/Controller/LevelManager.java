@@ -5,7 +5,6 @@ import Engine.src.Triggers.Events.Event;
 import Engine.src.Triggers.Timer;
 import Engine.src.Triggers.TimerSequence;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -96,5 +95,8 @@ public class LevelManager {
         }
 
         return new double[]{offsetX, 0}; //FIXME hardcoding 0 offset in y direction for demo
+    }
+
+    public void addSequence(Map<Integer, List<Event>> myEventsWhileOn, Map<Integer, List<Event>> myEventsAfter, Map<Integer, Double> myDurations, boolean isLoop) {
     }
 }

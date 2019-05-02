@@ -2,7 +2,8 @@ package auth.helpers;
 
 import javafx.scene.layout.Region;
 
-import static auth.Dimensions.*;
+import static auth.Dimensions.ENV_WINDOW_HEIGHT;
+import static auth.Dimensions.ENV_WINDOW_WIDTH;
 
 public class DimensionCalculator {
     public static double centreVertical(double height) {

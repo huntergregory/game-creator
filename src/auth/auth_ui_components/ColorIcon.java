@@ -1,7 +1,6 @@
 package auth.auth_ui_components;
 
 import auth.Callback;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
 
 public class ColorIcon extends Icon {

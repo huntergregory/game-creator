@@ -1,8 +1,8 @@
 package Engine.src.Triggers.Events;
 
+import Engine.src.ECS.EntityManager;
 import Engine.src.Triggers.Conditionals.Conditional;
 import Engine.src.Triggers.Conditionals.ObjectConditional;
-import Engine.src.ECS.EntityManager;
 
 import java.util.ArrayList;
 import java.util.List;

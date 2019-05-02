@@ -1,7 +1,5 @@
 package Engine.src.Components;
 
-import java.io.File;
-
 public class BasicComponent extends Component {
     private double myWidth;
     private double myHeight;

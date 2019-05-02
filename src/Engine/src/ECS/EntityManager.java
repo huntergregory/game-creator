@@ -8,9 +8,6 @@ import groovy.lang.Script;
 import java.awt.geom.Line2D;
 import java.util.Map;
 
-import static java.lang.Math.atan;
-import static java.lang.Math.log;
-
 public class EntityManager {
     private Map<Integer, Map<Class<? extends Component>, Component>> myEntityMap;
     private double myStepTime;

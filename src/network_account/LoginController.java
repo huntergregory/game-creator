@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * FXML Controller for the user login pane (res/network_fxml/login.fxml), allowing user's to connect with the
  * Google App Engine backend to login and load information such as display name and personal high scores

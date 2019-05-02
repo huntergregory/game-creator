@@ -5,7 +5,6 @@ import GameCenter.gameData.DataStruct;
 import GameCenter.utilities.Thumbnail;
 import Player.PlayerMain.PlayerStage;
 import auth.RunAuth;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -13,7 +12,9 @@ import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
 
 /**
  * The Controller for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found

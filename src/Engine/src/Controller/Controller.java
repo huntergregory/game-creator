@@ -2,16 +2,15 @@ package Engine.src.Controller;
 
 import Engine.src.Components.*;
 import Engine.src.ECS.AI;
+import Engine.src.ECS.CollisionHandler;
 import Engine.src.ECS.EntityManager;
 import Engine.src.ECS.Pair;
-import Engine.src.ECS.CollisionHandler;
 import Engine.src.Triggers.Timer;
 import Engine.src.Triggers.TimerSequence;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

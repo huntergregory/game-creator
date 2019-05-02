@@ -1,6 +1,9 @@
 package hud;
 
-import javafx.scene.chart.*;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 
 /**
  * This class is used to construct plots to dynamically display game variables

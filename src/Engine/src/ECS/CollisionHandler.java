@@ -4,14 +4,13 @@ import Engine.src.Components.EnvironmentComponent;
 import Engine.src.Components.ImpassableComponent;
 import Engine.src.Components.MotionComponent;
 import Engine.src.Components.TagsComponent;
-
 import Engine.src.Controller.LevelManager;
-
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 import java.util.*;
+
 
 /**
  * FIXME

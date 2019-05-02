@@ -1,6 +1,6 @@
 package uiutils.panes;
 
-import static auth.Dimensions.*;
+import static auth.Dimensions.LEFT_EDGE;
 import static auth.Styles.LEFT_PANE_STYLE;
 
 public class LeftPane extends Pane {

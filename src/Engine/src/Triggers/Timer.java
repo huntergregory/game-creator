@@ -1,15 +1,10 @@
 package Engine.src.Triggers;
 
-import Engine.src.ECS.EntityManager;
 import Engine.src.Controller.LevelManager;
-import Engine.src.Triggers.Events.Event;
-import Engine.src.Triggers.Events.GameEvents.GameEvent;
-import Engine.src.Triggers.Events.ObjectEvents.ObjectEvent;
+import Engine.src.ECS.EntityManager;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
-
-import java.util.List;
 
 public class Timer {
     double myCount;

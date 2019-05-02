@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+
 import java.util.LinkedList;
 
 public abstract class ScrollableWindow extends Feature {

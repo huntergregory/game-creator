@@ -1,14 +1,12 @@
 package GameCenter.main;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 import network_account.UserIdentity;
-
-import java.util.List;
 
 /**
  * GameCenter.java is the launcher for the Game Center, where a user can launch games through the Player, launch the

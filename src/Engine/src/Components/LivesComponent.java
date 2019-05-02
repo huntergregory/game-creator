@@ -1,7 +1,5 @@
 package Engine.src.Components;
 
-import groovy.lang.GroovyShell;
-
 public class LivesComponent extends Component{
     private int myLives;
     private String myRespawnInstructions;

@@ -9,43 +9,37 @@ import auth.auth_fxml_controllers.ResPropsController;
 import auth.auth_fxml_controllers.ScenePropsController;
 import auth.auth_ui_components.*;
 import auth.pagination.PaginationUIElement;
+import auth.screens.CanvasScreen;
 import gamedata.Game;
 import gamedata.GameObject;
 import gamedata.Instance;
 import gamedata.Resource;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
-import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.web.WebView;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
-import org.w3c.dom.Document;
-import uiutils.components.TextGenerator;
 import uiutils.panes.*;
-import auth.screens.CanvasScreen;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.text.Text;
-import uiutils.panes.Pane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,12 +49,13 @@ import java.util.Set;
 
 import static auth.Colors.DEFAULT_TEXT_COLOR;
 import static auth.Dimensions.*;
-import static auth.Styles.*;
+import static auth.RunAuth.*;
 import static auth.Strings.*;
+import static auth.Styles.BG_STYLE;
+import static auth.Styles.CANVAS_STYLE;
 import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
-import static auth.helpers.DimensionCalculator.*;
-import static auth.helpers.RectangleHelpers.createStyledRectangle;
-import static gamecenter.RunGameCenter.*;
+import static auth.helpers.DimensionCalculator.centreVertical;
+import static auth.helpers.RectangleHelpers.createScrollingRectangle;
 
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";
@@ -121,7 +116,7 @@ public class ScreenHelpers {
     }
 
     private static void placeCanvas(CanvasScreen context) {
-        var canvas = createStyledRectangle(CONSOLE_HORIZONTAL_OFFSET, CANVAS_VERTICAL_OFFSET,
+        var canvas = createScrollingRectangle(CONSOLE_HORIZONTAL_OFFSET, CANVAS_VERTICAL_OFFSET,
                 CANVAS_WIDTH, CANVAS_HEIGHT, CANVAS_STYLE);
         context.registerNewUIElement(new UIElementWrapper(canvas, CANVAS_ID));
     }
@@ -507,7 +502,7 @@ public class ScreenHelpers {
 
     private static void createNewInstance(CanvasScreen context, Game game, GameObject instanceOf, double absoluteX, double absoluteY) {
         if (absoluteX-30 >= CONSOLE_HORIZONTAL_OFFSET && absoluteX-30 <= CONSOLE_HORIZONTAL_OFFSET + CANVAS_WIDTH &&
-        absoluteY-30 >= CANVAS_VERTICAL_OFFSET && absoluteY <= CANVAS_VERTICAL_OFFSET-30 + CANVAS_HEIGHT) {
+                absoluteY-30 >= CANVAS_VERTICAL_OFFSET && absoluteY <= CANVAS_VERTICAL_OFFSET-30 + CANVAS_HEIGHT) {
             var newInstance = new Instance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
             newInstance.instanceID = "instance_"+(game.scenes.get(context.getCurrentScene()).instances.size()+1);
@@ -755,7 +750,7 @@ public class ScreenHelpers {
                 }
             });
 
-            context.registerNewUIElement(new UIElementWrapper(view, "CANVAS_ITEM"));
+            context.registerNewIcon(new UIElementWrapper(view, "CANVAS_ITEM"));
             if(context.selectedType == Instance.class && context.selectedID.equals(i.instanceID)) {
                 context.currentlySelected = iui;
                 context.selectedID = i.instanceID;

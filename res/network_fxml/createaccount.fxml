@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="parentPane" fx:id="parentContainer" prefHeight="525.0" prefWidth="975.0" styleClass="centerPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="network_account.CreateAccountController">
+    <stylesheets>
+        <URL value="@../GUI/GUIStyle.css" />
+    </stylesheets>
+    <Pane fx:id="mainPane" layoutX="263.0" layoutY="63.0" prefHeight="400.0" prefWidth="450.0" styleClass="centerPane">
+        <children>
+
+         <Label fx:id="accountLabel" layoutX="38.0" layoutY="22.0" styleClass="titleLabel" text="Create Account" />
+
+         <Button fx:id="loginButton" layoutX="342.0" layoutY="322.0" onAction="#returnToLogin" styleClass="smallButton" text="RETURN" />
+         <TextField fx:id="emailTextField" layoutX="38.0" layoutY="72.0" prefHeight="33.0" prefWidth="375.0" promptText="EMAIL" text="">
+              <font>
+                 <Font name="Impact" size="16.0" />
+              </font></TextField>
+         <TextField fx:id="usernameTextField" layoutX="38.0" layoutY="122.0" prefWidth="375.0" promptText="USERNAME" text="">
+              <font>
+                 <Font name="Impact" size="16.0" />
+              </font></TextField>
+         <TextField fx:id="displayNameTextField" layoutX="38.0" layoutY="172.0" prefWidth="375.0" promptText="DISPLAY NAME" text="">
+              <font>
+                 <Font name="Impact" size="16.0" />
+              </font></TextField>
+         <PasswordField fx:id="passwordField1" layoutX="38.0" layoutY="222.0" prefWidth="375.0" promptText="PASSWORD" text="">
+              <font>
+                 <Font name="Impact" size="16.0" />
+              </font></PasswordField>
+         <PasswordField fx:id="passwordField2" layoutX="38.0" layoutY="272.0" onKeyPressed="#createAccountEnter" prefWidth="375.0" promptText="CONFIRM PASSWORD" text="">
+              <font>
+                 <Font name="Impact" size="16.0" />
+              </font></PasswordField>
+
+         <Button fx:id="createAccountButton" layoutX="38.0" layoutY="322.0" onMouseClicked="#createAccount" styleClass="smallButton" text="Create Account" />
+         <Label fx:id="failLabel" layoutX="38.0" layoutY="365.0" prefWidth="100.0" styleClass="errorLabel" text="" textFill="RED">
+            <font>
+               <Font name="Impact" size="16.0" />
+            </font>
+         </Label>
+
+            </children>
+    </Pane>
+</AnchorPane>

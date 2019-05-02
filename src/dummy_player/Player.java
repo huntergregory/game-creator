@@ -4,22 +4,16 @@ import ez_engine.Engine;
 import gamedata.Game;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
-import groovy.util.GroovyScriptEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
 
-import static auth.Dimensions.*;
-import static dummy_player.PlayerHelpers.*;
+import static auth.Dimensions.CANVAS_HEIGHT;
+import static auth.Dimensions.CANVAS_WIDTH;
+import static dummy_player.PlayerHelpers.getGameFromFile;
 
 public class Player {
     private Game game;

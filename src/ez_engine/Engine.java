@@ -1,17 +1,14 @@
 package ez_engine;
 
-import dummy_player.Player;
 import gamedata.Game;
 import gamedata.GameObject;
 import gamedata.Instance;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import static auth.Dimensions.CANVAS_VERTICAL_OFFSET;
-import static auth.Dimensions.CONSOLE_HORIZONTAL_OFFSET;
-import static ez_engine.RenderingHelpers.*;
+import static ez_engine.RenderingHelpers.renderInstance;
+import static ez_engine.RenderingHelpers.renderScene;
 
 public class Engine {
     private Stage mainStage;

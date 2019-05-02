@@ -1,13 +1,14 @@
 package Engine.src.DataManager;
 
-import Engine.src.Components.Component;
-import Engine.src.Triggers.Events.Event;
+import Engine.src.EngineData.Components.Component;
+import Engine.src.Manager.Events.Event;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Deprecated
 public class Level {
     // TODO: Establish what must be passed with the new entity based backend
     private Map<Integer, Map<String, Component>> myActiveObjects;

@@ -1,55 +1,33 @@
 package Engine.src.Controller;
 
-import Engine.src.ECS.EntityManager;
-import Engine.src.Triggers.Events.Event;
-import Engine.src.Triggers.Timer;
-import Engine.src.Triggers.TimerSequence;
+import Engine.src.Manager.Events.Event;
+import Engine.src.Manager.Manager;
+import Engine.src.Timers.Timer;
+import Engine.src.Timers.TimerSequence;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class LevelManager {
     private boolean levelPassed;
-    private List<TimerSequence> myTimers;
-    private EntityManager myEntityManager;
+    private Map<Integer, Timer> myTimers;
+    private List<TimerSequence> myTimerSequences;
+    private Manager myManager;
     double myCount;
     double myLevelWidth;
     double myLevelHeight;
 
-    public LevelManager(List<TimerSequence> timers, EntityManager entityManager, double count, double width, double height){
+    public LevelManager(Map<Integer, Timer> timers, List<TimerSequence> timerSequences, Manager manager, double count, double width, double height){
         levelPassed = false;
-        myEntityManager = entityManager;
+        myManager = manager;
         myTimers = timers;
         myCount = count;
         myLevelWidth = width;
         myLevelHeight = height;
+        myTimerSequences = timerSequences;
     }
 
-    public void addSequence(Map<Integer, List<Event>> eventsWhileOn, Map<Integer, List<Event>> eventsAfter,
-                            Map<Integer, Double> durations, boolean isLoop) {
-        List<Timer> timerList = new ArrayList<>();
-        for(Integer key: eventsWhileOn.keySet()){
-            timerList.add(new Timer(eventsWhileOn.get(key), eventsAfter.get(key), durations.get(key)));
-        }
-        myTimers.add(new TimerSequence(timerList, isLoop));
-    }
-
-    public void updateTimer() {
-        for (TimerSequence sequence : myTimers) {
-            Timer currentTimer = sequence.getCurrentTimer();
-            if (currentTimer.getCount() >= currentTimer.getEndTime()){
-                currentTimer.activateEvents(currentTimer.getMyEventsAfterTimer(), myEntityManager, this);
-                sequence.setNextTimer(myCount);
-            }
-            else {
-                currentTimer.activateEvents(currentTimer.getEventsWhileOn(), myEntityManager, this);
-                currentTimer.increment();
-            }
-            if (sequence.completed() && sequence.isLoop()) sequence.reset(myCount);
-            else myTimers.remove(sequence);
-        }
-    }
 
     public void setLevelPass() {
         levelPassed = true;
@@ -81,5 +59,8 @@ public class LevelManager {
         }
 
         return new double[]{offsetX, 0}; //FIXME hardcoding 0 offset in y direction for demo
+    }
+
+    public void addSequence(Map<Integer, List<Event>> myEventsWhileOn, Map<Integer, List<Event>> myEventsAfter, Map<Integer, Double> myDurations, boolean isLoop) {
     }
 }

@@ -152,8 +152,8 @@ public abstract class AIEvent extends ComponentDependentEvent {
         double tempVel = motion.getMovementVelocity();
         double tempXVel = tempVel * direction[0];
         double tempYVel = tempVel * direction[1];
-        SetXPosition setX = new SetXPosition(myEngineInstances);
-        SetYPosition setY = new SetYPosition(myEngineInstances);
+        SetXPosition setX = new SetXPosition(myEngineInstances, myGameEngineObjects);
+        SetYPosition setY = new SetYPosition(myEngineInstances, myGameEngineObjects);
         setX.activate(engineInstance, stepTime, tempXVel * stepTime);
         setY.activate(engineInstance, stepTime, tempYVel * stepTime);
     }
@@ -199,8 +199,7 @@ public abstract class AIEvent extends ComponentDependentEvent {
     }
 
     private void shoot(EngineInstance shooterEngineInstance, String missile, AimComponent aim){
-        EngineGameObject missileObject = getObjectByID(missile);
-        EngineInstance missileInstance = createFromInstance(missileObject, shooterEngineInstance);
+        EngineInstance missileInstance = createFromInstance(missile, shooterEngineInstance);
         MotionComponent motion = missileInstance.getComponent(MotionComponent.class);
         double velocity = motion.getVelocity();
         motion.setXVelocity(aim.getXAim() * velocity);

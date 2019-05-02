@@ -8,6 +8,7 @@ import Engine.src.EngineData.EngineInstance;
 import Engine.src.Controller.Events.ComponentDependentEvent;
 import Engine.src.Controller.Events.Motion.SetXPosition;
 import Engine.src.Controller.Events.Motion.SetYPosition;
+import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.List;
 import java.util.Map;
@@ -20,8 +21,8 @@ public abstract class AIEvent extends ComponentDependentEvent {
     private final double CORRECTION_DISTANCE = 150;
 
 
-    public AIEvent(Map<String, EngineInstance> engineInstanceSet, Class<?>... parameterTypes) {
-        super(engineInstanceSet, BasicComponent.class, parameterTypes);
+    public AIEvent(Map<String, EngineInstance> engineInstanceSet, Set<UnmodifiableEngineGameObject> engineObjects, Class<?>... parameterTypes) {
+        super(engineInstanceSet, engineObjects, BasicComponent.class, parameterTypes);
     }
 
     private boolean targetEntityObscured(EngineInstance targetEngineInstance, EngineInstance referenceEngineInstance) {

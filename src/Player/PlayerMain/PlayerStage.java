@@ -609,11 +609,15 @@ public class PlayerStage extends Application {
         Resource enemyShipRes = new Resource();
         enemyShipRes.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         enemyShipRes.resourceID = "Enemy Ship";
-        enemyShipRes.src = "/img/Boss-Galaga-Sprite.webp";
+        enemyShipRes.src = "/img/Boss-Galaga-Sprite.png";
         Resource userMissileRes = new Resource();
         userMissileRes.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         userMissileRes.resourceID = "User Missile";
         userMissileRes.src = "/img/userMissile.png";
+        Resource enemyMissileRes = new Resource();
+        enemyMissileRes.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
+        enemyMissileRes.resourceID = "Enemy Missile";
+        enemyMissileRes.src = "/img/enemyMissile.png";
 
         GameObject user = new GameObject();
         user.objectID = "user";
@@ -630,17 +634,24 @@ public class PlayerStage extends Application {
         userMissile.bgColor = "FFFFFF";
         userMissile.bgImage = "User Missile";
         userMissile.objectLogic =
-                "object.addComponent(new MotionComponent('1.5', '0', '0', '0', '0', '0'), " +
+                "object.addComponent(new MotionComponent('.7', '0', '0', '0', '0', '0'), " +
                         "new BasicComponent('User Missile', '0', '0', '20', '20'))";
+        GameObject enemyMissile = new GameObject();
+        enemyMissile.objectID = "enemyMissile";
+        enemyMissile.bgColor = "FFFFFF";
+        enemyMissile.bgImage = "Enemy Missile";
+        enemyMissile.objectLogic =
+                "object.addComponent(new MotionComponent('1.5', '0', '0', '0', '0', '0'), " +
+                        "new BasicComponent('Enemy Missile', '0', '0', '20', '20'))";
 
         GameObject enemy = new GameObject();
-        enemy.objectID = "Block";
+        enemy.objectID = "enemy";
         enemy.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), " +
-                "new ScoreComponent('0'), new ImpassableComponent('true'), " +
-                "new AimComponent('0', '0', '0', '10'), " +
-                "new LogicComponent('manager.call(\"GoodAim\", instance, \"Mario\", \"missile\", \"0.8\")') );";
-        //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
+                "new MotionComponent('0', '1', '0', '0', '0', '0'), new HealthComponent('100', '100'), " +
+                "new AimComponent('0', '0', '0', '30'), " +
+                "new BasicComponent(\"Enemy Ship\", '50.0', '50.0', '50.0', '50.0', '1'), " +
+                "new LogicComponent('manager.call(\"GoodAim\", instance, \"user\", \"enemyMissile\", \"0.9\")') );";
+
         enemy.bgColor = "FFFFFF";
         enemy.bgImage = "Enemy Ship";
         Instance user1 = new Instance();
@@ -655,27 +666,88 @@ public class PlayerStage extends Application {
         user1.x = GAME_WIDTH / 2;
         user1.y = 700;
         user1.zIndex = 1;
+
+        Instance enemy2 = new Instance();
+        enemy2.instanceOf = "enemy";
+        enemy2.instanceID = "enemy2";
+        enemy2.instanceLogic = "";
+        //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
+        enemy2.bgColor = "FFFFFF";
+        enemy2.bgImage = "Enemy Ship";
+        enemy2.height = 50;
+        enemy2.width = 50;
+        enemy2.x = GAME_WIDTH / 2;
+        enemy2.y = 0;
+        enemy2.zIndex = 2;
+
+        Instance enemy3 = new Instance();
+        enemy3.instanceOf = "enemy";
+        enemy3.instanceID = "enemy3";
+        enemy3.instanceLogic = "";
+        //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
+        enemy3.bgColor = "FFFFFF";
+        enemy3.bgImage = "Enemy Ship";
+        enemy3.height = 50;
+        enemy3.width = 50;
+        enemy3.x = GAME_WIDTH / 3;
+        enemy3.y = 0;
+        enemy3.zIndex = 3;
+
+        Instance enemy4 = new Instance();
+        enemy4.instanceOf = "enemy";
+        enemy4.instanceID = "enemy4";
+        enemy4.instanceLogic = "";
+        //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
+        enemy4.bgColor = "FFFFFF";
+        enemy4.bgImage = "Enemy Ship";
+        enemy4.height = 50;
+        enemy4.width = 50;
+        enemy4.x = GAME_WIDTH / 3;
+        enemy4.y = 50;
+        enemy4.zIndex = 3;
+
+        Instance enemy5 = new Instance();
+        enemy5.instanceOf = "enemy";
+        enemy5.instanceID = "enemy5";
+        enemy5.instanceLogic = "instance.addComponent(new LogicComponent('manager.call(\"Follow\", instance, \"user\"); ')); ";
+        //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
+        enemy5.bgColor = "FFFFFF";
+        enemy5.bgImage = "Enemy Ship";
+        enemy5.height = 50;
+        enemy5.width = 50;
+        enemy5.x = 0;
+        enemy5.y = -10;
+        enemy5.zIndex = 4;
+
         gamedata.Scene scene1 = new gamedata.Scene();
         scene1.instances.add(user1);
+        scene1.instances.add(enemy2);
+        scene1.instances.add(enemy3);
+        scene1.instances.add(enemy4);
+        scene1.instances.add(enemy5);
         scene1.sceneLogic = "parser.addKey('D', 'manager.call(\"KeyMoveRight\", user)');" +
                 "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", user)');" +
-                "parser.addKey('W', 'manager.call(\"KeyMoveUp\", user)');" +
+                "parser.addKey('W', 'manager.call(\"KeyMoveDown\", user)');" +
+                "parser.addKey('S', 'manager.call(\"KeyMoveUp\", user)');" +
                 "parser.addKey('D', 'manager.call(\"KeyMoveRight\", user)');" +
                 "parser.addKey('L', 'manager.call(\"RotateClockwise\", user)');" +
                 "parser.addKey('J', 'manager.call(\"RotateCounterClockwise\", user)');" +
                 "parser.addKey('K', 'manager.call(\"Shoot\", user, \"userMissile\")');" +
-                "parser.addCollision('user', 'Block', 'manager.call(\"Die\", object1); manager.call(\"Die\", object2)')";
+                "parser.addCollision('user', 'enemyMissile', 'manager.call(\"Die\", object1)');" +
+                "parser.addCollision('enemy', 'userMissile', 'manager.call(\"Die\", object1)')";
         scene1.sceneID = "Level1";
-        scene1.bgColor = "";
+        scene1.bgColor = "000000";
         scene1.bgImage = "Space";
         Game game = new Game();
         game.scenes.add(scene1);
         game.gameObjects.add(user);
         game.gameObjects.add(enemy);
         game.gameObjects.add(userMissile);
+        game.gameObjects.add(enemyMissile);
         game.resources.add(userResource);
         game.resources.add(enemyShipRes);
         game.resources.add(userMissileRes);
+        game.resources.add(enemyMissileRes);
         myGameStage = stage;
         myGameCenterController = myGameCenterController;
         myVisualRoot = new GridPane();
@@ -683,7 +755,7 @@ public class PlayerStage extends Application {
         //myLeftPanel = new SidePanel(mySidePanelWidth);
         //myBorderPane = new BorderPane();
         //myBorderPane.setLeft(myLeftPanel.getPane());
-        myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, ST_COLOR);
+        myScene = new Scene(myVisualRoot, ST_WIDTH, ST_HEIGHT, Color.BLACK);
         //myScene = new Scene(myBorderPane, ST_WIDTH, SCREEN_HEIGHT, ST_COLOR);
         myScene.getStylesheets().add(STYLESHEET);
         try {
@@ -736,13 +808,18 @@ public class PlayerStage extends Application {
         initDataTrackers();
         initBorderPane();
         initializeImageViews();
-//        addNewImageViews();
+        initializeBackGround();
         Scene gameScene = new Scene(myBorderPane, GAME_BG);
         gameScene.getStylesheets().add("hud.css");
         myGameStage.setScene(gameScene);
         myGameStage.show();
         gameScene.setOnKeyPressed(e -> myLevelController.processKey(e.getCode().toString()));
         animate();
+    }
+
+    private void initializeBackGround() {
+        myGame.scenes.get(myGame.currentLevel);
+        myScene.setFill(Color.BLACK);
     }
 
     private void initializeImageViews() {

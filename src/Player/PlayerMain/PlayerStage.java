@@ -600,17 +600,17 @@ public class PlayerStage extends Application {
         Resource userResource = new Resource();
         userResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         userResource.resourceID = "Mario Picture";
-        userResource.src = "/img/mario.jpg";
+        userResource.src = "/img/leftarrow.png";
         Resource blockResource = new Resource();
         blockResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         blockResource.resourceID = "Block Picture";
-        blockResource.src = "/img/block.jpg";
+        blockResource.src = "/img/Boss-Galaga-Sprite.webp";
 
         GameObject user = new GameObject();
         user.objectID = "user";
         user.objectLogic =
                 "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), " +
                 "new LivesComponent('3', 'instance.getComponent(BasicComponent).setX((Double) 500)'), new ScoreComponent('0') ); ";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";

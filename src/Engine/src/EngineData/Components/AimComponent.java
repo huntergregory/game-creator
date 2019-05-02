@@ -49,4 +49,10 @@ public class AimComponent extends Component{
     public double getMyShootRate() {
         return myShootRate;
     }
+
+    @Override
+    public Component copy() {
+        return new AimComponent(Double.toString(myXAim), Double.toString(myYAim), Double.toString(myRotationRate), Double.toString(myShootRate));
+    }
+
 }

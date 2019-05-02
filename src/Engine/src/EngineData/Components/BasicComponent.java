@@ -73,4 +73,9 @@ public class BasicComponent extends Component {
     }
 
     public void setLogic(String logic) { myLogic = logic; }
+
+    @Override
+    public Component copy() {
+        return new BasicComponent(myFilename, Double.toString(myXPos), Double.toString(myYPos), Double.toString(myWidth), Double.toString(myHeight), Integer.toString(myZIndex));
+    }
 }

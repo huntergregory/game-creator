@@ -16,4 +16,10 @@ public class JumpComponent extends Component {
     public double getJumpVelocity() {
         return myJumpVelocity;
     }
+
+    @Override
+    public Component copy() {
+        return new JumpComponent(Double.toString(myJumpVelocity));
+    }
+
 }

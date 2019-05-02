@@ -16,4 +16,10 @@ public class ImpassableComponent extends Component {
     public void setImpassable(boolean impassible) {
         myImpassable = impassible;
     }
+
+    @Override
+    public Component copy() {
+        return new ImpassableComponent(Boolean.toString(myImpassable));
+    }
+
 }

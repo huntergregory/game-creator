@@ -12,6 +12,7 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.HealthComponent;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
+import com.google.gson.stream.JsonReader;
 import gamedata.Game;
 import gamedata.GameObject;
 import gamedata.Instance;
@@ -534,7 +535,7 @@ public class PlayerStage extends Application {
     public final double GAME_HEIGHT = 700;
     public final Paint GAME_BG = Color.BLACK;
 
-    public static final int FRAMES_PER_SECOND = 15;
+    public static final int FRAMES_PER_SECOND = 1;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private static final int HUD_UPDATE_DELAY = 10;
@@ -765,7 +766,8 @@ public class PlayerStage extends Application {
             System.out.println("Couldn't write to file.");
         }
         myGameStage.setScene(myScene);
-        load(game);
+        load("/Users/dliu18/Duke/Classes/CS308/voogasalad_crackingopen/data/DLiu.game");
+        //load(game);
     }
 
     public void run(Game game, Boolean debug) {
@@ -785,6 +787,23 @@ public class PlayerStage extends Application {
         }
     }
 
+    public void load(String filename) {
+//        Gson gson = new Gson();
+//        JsonReader reader = new JsonReader(new StringReader(filename));
+//        reader.setLenient(true);
+//        Game g = gson.fromJson(reader, Game.class);
+        String contents = null;
+        try {
+            contents = new Scanner(new File(filename)).useDelimiter("\\Z").next();
+        } catch (FileNotFoundException e) {
+            System.out.println("File was not found");
+        }
+        myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
+        myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, myGame);
+        myLevelNumber = myGame.currentLevel;
+        startNewLevel();
+    }
+
     public void load(Game game) {
         //String contents = new Scanner(fileName).useDelimiter("\\Z").next();
         //myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
@@ -795,7 +814,7 @@ public class PlayerStage extends Application {
 //            scene.instances.add(new Instance());
 //            myGame.scenes.add(scene);
         myGame = game;
-        myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, GAME_WIDTH, GAME_HEIGHT, myGame);
+        myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, myGame);
         myLevelNumber = myGame.currentLevel;
         startNewLevel();
     }

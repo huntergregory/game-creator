@@ -38,6 +38,7 @@ public class LevelController {
     private Sounds mySounds;
 
     private Binding myBinding;
+    private BinderHelper myBinderHelper;
     private GroovyShell myShell;
 
     public LevelController(double stepTime, double screenWidth, double screenHeight, Game game) {
@@ -60,6 +61,7 @@ public class LevelController {
         myTimerController = new TimerController(myShell);
         myManager = new Manager(myParser, myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
+        myBinderHelper = new BinderHelper();
         initializeGroovyShell();
     }
 
@@ -69,6 +71,7 @@ public class LevelController {
         myBinding.setProperty("collisionHandler", myCollisionHandler);
         myBinding.setProperty("collisionDetector", new CollisionDetector());
         myBinding.setProperty("debugLogger", myDebugLog);
+        myBinderHelper.bindComponentClasses(myBinding);
         myShell = new GroovyShell(myBinding);
     }
 

@@ -635,8 +635,10 @@ public class PlayerStage extends Application {
 
         GameObject enemy = new GameObject();
         enemy.objectID = "enemy";
-        enemy.objectLogic = "object.addComponent(" + "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), " +
-                "new ImpassableComponent('true'), new LogicComponent('manager.call(\"Follow\", instance, 10);'))";
+        enemy.objectLogic = "object.addComponent(" + "new MotionComponent('0', '0', '.5', '.5', '0', '0.'), new HealthComponent('100', '100'), " +
+                "new ImpassableComponent('true'), new LogicComponent('manager.call(\"Patrol\", instance, (List<List<Double>>)Arrays.asList(Arrays.asList((Double)0.0, (Double)50.0), Arrays.asList((Double)200.0, (Double)50.0)));'))";
+        //enemy.objectLogic = "object.addComponent(" + "new MotionComponent('0', '0', '.5', '.5', '0', '0.'), new HealthComponent('100', '100'), " +
+        //        "new ImpassableComponent('true'), new LogicComponent('manager.call(\"Follow\", instance, \"Mario\");'))";
         Instance enemy1 = new Instance();
         enemy1.instanceOf = "enemy";
         enemy1.instanceID = "Enemy";
@@ -645,7 +647,7 @@ public class PlayerStage extends Application {
         enemy1.bgImage = "Mario Picture";
         enemy1.height = 50;
         enemy1.width = 50;
-        enemy1.x = 200;
+        enemy1.x = 50;
         enemy1.y = 50;
         enemy1.zIndex = 1;
 

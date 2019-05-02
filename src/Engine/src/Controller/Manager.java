@@ -59,6 +59,7 @@ public class Manager {
             System.out.println(REFLECTION_ERROR);
         }
         catch (ClassCastException e) {
+            e.printStackTrace();
             System.out.println(CAST_ERROR);
         }
         catch (IllegalArgumentException e) {

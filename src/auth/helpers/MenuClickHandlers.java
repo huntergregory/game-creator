@@ -16,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import uiutils.panes.BottomPane;
 import uiutils.panes.Pane;
 
 import java.io.BufferedWriter;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+import static auth.Strings.CONSOLE_PANE_ID;
 import static auth.helpers.ScreenHelpers.initialiseGrids;
 
 public class MenuClickHandlers {
@@ -75,42 +77,14 @@ public class MenuClickHandlers {
         }
     }
 
-    public static void handleAddObjectScript(CanvasScreen context){
-        try{
-            FXMLLoader loader = addPopup("/auth_components_fxml/objectScript.fxml");
-            ObjectScriptController controller = loader.getController();
-            Game o = context.getGame();
-            List<GameObject> gameObjects = o.gameObjects;
-            for(GameObject go:gameObjects){
-                if(go.objectID.equals(controller.objID)){
-                    go.objectLogic = go.objectLogic + controller.script;
-                    System.out.print(go.objectID + " " + go.objectLogic);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error loading the components fxml");
-        }
-    }
-
-    public static void handleAddCollision(CanvasScreen context){
-        try{
-            FXMLLoader loader = addPopup("/auth_components_fxml/collision.fxml");
-            CollisionController controller = loader.getController();
-            Game o = context.getGame();
-            Scene scene = o.scenes.get(context.getCurrentScene());
-            scene.sceneLogic = scene.sceneLogic + controller.script;
-        } catch (IOException e) {
-            System.out.println("Error loading the components fxml");
-        }
-    }
-
     public static void handleAddKeyEvent(CanvasScreen context){
         try{
             FXMLLoader loader = addPopup("/auth_components_fxml/keyEvent.fxml");
             KeyEventController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(context.getCurrentScene());
-            scene.sceneLogic = scene.sceneLogic + controller.script;
+            scene.sceneLogic = scene.sceneLogic + "\n" +controller.script;
+            ScreenHelpers.populateConsolePane(context, (BottomPane)context.getUIElementById(CONSOLE_PANE_ID));
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }
@@ -122,7 +96,8 @@ public class MenuClickHandlers {
             SceneScriptController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(context.getCurrentScene());
-            scene.sceneLogic = scene.sceneLogic + controller.script;
+            scene.sceneLogic = scene.sceneLogic + "\n" + controller.script;
+            ScreenHelpers.populateConsolePane(context, (BottomPane)context.getUIElementById(CONSOLE_PANE_ID));
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }

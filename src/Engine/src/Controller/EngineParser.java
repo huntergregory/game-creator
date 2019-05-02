@@ -30,12 +30,19 @@ public class EngineParser {
     private Map<Integer, Timer> myTimers;
     private EngineInstance myUserEngineInstance;
 
+    private boolean scrollingHoriz;
+    private boolean scrollingVert;
+
     protected EngineParser(Game game) {
         myLevelRules = "";
         myCollisionResponses = new HashMap<>();
         myHotKeys = new HashMap<>();
         myTimerSequences = new ArrayList<>();
         myTimers = new HashMap<>();
+
+        // scrolling in both directions by default (can be overriden with script)
+        scrollingHoriz = true;
+        scrollingVert = true;
 
         myEngineInstances = new HashMap<>();
         myGameEngineObjects = new HashSet<>();
@@ -182,6 +189,19 @@ public class EngineParser {
         }
     }
 
+    public void setScrolling(boolean horiz, boolean vert) {
+        scrollingHoriz = horiz;
+        scrollingVert = vert;
+    }
+
+    public boolean getHorizScrolling() {
+        return scrollingHoriz;
+    }
+
+    public boolean getVertScrolling() {
+        return scrollingVert;
+    }
+        
     private void addDefaults() {
         myHotKeys.put("D", "manager.call('KeyMoveRight'); ");
         myHotKeys.put("A", "manager.call('KeyMoveLeft'); ");

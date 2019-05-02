@@ -18,9 +18,9 @@ public abstract class AimModifierEvent extends ComponentDependentEvent {
         double currentAngle = Math.atan(aim.getYAim()/aim.getXAim());
         double newAngle;
         if(clockwise)
-            newAngle = currentAngle + aim.getRotationRate();
-        else
             newAngle = currentAngle - aim.getRotationRate();
+        else
+            newAngle = currentAngle + aim.getRotationRate();
         aim.setXAim(Math.cos(newAngle));
         aim.setYAim(Math.sin(newAngle));
     }

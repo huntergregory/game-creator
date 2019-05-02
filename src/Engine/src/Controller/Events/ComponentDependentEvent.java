@@ -1,5 +1,7 @@
 package Engine.src.Controller.Events;
 
+import Engine.src.EngineData.Components.AimComponent;
+import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
@@ -36,5 +38,14 @@ public abstract class ComponentDependentEvent extends InstanceDependentEvent {
             }
         }
         modifyComponents(engineInstance, stepTime, args);
+    }
+
+    protected void shoot(EngineInstance shooterEngineInstance, String missile, AimComponent aim){
+        EngineInstance missileInstance = createFromInstance(missile, shooterEngineInstance);
+        System.out.println(myEngineInstances.size());
+        MotionComponent motion = missileInstance.getComponent(MotionComponent.class);
+        double velocity = motion.getVelocity();
+        motion.setXVelocity(aim.getXAim() * velocity);
+        motion.setYVelocity(aim.getYAim() * velocity);
     }
 }

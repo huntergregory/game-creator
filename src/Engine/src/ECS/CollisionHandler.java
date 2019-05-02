@@ -48,7 +48,7 @@ public class CollisionHandler {
 
         for (int k = 0; k < allEntitiesList.size(); k++) {
             for (int j = 0; j < allEntitiesList.size(); j++) {
-                if (k >= j) {
+                if (k == j) {
                     continue;
                 }
                 checkCollision(allEntitiesList.get(k), allEntitiesList.get(j));
@@ -72,7 +72,6 @@ public class CollisionHandler {
                 myManager.call("UpdateVelocity", i);
             }
             catch(NoComponentException e) {
-                System.out.println("No Component");
             }
         }
     }
@@ -164,7 +163,7 @@ public class CollisionHandler {
                 }
             }
             catch(NoComponentException e2) {
-                System.out.println("Correct Clipping cannot be done");
+                //System.out.println("Correct Clipping cannot be done");
             }
         }
     }
@@ -187,7 +186,7 @@ public class CollisionHandler {
             }
         }
         catch (NoComponentException e) {
-            System.out.println("No impassable to deal with");
+            //System.out.println("No impassable to deal with");
         }
     }
 

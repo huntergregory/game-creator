@@ -77,10 +77,11 @@ public abstract class Event {
         return newInstance;
     }
 
-    protected EngineInstance createInstance(String objectType, double x, double y, double width, double height)  throws NoObjectException {
+    protected EngineInstance createInstance(String objectType, double x, double y)  throws NoObjectException {
         var newInstance = create(objectType);
         var basic =  newInstance.getComponent(BasicComponent.class);
-        setBasic(x, y, width, height, basic);
+        basic.setX(x);
+        basic.setY(y);
         return newInstance;
     }
 

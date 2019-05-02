@@ -2,6 +2,7 @@ package Engine.src.Controller.Events;
 
 import Engine.src.Controller.BinderHelper;
 import Engine.src.Controller.ClassGrabber;
+import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.LivesComponent;
@@ -27,14 +28,20 @@ public class Die extends InstanceDependentEvent {
         if(engineInstance.hasComponent(LivesComponent.class)){
             LivesComponent lives = engineInstance.getComponent(LivesComponent.class);
             if (lives.expired())
-                myEngineInstances.remove(engineInstance.getID());
+                die(engineInstance);
             else {
                 respawn(engineInstance, lives.getRespawnInstructions());
                 lives.removeLife();
             }
         }
         else
-            myEngineInstances.remove(engineInstance.getID());
+            die(engineInstance);
+    }
+
+    private void die(EngineInstance engineInstance){
+        myEngineInstances.remove(engineInstance.getID());
+        BasicComponent basic = engineInstance.getComponent(BasicComponent.class);
+        basic.kill();
     }
 
     //FIXME - should be another event

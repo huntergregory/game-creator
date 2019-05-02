@@ -1,7 +1,5 @@
 package Engine.src.ECS;
 
-import Engine.src.EngineData.ComponentExceptions.NoComponentException;
-import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.ImpassableComponent;
 import Engine.src.EngineData.Components.BasicComponent;
@@ -38,11 +36,10 @@ public class CollisionDetector {
             EngineInstance other = allEntities.get(ID);
             if (other.equals(entity))
                 continue;
-            try {
-                other.getComponent(ImpassableComponent.class);
-            }
-            catch(NoComponentException e) {
-                impassables.add(other);
+            if (other.hasComponent(ImpassableComponent.class)) {
+                var impassableComponent = other.getComponent(ImpassableComponent.class);
+                if (impassableComponent != null && impassableComponent.getImpassable())
+                    impassables.add(other);
             }
         }
         return impassables;

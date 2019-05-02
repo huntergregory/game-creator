@@ -16,6 +16,10 @@ public class LogicComponent extends Component{
         return myLogic;
     }
 
+    public void addLogic(String logic) {
+        myLogic += logic;
+    }
+
     @Override
     public Component copy() {
         return new LogicComponent(myLogic);

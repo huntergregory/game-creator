@@ -2,6 +2,7 @@ package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
 import Engine.src.EngineData.ComponentExceptions.NoComponentException;
+import Engine.src.EngineData.Components.AimComponent;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
@@ -38,7 +39,6 @@ public class LevelController {
     private Sounds mySounds;
 
     private Binding myBinding;
-    private BinderHelper myBinderHelper;
     private GroovyShell myShell;
 
     public LevelController(double stepTime, double screenWidth, double screenHeight, Game game) {
@@ -61,7 +61,6 @@ public class LevelController {
         myTimerController = new TimerController(myShell);
         myManager = new Manager(myParser, myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
-        myBinderHelper = new BinderHelper();
         initializeGroovyShell();
     }
 
@@ -71,7 +70,6 @@ public class LevelController {
         myBinding.setProperty("collisionHandler", myCollisionHandler);
         myBinding.setProperty("collisionDetector", new CollisionDetector());
         myBinding.setProperty("debugLogger", myDebugLog);
-        myBinderHelper.bindComponentClasses(myBinding);
         myShell = new GroovyShell(myBinding);
     }
 
@@ -92,7 +90,6 @@ public class LevelController {
         myTimerController.update();
         myCollisionHandler.handleCollisions(myParser.getEngineInstances(), myParser.getCollisions());
         myOffset = updateOffset();
-        System.out.println(myParser.getEngineInstances().size());
     }
 
     private void executeEntityLogic() {
@@ -113,8 +110,13 @@ public class LevelController {
                 myShell.evaluate(logic);
             }
             catch(NoComponentException e) {
-                System.out.println("No Logic Component");
+                //System.out.println("No Component");
             }
+            if(engineInstance.hasComponent(AimComponent.class)){
+                AimComponent aim = engineInstance.getComponent(AimComponent.class);
+                aim.updateTracker();
+            }
+
         }
     }
 
@@ -131,7 +133,7 @@ public class LevelController {
     // determine offset between actual position (within entire level) and display position (within screen), which places
     // the user always in the center if the game is supposed to scroll
     private double[] determineOffset(double userX, double userY, double userWidth, double userHeight, double screenWidth,
-                                    double screenHeight) {
+                                     double screenHeight) {
         double offsetX = 0;
         double offsetY = 0;
 
@@ -186,3 +188,4 @@ public class LevelController {
     }
 
 }
+

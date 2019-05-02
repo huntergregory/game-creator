@@ -9,7 +9,7 @@ import java.util.Set;
 public class GoodAim extends AIEvent{
 
     public GoodAim(Map<String, EngineInstance> engineInstanceSet, Set<UnmodifiableEngineGameObject> engineObjects){
-        super(engineInstanceSet, engineObjects, EngineInstance.class, Double.class, Double.class);
+        super(engineInstanceSet, engineObjects, String.class, String.class, String.class);
     }
 
     @Override

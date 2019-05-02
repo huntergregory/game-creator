@@ -196,7 +196,6 @@ public abstract class AIEvent extends ComponentDependentEvent {
         AimComponent aim = shooterEngineInstance.getComponent(AimComponent.class);
         aim.setXAim(Math.cos(angle));
         aim.setYAim(Math.sin(angle));
-        aim.updateTracker();
 
         if (aim.getMyTracker() % aim.getMyShootRate() == 0){
             shoot(shooterEngineInstance, missileObject, aim);

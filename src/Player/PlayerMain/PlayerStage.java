@@ -12,7 +12,6 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.HealthComponent;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.Controller.LevelController;
-import com.google.gson.stream.JsonReader;
 import gamedata.Game;
 import gamedata.GameObject;
 import gamedata.Instance;
@@ -477,51 +476,52 @@ import static javafx.application.Application.launch;
 
 //package Player.PlayerMain;
 
-        import Engine.src.Controller.GameController;
-        import Player.Features.PlayerButtons;
-        import com.google.gson.Gson;
-        import com.google.gson.reflect.TypeToken;
-        import GameCenter.main.GameCenterController;
-        import Engine.src.EngineData.EngineInstance;
-        import Player.Features.DebugConsole;
-        import Engine.src.EngineData.Components.BasicComponent;
-        import Engine.src.EngineData.Components.HealthComponent;
-        import Engine.src.EngineData.Components.MotionComponent;
-        import Engine.src.Controller.LevelController;
-        import gamedata.Game;
-        import gamedata.GameObject;
-        import gamedata.Instance;
-        import gamedata.Resource;
-        import gamedata.serialization.Serializer;
-        import hud.DataTracker;
-        import hud.HUDView;
-        import hud.NumericalDataTracker;
-        import javafx.animation.KeyFrame;
-        import javafx.animation.Timeline;
-        import javafx.application.Application;
-        import javafx.collections.ObservableList;
-        import javafx.scene.Scene;
-        import javafx.scene.image.Image;
-        import javafx.scene.image.ImageView;
-        import javafx.scene.layout.BorderPane;
-        import javafx.scene.layout.GridPane;
-        import javafx.scene.layout.Pane;
-        import javafx.scene.layout.VBox;
-        import javafx.scene.media.Media;
-        import javafx.scene.media.MediaPlayer;
-        import javafx.scene.paint.Color;
-        import javafx.scene.paint.Paint;
-        import javafx.stage.FileChooser;
-        import javafx.stage.Stage;
-        import javafx.util.Duration;
+import Engine.src.Controller.GameController;
+import Player.Features.PlayerButtons;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import GameCenter.main.GameCenterController;
+import Engine.src.EngineData.EngineInstance;
+import Player.Features.DebugConsole;
+import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.HealthComponent;
+import Engine.src.EngineData.Components.MotionComponent;
+import Engine.src.Controller.LevelController;
+import gamedata.Game;
+import gamedata.GameObject;
+import gamedata.Instance;
+import gamedata.Resource;
+import gamedata.serialization.Serializer;
+import hud.DataTracker;
+import hud.HUDView;
+import hud.NumericalDataTracker;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
-        import java.io.*;
-        import java.util.*;
+import java.io.*;
+import java.util.*;
 
-        import static javafx.application.Application.launch;
+import static javafx.application.Application.launch;
 
 
 public class PlayerStage extends Application {
+    private static final double OFFSET_THRESHOLD = 100;
     private final String STYLESHEET = "style.css";
     private final double HUD_WIDTH = 300;
 
@@ -535,12 +535,11 @@ public class PlayerStage extends Application {
     public final double GAME_HEIGHT = 700;
     public final Paint GAME_BG = Color.BLACK;
 
-    public static final int FRAMES_PER_SECOND = 15;
+    public static final int FRAMES_PER_SECOND = 10;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private static final int HUD_UPDATE_DELAY = 10;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
-
 
 
     private VBox myVBox;
@@ -625,9 +624,9 @@ public class PlayerStage extends Application {
         user.objectID = "user";
         user.objectLogic =
                 "object.addComponent(" +
-                "new MotionComponent('0', '0', '2', '-2', '0', '0.0'), new HealthComponent('100', '100'), " +
-                        "new AimComponent('0', '-1', '3', '0'), " +
-                "new LivesComponent('3', 'instance.getComponent(BasicComponent).setY((Double) 700)'), new ScoreComponent('0') ); ";
+                        "new MotionComponent('0', '0', '1', '-1', '0', '0.0'), new HealthComponent('100', '100'), " +
+                        "new AimComponent('0', '-1', '3', '10'), " +
+                        "new LivesComponent('3', ''), new ScoreComponent('0') ); ";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Your Ship";
@@ -636,23 +635,23 @@ public class PlayerStage extends Application {
         userMissile.bgColor = "FFFFFF";
         userMissile.bgImage = "User Missile";
         userMissile.objectLogic =
-                "object.addComponent(new MotionComponent('.7', '0', '0', '0', '0', '0'), " +
+                "object.addComponent(new MotionComponent('1.5', '0', '0', '0', '0', '0'), " +
                         "new BasicComponent('User Missile', '0', '0', '20', '20'))";
         GameObject enemyMissile = new GameObject();
         enemyMissile.objectID = "enemyMissile";
         enemyMissile.bgColor = "FFFFFF";
         enemyMissile.bgImage = "Enemy Missile";
         enemyMissile.objectLogic =
-                "object.addComponent(new MotionComponent('1.5', '0', '0', '0', '0', '0'), " +
+                "object.addComponent(new MotionComponent('3', '0', '0', '0', '0', '0'), " +
                         "new BasicComponent('Enemy Missile', '0', '0', '20', '20'))";
 
         GameObject enemy = new GameObject();
         enemy.objectID = "enemy";
         enemy.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '1', '0', '0', '0', '0'), new HealthComponent('100', '100'), " +
+                "new MotionComponent('0', '2', '1.5', '1.5', '0', '0'), new HealthComponent('100', '100'), " +
                 "new AimComponent('0', '0', '0', '30'), " +
                 "new BasicComponent(\"Enemy Ship\", '50.0', '50.0', '50.0', '50.0', '1'), " +
-                "new LogicComponent('manager.call(\"GoodAim\", instance, \"user\", \"enemyMissile\", \"0.9\")') );";
+                "new LogicComponent('manager.call(\"GoodAim\", instance, \"user\", \"enemyMissile\", \"0.9\"); ') );";
 
         enemy.bgColor = "FFFFFF";
         enemy.bgImage = "Enemy Ship";
@@ -711,7 +710,7 @@ public class PlayerStage extends Application {
         Instance enemy5 = new Instance();
         enemy5.instanceOf = "enemy";
         enemy5.instanceID = "enemy5";
-        enemy5.instanceLogic = "";//"instance.addComponent(new LogicComponent('manager.call(\"Follow\", instance, \"user\"); ')); ";
+        enemy5.instanceLogic = "instance.getComponent(LogicComponent.class).addLogic('manager.call(\"Follow\", instance, \"user\"); '); ";
         //instance.getComponent(BasicComponent.class).setX( (Double) 50.0)
         enemy5.bgColor = "FFFFFF";
         enemy5.bgImage = "Enemy Ship";
@@ -767,7 +766,6 @@ public class PlayerStage extends Application {
             System.out.println("Couldn't write to file.");
         }
         myGameStage.setScene(myScene);
-        //load("/Users/dliu18/Duke/Classes/CS308/voogasalad_crackingopen/data/DLiu.game");
         load(game);
     }
 
@@ -786,23 +784,6 @@ public class PlayerStage extends Application {
         catch (IOException e){
             System.out.println(FILE_NOT_FOUND);
         }
-    }
-
-    public void load(String filename) {
-//        Gson gson = new Gson();
-//        JsonReader reader = new JsonReader(new StringReader(filename));
-//        reader.setLenient(true);
-//        Game g = gson.fromJson(reader, Game.class);
-        String contents = null;
-        try {
-            contents = new Scanner(new File(filename)).useDelimiter("\\Z").next();
-        } catch (FileNotFoundException e) {
-            System.out.println("File was not found");
-        }
-        myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
-        myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, myGame);
-        myLevelNumber = myGame.currentLevel;
-        startNewLevel();
     }
 
     public void load(Game game) {
@@ -928,6 +909,24 @@ public class PlayerStage extends Application {
         }
     }
 
+    private void cacheImageViewDisplay(EngineInstance inst) {
+        BasicComponent basic = inst.getComponent(BasicComponent.class);
+        BasicComponent userBasic = myLevelController.getUserEngineInstance().getComponent(BasicComponent.class);
+        boolean outOfVisibleRange = basic.getX() < userBasic.getX() - (ST_WIDTH / 2) - OFFSET_THRESHOLD ||
+                basic.getX() > userBasic.getX() + (ST_WIDTH / 2) + OFFSET_THRESHOLD ||
+                basic.getY() < userBasic.getY() - (ST_HEIGHT / 2) - OFFSET_THRESHOLD ||
+                basic.getY() > userBasic.getY() + (ST_HEIGHT / 2) + OFFSET_THRESHOLD;
+
+        if  (outOfVisibleRange) myImageViewMap.remove(inst);
+        else if (!outOfVisibleRange || !myImageViewMap.containsKey(inst)){
+            var newImageView = new ImageView();
+            myImageViewMap.put(inst, newImageView);
+            myGameRoot.getChildren().add(newImageView);
+            updateImageView(inst);
+        }
+
+    }
+
     private void updateDebugLog() {
         if (debugMode) {
             List<String> debugLog = myLevelController.debugLog();
@@ -967,7 +966,8 @@ public class PlayerStage extends Application {
     private void updateOrRemoveImageViews() {
         for (EngineInstance engineInstance : myImageViewMap.keySet()) {
             //FIXME removes imageview from game root without the !
-            if (!myEngineInstances.containsKey(engineInstance.getID()))
+            BasicComponent basic = engineInstance.getComponent(BasicComponent.class);
+            if (!myEngineInstances.containsKey(engineInstance.getID()) || !basic.isAlive())
                 myGameRoot.getChildren().remove(myImageViewMap.get(engineInstance));
             updateImageView(engineInstance);
         }
@@ -978,10 +978,7 @@ public class PlayerStage extends Application {
             EngineInstance engineInstance = myEngineInstances.get(ID);
             if (myImageViewMap.containsKey(engineInstance))
                 continue;
-            var newImageView = new ImageView();
-            myImageViewMap.put(engineInstance, newImageView);
-            myGameRoot.getChildren().add(newImageView);
-            updateImageView(engineInstance);
+           cacheImageViewDisplay(engineInstance);
         }
     }
 

@@ -17,7 +17,11 @@ public class Shoot extends ComponentDependentEvent {
 
         @Override
         protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object... args) {
-            shoot(engineInstance, (String) args[0], engineInstance.getComponent(AimComponent.class));
-        }
+            AimComponent aim = engineInstance.getComponent(AimComponent.class);
+            if(aim.getMyTracker() > aim.getMyShootRate()) {
+                shoot(engineInstance, (String) args[0], engineInstance.getComponent(AimComponent.class));
+                aim.resetTracker();
+            }
+            }
     }
 

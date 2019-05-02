@@ -50,6 +50,10 @@ public class AimComponent extends Component{
         return myShootRate;
     }
 
+    public void resetTracker(){
+        myTracker = 0;
+    }
+
     @Override
     public Component copy() {
         return new AimComponent(Double.toString(myXAim), Double.toString(myYAim), Double.toString(myRotationRate), Integer.toString(myShootRate));

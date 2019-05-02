@@ -646,11 +646,11 @@ public class PlayerStage extends Application {
         gamedata.Scene scene1 = new gamedata.Scene();
         scene1.instances.add(user1);
         scene1.instances.add(block1);
-        scene1.sceneLogic = "parser.addKey('D', 'manager.call(\"KeyMoveRight\", instance)');" +
-                "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", instance)');" +
-                "parser.addKey('W', 'manager.call(\"KeyMoveUp\", instance)');" +
-                "parser.addKey('S', 'manager.call(\"KeyMoveDown\", instance)');" +
-                "parser.addKey('M', 'manager.call(\"Jump\", instance)');" +
+        scene1.sceneLogic = "parser.addKey('D', 'manager.call(\"KeyMoveRight\", user)');" +
+                "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", user)');" +
+                "parser.addKey('W', 'manager.call(\"KeyMoveUp\", user)');" +
+                "parser.addKey('S', 'manager.call(\"KeyMoveDown\", user)');" +
+                "parser.addKey('M', 'manager.call(\"Jump\", user)');" +
                 "parser.addCollision('user', 'Block', 'manager.call(\"Die\", Block); manager.call(\"Die\", user)')";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";

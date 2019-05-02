@@ -16,7 +16,6 @@ public class GameController {
 
 
     public GameController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight, Game game) {
-
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
         myScreenHeight = screenHeight;
@@ -26,7 +25,7 @@ public class GameController {
     }
 
     public LevelController getLevelController(){
-        return new LevelController(myStepTime, myScreenWidth, myScreenHeight, myLevelWidth, myLevelHeight, myGame);
+        return new LevelController(myStepTime, myScreenWidth, myScreenHeight, myGame);
     }
 
 

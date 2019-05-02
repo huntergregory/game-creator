@@ -1,21 +1,15 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
+import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.Manager.DebugLog;
-import Engine.src.Manager.Manager;
-import Engine.src.Manager.Sounds;
+import Engine.src.Controller.DebugLog;
+import Engine.src.Controller.Sounds;
 import gamedata.Game;
-import Engine.src.ECS.Pair;
 import Engine.src.ECS.CollisionHandler;
-import Engine.src.Timers.Timer;
-import Engine.src.Timers.TimerSequence;
-import gamedata.GameObject;
-import gamedata.Instance;
-import gamedata.Scene;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -23,6 +17,8 @@ import groovy.lang.Script;
 import java.util.*;
 
 public class LevelController {
+    private static final String LOGIC_COMPONENT_KEYWORD = "instance";
+    private static final String USER_KEYWORD = "user";
 
     private final double myScreenWidth;
     private final double myScreenHeight;
@@ -59,11 +55,12 @@ public class LevelController {
 
         myIterationCounter = 0;
         myDebugLog = new DebugLog();
+        mySounds = new Sounds();
         myOffset = updateOffset();
-        initializeGroovyShell();
         myTimerController = new TimerController(myShell);
-        myManager = new Manager(myParser.getEngineInstances(), myTimerController, myStepTime);
+        myManager = new Manager(myParser, myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
+        initializeGroovyShell();
     }
 
     private void initializeGroovyShell() {
@@ -79,7 +76,7 @@ public class LevelController {
         if (myParser.getHotKeys().containsKey(key)) {
             String event = myParser.getHotKeys().get(key);
             GroovyShell shell = new GroovyShell(myBinding);
-            myBinding.setProperty("instance", myParser.getUserEngineInstance());
+            myBinding.setProperty(USER_KEYWORD, myParser.getUserEngineInstance());
             Script script = shell.parse(event);
             script.run();
         } else ; //TODO:error
@@ -97,11 +94,16 @@ public class LevelController {
     private void executeEntityLogic() {
         for (String ID : myParser.getEngineInstances().keySet()) {
             EngineInstance engineInstance = myParser.getEngineInstances().get(ID);
-            LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
-            String logic = logicComponent.getLogic();
-            myBinding.setProperty(engineInstance.getID(), engineInstance);
-            Script script = myShell.parse(logic);
-            script.run();
+            try {
+                LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
+                String logic = logicComponent.getLogic();
+                myBinding.setProperty(LOGIC_COMPONENT_KEYWORD, engineInstance);
+                Script script = myShell.parse(logic);
+                script.run();
+            }
+            catch(NoComponentException e) {
+                System.out.println("No Component");
+            }
         }
     }
 

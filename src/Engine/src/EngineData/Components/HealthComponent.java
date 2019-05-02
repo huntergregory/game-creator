@@ -33,7 +33,7 @@ public class HealthComponent extends Component {
 
     @Override
     public Component copy() {
-        return new HealthComponent(Double.toString(myHealth), Double.toString(myMaxHealth));
+        return new HealthComponent(Integer.toString(myHealth), Integer.toString(myMaxHealth));
     }
 
 }

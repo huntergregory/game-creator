@@ -22,6 +22,7 @@ import com.pusher.rest.Pusher;
 import gamedata.Game;
 import gamedata.Instance;
 import gamedata.Resource;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -131,33 +132,40 @@ public class CanvasScreen extends Screen {
                 data = data.replaceAll("\"","");
                 String[] c = data.split("\\|");
                 if (!c[1].equals(getLoggedInUsername())) {
-                    try {
-                        // System.out.println("Received request to update " + data);
-                        // Instantiates a client
-                        Storage storage =
-                                StorageOptions.newBuilder()
-                                        .setCredentials(
-                                                ServiceAccountCredentials.fromStream(
-                                                        new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
-                                        .setProjectId("tmtp-spec")
-                                        .build()
-                                        .getService();
-                        String name = c[0];
-                        Blob blob = storage.get(BlobId.of("voogasalad-files", name));
-                        String contents = new String(blob.getContent());
-                        GameCloudWrapper gcw = (new Gson().fromJson(contents, new TypeToken<GameCloudWrapper>() {
-                        }.getType()));
-                        changeTitle(name);
-                            Game game = gcw.game;
-                            setGameCloudWrapper(gcw);
-                            ScreenHelpers.closeMenu(CanvasScreen.this, paneA, paneB, paneContainer, namePane);
-                            setGame(game);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        // TODO: Tell user it's not a good file
-                    }
+                    System.out.println("Received request to update ");
+                        Platform.runLater(new Runnable(){
+                            @Override
+                            public void run() {
+                                // Instantiates a client
+
+                                try {
+                                Storage storage =
+                                        StorageOptions.newBuilder()
+                                                .setCredentials(
+                                                        ServiceAccountCredentials.fromStream(
+                                                                new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                                                .setProjectId("tmtp-spec")
+                                                .build()
+                                                .getService();
+                                String name = c[0];
+                                Blob blob = storage.get(BlobId.of("voogasalad-files", name));
+                                String contents = new String(blob.getContent());
+                                GameCloudWrapper gcw = (new Gson().fromJson(contents, new TypeToken<GameCloudWrapper>() {
+                                }.getType()));
+                                changeTitle(name);
+                                Game game = gcw.game;
+                                setGameCloudWrapper(gcw);
+                                ScreenHelpers.closeMenu(CanvasScreen.this, paneA, paneB, paneContainer, namePane);
+                                setGame(game);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    // TODO: Tell user it's not a good file
+                                }
+                            }
+                        });
                 } else {
-                    // System.out.println("Self trigger. Ignore.");
+                    System.out.println("Self trigger. Ignore.");
                 }
             }
         });

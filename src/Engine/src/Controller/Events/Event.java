@@ -1,6 +1,11 @@
 package Engine.src.Controller.Events;
 
+import Engine.src.Controller.NoInstanceException;
+import Engine.src.Controller.NoObjectException;
+import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.Map;
 import java.util.Set;
@@ -9,23 +14,14 @@ public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";
 
     protected Map<String, EngineInstance> myEngineInstances;
+    private Set<UnmodifiableEngineGameObject> myGameEngineObjects;
     private Class[] myParameters;
-    //private String myConditionalScript;
-    private final String SUBFOLDER = "";
 
-    public Event(Map<String, EngineInstance> engineInstances, Class ... parameterTypes) {
+    public Event(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects, Class ... parameterTypes) {
         myEngineInstances = engineInstances;
+        myGameEngineObjects = engineObjects;
         myParameters = parameterTypes;
-        //myConditionalScript = "";
     }
-
-    /**
-     *
-     * All subclasses of Event assume that Event does full error checking of both the number and type of args in execute.
-     * @param engineInstance
-     * @param args
-     */
-    protected abstract void execute(EngineInstance engineInstance, double stepTime, Object ... args);
 
     public Class[] getNonInstanceParameters() {
         return myParameters;
@@ -38,9 +34,8 @@ public abstract class Event {
     }
 
     private boolean parametersMatch(Object ... args) {
-        if (args.length != myParameters.length) {
+        if (args.length != myParameters.length)
             return false;
-        }
 
         for (int k=0; k<args.length; k++) {
             if (!myParameters[k].isInstance(args[0]))
@@ -49,7 +44,68 @@ public abstract class Event {
         return true;
     }
 
-    private String getSubfolder(){
-        return SUBFOLDER;
+    /**
+     *
+     * All subclasses of Event assume that Event does full error checking of both the number and type of args in execute.
+     * @param engineInstance
+     * @param args
+     */
+    protected abstract void execute(EngineInstance engineInstance, double stepTime, Object ... args);
+
+    protected UnmodifiableEngineGameObject getObjectByID(String id) throws NoObjectException {
+        //FIXME runtime
+        for (UnmodifiableEngineGameObject engineGameObject : myGameEngineObjects) {
+            if (engineGameObject.getID().equals(id))
+                return engineGameObject;
+        }
+        throw new NoObjectException(id);
+    }
+
+    protected EngineInstance getInstanceByID(String id) throws NoInstanceException {
+        if (myEngineInstances.containsKey(id))
+            return myEngineInstances.get(id);
+        throw new NoInstanceException(id);
+    }
+
+    protected EngineInstance createFromInstance(String objectType, EngineInstance creator) throws NoObjectException {
+        var newInstance = create(objectType);
+        var newBasic = newInstance.getComponent(BasicComponent.class);
+        var creatorBasic = creator.getComponent(BasicComponent.class);
+        setBasic(creatorBasic.getX(), creatorBasic.getY(), creatorBasic.getWidth(), creatorBasic.getHeight(), newBasic);
+        return newInstance;
+    }
+
+    protected EngineInstance createInstance(String objectType, double x, double y, double width, double height)  throws NoObjectException {
+        var newInstance = create(objectType);
+        var basic =  newInstance.getComponent(BasicComponent.class);
+        setBasic(x, y, width, height, basic);
+        return newInstance;
+    }
+
+    private EngineInstance create(String objectType) throws NoObjectException {
+        for (UnmodifiableEngineGameObject engineGameObject : myGameEngineObjects) {
+            if (objectType.equals(engineGameObject.getID())) {
+                return engineGameObject.createInstance(getUntakenID(engineGameObject.getID()));
+            }
+        }
+        throw new NoObjectException(objectType);
+    }
+
+    private void setBasic(double x, double y, double width, double height, BasicComponent basic) {
+        basic.setX(x);
+        basic.setY(y);
+        basic.setWidth(width);
+        basic.setHeight(height);
+    }
+
+    private String getUntakenID(String objectType) {
+        String id = "";
+        boolean idTaken = true;
+        while (!idTaken) {
+            id = objectType + 1;
+            if (!myEngineInstances.containsKey(id))
+                idTaken = false;
+        }
+        return id;
     }
 }

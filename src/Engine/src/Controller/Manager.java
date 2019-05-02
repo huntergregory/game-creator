@@ -82,16 +82,6 @@ public class Manager {
         }
     }
 
-    public void createInstanceFromType(String objectType, EngineInstance creator) {
-        try {
-            myParser.createFromInstance(objectType, creator);
-            //TODO
-        }
-        catch (NoObjectException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
     public void addTimer(Timer timer) {
         myTimerController.addTimer(timer);
     }

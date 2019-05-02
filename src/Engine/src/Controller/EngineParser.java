@@ -2,9 +2,9 @@ package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
 import Engine.src.EngineData.Components.BasicComponent;
-import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import Engine.src.Timers.Timer;
 import gamedata.Game;
 import gamedata.GameObject;
@@ -15,7 +15,6 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import groovy.lang.Sequence;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.Map;
 
@@ -86,19 +85,16 @@ public class EngineParser {
         return myEngineInstances;
     }
 
+    protected Set<UnmodifiableEngineGameObject> getEngineGameObjects() {
+        HashSet<UnmodifiableEngineGameObject> set = new HashSet<>();
+        for (EngineGameObject engineGameObject : myGameEngineObjects)
+            set.add(new UnmodifiableEngineGameObject(engineGameObject));
+        return set;
+    }
+
     protected EngineInstance getUserEngineInstance() {
         return myUserEngineInstance;
     }
-
-    //FIXMe
-    protected EngineInstance createFromInstance(String objectType, EngineInstance instance) throws NoObjectException {
-        for (EngineGameObject engineGameObject : myGameEngineObjects) {
-            if (objectType.equals(engineGameObject.getID()))
-                return engineGameObject.createInstance(engineGameObject.getID() + 1); //FIXME //no way to know what the other instance ids are, might override another instance
-        }
-        throw new NoObjectException(objectType);
-    }
-
 
 
     private void parse(Game game) {

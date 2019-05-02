@@ -14,6 +14,6 @@ public class GoodAim extends AIEvent{
 
     @Override
     protected void modifyComponents(EngineInstance engineInstance, double stepTime, Object... args) {
-        goodAim(engineInstance, (EngineInstance) args[0], (Double) args[1], stepTime);
+        goodAim(engineInstance, (EngineInstance) args[0], (String) args[1], (Double) args[2], stepTime);
     }
 }

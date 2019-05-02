@@ -8,6 +8,7 @@ import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public abstract class Event {
@@ -71,7 +72,8 @@ public abstract class Event {
         var newInstance = create(objectType);
         var newBasic = newInstance.getComponent(BasicComponent.class);
         var creatorBasic = creator.getComponent(BasicComponent.class);
-        setBasic(creatorBasic.getX(), creatorBasic.getY(), creatorBasic.getWidth(), creatorBasic.getHeight(), newBasic);
+        newBasic.setX(creatorBasic.getX());
+        newBasic.setY(creatorBasic.getY());
         return newInstance;
     }
 
@@ -85,7 +87,10 @@ public abstract class Event {
     private EngineInstance create(String objectType) throws NoObjectException {
         for (UnmodifiableEngineGameObject engineGameObject : myGameEngineObjects) {
             if (objectType.equals(engineGameObject.getID())) {
-                return engineGameObject.createInstance(getUntakenID(engineGameObject.getID()));
+                String ID = getUntakenID(engineGameObject.getID());
+                EngineInstance instance = engineGameObject.createInstance(ID);
+                myEngineInstances.put(ID, instance);
+                return instance;
             }
         }
         throw new NoObjectException(objectType);
@@ -99,13 +104,16 @@ public abstract class Event {
     }
 
     private String getUntakenID(String objectType) {
-        String id = "";
         boolean idTaken = true;
-        while (!idTaken) {
-            id = objectType + 1;
-            if (!myEngineInstances.containsKey(id))
-                idTaken = false;
-        }
+        Random rand = new Random();
+        String id = Double.toString(rand.nextDouble());
+
+        do{
+            id = Double.toString(rand.nextDouble());
+            if (!myEngineInstances.containsKey(id)) idTaken = false;
+
+        } while(idTaken);
+
         return id;
     }
 }

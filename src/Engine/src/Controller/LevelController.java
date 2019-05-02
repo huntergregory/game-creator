@@ -89,17 +89,25 @@ public class LevelController {
         myTimerController.update();
         myCollisionHandler.handleCollisions(myParser.getEngineInstances(), myParser.getCollisions());
         myOffset = updateOffset();
+        System.out.println(myParser.getEngineInstances().size());
     }
 
     private void executeEntityLogic() {
+        Map<String, EngineInstance> instancesCopy = new HashMap<>();
+
         for (String ID : myParser.getEngineInstances().keySet()) {
             EngineInstance engineInstance = myParser.getEngineInstances().get(ID);
+            instancesCopy.put(ID, engineInstance);
+        }
+
+        for (String ID : instancesCopy.keySet()) {
+            EngineInstance engineInstance = instancesCopy.get(ID);
+
             try {
                 LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
                 String logic = logicComponent.getLogic();
-                myBinding.setProperty(LOGIC_COMPONENT_KEYWORD, engineInstance);
-                Script script = myShell.parse(logic);
-                script.run();
+                myBinding.setProperty(LOGIC_COMPONENT_KEYWORD, myParser.getEngineInstances().get(ID));
+                myShell.evaluate(logic);
             }
             catch(NoComponentException e) {
                 System.out.println("No Component");

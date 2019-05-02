@@ -661,6 +661,7 @@ public class ScreenHelpers {
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;
     private static boolean actuallyDragging = false;
     public static void refreshCanvas(CanvasScreen context) {
+        ScrollPane sp = (ScrollPane) context.getUIElementById(CANVAS_ID).getView();
         var x = context.getUIElementById("CANVAS_ITEM");
         while (x != null) {
             context.removeUIElement(x);
@@ -719,8 +720,8 @@ public class ScreenHelpers {
             });
 
             iui.getView().setOnMouseDragged(t -> {
-                double offsetX = t.getSceneX() - orgSceneXInstance;
-                double offsetY = t.getSceneY() - orgSceneYInstance;
+                double offsetX = t.getSceneX() - orgSceneXInstance - sp.getHvalue();
+                double offsetY = t.getSceneY() - orgSceneYInstance - sp.getVvalue();
                 double newTranslateX = orgTranslateXInstance + offsetX;
                 double newTranslateY = orgTranslateYInstance + offsetY;
 

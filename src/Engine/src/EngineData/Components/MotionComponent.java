@@ -50,6 +50,10 @@ public class MotionComponent extends Component {
         myMovementYVelocity = movementYVelocity;
     }
 
+    public double getVelocity(){
+        return Math.sqrt(Math.pow(myXVelocity, 2) + Math.pow(myYVelocity, 2));
+    }
+
     public double getXVelocity() {
         return myXVelocity;
     }

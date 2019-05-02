@@ -4,13 +4,14 @@ import Engine.src.EngineData.EngineInstance;
 import Engine.src.Controller.Events.ComponentDependentEvent;
 import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.Components.MotionComponent;
+import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.Map;
 import java.util.Set;
 
 public abstract class MotionEvent extends ComponentDependentEvent {
-    public MotionEvent(Map<String, EngineInstance> engineInstances, Class<? extends Component>[] componentClasses, Class<?>... parameterTypes) {
-        super(engineInstances, componentClasses, parameterTypes);
+    public MotionEvent(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects, Class<? extends Component>[] componentClasses, Class<?>... parameterTypes) {
+        super(engineInstances, engineObjects, componentClasses, parameterTypes);
     }
 
     protected double getAngle(EngineInstance engineInstance) {

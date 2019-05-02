@@ -20,7 +20,8 @@ public abstract class ComponentContainer {
 
     ComponentContainer(String id, Map<Class<? extends Component>, Component> components) {
         this(id);
-        if (components != null && components.containsKey(BasicComponent.class))
+        //FIXME: Do we need to check for a basiccomponent?
+        if (components != null)
             myComponents = components;
     }
 

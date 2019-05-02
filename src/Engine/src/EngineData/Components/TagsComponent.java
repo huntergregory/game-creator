@@ -3,7 +3,7 @@ package Engine.src.EngineData.Components;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+@Deprecated
 public class TagsComponent extends Component {
     private List<String> myTags;
 

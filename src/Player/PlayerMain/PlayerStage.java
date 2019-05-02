@@ -604,19 +604,31 @@ public class PlayerStage extends Application {
         blockResource.resourceType = Resource.ResourceType.IMAGE_RESOURCE;
         blockResource.resourceID = "Block Picture";
         blockResource.src = "/img/block.jpg";
+
         GameObject user = new GameObject();
         user.objectID = "user";
-        user.objectLogic = "object.addComponent(" +
+        user.objectLogic =
+                "object.addComponent(" +
                 "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
-                "new LivesComponent('3', 'engineInstance.getComponent(BasicComponent).setX((Double) 500)'), new ScoreComponent('0'));";
+                "new LivesComponent('3', 'instance.getComponent(BasicComponent).setX((Double) 500)'), new ScoreComponent('0') ); ";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";
+        GameObject missile = new GameObject();
+        missile.objectID = "missile";
+        missile.bgColor = "FFFFFF";
+        missile.bgImage = "Mario Picture";
+        missile.objectLogic =
+                "object.addComponent(new MotionComponent('10', '0', '0', '0', '0', '0'), " +
+                        "new BasicComponent('/img/mario.jpg', '50', '100', '10', '10'))";
+
         GameObject block = new GameObject();
         block.objectID = "Block";
         block.objectLogic = "object.addComponent(" +
                 "new MotionComponent('0', '0', '10', '10', '0', '0'), new HealthComponent('100', '100'), " +
-                "new ScoreComponent('0'), new ImpassableComponent('true'))";
+                "new ScoreComponent('0'), new ImpassableComponent('true'), " +
+                "new AimComponent('0', '0', '0', '10'), " +
+                "new LogicComponent('manager.call(\"BaseAim\", instance, \"Mario\", \"missile\", \"0.8\")') );";
         //new BasicComponent('/img/block.jpg', '50.0', '50.0', '50.0', '50.0', '1'),
         block.bgColor = "FFFFFF";
         block.bgImage = "Block Picture";
@@ -650,7 +662,7 @@ public class PlayerStage extends Application {
                 "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", user)');" +
                 "parser.addKey('W', 'manager.call(\"KeyMoveUp\", user)');" +
                 "parser.addKey('S', 'manager.call(\"KeyMoveDown\", user)');" +
-                "parser.addKey('M', 'manager.call(\"Jump\", instance)');" +
+                "parser.addKey('M', 'manager.call(\"Jump\", user)');" +
                 "parser.addCollision('user', 'Block', 'manager.call(\"Die\", object1); manager.call(\"Die\", object2)')";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
@@ -659,6 +671,7 @@ public class PlayerStage extends Application {
         game.scenes.add(scene1);
         game.gameObjects.add(user);
         game.gameObjects.add(block);
+        game.gameObjects.add(missile);
         game.resources.add(userResource);
         game.resources.add(blockResource);
         myGameStage = stage;

@@ -8,7 +8,7 @@ public class AimComponent extends Component{
     double myYAim;
     double myRotationRate;
     double myShootRate;
-    double myTracker;
+    int myTracker;
 
     public AimComponent(String xAim, String yAim, String rotationRate, String shootRate){
         myXAim = parseDouble(xAim);

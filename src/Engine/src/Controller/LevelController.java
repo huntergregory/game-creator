@@ -92,7 +92,6 @@ public class LevelController {
         myTimerController.update();
         myCollisionHandler.handleCollisions(myParser.getEngineInstances(), myParser.getCollisions());
         myOffset = updateOffset();
-        System.out.println(myParser.getEngineInstances().size());
     }
 
     private void executeEntityLogic() {
@@ -113,7 +112,7 @@ public class LevelController {
                 myShell.evaluate(logic);
             }
             catch(NoComponentException e) {
-                System.out.println("No Logic Component");
+                //System.out.println("No Logic Component");
             }
         }
     }

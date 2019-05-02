@@ -533,10 +533,10 @@ public class PlayerStage extends Application {
     public final double GAME_HEIGHT = 800;
     public final Paint GAME_BG = Color.BLACK;
 
-    public static final int FRAMES_PER_SECOND = 1;
+    public static final int FRAMES_PER_SECOND = 15;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    private static final int HUD_UPDATE_DELAY = 10;
+    private static final int HUD_UPDATE_DELAY = 50;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
 
 
@@ -607,7 +607,7 @@ public class PlayerStage extends Application {
         blockResource.src = "/img/block.jpg";
         GameObject user = new GameObject();
         user.objectID = "user";
-        user.objectLogic = "object.addComponent(new MotionComponent('0', '0', '10', '10', '0', '1'), new HealthComponent('100', '100'), new JumpComponent('5'), new LivesComponent('3', 'instance.getComponent(BasicComponent).setX((Double) 800)'), new ScoreComponent('0'), new LogicComponent('if(instance.getComponent(HealthComponent).getHealth() < 0) { manager.call(\"Die\", instance); manager.call(\"AddToHealth\", instance, 100) }'));";
+        user.objectLogic = "object.addComponent(new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('0.05'), new LivesComponent('3', 'instance.getComponent(BasicComponent).setX((Double) 800)'), new ScoreComponent('0'), new LogicComponent('if(instance.getComponent(HealthComponent).getHealth() < 0) { manager.call(\"Die\", instance); manager.call(\"AddToHealth\", instance, 100) }'));";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
         user.bgImage = "Mario Picture";

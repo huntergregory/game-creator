@@ -21,7 +21,6 @@ module voogasalad.crackingopen {
     opens Engine.src.Controller to org.codehaus.groovy, java.scripting;
 
     opens Player.PlayerMain to javafx.graphics;
-    opens Engine to org.codehaus.groovy, java.scripting;
     opens Engine.src.EngineData to org.codehaus.groovy, java.scripting;
     opens Engine.src.ECS to org.codehaus.groovy, java.scripting;
     opens Engine.src.Manager to org.codehaus.groovy, java.scripting;

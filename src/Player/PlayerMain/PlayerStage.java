@@ -607,7 +607,7 @@ public class PlayerStage extends Application {
         GameObject user = new GameObject();
         user.objectID = "user";
         user.objectLogic = "object.addComponent(" +
-                "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
+                "new MotionComponent('0', '0', '3', '3', '0', '1'), new HealthComponent('100', '100'), new JumpComponent('5'), " +
                 "new LivesComponent('3', 'engineInstance.getComponent(BasicComponent).setX((Double) 500)'), new ScoreComponent('0'));";
         //new BasicComponent('/img/mario.jpg', '50.0', '100.0', '50.0', '50.0', '1'),
         user.bgColor = "FFFFFF";
@@ -632,6 +632,24 @@ public class PlayerStage extends Application {
         user1.x = 150;
         user1.y = 50;
         user1.zIndex = 1;
+
+        GameObject enemy = new GameObject();
+        enemy.objectID = "enemy";
+        enemy.objectLogic = "object.addComponent(" + "new MotionComponent('0', '0', '10', '10', '0', '0.01'), new HealthComponent('100', '100'), " +
+                "new ImpassableComponent('true'), new LogicComponent('manager.call(\"Follow\", instance, 10);'))";
+        Instance enemy1 = new Instance();
+        enemy1.instanceOf = "enemy";
+        enemy1.instanceID = "Enemy";
+        enemy1.instanceLogic = "";
+        enemy1.bgColor = "FFFFFF";
+        enemy1.bgImage = "Mario Picture";
+        enemy1.height = 50;
+        enemy1.width = 50;
+        enemy1.x = 200;
+        enemy1.y = 50;
+        enemy1.zIndex = 1;
+
+
         Instance block1 = new Instance();
         block1.instanceOf = "Block";
         block1.instanceID = "Block1";
@@ -646,12 +664,12 @@ public class PlayerStage extends Application {
         gamedata.Scene scene1 = new gamedata.Scene();
         scene1.instances.add(user1);
         scene1.instances.add(block1);
-        scene1.sceneLogic = "parser.addKey('D', 'manager.call(\"KeyMoveRight\", instance)');" +
-                "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", instance)');" +
-                "parser.addKey('W', 'manager.call(\"KeyMoveUp\", instance)');" +
-                "parser.addKey('S', 'manager.call(\"KeyMoveDown\", instance)');" +
-                "parser.addKey('M', 'manager.call(\"Jump\", instance)');" +
-                "parser.addCollision('user', 'Block', 'manager.call(\"Die\", Block); manager.call(\"Die\", user)')";
+        scene1.instances.add(enemy1);
+        scene1.sceneLogic = "parser.addKey('D', 'manager.call(\"KeyMoveRight\", user)');" +
+                "parser.addKey('A', 'manager.call(\"KeyMoveLeft\", user)');" +
+                "parser.addKey('W', 'manager.call(\"KeyMoveUp\", user)');" +
+                "parser.addKey('S', 'manager.call(\"KeyMoveDown\", user)');" +
+                "parser.addKey('M', 'manager.call(\"Jump\", user)');";
         scene1.sceneID = "Level1";
         scene1.bgColor = "";
         scene1.bgImage = "";
@@ -659,6 +677,7 @@ public class PlayerStage extends Application {
         game.scenes.add(scene1);
         game.gameObjects.add(user);
         game.gameObjects.add(block);
+        game.gameObjects.add(enemy);
         game.resources.add(userResource);
         game.resources.add(blockResource);
         myGameStage = stage;

@@ -21,7 +21,7 @@
       "name": "Mario",
       "rating": "5.0",
       "game_source": "",
-      "favorite": "true",
+      "favorite": "false",
       "desc": "Really? You need a description for Mario?"
     },
     {
@@ -29,6 +29,14 @@
       "name": "Metroid",
       "rating": "1.0",
       "game_source": "",
+      "favorite": "false",
+      "desc": "Metroid follows space-faring bounty hunter Samus Aran, who protects the galaxy from the Space Pirates and their attempts to harness the power of the parasitic Metroid creatures."
+    },
+    {
+      "img": "/img/metroid.jpg",
+      "name": "Metroid",
+      "rating": "1.0",
+      "game_source": "/data/BigC.game",
       "favorite": "false",
       "desc": "Metroid follows space-faring bounty hunter Samus Aran, who protects the galaxy from the Space Pirates and their attempts to harness the power of the parasitic Metroid creatures."
     }

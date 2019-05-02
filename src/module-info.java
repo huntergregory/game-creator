@@ -15,6 +15,18 @@ module voogasalad.crackingopen {
     requires java.scripting;
     requires org.apache.commons.lang3;
 
+    requires google.cloud.storage;
+    requires google.oauth.client;
+    requires google.auth.library.credentials;
+    requires google.auth.library.oauth2.http;
+    requires google.api.client;
+    requires pusher.http.java;
+    requires pusher.java.client;
+
+    exports auth.auth_fxml_controllers;
+    exports gamedata to gson;
+    exports auth.helpers to gson;
+
     opens GameCenter.main to javafx.fxml, javafx.graphics;
     opens GameCenter.gameData to gson;
     //opens Engine to org.codehaus.groovy, java.scripting;
@@ -39,7 +51,6 @@ module voogasalad.crackingopen {
     exports auth;
     exports GameCenter;
     exports auth.screens;
-    exports auth.auth_fxml_controllers;
     exports network_account;
     exports GameCenter.main;
     exports Engine.src.Controller;
@@ -54,7 +65,6 @@ module voogasalad.crackingopen {
     exports Engine.src.Manager.Events.Motion;
     exports Engine.src.Timers;
     exports Engine.src.EngineData.ComponentExceptions;
-    exports gamedata;
     exports ez_engine;
     exports dummy_player;
 }

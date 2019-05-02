@@ -4,9 +4,23 @@ import auth.RunAuth;
 import auth.UIElement;
 import auth.auth_ui_components.Selectable;
 import auth.helpers.DataHelpers;
+import auth.helpers.GameCloudWrapper;
+import auth.helpers.ScreenHelpers;
 import auth.pagination.PaginationUIElement;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.pusher.client.PusherOptions;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.channel.SubscriptionEventListener;
+import com.pusher.rest.Pusher;
 import gamedata.Game;
 import gamedata.Resource;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -15,6 +29,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uiutils.panes.BottomPane;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +37,10 @@ import static auth.Colors.BG_COLOR;
 import static auth.Dimensions.ENV_WINDOW_HEIGHT;
 import static auth.Dimensions.ENV_WINDOW_WIDTH;
 import static auth.Strings.*;
+import static auth.Strings.CONSOLE_PANE_ID;
+import static auth.Strings.DEFAULT_TITLE;
+import static auth.helpers.DataHelpers.SERVICE_ACCOUNT_JSON_PATH;
+import static auth.helpers.MenuClickHandlers.*;
 import static auth.helpers.ScreenHelpers.*;
 
 public class CanvasScreen extends Screen {
@@ -30,10 +49,27 @@ public class CanvasScreen extends Screen {
     private Group container;
     private Stage stage;
     private Game game;
+    private Pusher pusherSender = new Pusher("245192", "99244f3550e4ac4a1ce7", "934e0900e15a258cdd56");
+    PusherOptions options = new PusherOptions().setCluster("mt1");
+    private com.pusher.client.Pusher pusherReceiver = new com.pusher.client.Pusher("99244f3550e4ac4a1ce7", options);
 
     public Selectable currentlySelected = null;
     public Class selectedType = null;
     public String selectedID = "";
+
+    private GameCloudWrapper gameCloudWrapper = new GameCloudWrapper();
+
+    public GameCloudWrapper getGameCloudWrapper () {
+        return gameCloudWrapper;
+    }
+
+    public void setGameCloudWrapper(GameCloudWrapper gcw) {
+        this.gameCloudWrapper = gcw;
+    }
+
+    public void triggerEvent(String gameID) {
+        pusherSender.trigger("mainChannel", "update", gameID+"|"+getLoggedInUsername());
+    }
 
     public VBox getObjectGrid() {
         return objectGrid;
@@ -81,6 +117,56 @@ public class CanvasScreen extends Screen {
         imageGrid = new VBox(5);
         audioGrid = new VBox(5);
         colorGrid = new VBox(5);
+        gameCloudWrapper.owner = getLoggedInUsername();
+        gameCloudWrapper.game = game;
+        pusherSender.setCluster("mt1");
+
+        pusherReceiver.connect();
+        // Subscribe to a channel
+        Channel channel = pusherReceiver.subscribe("mainChannel");
+        channel.bind("update", new SubscriptionEventListener() {
+            @Override
+            public void onEvent(String channel, String event, String data) {
+                data = data.replaceAll("\"","");
+                String[] c = data.split("\\|");
+                if (!c[1].equals(getLoggedInUsername())) {
+                    System.out.println("Received request to update ");
+                        Platform.runLater(new Runnable(){
+                            @Override
+                            public void run() {
+                                // Instantiates a client
+
+                                try {
+                                Storage storage =
+                                        StorageOptions.newBuilder()
+                                                .setCredentials(
+                                                        ServiceAccountCredentials.fromStream(
+                                                                new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                                                .setProjectId("tmtp-spec")
+                                                .build()
+                                                .getService();
+                                String name = c[0];
+                                Blob blob = storage.get(BlobId.of("voogasalad-files", name));
+                                String contents = new String(blob.getContent());
+                                GameCloudWrapper gcw = (new Gson().fromJson(contents, new TypeToken<GameCloudWrapper>() {
+                                }.getType()));
+                                changeTitle(name);
+                                Game game = gcw.game;
+                                setGameCloudWrapper(gcw);
+                                ScreenHelpers.closeMenu(CanvasScreen.this, paneA, paneB, paneContainer, namePane);
+                                setGame(game);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    // TODO: Tell user it's not a good file
+                                }
+                            }
+                        });
+                } else {
+                    System.out.println("Self trigger. Ignore.");
+                }
+            }
+        });
     }
 
     public int createNewScene() {

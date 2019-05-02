@@ -56,6 +56,7 @@ import static auth.Styles.CANVAS_STYLE;
 import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.centreVertical;
 import static auth.helpers.RectangleHelpers.createScrollingRectangle;
+import static auth.helpers.RectangleHelpers.createStyledRectangle;
 
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";

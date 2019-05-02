@@ -6,15 +6,20 @@ import auth.auth_fxml_controllers.KeyEventController;
 import auth.auth_fxml_controllers.ObjectScriptController;
 import auth.auth_fxml_controllers.SceneScriptController;
 import auth.screens.CanvasScreen;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.storage.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import gamedata.Game;
 import gamedata.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
 import uiutils.panes.BottomPane;
 import uiutils.panes.Pane;
 
@@ -25,6 +30,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static auth.Strings.CONSOLE_PANE_ID;
+import java.io.*;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Scanner;
+
+import static auth.Strings.CONSOLE_PANE_ID;
+import static auth.helpers.DataHelpers.SERVICE_ACCOUNT_JSON_PATH;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MenuClickHandlers {
     public static uiutils.panes.Pane paneA;
@@ -69,6 +82,7 @@ public class MenuClickHandlers {
                 ScreenHelpers.closeMenu(context, paneA, paneB, paneContainer, namePane);
                 context.setGame(game);
             } catch (Exception e) {
+                e.printStackTrace();
                 // TODO: Tell user it's not a good file
             }
         }
@@ -126,18 +140,112 @@ public class MenuClickHandlers {
     }
 
     public static void handleSaveToCloud (CanvasScreen context) {
-        // TODO
-        System.out.println("handleSaveToCloud called");
+        try {
+            GameCloudWrapper gcw = context.getGameCloudWrapper();
+            gcw.game = context.getGame();
+            // Instantiates a client
+            Storage storage =
+                    StorageOptions.newBuilder()
+                            .setCredentials(
+                                    ServiceAccountCredentials.fromStream(
+                                            new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                            .setProjectId("tmtp-spec")
+                            .build()
+                            .getService();
+
+            if (gcw.gameID.isEmpty()) {
+                TextInputDialog dialog = new TextInputDialog("examplegameid");
+                dialog.setTitle("Choose gameID");
+                dialog.setHeaderText("Must be alphanumeric only.");
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> {
+                    if(StringUtils.isAlphanumeric(name)) {
+                        gcw.gameID = name;
+                        String contents = new Gson().toJson(gcw, new TypeToken<GameCloudWrapper>(){}.getType());
+                        BlobId blobId = BlobId.of("voogasalad-files", name);
+                        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
+                        Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Invalid ID");
+                        alert.setContentText("Needs to be alphanumeric");
+                        alert.show();
+                    }
+                });
+            } else {
+                String contents = new Gson().toJson(gcw, new TypeToken<GameCloudWrapper>(){}.getType());
+                BlobId blobId = BlobId.of("voogasalad-files", gcw.gameID);
+                BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
+                Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void handleLoadFromCloud (CanvasScreen context) {
-        // TODO
-        System.out.println("handleLoadFromCloud called");
+        try {
+            // Instantiates a client
+            Storage storage =
+                    StorageOptions.newBuilder()
+                            .setCredentials(
+                                    ServiceAccountCredentials.fromStream(
+                                            new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                            .setProjectId("tmtp-spec")
+                            .build()
+                            .getService();
+            TextInputDialog dialog = new TextInputDialog("examplegameid");
+            dialog.setTitle("Enter gameID");
+            dialog.setHeaderText("Must be alphanumeric only.");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> {
+                if (StringUtils.isAlphanumeric(name)) {
+                    Blob blob = storage.get(BlobId.of("voogasalad-files", name));
+                    if (blob == null) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Can't find file");
+                        alert.setContentText("Check your gameID");
+                        alert.show();
+                    } else {
+                        String contents = new String(blob.getContent());
+                        GameCloudWrapper gcw = (new Gson().fromJson(contents, new TypeToken<GameCloudWrapper>() {
+                        }.getType()));
+                        if (gcw.owner.equals(context.getLoggedInUsername()) || gcw.allowAccess.contains(context.getLoggedInUsername())) {
+                            context.changeTitle(name);
+                            try {
+                                Game game = gcw.game;
+                                context.setGameCloudWrapper(gcw);
+                                ScreenHelpers.closeMenu(context, paneA, paneB, paneContainer, namePane);
+                                context.setGame(game);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                // TODO: Tell user it's not a good file
+                            }
+                        } else {
+                            System.out.println("No access");
+                        }
+                    }
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Invalid ID");
+                    alert.setContentText("Needs to be alphanumeric");
+                    alert.show();
+                }
+            });
+        } catch ( Exception e) {e.printStackTrace();}
     }
 
-    public static void handleAddCollaborators (CanvasScreen context) {
-        // TODO
-        System.out.println("handleAddCollaborators called");
+    public static void handleChangeCollaborators (CanvasScreen context) {
+        TextInputDialog dialog = new TextInputDialog(String.join(",", context.getGameCloudWrapper().allowAccess.toArray(new String[context.getGameCloudWrapper().allowAccess.size()])));
+        dialog.setTitle("Choose who to collaborate with");
+        dialog.setHeaderText("Enter usernames separated by commas");
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> {
+            String allowed[] = name.split(",");
+            context.getGameCloudWrapper().allowAccess.clear();
+            context.getGameCloudWrapper().allowAccess.addAll(Arrays.asList(allowed));
+            DataHelpers.sendNewCloudData(context);
+        });
     }
 
     private static FXMLLoader addPopup(String fxmlString) throws IOException {

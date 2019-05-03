@@ -46,7 +46,8 @@ public class GameCenter extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-//        new RunAuth().start(new Stage());
+//        new RunAuth(myIdentity).start(new Stage());
+
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/GameCenter.fxml"));
 
         this.myRoot = loader.load();

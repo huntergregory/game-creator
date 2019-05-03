@@ -213,7 +213,7 @@ public class GameCenterController {
 
     @FXML
     private void launchAuthEnv() {
-        new RunAuth().start(new Stage());
+        new RunAuth(identity).start(new Stage());
     }
 
     @FXML

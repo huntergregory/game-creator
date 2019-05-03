@@ -1,8 +1,7 @@
 //Example 4: User favorites a game
 
-import javafx.*;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 public class PlayerStage{
 
     List<String> myFavorites = new ArrayList<>();

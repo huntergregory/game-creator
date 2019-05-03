@@ -153,19 +153,11 @@
     -fx-fill: white;
 }
 
-.tableView {
-    -fx-font-size: 15;
-    -fx-font-family: Impact;
-    -fx-text-fill: black;
-    -fx-background-fill: ghostwhite;
-}
-
 .textfieldLabel {
-    -fx-font-size: 15;
+    -fx-font-size: 20;
     -fx-font-family: Impact;
     -fx-text-fill: white;
 }
-
 .textfield {
     -fx-max-width: 300;
     -fx-padding: 5 15 5 15;
@@ -181,10 +173,4 @@
     -fx-text-fill: white;
     -fx-font-family: Impact;
     -fx-font-size: 32;
-}
-
-.gamePaneLabel{
-    -tx-text-fill: white;
-    -fx-font-family: Impact;
-    -fx-font-size: 20;
 }

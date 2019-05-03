@@ -1,67 +1,30 @@
 package Engine.src.Controller;
 
-import Engine.src.ECS.EntityManager;
-import Engine.src.Triggers.Events.Event;
-import Engine.src.Triggers.Timer;
-import Engine.src.Triggers.TimerSequence;
+import Engine.src.Controller.Events.Event;
+import Engine.src.Timers.Timer;
+import Engine.src.Timers.TimerSequence;
 
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class LevelManager {
     private boolean levelPassed;
     private Map<Integer, Timer> myTimers;
     private List<TimerSequence> myTimerSequences;
-    private EntityManager myEntityManager;
+    private Manager myManager;
     double myCount;
     double myLevelWidth;
     double myLevelHeight;
 
-    public LevelManager(Map<Integer, Timer> timers, List<TimerSequence> timerSequences, EntityManager entityManager, double count, double width, double height){
+    public LevelManager(Map<Integer, Timer> timers, List<TimerSequence> timerSequences, Manager manager, double count, double width, double height){
         levelPassed = false;
-        myEntityManager = entityManager;
+        myManager = manager;
         myTimers = timers;
         myCount = count;
         myLevelWidth = width;
         myLevelHeight = height;
         myTimerSequences = timerSequences;
-    }
-
-    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
-        int max = 0;
-        for(int ID : myTimers.keySet()){
-            if (ID > max) max = ID;
-        }
-        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, myCount));
-    }
-
-    public void updateSequences() {
-        for (TimerSequence sequence : myTimerSequences) {
-            Timer currentTimer = sequence.getCurrentTimer();
-            if (currentTimer.getCount() >= currentTimer.getEndTime()){
-                currentTimer.activateEvents(currentTimer.getMyEventsAfterTimer(), myEntityManager, this);
-                sequence.setNextTimer(myCount);
-            }
-            else {
-                currentTimer.activateEvents(currentTimer.getStateWhileTimerIsOn(), myEntityManager, this);
-                currentTimer.increment();
-            }
-            if (sequence.completed() && sequence.isLoop()) sequence.reset(myCount);
-            else myTimers.remove(sequence);
-        }
-    }
-
-    public void updateTimers() {
-        for (int timerID : myTimers.keySet()) {
-            Timer timer = myTimers.get(timerID);
-            if (timer.getCount() >= timer.getEndTime()){
-                timer.activateEvents(timer.getMyEventsAfterTimer(), myEntityManager, this);
-            }
-            else {
-                timer.activateEvents(timer.getStateWhileTimerIsOn(), myEntityManager, this);
-                timer.increment();
-            }
-        }
     }
 
 

@@ -13,6 +13,7 @@ module voogasalad.crackingopen {
 
     requires java.scripting;
     requires org.apache.commons.lang3;
+    requires gson;
 
     opens GameCenter.main to javafx.fxml, javafx.graphics;
     opens GameCenter.gameData to gson;

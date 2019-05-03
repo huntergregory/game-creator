@@ -14,6 +14,7 @@ public class DebugConsole extends Feature {
     protected Label myTextArea;
     protected String text = "";
     private List<String> debugLog = new ArrayList<>();
+    private static final double OFFSET = 50.0;
 
     /**
      * Constructor for a DebugConsole object
@@ -21,16 +22,16 @@ public class DebugConsole extends Feature {
     public DebugConsole(double width, double height) {
         myHBox = new HBox();
         myTextArea = new Label();
-        myTextArea.setMinHeight(height);
-        myTextArea.setMinWidth(width);
-        myTextArea.setMaxWidth(width);
+        myTextArea.setMinHeight(height - OFFSET);
+        myTextArea.setMinWidth(width - OFFSET);
+        myTextArea.setMaxWidth(width - OFFSET);
         myScrollPane = new ScrollPane(myTextArea);
         myScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         myScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         myScrollPane.setDisable(false);
-        myScrollPane.setMinHeight(height);
-        myScrollPane.setMinWidth(width);
-        myScrollPane.setMaxWidth(width);
+        myScrollPane.setMinHeight(height - OFFSET);
+        myScrollPane.setMinWidth(width - OFFSET);
+        myScrollPane.setMaxWidth(width - OFFSET);
         myHBox.getChildren().add(myScrollPane);
     }
 

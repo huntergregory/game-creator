@@ -32,7 +32,7 @@ public class Player {
 
         gameEngine = new Engine(mainStage);
         sharedData = new Binding();
-        sharedData.setProperty("engine", gameEngine);
+        sharedData.setProperty("Engine", gameEngine);
         sharedData.setProperty("ENV_WIDTH", CANVAS_WIDTH);
         sharedData.setProperty("ENV_HEIGHT", CANVAS_HEIGHT);
         groovyEngine = new GroovyShell(sharedData);

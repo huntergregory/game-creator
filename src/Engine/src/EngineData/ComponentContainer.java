@@ -20,7 +20,8 @@ public abstract class ComponentContainer {
 
     ComponentContainer(String id, Map<Class<? extends Component>, Component> components) {
         this(id);
-        if (components != null && components.containsKey(BasicComponent.class))
+        //FIXME: Do we need to check for a basiccomponent?
+        if (components != null)
             myComponents = components;
     }
 
@@ -53,8 +54,18 @@ public abstract class ComponentContainer {
         return myID;
     }
 
+    /*
     protected Map<Class<? extends Component>, Component> getComponents() {
         return myComponents;
+    }
+    */
+
+    protected Map<Class<? extends Component>, Component> copyComponents() {
+        Map<Class<? extends Component>, Component> components = new HashMap<>();
+        for(Class clazz: myComponents.keySet()){
+            components.put(clazz, myComponents.get(clazz).copy());
+        }
+        return components;
     }
 
 }

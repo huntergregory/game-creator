@@ -15,18 +15,15 @@ public class GameController {
     private Game myGame;
 
 
-    public GameController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight, Game game) {
-
+    public GameController(double stepTime, double screenWidth, double screenHeight, Game game) {
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
         myScreenHeight = screenHeight;
-        myLevelWidth = levelWidth;
-        myLevelHeight = levelHeight;
         myGame = game;
     }
 
     public LevelController getLevelController(){
-        return new LevelController(myStepTime, myScreenWidth, myScreenHeight, myLevelWidth, myLevelHeight, myGame);
+        return new LevelController(myStepTime, myScreenWidth, myScreenHeight, myGame);
     }
 
 

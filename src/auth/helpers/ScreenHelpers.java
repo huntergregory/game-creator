@@ -55,7 +55,6 @@ import static auth.Styles.BG_STYLE;
 import static auth.Styles.CANVAS_STYLE;
 import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.centreVertical;
-import static auth.helpers.RectangleHelpers.createScrollingRectangle;
 import static auth.helpers.RectangleHelpers.createStyledRectangle;
 
 public class ScreenHelpers {
@@ -117,7 +116,7 @@ public class ScreenHelpers {
     }
 
     private static void placeCanvas(CanvasScreen context) {
-        var canvas = createScrollingRectangle(CONSOLE_HORIZONTAL_OFFSET, CANVAS_VERTICAL_OFFSET,
+        var canvas = createStyledRectangle(CONSOLE_HORIZONTAL_OFFSET, CANVAS_VERTICAL_OFFSET,
                 CANVAS_WIDTH, CANVAS_HEIGHT, CANVAS_STYLE);
         context.registerNewUIElement(new UIElementWrapper(canvas, CANVAS_ID));
     }
@@ -662,7 +661,6 @@ public class ScreenHelpers {
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;
     private static boolean actuallyDragging = false;
     public static void refreshCanvas(CanvasScreen context) {
-        ScrollPane sp = (ScrollPane) context.getUIElementById(CANVAS_ID).getView();
         var x = context.getUIElementById("CANVAS_ITEM");
         while (x != null) {
             context.removeUIElement(x);
@@ -721,8 +719,8 @@ public class ScreenHelpers {
             });
 
             iui.getView().setOnMouseDragged(t -> {
-                double offsetX = t.getSceneX() - orgSceneXInstance - sp.getHvalue();
-                double offsetY = t.getSceneY() - orgSceneYInstance - sp.getVvalue();
+                double offsetX = t.getSceneX() - orgSceneXInstance;
+                double offsetY = t.getSceneY() - orgSceneYInstance;
                 double newTranslateX = orgTranslateXInstance + offsetX;
                 double newTranslateY = orgTranslateYInstance + offsetY;
 
@@ -752,7 +750,7 @@ public class ScreenHelpers {
                 }
             });
 
-            context.registerNewIcon(new UIElementWrapper(view, "CANVAS_ITEM"));
+            context.registerNewUIElement(new UIElementWrapper(view, "CANVAS_ITEM"));
             if(context.selectedType == Instance.class && context.selectedID.equals(i.instanceID)) {
                 context.currentlySelected = iui;
                 context.selectedID = i.instanceID;

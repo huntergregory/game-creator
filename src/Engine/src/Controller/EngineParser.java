@@ -2,9 +2,9 @@ package Engine.src.Controller;
 
 import Engine.src.ECS.Pair;
 import Engine.src.EngineData.Components.BasicComponent;
-import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
+import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import Engine.src.Timers.Timer;
 import gamedata.Game;
 import gamedata.GameObject;
@@ -15,7 +15,6 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import groovy.lang.Sequence;
 
-import java.io.IOException;
 import java.util.*;
 
 public class EngineParser {
@@ -28,6 +27,10 @@ public class EngineParser {
     private List<Sequence> myTimerSequences;
     private Map<Integer, Timer> myTimers;
     private EngineInstance myUserEngineInstance;
+    private BinderHelper myBinderHelper;
+
+    private boolean scrollingHoriz;
+    private boolean scrollingVert;
 
     protected EngineParser(Game game) {
         myLevelRules = "";
@@ -36,9 +39,13 @@ public class EngineParser {
         myTimerSequences = new ArrayList<>();
         myTimers = new HashMap<>();
 
+        // scrolling in both directions by default (can be overriden with script)
+        scrollingHoriz = true;
+        scrollingVert = true;
+
         myEngineInstances = new HashMap<>();
         myGameEngineObjects = new HashSet<>();
-        addDefaults();
+        myBinderHelper = new BinderHelper();
         parse(game);
     }
 
@@ -84,10 +91,16 @@ public class EngineParser {
         return myEngineInstances;
     }
 
+    protected Set<UnmodifiableEngineGameObject> getEngineGameObjects() {
+        HashSet<UnmodifiableEngineGameObject> set = new HashSet<>();
+        for (EngineGameObject engineGameObject : myGameEngineObjects)
+            set.add(new UnmodifiableEngineGameObject(engineGameObject));
+        return set;
+    }
+
     protected EngineInstance getUserEngineInstance() {
         return myUserEngineInstance;
     }
-
 
 
     private void parse(Game game) {
@@ -109,8 +122,8 @@ public class EngineParser {
 
 
     private void initEngineObjectsAndInstances(List<GameObject> serializedObjects, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
-        bindComponentClasses(binding);
-        String importStatements = getComponentImportStatements();
+        myBinderHelper.bindComponentClasses(binding);
+        String importStatements = myBinderHelper.getComponentImportStatements();
         for (GameObject serializedObject : serializedObjects) {
             String objectType = serializedObject.objectID;
             EngineGameObject object = new EngineGameObject(objectType);
@@ -118,36 +131,12 @@ public class EngineParser {
             String objectLogic = importStatements + serializedObject.objectLogic;
             shell.evaluate(objectLogic);
             myGameEngineObjects.add(object);
-
-            makeEngineInstancesOfType(object, serializedInstances, binding, shell);
+            makeEngineInstancesOfType(object, serializedInstances, binding, shell, importStatements);
         }
     }
 
-    private void bindComponentClasses(Binding binding) {
-        try {
-            var classGrabber = new ClassGrabber();
-            for (Class componentClass : classGrabber.getClassesForPackage(Component.class.getPackageName()))
-                binding.setProperty(componentClass.getSimpleName(), componentClass);
-        }
-        catch (ClassNotFoundException | IOException e) {
-            System.out.println("Couldn't bind component classes in Groovy. Groovy exception is likely to occur.");
-        }
-    }
 
-    private String getComponentImportStatements() {
-        String result = "";
-        try {
-            var classGrabber = new ClassGrabber();
-            for (Class componentClass : classGrabber.getClassesForPackage(Component.class.getPackageName()))
-                result += "import " + componentClass.getName() + ";\n";
-        }
-        catch (ClassNotFoundException | IOException e) {
-            System.out.println("Couldn't bind component classes in Groovy. Groovy exception is likely to occur.");
-        }
-        return result;
-    }
-
-    private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell) {
+    private void makeEngineInstancesOfType(EngineGameObject object, Set<Instance> serializedInstances, Binding binding, GroovyShell shell, String importStatements) {
         for (Instance serializedInstance : serializedInstances) {
             String instanceOf = serializedInstance.instanceOf;
             String objectType = object.getID();
@@ -157,15 +146,19 @@ public class EngineParser {
                 EngineInstance engineInstance = object.createInstance(instanceID);
                 updateBasicComponent(engineInstance, serializedInstance);
                 binding.setProperty("instance", engineInstance);
-                String instanceLogic = serializedInstance.instanceLogic;
+                String instanceLogic = importStatements + serializedInstance.instanceLogic;
                 Script instanceInitializer = shell.parse(instanceLogic);
                 instanceInitializer.run();
                 myEngineInstances.put(instanceID, engineInstance);
+                System.out.println(instanceID + " " + myEngineInstances.get(instanceID).getComponent(BasicComponent.class).getX());
             }
+        }
+        for (String ID: myEngineInstances.keySet()) {
+            System.out.println(ID + " " + myEngineInstances.get(ID).getComponent(BasicComponent.class).getX());
         }
     }
 
-    private void updateBasicComponent(EngineInstance engineInstance, Instance  instance) {
+    private void updateBasicComponent(EngineInstance engineInstance, Instance instance) {
         var basic = new BasicComponent(instance.bgImage, Double.toString(instance.x), Double.toString(instance.y), Double.toString(instance.width), Double.toString(instance.height), Integer.toString(instance.zIndex));
         engineInstance.addComponent(basic);
     }
@@ -185,6 +178,19 @@ public class EngineParser {
         myHotKeys.put("D", "manager.call('KeyMoveRight'); ");
         myHotKeys.put("A", "manager.call('KeyMoveLeft'); ");
         myHotKeys.put("W", "manager.call('Jump'); ");
+    }
+
+    public void setScrolling(boolean horiz, boolean vert) {
+        scrollingHoriz = horiz;
+        scrollingVert = vert;
+    }
+
+    public boolean getHorizScrolling() {
+        return scrollingHoriz;
+    }
+
+    public boolean getVertScrolling() {
+        return scrollingVert;
     }
 
 }

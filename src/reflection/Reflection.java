@@ -1,4 +1,4 @@
-package voogasalad.util.reflection;
+package reflection;
 
 import java.lang.reflect.*;
 

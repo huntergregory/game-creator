@@ -1,8 +1,9 @@
 package GameCenter.main;
 
-import auth.RunAuth;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import network_account.UserIdentity;
 
@@ -43,37 +44,22 @@ public class GameCenter extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        new RunAuth(myIdentity).start(new Stage());
-        /*
+        //new RunAuth().start(new Stage());
+
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/GameCenter.fxml"));
 
         this.myRoot = loader.load();
         this.myGCC = loader.getController();
 
         myRoot.getStylesheets().add(this.getClass().getResource("/GUI/GUIStyle.css").toString());
-        myGCC.initGameCenter();
-        myGCC.username.setText(myIdentity.getName());
+        myGCC.initGameCenter(myIdentity);
 
-        for(String s:myIdentity.getFriends()){
-            Label friendName = new Label(s);
-            friendName.getStyleClass().add("socialScoreLabel");
-            myGCC.friendPane.getChildren().add(friendName);
-        }
-        Label[] scores = new Label[]{myGCC.score1, myGCC.score2, myGCC.score3};
-        for(int k = 0; k < 3; k++){
-            try {
-                scores[k].setText(myIdentity.getHighScores("mygame1").get(k));
-            }
-            catch(Exception e){
-                scores[k].setText("No High Score");
-            }
-        }
         Scene scene = new Scene(myRoot, 975, 500);
         stage.setTitle("Game Center");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-        */
+
     }
 
     public void setIdentity(UserIdentity userIdentity){

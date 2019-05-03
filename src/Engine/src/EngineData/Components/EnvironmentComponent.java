@@ -35,4 +35,10 @@ public class EnvironmentComponent extends Component{
     public double getMaxYVelocity() {
         return myMaxYVelocity;
     }
+
+    @Override
+    public Component copy() {
+        return new EnvironmentComponent(Double.toString(myAccelX), Double.toString(myAccelY), Double.toString(myDragCoeff), Double.toString(myMaxXVelocity), Double.toString(myMaxYVelocity));
+    }
+
 }

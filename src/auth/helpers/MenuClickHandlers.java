@@ -95,7 +95,7 @@ public class MenuClickHandlers {
             List<GameObject> gameObjects = o.gameObjects;
             for(GameObject go:gameObjects){
                 if(go.objectID.equals(controller.objID)){
-                    go.objectLogic = go.objectLogic + controller.script;
+                    go.objectLogic = go.objectLogic + "\n" + controller.script;
                     System.out.print(go.objectID + " " + go.objectLogic);
                 }
             }

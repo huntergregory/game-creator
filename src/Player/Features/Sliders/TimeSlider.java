@@ -17,7 +17,7 @@ public class TimeSlider extends PlayerSlider {
     @Override
     protected void handleItemSelected(Number item) {
         int myTime = (int)item.doubleValue();
-        myPlayerStage.updateTime(myTime);
+//        myPlayerStage.updateTime(myTime);
     }
 
     @Override

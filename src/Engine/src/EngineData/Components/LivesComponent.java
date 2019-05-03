@@ -16,8 +16,8 @@ public class LivesComponent extends Component{
         return myLives;
     }
 
-    public void addLife(){
-        myLives++;
+    public void setLives(int lives){
+        myLives = lives;
     }
 
     public void removeLife(){

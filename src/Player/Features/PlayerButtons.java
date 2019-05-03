@@ -20,7 +20,7 @@ public class PlayerButtons {
     private Button myResumeButton;
     private Button myRestartButton;
     private Button mySaveButton;
-    //private LivesSlider myLivesSlider;
+    private LivesSlider myLivesSlider;
     //private TimeSlider myTimeSlider;
     private int gamePaused = 0;
 
@@ -37,9 +37,8 @@ public class PlayerButtons {
         myPlayerStage = stage;
         createVBox();
         addGameButtons();
-//        addGameSliders();
+        addLivesSlider();
     }
-
 
     private void createVBox() {
         myVBox = new VBox();
@@ -77,19 +76,14 @@ public class PlayerButtons {
         myHBox.getChildren().add(mySaveButton);
     }
 
-//    private void addGameSliders() {
-//        addLivesSlider();
-//        addTimeSlider();
-//    }
-
-//    private void addLivesSlider() {
-//        Label label = new Label("Select Lives");
-//        HBox myHBox = new HBox();
-//        myHBox.getChildren().add(label);
-//        myLivesSlider = new LivesSlider(myPlayerStage);
-//        myHBox.getChildren().add(myLivesSlider.getMainComponent());
-//        myVBox.getChildren().add(myHBox);
-//    }
+    private void addLivesSlider() {
+        Label label = new Label("Select Lives");
+        HBox myHBox = new HBox();
+        myHBox.getChildren().add(label);
+        myLivesSlider = new LivesSlider(myPlayerStage);
+        myHBox.getChildren().add(myLivesSlider.getMainComponent());
+        myVBox.getChildren().add(myHBox);
+    }
 
 //    private void addTimeSlider() {
 //        Label label = new Label("Select Time");

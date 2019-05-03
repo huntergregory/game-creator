@@ -239,9 +239,9 @@ public class PlayerStage {
 
     private void updateSounds() {
         Map<String, Boolean> sounds = myLevelController.playSound();
-        for(Map.Entry<String, Boolean> sound : sounds.entrySet()) {
+        for (Map.Entry<String, Boolean> sound : sounds.entrySet()) {
             MediaPlayer a = new MediaPlayer(new Media(getClass().getResource(sound.getKey()).toString()));
-            if(sound.getValue()) {
+            if (sound.getValue()) {
                 a.setOnEndOfMedia(() -> a.seek(Duration.ZERO));
             }
             else {
@@ -342,11 +342,7 @@ public class PlayerStage {
     }
 
     public void updateLives(int lives) {
-        System.out.println(lives);
-    }
-
-    public void updateTime(int time) {
-        System.out.println(time);
+        livesComponent.setLives(lives);
     }
 
     public void restartGame() {
@@ -370,7 +366,7 @@ public class PlayerStage {
         save(potentialFile);
     }
 
-    private void save (File file){
+    private void save(File file) {
         String contents = new Gson().toJson(myGame, new TypeToken<Game>(){}.getType());
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath()));

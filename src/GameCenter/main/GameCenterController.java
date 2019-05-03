@@ -168,7 +168,6 @@ public class GameCenterController {
 
     private void thumbnailClicked(int index) {
         this.myIndex = index;
-
         if (activeThumbnail == myIndex) {
             activeThumbnail = -1;
             titleText.setText("Game Center");
@@ -200,7 +199,7 @@ public class GameCenterController {
         descriptionPane.setVisible(true);
         ratingPane.setVisible(false);
         Label[] scores = new Label[]{score1, score2, score3};
-        for(int k = 0; k < NUM_HIGH_SCORES; k++){
+        for (int k = 0; k < NUM_HIGH_SCORES; k++) {
             try {
                 scores[k].setText(myIdentity.getHighScores(gameData.get(myIndex).getName()).get(k));
             }
@@ -270,14 +269,15 @@ public class GameCenterController {
     }
 
     public void setHighScore(String gameID, String highScore) {
-        if(!myIdentity.getName().equals("")){
+        if (!myIdentity.getName().equals("")) {
             String scoreString = "http://tmtp-spec.appspot.com/newHighScore?username=" + myIdentity.getUsername() +
                     "&gameID=" + gameID + "&score=" + highScore;
             try {
                 URL url = new URL(scoreString);
                 URLConnection request = url.openConnection();
                 request.connect();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         }

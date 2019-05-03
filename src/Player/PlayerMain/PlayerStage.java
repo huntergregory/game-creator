@@ -148,7 +148,6 @@ public class PlayerStage {
             if (newInputStream == null) {
                 return;
             }
-
             Image newImage = new Image(newInputStream);
             ImageView imageView = new ImageView(newImage);
             myImageViewMap.put(instance, imageView);
@@ -156,6 +155,7 @@ public class PlayerStage {
             myGameRoot.getChildren().add(imageView);
         }
     }
+
     private void setHud() {
         myHud = new HUDView(HUD_WIDTH, ST_HEIGHT, "GameLoader 1", HUD_INCLUDES_PLOTTER, myXPosTracker,
                 myYPosTracker,
@@ -174,6 +174,7 @@ public class PlayerStage {
 
     private void initBorderPane() {
         myBorderPane = new BorderPane();
+        myBorderPane.setMinWidth(ST_WIDTH);
         myGameRoot = new Pane();
         myBorderPane.setCenter(myGameRoot);
         setHud();

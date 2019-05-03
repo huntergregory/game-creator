@@ -2,7 +2,10 @@ package GameCenter.main;
 
 import auth.RunAuth;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import network_account.UserIdentity;
 
@@ -13,7 +16,7 @@ import network_account.UserIdentity;
  *
  * GameCenter.java works in conjunction with GameCenter.fxml and GUIStyle.css, both found in the resources folder, as
  * well as GameCenterController.
- *
+ *i
  * GameCenter.java, GameCenter.fxml & GUIStyle.css, and GameCenterController.java are the model, view, and controller,
  * respectively. Keep this in mind when refactoring/writing new code.
  *
@@ -43,17 +46,17 @@ public class GameCenter extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        new RunAuth().start(new Stage());
-        /*
+//        new RunAuth().start(new Stage());
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/GameCenter.fxml"));
 
         this.myRoot = loader.load();
         this.myGCC = loader.getController();
+        myGCC.identity = myIdentity;
+        System.out.println(myGCC.identity.getName());
 
         myRoot.getStylesheets().add(this.getClass().getResource("/GUI/GUIStyle.css").toString());
         myGCC.initGameCenter();
-        myGCC.username.setText(myIdentity.getName());
-
+    
         for(String s:myIdentity.getFriends()){
             Label friendName = new Label(s);
             friendName.getStyleClass().add("socialScoreLabel");
@@ -73,7 +76,6 @@ public class GameCenter extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-        */
     }
 
     public void setIdentity(UserIdentity userIdentity){

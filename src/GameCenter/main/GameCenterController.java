@@ -42,6 +42,7 @@ public class GameCenterController {
     private int myIndex;
     private Number ratingVal;
     private ImageView activeGameImageView;
+    UserIdentity identity;
 
     @FXML
     public Pane socialPane, newGamePane, descriptionPane, ratingPane;

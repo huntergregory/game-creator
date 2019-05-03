@@ -48,7 +48,7 @@ public class CollisionHandler {
 
         for (int k = 0; k < allEntitiesList.size(); k++) {
             for (int j = 0; j < allEntitiesList.size(); j++) {
-                if (k == j) {
+                if (k >= j) {
                     continue;
                 }
                 checkCollision(allEntitiesList.get(k), allEntitiesList.get(j));

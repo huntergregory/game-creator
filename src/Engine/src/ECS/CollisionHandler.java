@@ -39,7 +39,6 @@ public class CollisionHandler {
         mySetter.setProperty("collisionDetector", myCollisionDetector);
     }
 
-    //assumes collisionResponses and entities are nonnull
     public void handleCollisions(Map<String, EngineInstance> allEntities, Map<Pair<String>, String> collisionResponses) {
         myCollisionResponses = collisionResponses;
         myCurrentCollisions = new HashMap<>();

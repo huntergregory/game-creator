@@ -1,8 +1,8 @@
 package Engine.src.EngineData.Components;
 
 public class CheckpointComponent extends Component{
-    double myX;
-    double myY;
+    private double myX;
+    private double myY;
 
     public CheckpointComponent(String x, String y){
         myX = Double.parseDouble(x);

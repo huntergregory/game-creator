@@ -113,7 +113,7 @@ public abstract class Event {
     private String getUntakenID(String objectType) {
         boolean idTaken = true;
         Random rand = new Random();
-        String id = Double.toString(rand.nextDouble());
+        String id;
 
         do{
             id = Double.toString(rand.nextDouble());

@@ -19,7 +19,7 @@ public class JumpComponent extends Component {
 
     @Override
     public Component copy() {
-        return new JumpComponent(Double.toString(myJumpVelocity));
+        return new JumpComponent(Double.toString(-myJumpVelocity));
     }
 
 }

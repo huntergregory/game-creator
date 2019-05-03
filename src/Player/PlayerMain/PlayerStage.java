@@ -324,6 +324,8 @@ public class PlayerStage {
     }
 
     private void updateDataTrackers() {
+        if (myLevelController.getUserEngineInstance() == null)
+            return;
         initComponents();
         storeData();
     }

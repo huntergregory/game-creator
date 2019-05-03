@@ -12,7 +12,7 @@ public class EnvironmentComponent extends Component{
 
     public EnvironmentComponent(String accelX, String accelY, String dragCoeff, String maxXVel, String maxYVel) {
         myAccelX = parseDouble(accelX);
-        myAccelX = parseDouble(accelY);
+        myAccelY = parseDouble(accelY);
         myDragCoeff = parseDouble(dragCoeff);
         myMaxXVelocity = parseDouble(maxXVel);
         myMaxYVelocity = parseDouble(maxYVel);

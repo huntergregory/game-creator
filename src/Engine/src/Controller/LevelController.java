@@ -1,14 +1,11 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
-import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.AimComponent;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.Controller.DebugLog;
-import Engine.src.Controller.Sounds;
 import gamedata.Game;
 import Engine.src.ECS.CollisionHandler;
 import groovy.lang.Binding;
@@ -28,7 +25,6 @@ public class LevelController {
     private boolean scrollsVertically;
 
     private double myStepTime;
-    private double myIterationCounter;
 
     private TimerController myTimerController;
     private EngineParser myParser;
@@ -54,7 +50,6 @@ public class LevelController {
         scrollsHorizontally = myParser.getHorizScrolling();
         scrollsVertically = myParser.getVertScrolling();
 
-        myIterationCounter = 0;
         myDebugLog = new DebugLog();
         mySounds = new Sounds();
         myOffset = updateOffset();
@@ -80,7 +75,7 @@ public class LevelController {
             myBinding.setProperty(USER_KEYWORD, myParser.getUserEngineInstance());
             Script script = shell.parse(event);
             script.run();
-        } else ; //TODO:error
+        }
     }
 
     public void updateScene() {
@@ -103,14 +98,11 @@ public class LevelController {
         for (String ID : instancesCopy.keySet()) {
             EngineInstance engineInstance = instancesCopy.get(ID);
 
-            try {
+            if(engineInstance.hasComponent(LogicComponent.class)) {
                 LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
                 String logic = logicComponent.getLogic();
                 myBinding.setProperty(LOGIC_COMPONENT_KEYWORD, myParser.getEngineInstances().get(ID));
                 myShell.evaluate(logic);
-            }
-            catch(NoComponentException e) {
-                //System.out.println("No Component");
             }
             if(engineInstance.hasComponent(AimComponent.class)){
                 AimComponent aim = engineInstance.getComponent(AimComponent.class);
@@ -149,7 +141,7 @@ public class LevelController {
             if (userY <= .5 * screenHeight - .5 * userHeight) {
                 offsetY = 0;
             } else {
-                offsetY = userY + .5 * userHeight - .5 * screenHeight; // this puts the user 3/4 the way dow the screen
+                offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
             }
         }
 

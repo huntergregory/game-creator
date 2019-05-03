@@ -1,7 +1,5 @@
 package Engine.src.EngineData.Components;
 
-import static java.lang.Integer.parseInt;
-
 public class CheckpointComponent extends Component{
     double myX;
     double myY;

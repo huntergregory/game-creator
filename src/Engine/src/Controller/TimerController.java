@@ -1,7 +1,5 @@
 package Engine.src.Controller;
 
-import Engine.src.EngineData.Components.LogicComponent;
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.Timers.Timer;
 import Engine.src.Timers.TimerSequence;
 import groovy.lang.GroovyShell;
@@ -26,7 +24,7 @@ public class TimerController {
     }
 
     public void addTimer(Timer timer) {
-        myTimers.put(0, timer); //FIXME put actual integer in key spot
+        myTimers.put(0, timer);
     }
 
     public void addTimerSequence(TimerSequence timerSequence) {
@@ -57,7 +55,6 @@ public class TimerController {
         }
     }
 
-    //FIXME should not be public/open to author
     private void updateTimers() {
         for (int timerID : myTimers.keySet()) {
             Timer timer = myTimers.get(timerID);

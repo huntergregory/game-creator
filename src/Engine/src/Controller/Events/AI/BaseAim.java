@@ -1,6 +1,5 @@
 package Engine.src.Controller.Events.AI;
 
-import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 

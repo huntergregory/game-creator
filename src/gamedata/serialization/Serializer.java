@@ -34,7 +34,7 @@ public class Serializer {
 
     private void saveJSON(String jsonString) throws IOException {
         File file = new File(FILE_PATH);
-        file.createNewFile(); //FIXME get boolean to see if file already existed
+        file.createNewFile();
         PrintWriter out = new PrintWriter(file);
         out.println(jsonString);
         out.close();

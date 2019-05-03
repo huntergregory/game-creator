@@ -24,8 +24,6 @@ public class LevelController {
     private final double myScreenWidth;
     private final double myScreenHeight;
     private double[] myOffset;
-    private boolean scrollsHorizontally;
-    private boolean scrollsVertically;
 
     private double myStepTime;
     private double myIterationCounter;
@@ -50,9 +48,6 @@ public class LevelController {
         myGame = game;
 
         myParser = new EngineParser(myGame);
-
-        scrollsHorizontally = myParser.getHorizScrolling();
-        scrollsVertically = myParser.getVertScrolling();
 
         myIterationCounter = 0;
         myDebugLog = new DebugLog();
@@ -137,7 +132,7 @@ public class LevelController {
         double offsetX = 0;
         double offsetY = 0;
 
-        if (scrollsHorizontally) {
+        if (myGame.scrollsHorizontally) {
             // if user is close to the left edge of the level, no scrolling to avoid displaying out of bounds area
             if (userX <= .5 * screenWidth - .5 * userWidth) {
                 offsetX = 0;
@@ -145,7 +140,7 @@ public class LevelController {
                 offsetX = userX + .5 * userWidth - .5 * screenWidth;
             }
         }
-        if (scrollsVertically) {
+        if (myGame.scrollsVertically) {
             if (userY <= .5 * screenHeight - .5 * userHeight) {
                 offsetY = 0;
             } else {

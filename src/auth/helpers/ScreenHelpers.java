@@ -507,7 +507,7 @@ public class ScreenHelpers {
             var newInstance = new Instance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
             newInstance.instanceID = "instance_"+(game.scenes.get(context.getCurrentScene()).instances.size()+1);
-//            newInstance.instanceLogic = "// Type your Groovy scripts for " + newInstance.instanceID + " here";
+            newInstance.instanceLogic = "// Type your Groovy scripts for " + newInstance.instanceID + " here";
             newInstance.zIndex = 1;
             newInstance.width = (instanceOf.width > 0 ? instanceOf.width : 60);
             newInstance.height = (instanceOf.height > 0 ? instanceOf.height : 60);
@@ -607,56 +607,66 @@ public class ScreenHelpers {
     }
 
     public static void closeMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
-        var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
-        imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/menu.png")));
-        a.getView().setVisible(true); b.getView().setVisible(true);
-        paneContainer.getChildren().remove(1);
-        isMenuOpen = false;
+        if (isMenuOpen) {
+            var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
+            imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/menu.png")));
+            a.getView().setVisible(true);
+            b.getView().setVisible(true);
+            paneContainer.getChildren().remove(1);
+            isMenuOpen = false;
+        }
     }
 
     public static void openMenu(CanvasScreen context, Pane a, Pane b, VBox paneContainer, Pane namePane) {
-        var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
-        imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/close.png")));
-        a.getView().setVisible(false); b.getView().setVisible(false);
-        var menuPane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN, "MENU_PANE_ID");
-        paneContainer.getChildren().add(1, menuPane.getView());
-        var vboxParent = new VBox(15);
-        vboxParent.setPrefWidth(RIGHT_PANE_WIDTH);
-        try {
-            JSONArray menuItems = new JSONArray(new Scanner(new File(MENU_CONFIG_FILE_PATH)).useDelimiter("\\Z").next());
-            for (int i = 0; i < menuItems.length(); i++) {
-                var menuItem = menuItems.getJSONObject(i);
-                var name = menuItem.getString("name");
-                var handler = menuItem.getString("handler");
+        if (!isMenuOpen) {
+            var imgView = (ImageView) ((Group) namePane.getView().getChildren().get(2)).getChildren().get(1);
+            imgView.setImage(new Image(ScreenHelpers.class.getResourceAsStream("/icons/close.png")));
+            a.getView().setVisible(false);
+            b.getView().setVisible(false);
+            var menuPane = new RightPane(TOP_EDGE, RIGHT_PANE_WIDTH, RIGHT_PANE_HEIGHT * 2 + RIGHT_PANE_MARGIN, "MENU_PANE_ID");
+            paneContainer.getChildren().add(1, menuPane.getView());
+            var vboxParent = new VBox(15);
+            vboxParent.setPrefWidth(RIGHT_PANE_WIDTH);
+            try {
+                JSONArray menuItems = new JSONArray(new Scanner(new File(MENU_CONFIG_FILE_PATH)).useDelimiter("\\Z").next());
+                for (int i = 0; i < menuItems.length(); i++) {
+                    var menuItem = menuItems.getJSONObject(i);
+                    var name = menuItem.getString("name");
+                    var handler = menuItem.getString("handler");
 
-                var nameText = new Text(name); nameText.setFont(bebasKaiMedium); nameText.setFill(Color.WHITE);
-                nameText.setCursor(Cursor.HAND); nameText.setOnMouseClicked(e -> {
-                    try {
-                        MenuClickHandlers.paneA = a; MenuClickHandlers.paneB = b;
-                        MenuClickHandlers.paneContainer = paneContainer;
-                        MenuClickHandlers.namePane = namePane;
+                    var nameText = new Text(name);
+                    nameText.setFont(bebasKaiMedium);
+                    nameText.setFill(Color.WHITE);
+                    nameText.setCursor(Cursor.HAND);
+                    nameText.setOnMouseClicked(e -> {
+                        try {
+                            MenuClickHandlers.paneA = a;
+                            MenuClickHandlers.paneB = b;
+                            MenuClickHandlers.paneContainer = paneContainer;
+                            MenuClickHandlers.namePane = namePane;
 
-                        var method = MenuClickHandlers.class.getMethod(handler, CanvasScreen.class);
-                        method.invoke(null, context);
-                    } catch (Exception ex) {
-                        // Would never happen
-                        ex.printStackTrace();
-                    }
-                });
+                            var method = MenuClickHandlers.class.getMethod(handler, CanvasScreen.class);
+                            method.invoke(null, context);
+                        } catch (Exception ex) {
+                            // Would never happen
+                            ex.printStackTrace();
+                        }
+                    });
 
-                nameText.setTextAlignment(TextAlignment.CENTER);
-                nameText.setWrappingWidth(RIGHT_PANE_WIDTH);
-                vboxParent.getChildren().add(nameText);
+                    nameText.setTextAlignment(TextAlignment.CENTER);
+                    nameText.setWrappingWidth(RIGHT_PANE_WIDTH);
+                    vboxParent.getChildren().add(nameText);
+                }
+                var numChild = vboxParent.getChildren().size();
+                var vBoxHeight = numChild * 30 + (numChild - 1) * 15;
+                vboxParent.setLayoutY((RIGHT_PANE_HEIGHT * 2 + RIGHT_PANE_MARGIN) / 2 - (vBoxHeight) / 2);
+                menuPane.getView().getChildren().add(vboxParent);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-            var numChild = vboxParent.getChildren().size();
-            var vBoxHeight = numChild*30 + (numChild-1)*15;
-            vboxParent.setLayoutY((RIGHT_PANE_HEIGHT*2+RIGHT_PANE_MARGIN)/2 - (vBoxHeight)/2);
-            menuPane.getView().getChildren().add(vboxParent);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        isMenuOpen = true;
+            isMenuOpen = true;
+        }
     }
 
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;

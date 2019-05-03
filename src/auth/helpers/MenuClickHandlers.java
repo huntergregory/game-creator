@@ -170,6 +170,7 @@ public class MenuClickHandlers {
                         BlobId blobId = BlobId.of("voogasalad-files", name);
                         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
                         Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+                        DataHelpers.sendNewCloudData(context);
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Invalid ID");
@@ -182,6 +183,7 @@ public class MenuClickHandlers {
                 BlobId blobId = BlobId.of("voogasalad-files", gcw.gameID);
                 BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
                 Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+                DataHelpers.sendNewCloudData(context);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,7 +251,6 @@ public class MenuClickHandlers {
             String allowed[] = name.split(",");
             context.getGameCloudWrapper().allowAccess.clear();
             context.getGameCloudWrapper().allowAccess.addAll(Arrays.asList(allowed));
-            DataHelpers.sendNewCloudData(context);
         });
     }
 

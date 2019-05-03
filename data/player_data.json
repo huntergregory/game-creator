@@ -5,7 +5,7 @@
       "name": "Doodle Jump",
       "rating": "4.5",
       "game_source": "",
-      "favorite": "false",
+      "favorite": "true",
       "desc": "A game where you have a doodle on the screen, and you make it jump. Nothing more than the name conveys."
     },
     {
@@ -29,14 +29,6 @@
       "name": "Metroid",
       "rating": "1.0",
       "game_source": "",
-      "favorite": "false",
-      "desc": "Metroid follows space-faring bounty hunter Samus Aran, who protects the galaxy from the Space Pirates and their attempts to harness the power of the parasitic Metroid creatures."
-    },
-    {
-      "img": "/img/metroid.jpg",
-      "name": "Metroid",
-      "rating": "1.0",
-      "game_source": "/data/BigC.game",
       "favorite": "false",
       "desc": "Metroid follows space-faring bounty hunter Samus Aran, who protects the galaxy from the Space Pirates and their attempts to harness the power of the parasitic Metroid creatures."
     }

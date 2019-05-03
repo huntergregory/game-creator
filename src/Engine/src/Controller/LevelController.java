@@ -121,6 +121,8 @@ public class LevelController {
     }
 
     private double[] updateOffset() {
+        if (myParser.getUserEngineInstance() == null)
+            return new double[] {0.0, 0.0};
         BasicComponent basic = myParser.getUserEngineInstance().getComponent(BasicComponent.class);
         double userX = basic.getX();
         double userY = basic.getY();

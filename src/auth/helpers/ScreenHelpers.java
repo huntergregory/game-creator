@@ -661,8 +661,10 @@ public class ScreenHelpers {
 
     private static double orgSceneYInstance, orgSceneXInstance, orgTranslateXInstance, orgTranslateYInstance;
     private static boolean actuallyDragging = false;
+
     public static void refreshCanvas(CanvasScreen context) {
-        ScrollPane sp = (ScrollPane) context.getUIElementById(CANVAS_ID).getView();
+        ScrollPane sp = (ScrollPane)context.getUIElementById(CANVAS_ID).getView();
+        javafx.scene.layout.Pane pane = (javafx.scene.layout.Pane) sp.getContent();
         var x = context.getUIElementById("CANVAS_ITEM");
         while (x != null) {
             context.removeUIElement(x);
@@ -670,25 +672,25 @@ public class ScreenHelpers {
         }
 
         if (!context.getGame().scenes.get(context.getCurrentScene()).bgImage.isEmpty()) {
-            context.getUIElementById(CANVAS_ID).getView().setStyle("-fx-background-image: url('"+
+            pane.setStyle("-fx-background-image: url('"+
                     getImageById(context.getGame(), context.getGame().scenes.get(context.getCurrentScene()).bgImage).getUrl()+"');" +
                     "-fx-border-radius: 5 5 5 5;" +
                     "-fx-background-size: cover;" +
                     "-fx-background-radius: 5 5 5 5;");
             Rectangle clip = new Rectangle(
-                    context.getUIElementById(CANVAS_ID).getView().getLayoutBounds().getWidth(), context.getUIElementById(CANVAS_ID).getView().getLayoutBounds().getHeight()
+                    pane.getLayoutBounds().getWidth(), pane.getLayoutBounds().getHeight()
             );
             clip.setArcWidth(10);
             clip.setArcHeight(10);
-            context.getUIElementById(CANVAS_ID).getView().setClip(clip);
+            pane.setClip(clip);
         } else {
             if (!context.getGame().scenes.get(context.getCurrentScene()).bgColor.isEmpty()) {
-                context.getUIElementById(CANVAS_ID).getView().setStyle("-fx-background-color: #"+
+                pane.setStyle("-fx-background-color: #"+
                         getColorByID(context.getGame(), context.getGame().scenes.get(context.getCurrentScene()).bgColor).toString().substring(2)+";"+
                         "-fx-border-radius: 5 5 5 5;" +
                         "-fx-background-radius: 5 5 5 5;");
             } else {
-                context.getUIElementById(CANVAS_ID).getView().setStyle(CANVAS_STYLE);
+                pane.setStyle(CANVAS_STYLE);
             }
         }
 
@@ -721,27 +723,27 @@ public class ScreenHelpers {
             });
 
             iui.getView().setOnMouseDragged(t -> {
-                double offsetX = t.getSceneX() - orgSceneXInstance - sp.getHvalue();
-                double offsetY = t.getSceneY() - orgSceneYInstance - sp.getVvalue();
+                double offsetX = t.getSceneX() - orgSceneXInstance;
+                double offsetY = t.getSceneY() - orgSceneYInstance;
                 double newTranslateX = orgTranslateXInstance + offsetX;
                 double newTranslateY = orgTranslateYInstance + offsetY;
 
                 if (Math.sqrt(Math.pow(newTranslateX,2)+Math.pow(newTranslateY, 2)) > 30) {
                     // If they're actually dragging (i.e. going beyond the size of the icon)
                     actuallyDragging = true;
-                    view.setLayoutX(t.getSceneX() - 30 - CONSOLE_HORIZONTAL_OFFSET - xDistToCanvasCorner);
-                    view.setLayoutY(t.getSceneY() - 30 - CANVAS_VERTICAL_OFFSET - yDistToCanvasCorner);
+                    view.setLayoutX(t.getSceneX() - CONSOLE_HORIZONTAL_OFFSET - xDistToCanvasCorner);
+                    view.setLayoutY(t.getSceneY() - CANVAS_VERTICAL_OFFSET - yDistToCanvasCorner);
                 }
             });
             iui.getView().setOnMouseReleased(t -> {
                 // if released in bounds, just update position, else revert to old position
                 if (actuallyDragging) {
-                    if (t.getSceneY() - 30 < CANVAS_VERTICAL_OFFSET + CANVAS_HEIGHT &&
-                            t.getSceneY() - 30 > CANVAS_VERTICAL_OFFSET &&
-                            t.getSceneX() - 30 > CONSOLE_HORIZONTAL_OFFSET &&
-                            t.getSceneX() - 30 < CONSOLE_HORIZONTAL_OFFSET + CANVAS_WIDTH) {
-                        i.x = t.getSceneX() - 30 - CONSOLE_HORIZONTAL_OFFSET;
-                        i.y = t.getSceneY() - 30 - CANVAS_VERTICAL_OFFSET;
+                    if (t.getSceneY() < CANVAS_VERTICAL_OFFSET + (CANVAS_HEIGHT*2) &&
+                            t.getSceneY() > CANVAS_VERTICAL_OFFSET &&
+                            t.getSceneX() > CONSOLE_HORIZONTAL_OFFSET &&
+                            t.getSceneX() < CONSOLE_HORIZONTAL_OFFSET + (2*CANVAS_WIDTH)) {
+                        i.x = t.getSceneX() - CONSOLE_HORIZONTAL_OFFSET;
+                        i.y = t.getSceneY() - CANVAS_VERTICAL_OFFSET;
                         refreshCanvas(context);
                         repopulatePropertiesPane(context);
                     } else {

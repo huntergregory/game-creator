@@ -1,5 +1,6 @@
 package network_account;
 
+import auth.RunAuth;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -12,16 +13,17 @@ public class RunAccount extends Application {
 
     @Override
     public void start(Stage primaryStage){
-        IdentityManager identityManager = new IdentityManager();
-        identityManager.setStageLogin();
-        try {
-            sofiaPro = Font.loadFont(RunAccount.class.getResource("/fonts/sofiapro-light.otf").openStream(),30);
-            sofiaProSmall = Font.loadFont(RunAccount.class.getResource("/fonts/sofiapro-light.otf").openStream(),15);
-            bebasKai = Font.loadFont(RunAccount.class.getResource("/fonts/bebaskai.otf").openStream(),15);
-            bebasKaiMedium = Font.loadFont(RunAccount.class.getResource("/fonts/bebaskai.otf").openStream(),25);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new RunAuth(new UserIdentity()).start(primaryStage);
+//        IdentityManager identityManager = new IdentityManager();
+//        identityManager.setStageLogin();
+//        try {
+//            sofiaPro = Font.loadFont(RunAccount.class.getResource("/fonts/sofiapro-light.otf").openStream(),30);
+//            sofiaProSmall = Font.loadFont(RunAccount.class.getResource("/fonts/sofiapro-light.otf").openStream(),15);
+//            bebasKai = Font.loadFont(RunAccount.class.getResource("/fonts/bebaskai.otf").openStream(),15);
+//            bebasKaiMedium = Font.loadFont(RunAccount.class.getResource("/fonts/bebaskai.otf").openStream(),25);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 //        System.out.println(identityManager.getIdentity().getName());
 //        identityManager.setStageIdentity("mygame1");
 //        System.out.println("Past identity stage");

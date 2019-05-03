@@ -110,7 +110,8 @@ public class MenuClickHandlers {
             CollisionController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(context.getCurrentScene());
-            scene.sceneLogic = scene.sceneLogic + controller.script;
+            scene.sceneLogic = scene.sceneLogic + "\n" + controller.script;
+            ScreenHelpers.populateConsolePane(context, (BottomPane)context.getUIElementById(CONSOLE_PANE_ID));
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }

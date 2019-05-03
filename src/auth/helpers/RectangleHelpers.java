@@ -15,7 +15,8 @@ public class RectangleHelpers {
         var rect = new ScrollPane();
         rect.setLayoutX(x); rect.setLayoutY(y); rect.setPrefSize(width, height);
         rect.setStyle(style);
-        rect.setContent(createStyledRectangle(x, y, width * 2, height * 2, style));
+        //rect.setPannable(true);
+        rect.setContent(createStyledRectangle(x, y, 3000, 3000, style));
         return rect;
     }
 }

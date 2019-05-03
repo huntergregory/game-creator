@@ -1,41 +1,30 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
-import Engine.src.ECS.CollisionHandler;
+import Engine.src.EngineData.Components.AimComponent;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.Manager.DebugLog;
-import Engine.src.Manager.Manager;
-import Engine.src.Manager.Sounds;
 import gamedata.Game;
+import Engine.src.ECS.CollisionHandler;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LevelController {
-    //FIXME remove eventually
-    private static final boolean SCROLLS_HORIZONTALLY = true;
-    private static final boolean SCROLLS_VERTICALLY = false;
-    private static final boolean IS_AUTO_SCROLLER = false;
-    private static final double SCROLL_SPEED = 10;                        //if auto scroller
-    private static final double CHARACTER_DISTANCE_FROM_SCROLL_WALL = 20; //if auto scroller
-    private static final double START_X = 0;
-    private static final double START_Y = 0;
-    //FIXME remove eventually
+    private static final String LOGIC_COMPONENT_KEYWORD = "instance";
+    private static final String USER_KEYWORD = "user";
 
     private final double myScreenWidth;
     private final double myScreenHeight;
-    private double myLevelWidth;
-    private double myLevelHeight;
+    private double[] myOffset;
+    private boolean scrollsHorizontally;
+    private boolean scrollsVertically;
 
     private double myStepTime;
-    private double myIterationCounter;
-    private double[] myOffset;
 
     private TimerController myTimerController;
     private EngineParser myParser;
@@ -43,32 +32,33 @@ public class LevelController {
     private Manager myManager;
     private Game myGame;
     private DebugLog myDebugLog;
-
     private Sounds mySounds;
+    private BinderHelper myBinderHelper;
 
     private Binding myBinding;
     private GroovyShell myShell;
 
-    public LevelController(double stepTime, double screenWidth, double screenHeight, double levelWidth, double levelHeight,
-                           Game game) {
+    public LevelController(double stepTime, double screenWidth, double screenHeight, Game game) {
 
         myStepTime = stepTime;
         myScreenWidth = screenWidth;
         myScreenHeight = screenHeight;
-        myLevelWidth = levelWidth;
-        myLevelHeight = levelHeight;
 
         myGame = game;
 
         myParser = new EngineParser(myGame);
 
-        myIterationCounter = 0;
+        scrollsHorizontally = myParser.getHorizScrolling();
+        scrollsVertically = myParser.getVertScrolling();
+
         myDebugLog = new DebugLog();
+        mySounds = new Sounds();
         myOffset = updateOffset();
-        initializeGroovyShell();
         myTimerController = new TimerController(myShell);
-        myManager = new Manager(myParser.getEngineInstances(), myTimerController, myStepTime);
+        myManager = new Manager(myParser, myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
+        myBinderHelper = new BinderHelper();
+        initializeGroovyShell();
     }
 
     private void initializeGroovyShell() {
@@ -77,6 +67,7 @@ public class LevelController {
         myBinding.setProperty("collisionHandler", myCollisionHandler);
         myBinding.setProperty("collisionDetector", new CollisionDetector());
         myBinding.setProperty("debugLogger", myDebugLog);
+        myBinderHelper.bindComponentClasses(myBinding);
         myShell = new GroovyShell(myBinding);
     }
 
@@ -84,10 +75,10 @@ public class LevelController {
         if (myParser.getHotKeys().containsKey(key)) {
             String event = myParser.getHotKeys().get(key);
             GroovyShell shell = new GroovyShell(myBinding);
-            myBinding.setProperty("instance", myParser.getUserEngineInstance());
+            myBinding.setProperty(USER_KEYWORD, myParser.getUserEngineInstance());
             Script script = shell.parse(event);
             script.run();
-        } else ; //TODO:error
+        }
     }
 
     public void updateScene() {
@@ -100,13 +91,27 @@ public class LevelController {
     }
 
     private void executeEntityLogic() {
+        Map<String, EngineInstance> instancesCopy = new HashMap<>();
+
         for (String ID : myParser.getEngineInstances().keySet()) {
             EngineInstance engineInstance = myParser.getEngineInstances().get(ID);
-            LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
-            String logic = logicComponent.getLogic();
-            myBinding.setProperty(engineInstance.getID(), engineInstance);
-            Script script = myShell.parse(logic);
-            script.run();
+            instancesCopy.put(ID, engineInstance);
+        }
+
+        for (String ID : instancesCopy.keySet()) {
+            EngineInstance engineInstance = instancesCopy.get(ID);
+
+            if(engineInstance.hasComponent(LogicComponent.class)) {
+                LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
+                String logic = logicComponent.getLogic();
+                myBinding.setProperty(LOGIC_COMPONENT_KEYWORD, myParser.getEngineInstances().get(ID));
+                myShell.evaluate(logic);
+            }
+            if(engineInstance.hasComponent(AimComponent.class)){
+                AimComponent aim = engineInstance.getComponent(AimComponent.class);
+                aim.updateTracker();
+            }
+
         }
     }
 
@@ -120,33 +125,30 @@ public class LevelController {
     }
 
 
-    //FIXME doesn't modify y offset
+    // determine offset between actual position (within entire level) and display position (within screen), which places
+    // the user always in the center if the game is supposed to scroll
     private double[] determineOffset(double userX, double userY, double userWidth, double userHeight, double screenWidth,
-                                    double screenHeight) {
-        double offsetX;
-        double offsetY;
+                                     double screenHeight) {
+        double offsetX = 0;
+        double offsetY = 0;
 
-        if (userX <= .5 * screenWidth - .5 * userWidth) {
-            offsetX = 0;
+        if (scrollsHorizontally) {
+            // if user is close to the left edge of the level, no scrolling to avoid displaying out of bounds area
+            if (userX <= .5 * screenWidth - .5 * userWidth) {
+                offsetX = 0;
+            } else {
+                offsetX = userX + .5 * userWidth - .5 * screenWidth;
+            }
         }
-        /*else if (myLevelWidth - userX <= .5 * screenWidth + .5 * userWidth) {
-            offsetX = myLevelWidth - screenWidth;
-        }*/ //FIXME restricting max scroll to very small even when level width is large...
-        else {
-            offsetX = userX + .5 * userWidth - .5 * screenWidth;
-        }
-
-        if (userY <= .5 * screenHeight - .5 * userHeight) {
-            offsetY = 0;
-        }
-        else if (myLevelHeight - userY <= .5 * screenHeight + .5 * userHeight) {
-            offsetY = myLevelHeight - screenHeight;
-        }
-        else {
-            offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
+        if (scrollsVertically) {
+            if (userY <= .5 * screenHeight - .5 * userHeight) {
+                offsetY = 0;
+            } else {
+                offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
+            }
         }
 
-        return new double[]{offsetX, 0}; //FIXME hardcoding 0 offset in y direction for demo
+        return new double[]{offsetX, offsetY};
     }
 
     public double[] getOffset() {
@@ -181,3 +183,4 @@ public class LevelController {
     }
 
 }
+

@@ -27,4 +27,10 @@ public class LivesComponent extends Component{
     public String getRespawnInstructions(){
         return myRespawnInstructions;
     }
+
+    @Override
+    public Component copy() {
+        return new LivesComponent(Integer.toString(myLives), myRespawnInstructions);
+    }
+
 }

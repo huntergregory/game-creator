@@ -30,4 +30,10 @@ public class HealthComponent extends Component {
     public void setMaxHealth(int maxHealth) {
         myMaxHealth = maxHealth;
     }
+
+    @Override
+    public Component copy() {
+        return new HealthComponent(Integer.toString(myHealth), Integer.toString(myMaxHealth));
+    }
+
 }

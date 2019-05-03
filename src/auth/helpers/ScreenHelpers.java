@@ -507,7 +507,7 @@ public class ScreenHelpers {
             var newInstance = new Instance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
             newInstance.instanceID = "instance_"+(game.scenes.get(context.getCurrentScene()).instances.size()+1);
-            newInstance.instanceLogic = "// Type your Groovy scripts for " + newInstance.instanceID + " here";
+//            newInstance.instanceLogic = "// Type your Groovy scripts for " + newInstance.instanceID + " here";
             newInstance.zIndex = 1;
             newInstance.width = (instanceOf.width > 0 ? instanceOf.width : 60);
             newInstance.height = (instanceOf.height > 0 ? instanceOf.height : 60);

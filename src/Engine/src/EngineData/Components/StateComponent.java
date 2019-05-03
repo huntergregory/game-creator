@@ -1,16 +1,17 @@
 package Engine.src.EngineData.Components;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class StateComponent extends Component {
     private List<String> myStates;
 
     public StateComponent(String ... states) {
         myStates = new ArrayList<>();
-        for(String state: states) {
-            myStates.add(state);
-        }
+        myStates.addAll(Arrays.asList(states));
+    }
+
+    public StateComponent(List<String> states) {
+        myStates = states;
     }
 
     public boolean hasState(String state){
@@ -23,6 +24,11 @@ public class StateComponent extends Component {
 
     public void removeState(String state){
         myStates.remove(state);
+    }
+
+    @Override
+    public Component copy() {
+        return new StateComponent(myStates);
     }
 
 }

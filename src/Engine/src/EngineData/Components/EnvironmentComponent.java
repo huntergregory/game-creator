@@ -12,7 +12,7 @@ public class EnvironmentComponent extends Component{
 
     public EnvironmentComponent(String accelX, String accelY, String dragCoeff, String maxXVel, String maxYVel) {
         myAccelX = parseDouble(accelX);
-        myAccelX = parseDouble(accelY);
+        myAccelY = parseDouble(accelY);
         myDragCoeff = parseDouble(dragCoeff);
         myMaxXVelocity = parseDouble(maxXVel);
         myMaxYVelocity = parseDouble(maxYVel);
@@ -35,4 +35,10 @@ public class EnvironmentComponent extends Component{
     public double getMaxYVelocity() {
         return myMaxYVelocity;
     }
+
+    @Override
+    public Component copy() {
+        return new EnvironmentComponent(Double.toString(myAccelX), Double.toString(myAccelY), Double.toString(myDragCoeff), Double.toString(myMaxXVelocity), Double.toString(myMaxYVelocity));
+    }
+
 }

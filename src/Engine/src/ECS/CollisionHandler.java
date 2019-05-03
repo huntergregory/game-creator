@@ -2,19 +2,20 @@ package Engine.src.ECS;
 
 import Engine.src.EngineData.Components.*;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.Manager.Manager;
+import Engine.src.Controller.Manager;
+
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Math.abs;
 
 public class CollisionHandler {
+    private static final String COLLISION_KEYWORD1 = "object1";
+    private static final String COLLISION_KEYWORD2 = "object2";
+
     private Manager myManager;
     private CollisionDetector myCollisionDetector;
     private Map<Pair<String>, String> myCollisionResponses;
@@ -37,7 +38,6 @@ public class CollisionHandler {
     public void handleCollisions(Map<String, EngineInstance> allEntities, Map<Pair<String>, String> collisionResponses) {
         myCollisionResponses = collisionResponses;
         myCurrentCollisions = new HashMap<>();
-
         moveThenUpdateVelocities(allEntities);
 
         List<EngineInstance> allEntitiesList = new ArrayList<>();
@@ -65,8 +65,8 @@ public class CollisionHandler {
     private void moveThenUpdateVelocities(Map<String, EngineInstance> allEntities) {
         for (String ID : allEntities.keySet()){
             EngineInstance i = allEntities.get(ID);
-            var motionComponent = i.getComponent(MotionComponent.class);
-            if (motionComponent != null) {
+            if(i.hasComponent(MotionComponent.class)) {
+                var motionComponent = i.getComponent(MotionComponent.class);
                 myManager.call("Move", i);
                 myManager.call("UpdateVelocity", i);
             }
@@ -78,16 +78,17 @@ public class CollisionHandler {
             Map<String, EngineInstance> possibleEnvironments = myCurrentCollisions.get(i);
             for (String ID : possibleEnvironments.keySet()) {
                 EngineInstance possibleEnvironment = possibleEnvironments.get(ID);
-                if (possibleEnvironment.getComponent(EnvironmentComponent.class) != null)
+                if (possibleEnvironment.hasComponent(EnvironmentComponent.class)) {
                     return true;
+                }
             }
         }
         return false;
     }
 
     private void setDefaultMotion(EngineInstance i) {
-        var motion = i.getComponent(MotionComponent.class);
-        if (motion != null) {
+        if(i.hasComponent(MotionComponent.class)) {
+            var motion = i.getComponent(MotionComponent.class);
             motion.resetXAccel();
             motion.resetYAccel();
             motion.resetMovementXVel();
@@ -96,31 +97,27 @@ public class CollisionHandler {
     }
 
     private void checkCollision(EngineInstance i, EngineInstance j) {
-        Pair<String>[] collisionTagPairs = findRelevantTagPairs(i, j);
+        Pair<String> collisionTagPair = findRelevantTagPairs(i, j);
         if (!myCollisionDetector.collides(i, j))
             return;
-        if (collisionTagPairs.length != 0 ) {
-
+        if (collisionTagPair != null ) {
             addCollisionAndHandleEnvironments(i, j);
             addCollisionAndHandleEnvironments(j, i);
-
-            for (Pair<String> tagPair : collisionTagPairs) {
-                String responses = myCollisionResponses.get(tagPair);
-                activateEvents(i, j, responses);
-            }
         }
         correctClipping(i, j);
         correctClipping(j, i);
         dealWithImpassable(i, j);
         dealWithImpassable(j, i);
+        if (collisionTagPair != null ) {
+            String responses = myCollisionResponses.get(collisionTagPair);
+            activateEvents(i, j, responses);
+        }
     }
 
     private void correctClipping(EngineInstance toAdjust, EngineInstance other) {
-        var environmentComponent = other.getComponent(EnvironmentComponent.class);
-        var motionComponent = toAdjust.getComponent(MotionComponent.class);
-        var adjBasic = toAdjust.getComponent(BasicComponent.class);
-        var otherBasic = other.getComponent(BasicComponent.class);
-        if (environmentComponent == null && motionComponent != null && adjBasic != null && otherBasic != null) {
+        if (!other.hasComponent(EnvironmentComponent.class)) {
+            var adjBasic = toAdjust.getComponent(BasicComponent.class);
+            var otherBasic = other.getComponent(BasicComponent.class);
             Map<String, Double> shortestClipping = new HashMap<>();
             if (myCollisionDetector.collideFromTop(toAdjust, other)) {
                 shortestClipping.put("top", otherBasic.getY() - adjBasic.getHeight() - adjBasic.getY());
@@ -152,50 +149,45 @@ public class CollisionHandler {
     }
 
     private void dealWithImpassable(EngineInstance mover, EngineInstance impassable) {
-        var impassableComponent = impassable.getComponent(ImpassableComponent.class);
-        if (impassableComponent != null && impassableComponent.getImpassable()) {
-            var motion = mover.getComponent(MotionComponent.class);
-            if (motion == null)
-                return;
-            if (myCollisionDetector.collideFromTop(mover, impassable) && motion.getYVelocity() > 0
-                    || myCollisionDetector.collideFromTop(impassable, mover) && motion.getYVelocity() < 0) {
-                motion.setYVelocity(0);
-            }
-            else if (myCollisionDetector.collideFromLeft(mover, impassable) && motion.getXVelocity() > 0
-                    || myCollisionDetector.collideFromLeft(impassable, mover) && motion.getXVelocity() < 0) {
-                motion.setXVelocity(0);
+        if(impassable.hasComponent(ImpassableComponent.class)) {
+            var impassableComponent = impassable.getComponent(ImpassableComponent.class);
+            if (impassableComponent.getImpassable()) {
+                var motion = mover.getComponent(MotionComponent.class);
+                if (motion == null)
+                    return;
+                if (myCollisionDetector.collideFromTop(mover, impassable) && motion.getYVelocity() > 0
+                        || myCollisionDetector.collideFromTop(impassable, mover) && motion.getYVelocity() < 0) {
+                    motion.setYVelocity(0);
+                }
+                else if (myCollisionDetector.collideFromLeft(mover, impassable) && motion.getXVelocity() > 0
+                        || myCollisionDetector.collideFromLeft(impassable, mover) && motion.getXVelocity() < 0) {
+                    motion.setXVelocity(0);
+                }
             }
         }
     }
 
-    private Pair<String>[] findRelevantTagPairs(EngineInstance i, EngineInstance j) {
+    private Pair<String> findRelevantTagPairs(EngineInstance i, EngineInstance j) {
         ArrayList<Pair<String>> tagPairs = new ArrayList<>();
+        String objectType1 = i.getType();
+        String objectType2 = j.getType();
+        var tagPair = new Pair(objectType1, objectType2);
 
-        var tags1 = i.getComponent(TagsComponent.class);
-        var tags2 = j.getComponent(TagsComponent.class);
-
-        if (tags1 == null || tags2 == null)
-            //Is this right?
-            return tagPairs.toArray(new Pair[0]);
-
-        for (String tag1 : tags1.getTags()) {
-            for (String tag2 : tags2.getTags()) {
-                var tagPair = new Pair(tag1, tag2);
-                if (myCollisionResponses.containsKey(tagPair))
-                    tagPairs.add(tagPair);
-            }
+        if(myCollisionResponses.containsKey(tagPair)) {
+            return tagPair;
         }
-        //Is this right?
-        return tagPairs.toArray(new Pair[0]);
+        return null;
     }
 
     private void addCollisionAndHandleEnvironments(EngineInstance current, EngineInstance other) {
         myCurrentCollisions.putIfAbsent(current, new HashMap<>());
         myCurrentCollisions.get(current).put(other.getID(), other);
-        var currentMotionComponent = current.getComponent(MotionComponent.class);
-        var otherEnvironmentComponent = other.getComponent(EnvironmentComponent.class);
-        if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).containsKey(other.getID()))
-            setInEnvironment(current, currentMotionComponent, otherEnvironmentComponent);
+        if (current.hasComponent(MotionComponent.class) && other.hasComponent(EnvironmentComponent.class)) {
+            var currentMotionComponent = current.getComponent(MotionComponent.class);
+            var otherEnvironmentComponent = other.getComponent(EnvironmentComponent.class);
+            if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).containsKey(other.getID()))
+                setInEnvironment(current, currentMotionComponent, otherEnvironmentComponent);
+        }
     }
 
     private void setInEnvironment(EngineInstance i, MotionComponent motion, EnvironmentComponent environment) {
@@ -209,13 +201,10 @@ public class CollisionHandler {
         }
     }
 
-    //TODO fix if Timers.Events are changed
     private void activateEvents(EngineInstance engineInstance1, EngineInstance engineInstance2, String responses) {
-        //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
-
         GroovyShell shell = new GroovyShell(mySetter);
-        mySetter.setProperty(engineInstance1.getID(), engineInstance1);
-        mySetter.setProperty(engineInstance2.getID(), engineInstance2);
+        mySetter.setProperty(COLLISION_KEYWORD1, engineInstance1);
+        mySetter.setProperty(COLLISION_KEYWORD2, engineInstance2);
         Script script = shell.parse(responses);
         script.run();
 

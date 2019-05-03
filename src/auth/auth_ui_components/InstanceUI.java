@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import static auth.Dimensions.CANVAS_VERTICAL_OFFSET;
+import static auth.Dimensions.CONSOLE_HORIZONTAL_OFFSET;
 import static auth.helpers.ScreenHelpers.*;
 
 public class InstanceUI implements Selectable {
@@ -22,7 +24,8 @@ public class InstanceUI implements Selectable {
                 view = new ImageView();
                 ((ImageView) view).setFitWidth(instance.width); ((ImageView) view).setFitHeight(instance.height);
                 ((ImageView) view).setImage(getImageById(game, instance.bgImage));
-                ((ImageView) view).setX(instance.x); ((ImageView) view).setY(instance.y);
+                ((ImageView) view).setX(instance.x + CONSOLE_HORIZONTAL_OFFSET);
+                ((ImageView) view).setY(instance.y + CANVAS_VERTICAL_OFFSET);
             } else {
                 setBackgroundColor();
             }
@@ -39,7 +42,8 @@ public class InstanceUI implements Selectable {
         ((Rectangle) view).setWidth(instance.width); ((Rectangle) view).setHeight(instance.height);
         Color backgroundColor = (instance.bgColor.isEmpty() ? Color.WHITE : getColorByID(game, instance.bgColor));
         ((Rectangle) view).setFill(backgroundColor);
-        ((Rectangle) view).setX(instance.x); ((Rectangle) view).setY(instance.y);
+        ((Rectangle) view).setX(instance.x + CONSOLE_HORIZONTAL_OFFSET);
+        ((Rectangle) view).setY(instance.y + CANVAS_VERTICAL_OFFSET);
     }
 
     @Override

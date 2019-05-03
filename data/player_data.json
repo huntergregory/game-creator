@@ -3,15 +3,15 @@
     {
       "img": "/img/doodle-jump.jpeg",
       "name": "Doodle Jump",
-      "rating": "3.5",
+      "rating": "4.5",
       "game_source": "",
-      "favorite": "false",
+      "favorite": "true",
       "desc": "A game where you have a doodle on the screen, and you make it jump. Nothing more than the name conveys."
     },
     {
       "img": "/img/flappybird.jpg",
       "name": "Flappy Bird",
-      "rating": "4.0",
+      "rating": "2.0",
       "game_source": "",
       "favorite": "false",
       "desc": "A really stupid game. Don\u0027t waste your time, and your money when you ultimately have to buy a new computer after you smash this one to pieces."
@@ -21,13 +21,13 @@
       "name": "Mario",
       "rating": "5.0",
       "game_source": "",
-      "favorite": "true",
+      "favorite": "false",
       "desc": "Really? You need a description for Mario?"
     },
     {
       "img": "/img/metroid.jpg",
       "name": "Metroid",
-      "rating": "3.0",
+      "rating": "1.0",
       "game_source": "",
       "favorite": "false",
       "desc": "Metroid follows space-faring bounty hunter Samus Aran, who protects the galaxy from the Space Pirates and their attempts to harness the power of the parasitic Metroid creatures."

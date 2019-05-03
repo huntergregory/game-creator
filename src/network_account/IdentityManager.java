@@ -54,8 +54,7 @@ public class IdentityManager {
      * @param gameID is the name of the game
      * @param highScore is the score for that certain game
      */
-    public void addHighScore(String gameID, String highScore){
-        UserIdentity identity = getIdentity();
+    public void addHighScore(String gameID, String highScore, UserIdentity identity) {
         if(!identity.getName().equals("")){
             String scoreString = "http://tmtp-spec.appspot.com/newHighScore?username=" + identity.getUsername() +
                     "&gameID=" + gameID + "&score=" + highScore;

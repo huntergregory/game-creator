@@ -1,6 +1,5 @@
 package GameCenter.main;
 
-import auth.RunAuth;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -46,8 +45,11 @@ public class GameCenter extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+<<<<<<< HEAD
 //        new RunAuth(myIdentity).start(new Stage());
 
+=======
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/GameCenter.fxml"));
 
         this.myRoot = loader.load();

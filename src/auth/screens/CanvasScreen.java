@@ -27,8 +27,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+<<<<<<< HEAD
 import network_account.UserIdentity;
 import uiutils.panes.BottomPane;
+=======
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -37,15 +40,17 @@ import java.util.List;
 import static auth.Colors.BG_COLOR;
 import static auth.Dimensions.ENV_WINDOW_HEIGHT;
 import static auth.Dimensions.ENV_WINDOW_WIDTH;
+<<<<<<< HEAD
 import static auth.Strings.*;
 import static auth.Strings.CONSOLE_PANE_ID;
+=======
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
 import static auth.Strings.DEFAULT_TITLE;
 import static auth.helpers.DataHelpers.SERVICE_ACCOUNT_JSON_PATH;
 import static auth.helpers.MenuClickHandlers.*;
 import static auth.helpers.ScreenHelpers.*;
 
 public class CanvasScreen extends Screen {
-
     private RunAuth context;
     private Group container;
     private Stage stage;
@@ -176,18 +181,8 @@ public class CanvasScreen extends Screen {
         return game.scenes.size();
     }
 
-    public void changeTitle(String title) {
-        stage.setTitle(title);
-    }
-
     public Game getGame() {
         return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-        switchToScene(0, true);
-        initialiseGrids(this);
     }
 
     public int getResourcesCount(Resource.ResourceType type) {
@@ -199,6 +194,7 @@ public class CanvasScreen extends Screen {
         return count;
     }
 
+<<<<<<< HEAD
     public String getLoggedInUsername() {
         return userIdentity.getUsername();
     }
@@ -207,6 +203,8 @@ public class CanvasScreen extends Screen {
         return userIdentity.getName();
     }
 
+=======
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
     public void switchToScene(int index, boolean deselect) {
         currentScene = index;
         if (deselect) {
@@ -214,10 +212,10 @@ public class CanvasScreen extends Screen {
             selectedID = null;
             currentlySelected = null; // deselect everything so scene has focus
         }
+        // TODO: loadScene(index);
         System.out.println("Current scene is "+currentScene+" and it has "+game.scenes.get(currentScene).instances.size()+" instances.");
         refreshCanvas(this);
         repopulatePropertiesPane(this);
-        populateConsolePane(this, (BottomPane)getUIElementById(CONSOLE_PANE_ID));
     }
 
     public int getCurrentScene() {

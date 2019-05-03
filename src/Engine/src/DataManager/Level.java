@@ -1,7 +1,12 @@
 package Engine.src.DataManager;
 
+<<<<<<< HEAD
 import Engine.src.Controller.Events.Event;
 import Engine.src.EngineData.Components.Component;
+=======
+import Engine.src.Components.Component;
+import Engine.src.Triggers.Events.Event;
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
 
 import java.util.Collections;
 import java.util.List;

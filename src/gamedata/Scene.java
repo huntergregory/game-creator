@@ -1,18 +1,17 @@
 package gamedata;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 public class Scene {
-    public Set<Instance> instances;
+    public ArrayList<Instance> instances;
     public String sceneLogic, sceneID, bgColor, bgImage;
 
     public Scene() {
-        instances = new HashSet<>();
+        instances = new ArrayList<>();
         sceneLogic = "";
         bgColor = "";
-        sceneLogic = "";
         sceneID = "";
+        bgColor = "";
         bgImage = "";
     }
 }

@@ -3,14 +3,12 @@ package GameCenter.main;
 import GameCenter.gameData.DataParser;
 import GameCenter.gameData.DataStruct;
 import GameCenter.utilities.Thumbnail;
+import Player.PlayerMain.PlayerStage;
 import auth.RunAuth;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,41 +21,57 @@ import javafx.stage.Stage;
 import network_account.IdentityManager;
 import network_account.UserIdentity;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 /**
- * The LevelController for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
+ * The Controller for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
  * under the resources folder.
  *
  * This controller defines all actions that occur when a user interacts with the GUI. It also defines several parts of
  * the GUI that cannot be done in fxml, such as placing images parsed from a .json file.
  */
 public class GameCenterController {
+
+    private static final String COMMENT_FILE = "res/comments.csv";
+
     private List<DataStruct> gameData;
     private ArrayList<Integer> favoriteGames;
     private int activeThumbnail;
     private int myIndex;
     private Number ratingVal;
     private ImageView activeGameImageView;
+<<<<<<< HEAD
     UserIdentity identity;
+=======
+    private ArrayList<Comment> myComments;
+    private File commFile;
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
 
     @FXML
-    public Pane socialPane, newGamePane, descriptionPane, ratingPane;
+    public Pane socialPane, newGamePane, descriptionPane, ratingPane, commentPane;
     public Pane favoritePane;
+    public TableView<Comment> commentTable;
+    public TableColumn<Comment, String> userColumn, commentColumn;
     public ScrollPane thumbPane;
     public GridPane friendPane;
     public Slider ratingSlider;
     public VBox thumbPaneContent;
-    public Text titleText, descriptionText, ratingText, username;
-    public Button newGameButton, playButton, editButton, rateButton, returnButton, favoriteButton;
+    public Text titleText, descriptionText, commentText, ratingText, username;
+    public TextArea commentBox;
+    public Button newGameButton, playButton, editButton, rateButton, commentButton,
+            commentEnterButton, ratingConfirmButton, returnButtonR, returnButtonC, favoriteButton;
     public Label score1, score2, score3;
+    public Label favLabel, gameLabel;
 
     void initGameCenter() {
         initListeners();
         favoriteGames = new ArrayList<>();
+        myComments = new ArrayList<>();
+        commFile = new File(COMMENT_FILE);
         placeThumbnails();
     }
 
@@ -72,27 +86,23 @@ public class GameCenterController {
     }
 
     private void placeThumbnails() {
+        thumbPaneContent.getChildren().removeAll(thumbPaneContent.getChildren());
         try {
             gameData = DataParser.parseConfig("data/player_data.json");
         } catch (FileNotFoundException e) {
             System.out.println("Error occurred when reading in thumbnails");
         }
-        // this sets favoriteGames int list
+        favoriteGames = new ArrayList<>();
         for (int i = 0; i < gameData.size(); i ++) {
             DataStruct game = gameData.get(i);
-            if (!favoriteGames.contains(i) && game.getFavorite()) {
+            if (game.getFavorite()) {
                 favoriteGames.add(i);
-            } else if (favoriteGames.contains(i) && !game.getFavorite()) {
-                favoriteGames.remove(i);
             }
         }
-        // make labels
         int favCounter = favoriteGames.size();
-        Label favLabel = new Label("Favorites (" + favCounter + ")");
+        favLabel.setText("Favorites (" + favCounter + ")");
         int gameCounter = gameData.size();
-        Label gameLabel = new Label("All Games (" + gameCounter + ")");
-        // TODO: set style of labels
-        // place thumbnails of each favorite in favoriteGames
+        gameLabel.setText("All Games (" + gameCounter + ")");
         thumbPaneContent.getChildren().add(favLabel);
         for (int fav : favoriteGames) {
             final int index = fav;
@@ -101,7 +111,6 @@ public class GameCenterController {
             thumbPaneContent.getChildren().add(thumbnailView);
             thumbnailView.setOnMouseClicked(e -> thumbnailClicked(index));
         }
-        // place thumbnails of every game
         thumbPaneContent.getChildren().add(gameLabel);
         int counter = 0;
         for (var game : gameData) {
@@ -117,17 +126,9 @@ public class GameCenterController {
         ImageView heart;
         if (favorite) heart = new ImageView(new Image(this.getClass().getResourceAsStream("/icons/heartFill.png")));
         else heart = new ImageView(new Image(this.getClass().getResourceAsStream("/icons/heartOutline.png")));
-        heart.setFitHeight(40);
-        heart.setFitWidth(40);
+        heart.setFitHeight(33);
+        heart.setFitWidth(33);
         favoriteButton.setGraphic(heart);
-    }
-
-    public void editFavorites(int gameInt) {
-        if (favoriteGames.contains(gameInt)) {
-            favoriteGames.remove(gameInt);
-        } else {
-            favoriteGames.add(gameInt);
-        }
     }
 
     @FXML
@@ -140,6 +141,7 @@ public class GameCenterController {
             gameData.get(myIndex).setFavorite(true, myIndex);
             setFavoriteImage(true);
         }
+        placeThumbnails();
     }
 
     private void thumbnailClicked(int index) {
@@ -211,14 +213,82 @@ public class GameCenterController {
         setFavoriteImage(gameData.get(myIndex).getFavorite());
     }
 
+    private void buildCommentTable() {
+        myComments = new ArrayList<>();
+        try {
+        Scanner sc = new Scanner(new FileReader(commFile));
+        while (sc.hasNextLine()) {
+            myComments.add(parseComment(sc.nextLine()));
+        }
+        } catch (IOException e) {
+            System.out.println("Error occurred when reading comments.");
+        }
+        commentTable.getItems().clear();
+        for (Comment com : myComments) {
+            if (com.getMyGame() == myIndex) {
+                commentTable.getItems().add(com);
+            }
+        }
+    }
+
+    private Comment parseComment(String line) {
+        String[] lineSplit = line.split(",");
+        String game = lineSplit[0];
+        String user = lineSplit[1];
+        String lineSplit2 = "";
+        for (int i = 2; i < lineSplit.length; i++) {
+            lineSplit2 += lineSplit[i];
+        }
+        Comment c = new Comment(Integer.parseInt(game), user, lineSplit2);
+        return c;
+    }
+
+    private String reduceComment(Comment com) {
+        String game = Integer.toString(com.getMyGame());
+        String user = com.getMyUser();
+        String comm = com.getMyComment();
+        return game + "," + user + "," + comm;
+    }
+
     @FXML
     private void launchAuthEnv() {
         new RunAuth(identity).start(new Stage());
     }
 
     @FXML
-    public void launchPlayer() {
-        //new PlayerStage(this).load(gameData.get(myIndex).getSourcePath(), true);
+    private void launchPlayer() {
+        new PlayerStage().run(gameData.get(myIndex).getSourcePath());
+    }
+
+    @FXML
+    private void comment() {
+        commentPane.setVisible(true);
+        buildCommentTable();
+        descriptionPane.setVisible(false);
+    }
+
+    @FXML
+    private void enterComment() {
+        String commInput = commentBox.getText();
+        commentBox.clear();
+        Comment c = new Comment(myIndex, username.getText(), commInput);
+        myComments.add(c);
+
+        try {
+            FileWriter fw = new FileWriter(commFile);
+            String cString = "";
+            for (var comm : myComments) {
+                cString += reduceComment(comm);
+                cString += '\n';
+            }
+            cString = cString.substring(0, cString.length() - 1);
+            fw.write(cString);
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Error occurred while writing comment.");
+        }
+
+        buildCommentTable();
     }
 
     @FXML
@@ -230,10 +300,15 @@ public class GameCenterController {
     }
 
     @FXML
+    private void setRating() {
+        gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
+    }
+
+    @FXML
     private void returnToDescription() {
         ratingPane.setVisible(false);
+        commentPane.setVisible(false);
         descriptionPane.setVisible(true);
-        gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
     }
 
     public void setHighScore(IdentityManager IM, String gameID, String highScore) {

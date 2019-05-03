@@ -1,5 +1,6 @@
 package Engine.src.Controller;
 
+<<<<<<< HEAD
 import Engine.src.ECS.Pair;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.EngineGameObject;
@@ -16,9 +17,18 @@ import groovy.lang.Script;
 import groovy.lang.Sequence;
 
 import java.util.*;
+=======
+import Engine.src.Components.Component;
+import Engine.src.Triggers.Timer;
 
+import java.util.Map;
+import java.util.Set;
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
+
+@Deprecated
 public class EngineParser {
 
+<<<<<<< HEAD
     private Map<String, String> myHotKeys;
     private Map<Pair<String>, String> myCollisionResponses;
     private String myLevelRules;
@@ -47,30 +57,28 @@ public class EngineParser {
         myGameEngineObjects = new HashSet<>();
         myBinderHelper = new BinderHelper();
         parse(game);
+=======
+    public Map parseDefaultObjects(){
+        return null;
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
     }
 
-    ////// Groovy API   ////////
-
-    public void addCollision(String type1, String type2, String response){
-        myCollisionResponses.put(new Pair<>(type1, type2), response);
+    public Map makeHotKeyMap(){
+        return null;
     }
 
-    public void addKey(String key, String entry) {
-        myHotKeys.put(key, entry);
+    public Map makeCollisionResponseMap(){
+        return null;
     }
 
-    public void addLevelRules(String rules){
-        myLevelRules += rules;
+    public Map<Double, Map<String, Component>> initializeActiveObjects(){
+        return null;
     }
 
-
-    public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
-        int max = 0;
-        for(int ID : myTimers.keySet()){
-            if (ID > max) max = ID;
-        }
-        myTimers.put(max + 1, new Timer(eventsWhileOn, eventsAfter, duration, 0));
+    public Set<Timer> makeTimerMap() {
+        return null;
     }
+<<<<<<< HEAD
 
 
     ////// Getters for Engine ///////
@@ -189,4 +197,6 @@ public class EngineParser {
         return scrollingVert;
     }
 
+=======
+>>>>>>> ac73cab8a1d864ca81a255c5a6ae47167f4024dc
 }

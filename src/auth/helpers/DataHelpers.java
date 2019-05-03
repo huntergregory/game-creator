@@ -5,11 +5,15 @@ import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.storage.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import gamedata.*;
+import gamedata.Game;
+import gamedata.GameObject;
+import gamedata.Resource;
+import gamedata.Scene;
 
 import java.io.FileInputStream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+
 
 public class DataHelpers {
     public static String SERVICE_ACCOUNT_JSON_PATH = "/Users/anshudwibhashi/work/school/CS308/voogasalad_crackingopen/lib/TMTP-b2dc645337e7.json";
@@ -68,15 +72,6 @@ public class DataHelpers {
     public static GameObject getObjectByID(Game game, String id) {
         for (var s : game.gameObjects) {
             if (s.objectID.equals(id)) {
-                return s;
-            }
-        }
-        return null;
-    }
-
-    public static Instance getInstanceByID(Game game, String id, int currentScene) {
-        for (var s : game.scenes.get(currentScene).instances) {
-            if (s.instanceID.equals(id)) {
                 return s;
             }
         }

@@ -1,5 +1,6 @@
 package network_account;
 
+import auth.RunAuth;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -23,7 +24,6 @@ public class RunAccount extends Application {
             e.printStackTrace();
         }
 //        System.out.println(identityManager.getIdentity().getName());
-//        identityManager.setStageIdentity("mygame1");
 //        System.out.println("Past identity stage");
     }
 }

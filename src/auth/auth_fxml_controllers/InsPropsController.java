@@ -119,7 +119,7 @@ public class InsPropsController extends JXMLController {
     public void yKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
             try {
-                if (Double.valueOf(yField.getText()) >= 0 && Double.valueOf(yField.getText()) <= CANVAS_HEIGHT) {
+                if (Double.valueOf(yField.getText()) >= 0 && Double.valueOf(yField.getText()) <= 3000) {
                     selectedInstance.y = Double.valueOf(yField.getText().strip());
                     refreshCanvas(context);
                 } else {
@@ -135,7 +135,7 @@ public class InsPropsController extends JXMLController {
     public void xKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
             try {
-                if (Double.valueOf(xField.getText()) >= 0 && Double.valueOf(xField.getText()) <= CANVAS_WIDTH) {
+                if (Double.valueOf(xField.getText()) >= 0 && Double.valueOf(xField.getText()) <= 3000) {
                     selectedInstance.x = Double.valueOf(xField.getText().strip());
                     refreshCanvas(context);
                 } else {

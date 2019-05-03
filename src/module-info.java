@@ -13,6 +13,7 @@ module voogasalad.crackingopen {
 
     requires java.scripting;
     requires org.apache.commons.lang3;
+    requires gson;
 
     requires google.cloud.storage;
     requires google.oauth.client;
@@ -21,7 +22,6 @@ module voogasalad.crackingopen {
     requires google.api.client;
     requires pusher.http.java;
     requires pusher.java.client;
-    requires gson;
 
     exports auth.auth_fxml_controllers;
     exports gamedata to gson;

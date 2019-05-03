@@ -19,7 +19,7 @@
     {
       "img": "/img/mario.jpg",
       "name": "Mario",
-      "rating": "5.0",
+      "rating": "0.0",
       "game_source": "",
       "favorite": "false",
       "desc": "Really? You need a description for Mario?"

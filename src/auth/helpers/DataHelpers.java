@@ -1,19 +1,12 @@
 package auth.helpers;
 
 import auth.screens.CanvasScreen;
-import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.google.cloud.storage.*;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import gamedata.*;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.util.Scanner;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class DataHelpers {
     public static String SERVICE_ACCOUNT_JSON_PATH = "/Users/anshudwibhashi/work/school/CS308/voogasalad_crackingopen/lib/TMTP-b2dc645337e7.json";

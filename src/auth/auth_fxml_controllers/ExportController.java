@@ -5,7 +5,6 @@ import auth.screens.ExportScreen;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import gamedata.Game;
-import gamedata.Resource;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -17,10 +16,6 @@ import javafx.stage.Stage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.security.MessageDigest;
-
-import static auth.helpers.ScreenHelpers.initialiseImagesGrid;
-import static gamedata.Resource.ResourceType.IMAGE_RESOURCE;
 
 public class ExportController {
     @FXML

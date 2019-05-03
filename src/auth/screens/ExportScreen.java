@@ -1,8 +1,6 @@
 package auth.screens;
 
 import auth.auth_fxml_controllers.ExportController;
-import auth.auth_fxml_controllers.ScenePropsController;
-import auth.helpers.ScreenHelpers;
 import gamedata.Game;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

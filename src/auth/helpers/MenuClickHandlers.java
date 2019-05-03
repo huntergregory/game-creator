@@ -24,14 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 import uiutils.panes.BottomPane;
 import uiutils.panes.Pane;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-
-import static auth.Strings.CONSOLE_PANE_ID;
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static auth.Strings.CONSOLE_PANE_ID;

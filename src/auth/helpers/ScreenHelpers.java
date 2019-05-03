@@ -715,44 +715,44 @@ public class ScreenHelpers {
             final double xDistToCanvasCorner = i.x;
             final double yDistToCanvasCorner = i.y;
 
-            iui.getView().setOnMousePressed(t -> {
-                orgSceneXInstance = t.getSceneX();
-                orgSceneYInstance = t.getSceneY();
-                orgTranslateXInstance = ((Node)(t.getSource())).getTranslateX();
-                orgTranslateYInstance = ((Node)(t.getSource())).getTranslateY();
-            });
-
-            iui.getView().setOnMouseDragged(t -> {
-                double offsetX = t.getSceneX() - orgSceneXInstance;
-                double offsetY = t.getSceneY() - orgSceneYInstance;
-                double newTranslateX = orgTranslateXInstance + offsetX;
-                double newTranslateY = orgTranslateYInstance + offsetY;
-
-                if (Math.sqrt(Math.pow(newTranslateX,2)+Math.pow(newTranslateY, 2)) > 30) {
-                    // If they're actually dragging (i.e. going beyond the size of the icon)
-                    actuallyDragging = true;
-                    view.setLayoutX(t.getSceneX() - CONSOLE_HORIZONTAL_OFFSET - xDistToCanvasCorner);
-                    view.setLayoutY(t.getSceneY() - CANVAS_VERTICAL_OFFSET - yDistToCanvasCorner);
-                }
-            });
-            iui.getView().setOnMouseReleased(t -> {
-                // if released in bounds, just update position, else revert to old position
-                if (actuallyDragging) {
-                    if (t.getSceneY() < CANVAS_VERTICAL_OFFSET + (CANVAS_HEIGHT*2) &&
-                            t.getSceneY() > CANVAS_VERTICAL_OFFSET &&
-                            t.getSceneX() > CONSOLE_HORIZONTAL_OFFSET &&
-                            t.getSceneX() < CONSOLE_HORIZONTAL_OFFSET + (2*CANVAS_WIDTH)) {
-                        i.x = t.getSceneX() - CONSOLE_HORIZONTAL_OFFSET;
-                        i.y = t.getSceneY() - CANVAS_VERTICAL_OFFSET;
-                        refreshCanvas(context);
-                        repopulatePropertiesPane(context);
-                    } else {
-                        refreshCanvas(context);
-                        repopulatePropertiesPane(context);
-                    }
-                    actuallyDragging = false;
-                }
-            });
+//            iui.getView().setOnMousePressed(t -> {
+//                orgSceneXInstance = t.getSceneX();
+//                orgSceneYInstance = t.getSceneY();
+//                orgTranslateXInstance = ((Node)(t.getSource())).getTranslateX();
+//                orgTranslateYInstance = ((Node)(t.getSource())).getTranslateY();
+//            });
+//
+//            iui.getView().setOnMouseDragged(t -> {
+//                double offsetX = t.getSceneX() - orgSceneXInstance;
+//                double offsetY = t.getSceneY() - orgSceneYInstance;
+//                double newTranslateX = orgTranslateXInstance + offsetX;
+//                double newTranslateY = orgTranslateYInstance + offsetY;
+//
+//                if (Math.sqrt(Math.pow(newTranslateX,2)+Math.pow(newTranslateY, 2)) > 30) {
+//                    // If they're actually dragging (i.e. going beyond the size of the icon)
+//                    actuallyDragging = true;
+//                    view.setLayoutX(t.getSceneX() - CONSOLE_HORIZONTAL_OFFSET - xDistToCanvasCorner);
+//                    view.setLayoutY(t.getSceneY() - CANVAS_VERTICAL_OFFSET - yDistToCanvasCorner);
+//                }
+//            });
+//            iui.getView().setOnMouseReleased(t -> {
+//                // if released in bounds, just update position, else revert to old position
+//                if (actuallyDragging) {
+//                    if (t.getSceneY() < CANVAS_VERTICAL_OFFSET + (CANVAS_HEIGHT*2) &&
+//                            t.getSceneY() > CANVAS_VERTICAL_OFFSET &&
+//                            t.getSceneX() > CONSOLE_HORIZONTAL_OFFSET &&
+//                            t.getSceneX() < CONSOLE_HORIZONTAL_OFFSET + (2*CANVAS_WIDTH)) {
+//                        i.x = t.getSceneX() - CONSOLE_HORIZONTAL_OFFSET;
+//                        i.y = t.getSceneY() - CANVAS_VERTICAL_OFFSET;
+//                        refreshCanvas(context);
+//                        repopulatePropertiesPane(context);
+//                    } else {
+//                        refreshCanvas(context);
+//                        repopulatePropertiesPane(context);
+//                    }
+//                    actuallyDragging = false;
+//                }
+//            });
 
             context.registerNewIcon(new UIElementWrapper(view, "CANVAS_ITEM"));
             if(context.selectedType == Instance.class && context.selectedID.equals(i.instanceID)) {

@@ -78,7 +78,9 @@ public class CollisionHandler {
             Map<String, EngineInstance> possibleEnvironments = myCurrentCollisions.get(i);
             for (String ID : possibleEnvironments.keySet()) {
                 EngineInstance possibleEnvironment = possibleEnvironments.get(ID);
-                return possibleEnvironment.hasComponent(EnvironmentComponent.class);
+                if (possibleEnvironment.hasComponent(EnvironmentComponent.class)) {
+                    return true;
+                }
             }
         }
         return false;

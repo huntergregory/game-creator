@@ -1,7 +1,7 @@
 package Engine.src.Controller.Events;
 
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.ScoreComponent;
+import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.Map;

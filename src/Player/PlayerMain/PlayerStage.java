@@ -1,15 +1,18 @@
 package Player.PlayerMain;
 
 import Engine.src.Controller.GameController;
-import Engine.src.EngineData.Components.*;
+import Engine.src.Controller.LevelController;
+import Engine.src.EngineData.Components.BasicComponent;
+import Engine.src.EngineData.Components.LivesComponent;
+import Engine.src.EngineData.Components.MotionComponent;
+import Engine.src.EngineData.Components.ScoreComponent;
+import Engine.src.EngineData.EngineInstance;
+import GameCenter.main.GameCenterController;
+import Player.Features.DebugConsole;
 import Player.Features.PlayerButtons;
 import Player.Features.SidePanel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import GameCenter.main.GameCenterController;
-import Engine.src.EngineData.EngineInstance;
-import Player.Features.DebugConsole;
-import Engine.src.Controller.LevelController;
 import gamedata.Game;
 import gamedata.Resource;
 import hud.HUDView;
@@ -30,6 +33,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.io.*;
 import java.util.*;
 

@@ -1,7 +1,6 @@
 package Engine.src.EngineData;
 
 import Engine.src.Controller.NoInstanceException;
-import Engine.src.Controller.NoObjectException;
 
 public class EngineGameObject extends ComponentContainer implements Cloneable {
 

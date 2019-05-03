@@ -1,6 +1,5 @@
 package Engine.src.Controller.Events.Motion;
 
-import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.Components.JumpComponent;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.EngineData.EngineInstance;

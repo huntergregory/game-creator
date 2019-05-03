@@ -21,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import network_account.IdentityManager;
 import network_account.UserIdentity;
 
 import java.io.FileNotFoundException;
@@ -31,6 +30,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import static GameCenter.utilities.Constants.NUM_HIGH_SCORES;
+import static GameCenter.utilities.Strings.GC_SCORE_EXCEPTIONS;
+import static GameCenter.utilities.Strings.GC_SOCIAL_LABEL_STYLE;
 
 /**
  * The LevelController for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
@@ -46,7 +48,7 @@ public class GameCenterController {
     private int myIndex;
     private Number ratingVal;
     private ImageView activeGameImageView;
-    UserIdentity identity;
+    UserIdentity myIdentity;
 
     @FXML
     public Pane socialPane, newGamePane, descriptionPane, ratingPane;
@@ -59,10 +61,20 @@ public class GameCenterController {
     public Button newGameButton, playButton, editButton, rateButton, returnButton, favoriteButton;
     public Label score1, score2, score3;
 
-    void initGameCenter() {
+    /**
+     * Initializes several things that cannot be done through fxml alone such as importing thumbnails and setting
+     * listeners for the rating. Takes a userIdentity parameter, which will later be passed to the authoring
+     * environment so that the user is logged in throughout the program.
+     *
+     * @param userIdentity user Identity
+     */
+    public void initGameCenter(UserIdentity userIdentity) {
+        this.myIdentity = userIdentity;
         initListeners();
         favoriteGames = new ArrayList<>();
         placeThumbnails();
+        addSocialAspect();
+        username.setText(myIdentity.getName());
     }
 
     private void initListeners() {
@@ -73,6 +85,14 @@ public class GameCenterController {
                 ratingText.setText(String.format("%.2f", ratingVal));
             }
         });
+    }
+
+    private void addSocialAspect() {
+        for(String s:myIdentity.getFriends()){
+            Label friendName = new Label(s);
+            friendName.getStyleClass().add(GC_SOCIAL_LABEL_STYLE);
+            friendPane.getChildren().add(friendName);
+        }
     }
 
     private void placeThumbnails() {
@@ -179,6 +199,15 @@ public class GameCenterController {
         loadGameFavorite();
         descriptionPane.setVisible(true);
         ratingPane.setVisible(false);
+        Label[] scores = new Label[]{score1, score2, score3};
+        for(int k = 0; k < NUM_HIGH_SCORES; k++){
+            try {
+                scores[k].setText(myIdentity.getHighScores(gameData.get(myIndex).getName()).get(k));
+            }
+            catch(Exception e){
+                scores[k].setText(GC_SCORE_EXCEPTIONS);
+            }
+        }
     }
 
     private void loadGameImage() {
@@ -241,8 +270,8 @@ public class GameCenterController {
     }
 
     public void setHighScore(String gameID, String highScore) {
-        if(!identity.getName().equals("")){
-            String scoreString = "http://tmtp-spec.appspot.com/newHighScore?username=" + identity.getUsername() +
+        if(!myIdentity.getName().equals("")){
+            String scoreString = "http://tmtp-spec.appspot.com/newHighScore?username=" + myIdentity.getUsername() +
                     "&gameID=" + gameID + "&score=" + highScore;
             try {
                 URL url = new URL(scoreString);

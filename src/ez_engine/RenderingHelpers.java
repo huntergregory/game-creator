@@ -3,17 +3,20 @@ package ez_engine;
 import gamedata.Game;
 import gamedata.Instance;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static auth.Dimensions.*;
-import static auth.helpers.ScreenHelpers.*;
+import static auth.Dimensions.CANVAS_HEIGHT;
+import static auth.Dimensions.CANVAS_WIDTH;
+import static auth.helpers.ScreenHelpers.getColorByID;
+import static auth.helpers.ScreenHelpers.getImageById;
 
 public class RenderingHelpers {
     private static Game game;

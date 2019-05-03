@@ -3,7 +3,6 @@ package Engine.src.Controller.Events;
 import Engine.src.Controller.NoInstanceException;
 import Engine.src.Controller.NoObjectException;
 import Engine.src.EngineData.Components.BasicComponent;
-import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 

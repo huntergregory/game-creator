@@ -4,7 +4,6 @@ import auth.RunTest;
 import auth.auth_fxml_controllers.CollisionController;
 import auth.auth_fxml_controllers.KeyEventController;
 import auth.auth_fxml_controllers.ObjectScriptController;
-import auth.auth_fxml_controllers.SceneScriptController;
 import auth.screens.CanvasScreen;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,8 +23,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
-
-import static auth.helpers.ScreenHelpers.initialiseGrids;
 
 public class MenuClickHandlers {
     public static uiutils.panes.Pane paneA;

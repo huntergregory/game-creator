@@ -1,17 +1,12 @@
 package Player.Features;
 
 import Player.Features.Sliders.LivesSlider;
-import Player.Features.Sliders.TimeSlider;
 import Player.PlayerMain.PlayerStage;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.awt.*;
-
-import static java.awt.Color.black;
 
 public class PlayerButtons {
 

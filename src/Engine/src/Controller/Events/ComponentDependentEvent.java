@@ -1,10 +1,9 @@
 package Engine.src.Controller.Events;
 
 import Engine.src.EngineData.Components.AimComponent;
-import Engine.src.EngineData.Components.LOSComponent;
+import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.Map;

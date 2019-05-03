@@ -35,7 +35,6 @@ public class ToolClickHandlers {
         sceneText.setFont(bebasKaiMedium);
         sceneText.setFill(DEFAULT_TEXT_COLOR);
         context.getPagination().addPage(sceneText);
-        DataHelpers.sendNewCloudData(context);
     }
 
     public static void handleDeleteCurrentSelection(CanvasScreen context) {
@@ -86,7 +85,6 @@ public class ToolClickHandlers {
         } else {
             context.switchToScene(current, true);
         }
-        DataHelpers.sendNewCloudData(context);
     }
 
     private static void deleteInstance(Game game, CanvasScreen context, gamedata.Scene currentScene) {
@@ -95,7 +93,6 @@ public class ToolClickHandlers {
             if (scene == currentScene)
                 refreshCanvas(context);
         }
-        DataHelpers.sendNewCloudData(context);
     }
 
     private static void deleteObject(Game game, CanvasScreen context, gamedata.Scene currentScene) {
@@ -105,7 +102,6 @@ public class ToolClickHandlers {
             if (scene == currentScene)
                 refreshCanvas(context);
         }
-        DataHelpers.sendNewCloudData(context);
     }
 
     private static void deleteImgRes(Game game, CanvasScreen context, gamedata.Scene currentScene) {
@@ -127,7 +123,6 @@ public class ToolClickHandlers {
             }
         }
         game.resources.removeIf(n -> n.resourceType.equals(IMAGE_RESOURCE) && n.resourceID.equals(context.selectedID));
-        DataHelpers.sendNewCloudData(context);
     }
 
     private static void deleteColorResource(Game game, CanvasScreen context, gamedata.Scene currentScene) {
@@ -149,7 +144,6 @@ public class ToolClickHandlers {
             }
         }
         game.resources.removeIf(n -> n.resourceType.equals(COLOR_RESOURCE) && n.resourceID.equals(context.selectedID));
-        DataHelpers.sendNewCloudData(context);
     }
 
     public static void handleNewColor(CanvasScreen context) {
@@ -170,7 +164,6 @@ public class ToolClickHandlers {
         stage.setScene(scene);
         stage.show();
         System.out.println("Added colour resource");
-        DataHelpers.sendNewCloudData(context);
     }
 
     public static void handleNewAudioRes(CanvasScreen context) {
@@ -186,7 +179,6 @@ public class ToolClickHandlers {
         r.src = file.getAbsolutePath();
         context.getGame().resources.add(r);
         initialiseAudioGrid(context);
-        DataHelpers.sendNewCloudData(context);
     }
 
     public static void handleNewImgRes(CanvasScreen context) {
@@ -202,7 +194,6 @@ public class ToolClickHandlers {
         r.src = file.getAbsolutePath();
         context.getGame().resources.add(r);
         initialiseImagesGrid(context);
-        DataHelpers.sendNewCloudData(context);
     }
 
     public static void handleNewObject (CanvasScreen context) {
@@ -213,7 +204,6 @@ public class ToolClickHandlers {
         initialiseObjectsGrid(context);
         System.out.println("Created new object");
         System.out.println("Currently selected: " + (context.currentlySelected == null));
-        DataHelpers.sendNewCloudData(context);
     }
 
     public static void handleExportGame (CanvasScreen context) {

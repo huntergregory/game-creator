@@ -159,19 +159,6 @@ public class DataHelpers {
     public static void sendNewCloudData(CanvasScreen context) {
         try {
             GameCloudWrapper gcw = context.getGameCloudWrapper();
-            // Instantiates a client
-            Storage storage =
-                    StorageOptions.newBuilder()
-                            .setCredentials(
-                                    ServiceAccountCredentials.fromStream(
-                                            new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
-                            .setProjectId("tmtp-spec")
-                            .build()
-                            .getService();
-            String contents = new Gson().toJson(gcw, new TypeToken<GameCloudWrapper>() {}.getType());
-            BlobId blobId = BlobId.of("voogasalad-files", gcw.gameID);
-            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
-            Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
             context.triggerEvent(gcw.gameID);
         } catch (Exception e) {
             e.printStackTrace();

@@ -69,6 +69,7 @@ public class CanvasScreen extends Screen {
     }
 
     public void triggerEvent(String gameID) {
+        System.out.println("Triggering");
         pusherSender.trigger("mainChannel", "update", gameID+"|"+getLoggedInUsername());
     }
 
@@ -139,24 +140,24 @@ public class CanvasScreen extends Screen {
                                 // Instantiates a client
 
                                 try {
-                                Storage storage =
-                                        StorageOptions.newBuilder()
-                                                .setCredentials(
-                                                        ServiceAccountCredentials.fromStream(
-                                                                new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
-                                                .setProjectId("tmtp-spec")
-                                                .build()
-                                                .getService();
-                                String name = c[0];
-                                Blob blob = storage.get(BlobId.of("voogasalad-files", name));
-                                String contents = new String(blob.getContent());
-                                GameCloudWrapper gcw = (new Gson().fromJson(contents, new TypeToken<GameCloudWrapper>() {
-                                }.getType()));
-                                changeTitle(name);
-                                Game game = gcw.game;
-                                setGameCloudWrapper(gcw);
-                                ScreenHelpers.closeMenu(CanvasScreen.this, paneA, paneB, paneContainer, namePane);
-                                setGame(game);
+                                    Storage storage =
+                                            StorageOptions.newBuilder()
+                                                    .setCredentials(
+                                                            ServiceAccountCredentials.fromStream(
+                                                                    new FileInputStream(SERVICE_ACCOUNT_JSON_PATH)))
+                                                    .setProjectId("tmtp-spec")
+                                                    .build()
+                                                    .getService();
+                                    String name = c[0];
+                                    Blob blob = storage.get(BlobId.of("voogasalad-files", name));
+                                    String contents = new String(blob.getContent());
+                                    GameCloudWrapper gcw = (new Gson().fromJson(contents, new TypeToken<GameCloudWrapper>() {
+                                    }.getType()));
+                                    changeTitle(name);
+                                    Game game = gcw.game;
+                                    setGameCloudWrapper(gcw);
+                                    ScreenHelpers.closeMenu(CanvasScreen.this, paneA, paneB, paneContainer, namePane);
+                                    setGame(game);
 
                                 } catch (Exception e) {
                                     e.printStackTrace();

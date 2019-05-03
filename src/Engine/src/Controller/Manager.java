@@ -33,7 +33,7 @@ public class Manager {
 
     private EngineParser myParser;
     private TimerController myTimerController;
-    boolean levelPassed;
+    private boolean levelPassed;
     private double myStepTime;
 
     public Manager(EngineParser parser, TimerController timerController, double stepTime) {

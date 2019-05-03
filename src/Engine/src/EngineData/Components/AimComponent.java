@@ -4,11 +4,11 @@ import static java.lang.Double.parseDouble;
 
 public class AimComponent extends Component{
 
-    double myXAim;
-    double myYAim;
-    double myRotationRate;
-    int myShootRate;
-    int myTracker;
+    private double myXAim;
+    private double myYAim;
+    private double myRotationRate;
+    private int myShootRate;
+    private int myTracker;
 
     public AimComponent(String xAim, String yAim, String rotationRate, String shootRate){
         myXAim = parseDouble(xAim);

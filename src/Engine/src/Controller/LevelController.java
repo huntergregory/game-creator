@@ -6,8 +6,6 @@ import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.Controller.DebugLog;
-import Engine.src.Controller.Sounds;
 import gamedata.Game;
 import Engine.src.ECS.CollisionHandler;
 import groovy.lang.Binding;
@@ -27,7 +25,6 @@ public class LevelController {
     private boolean scrollsVertically;
 
     private double myStepTime;
-    private double myIterationCounter;
 
     private TimerController myTimerController;
     private EngineParser myParser;
@@ -53,7 +50,6 @@ public class LevelController {
         scrollsHorizontally = myParser.getHorizScrolling();
         scrollsVertically = myParser.getVertScrolling();
 
-        myIterationCounter = 0;
         myDebugLog = new DebugLog();
         mySounds = new Sounds();
         myOffset = updateOffset();
@@ -79,7 +75,7 @@ public class LevelController {
             myBinding.setProperty(USER_KEYWORD, myParser.getUserEngineInstance());
             Script script = shell.parse(event);
             script.run();
-        } else ; //TODO:error
+        }
     }
 
     public void updateScene() {

@@ -3,7 +3,6 @@ package Engine.src.Controller.Events;
 import Engine.src.Controller.NoInstanceException;
 import Engine.src.Controller.NoObjectException;
 import Engine.src.EngineData.Components.BasicComponent;
-import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
@@ -54,7 +53,6 @@ public abstract class Event {
     protected abstract void execute(EngineInstance engineInstance, double stepTime, Object ... args);
 
     protected UnmodifiableEngineGameObject getObjectByID(String id) throws NoObjectException {
-        //FIXME runtime
         for (UnmodifiableEngineGameObject engineGameObject : myGameEngineObjects) {
             if (engineGameObject.getID().equals(id))
                 return engineGameObject;

@@ -127,7 +127,6 @@ public abstract class AIEvent extends ComponentDependentEvent {
 
             if (path.intersects(lineInstance)) {
                 double[] distanceVectorPrev = findDistanceVector(center, prevPoint);
-                double[] distanceVectorNext = findDistanceVector(center, nextPoint);
                 if (Math.round(motion.getXVelocity() * distanceVectorPrev[0]) >= 0 && Math.round(motion.getYVelocity() * distanceVectorPrev[1]) >= 0) {
                     return currentPatrolPathIndex;
                 }
@@ -159,8 +158,7 @@ public abstract class AIEvent extends ComponentDependentEvent {
         BasicComponent targetBasic = targetEngineInstance.getComponent(BasicComponent.class);
         double deltaX = targetBasic.getX() - referenceBasic.getX();
         double deltaY = targetBasic.getY() - referenceBasic.getY();
-        double[] vector = {deltaX, deltaY};
-        return vector;
+        return new double[]{deltaX, deltaY};
     }
 
     private double[] findDistanceVector(Double[] referencePoint, Double[] targetPoint) {

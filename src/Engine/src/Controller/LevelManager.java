@@ -43,7 +43,7 @@ public class LevelManager {
 //        }
 //        /*else if (myLevelWidth - userX <= .5 * screenWidth + .5 * userWidth) {
 //            offsetX = myLevelWidth - screenWidth;
-//        }*/ //FIXME restricting max scroll to very small even when level width is large...
+//        }*/
 //        else {
 //            offsetX = userX + .5 * userWidth - .5 * screenWidth;
 //        }
@@ -58,7 +58,7 @@ public class LevelManager {
 //            offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
 //        }
 //
-//        return new double[]{offsetX, 0}; //FIXME hardcoding 0 offset in y direction for demo
+//        return new double[]{offsetX, 0};
 //    }
 //
 //    public void addSequence(Map<Integer, List<Event>> myEventsWhileOn, Map<Integer, List<Event>> myEventsAfter, Map<Integer, Double> myDurations, boolean isLoop) {

@@ -15,12 +15,10 @@ public abstract class ComponentContainer {
     ComponentContainer(String id) {
         myID = id;
         myComponents = new HashMap<>();
-        //addComponent(new BasicComponent("", "0","0","0","0")); //FIXME add default properties file
     }
 
     ComponentContainer(String id, Map<Class<? extends Component>, Component> components) {
         this(id);
-        //FIXME: Do we need to check for a basiccomponent?
         if (components != null)
             myComponents = components;
     }
@@ -48,12 +46,6 @@ public abstract class ComponentContainer {
     public String getID() {
         return myID;
     }
-
-    /*
-    protected Map<Class<? extends Component>, Component> getComponents() {
-        return myComponents;
-    }
-    */
 
     protected Map<Class<? extends Component>, Component> copyComponents() {
         Map<Class<? extends Component>, Component> components = new HashMap<>();

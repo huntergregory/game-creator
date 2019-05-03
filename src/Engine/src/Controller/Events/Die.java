@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-//FIXME
 public class Die extends InstanceDependentEvent {
 
     public Die(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {
@@ -43,7 +42,6 @@ public class Die extends InstanceDependentEvent {
         basic.kill();
     }
 
-    //FIXME - should be another event
     private void respawn(EngineInstance engineInstance, String respawnInstructions){
         Binding binding = new Binding();
         BinderHelper binderHelper = new BinderHelper();

@@ -9,8 +9,6 @@ public class GameController {
     private final double myStepTime;
     private final double myScreenWidth;
     private final double myScreenHeight;
-    private double myLevelWidth;
-    private double myLevelHeight;
     private List<String> myGameScript;
     private Game myGame;
 

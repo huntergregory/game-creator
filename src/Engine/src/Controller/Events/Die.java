@@ -24,14 +24,13 @@ public class Die extends InstanceDependentEvent {
 
     @Override
     protected void modifyInstance(EngineInstance engineInstance, double stepTime, Object... args) {
-
         if(engineInstance.hasComponent(LivesComponent.class)){
             LivesComponent lives = engineInstance.getComponent(LivesComponent.class);
+            lives.removeLife();
             if (lives.expired())
                 die(engineInstance);
             else {
                 respawn(engineInstance, lives.getRespawnInstructions());
-                lives.removeLife();
             }
         }
         else

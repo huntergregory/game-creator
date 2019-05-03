@@ -30,7 +30,6 @@ import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.*;
 import java.util.*;
 
@@ -38,17 +37,16 @@ public class PlayerStage {
     private static final double OFFSET_THRESHOLD = 200;
     private final String STYLESHEET = "style.css";
     private final double HUD_WIDTH = 300;
-    public final double ST_WIDTH = 800;
-    public final double ST_HEIGHT = 600;
-    public final Paint ST_COLOR = Color.web("284376");
-    public final double STEP_TIME = 5;
-    public final Paint GAME_BG = Color.BLACK;
-    public static final int FRAMES_PER_SECOND = 15;
-    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    private final double ST_WIDTH = 800;
+    private final double ST_HEIGHT = 600;
+    private final Paint ST_COLOR = Color.web("284376");
+    private final double STEP_TIME = 5;
+    private final Paint GAME_BG = Color.BLACK;
+    private static final int FRAMES_PER_SECOND = 15;
+    private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private static final int HUD_UPDATE_DELAY = 10;
     private static final boolean HUD_INCLUDES_PLOTTER = true;
-
 
     private VBox myVBox;
     private Game myGame;
@@ -67,7 +65,6 @@ public class PlayerStage {
     private Map<String, EngineInstance> myEngineInstances;
     private Map<EngineInstance, ImageView> myImageViewMap;
     private List<MediaPlayer> mySounds;
-    private int myLevelNumber;
 
     private NumericalDataTracker<Double> myXPosTracker;
     private NumericalDataTracker<Double> myYPosTracker;
@@ -76,16 +73,17 @@ public class PlayerStage {
     private NumericalDataTracker<Integer> myLivesTracker;
     private NumericalDataTracker<Integer> myScoreTracker;
 
-    EngineInstance userEngineInstance;
-    BasicComponent basicComponent;
-    MotionComponent motionComponent;
-    LivesComponent livesComponent;
-    ScoreComponent scoreComponent;
+    private EngineInstance userEngineInstance;
+    private BasicComponent basicComponent;
+    private MotionComponent motionComponent;
+    private LivesComponent livesComponent;
+    private ScoreComponent scoreComponent;
 
     private final String FILE_NOT_FOUND = "File not found";
     private int myCount;
     private int gamePaused;
-    private Boolean debugMode = false;
+    private Boolean debugMode;
+    private int myLevelNumber;
 
     public PlayerStage(GameCenterController gameCenterController) {
         myGameCenterController = gameCenterController;
@@ -385,6 +383,18 @@ public class PlayerStage {
     public void storeScore() {
         String myFinalScore = (String) myScoreTracker.getLatestValue();
         //myGameCenterController.setHighScore();
+    }
+
+    private void checkLevelOver() {
+
+    }
+
+    private void checkGameOver() {
+
+    }
+
+    private void endGame() {
+
     }
 
 }

@@ -1,18 +1,21 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
+import Engine.src.ECS.CollisionHandler;
+import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.AimComponent;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
 import Engine.src.EngineData.EngineInstance;
 import gamedata.Game;
-import Engine.src.ECS.CollisionHandler;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LevelController {
     private static final String LOGIC_COMPONENT_KEYWORD = "instance";
@@ -25,6 +28,7 @@ public class LevelController {
     private boolean scrollsVertically;
 
     private double myStepTime;
+    private double myIterationCounter;
 
     private TimerController myTimerController;
     private EngineParser myParser;
@@ -33,7 +37,6 @@ public class LevelController {
     private Game myGame;
     private DebugLog myDebugLog;
     private Sounds mySounds;
-    private BinderHelper myBinderHelper;
 
     private Binding myBinding;
     private GroovyShell myShell;
@@ -51,13 +54,13 @@ public class LevelController {
         scrollsHorizontally = myParser.getHorizScrolling();
         scrollsVertically = myParser.getVertScrolling();
 
+        myIterationCounter = 0;
         myDebugLog = new DebugLog();
         mySounds = new Sounds();
         myOffset = updateOffset();
         myTimerController = new TimerController(myShell);
         myManager = new Manager(myParser, myTimerController, myStepTime);
         myCollisionHandler = new CollisionHandler(myManager);
-        myBinderHelper = new BinderHelper();
         initializeGroovyShell();
     }
 
@@ -67,7 +70,6 @@ public class LevelController {
         myBinding.setProperty("collisionHandler", myCollisionHandler);
         myBinding.setProperty("collisionDetector", new CollisionDetector());
         myBinding.setProperty("debugLogger", myDebugLog);
-        myBinderHelper.bindComponentClasses(myBinding);
         myShell = new GroovyShell(myBinding);
     }
 
@@ -78,7 +80,7 @@ public class LevelController {
             myBinding.setProperty(USER_KEYWORD, myParser.getUserEngineInstance());
             Script script = shell.parse(event);
             script.run();
-        }
+        } else ; //TODO:error
     }
 
     public void updateScene() {
@@ -101,11 +103,14 @@ public class LevelController {
         for (String ID : instancesCopy.keySet()) {
             EngineInstance engineInstance = instancesCopy.get(ID);
 
-            if(engineInstance.hasComponent(LogicComponent.class)) {
+            try {
                 LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
                 String logic = logicComponent.getLogic();
                 myBinding.setProperty(LOGIC_COMPONENT_KEYWORD, myParser.getEngineInstances().get(ID));
                 myShell.evaluate(logic);
+            }
+            catch(NoComponentException e) {
+                //System.out.println("No Component");
             }
             if(engineInstance.hasComponent(AimComponent.class)){
                 AimComponent aim = engineInstance.getComponent(AimComponent.class);
@@ -144,7 +149,7 @@ public class LevelController {
             if (userY <= .5 * screenHeight - .5 * userHeight) {
                 offsetY = 0;
             } else {
-                offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
+                offsetY = userY + .5 * userHeight - .5 * screenHeight; // this puts the user 3/4 the way dow the screen
             }
         }
 

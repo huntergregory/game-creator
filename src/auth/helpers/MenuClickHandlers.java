@@ -95,7 +95,7 @@ public class MenuClickHandlers {
             List<GameObject> gameObjects = o.gameObjects;
             for(GameObject go:gameObjects){
                 if(go.objectID.equals(controller.objID)){
-                    go.objectLogic = go.objectLogic + "\n" + controller.script;
+                    go.objectLogic = go.objectLogic + controller.script;
                     System.out.print(go.objectID + " " + go.objectLogic);
                 }
             }
@@ -110,8 +110,7 @@ public class MenuClickHandlers {
             CollisionController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(context.getCurrentScene());
-            scene.sceneLogic = scene.sceneLogic + "\n" + controller.script;
-            ScreenHelpers.populateConsolePane(context, (BottomPane)context.getUIElementById(CONSOLE_PANE_ID));
+            scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }
@@ -170,6 +169,7 @@ public class MenuClickHandlers {
                         BlobId blobId = BlobId.of("voogasalad-files", name);
                         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
                         Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+                        DataHelpers.sendNewCloudData(context);
                     } else {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Invalid ID");
@@ -182,6 +182,7 @@ public class MenuClickHandlers {
                 BlobId blobId = BlobId.of("voogasalad-files", gcw.gameID);
                 BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/json").build();
                 Blob blob = storage.create(blobInfo, contents.getBytes(UTF_8));
+                DataHelpers.sendNewCloudData(context);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,7 +250,6 @@ public class MenuClickHandlers {
             String allowed[] = name.split(",");
             context.getGameCloudWrapper().allowAccess.clear();
             context.getGameCloudWrapper().allowAccess.addAll(Arrays.asList(allowed));
-            DataHelpers.sendNewCloudData(context);
         });
     }
 

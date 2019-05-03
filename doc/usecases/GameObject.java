@@ -2,22 +2,22 @@ package Engine;
 
 public interface GameObject {
     /**
-     * Executes the logic determined by the json files on each GameObject as necessary excluding collisions, which can
+     * Executes the logic determined by the json files on each EngineGameObject as necessary excluding collisions, which can
      * include basic player movement parameters, special effects, etc.
      */
     void execute();
     /**
-     * Gets the absolute x position of the GameObject
-     * @return absolute x position of the GameObject
+     * Gets the absolute x position of the EngineGameObject
+     * @return absolute x position of the EngineGameObject
      */
     double getXPosition();
     /**
-     * Gets the absolute y position of the GameObject
-     * @return absolute y position of the GameObject
+     * Gets the absolute y position of the EngineGameObject
+     * @return absolute y position of the EngineGameObject
      */
     double getYPosition();
     /**
-     * Gets the magnitude of the velocity of the GameObject
+     * Gets the magnitude of the velocity of the EngineGameObject
      * @return magnitude of the velocity
      */
     double getVel();

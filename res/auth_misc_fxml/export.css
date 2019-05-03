@@ -1,0 +1,101 @@
+.gridPane{
+    -fx-background-color: #333333;
+    -fx-padding: 25px;
+    -fx-spacing: 25px;
+    -fx-vgap: 25px;
+}
+.gp2 {
+    -fx-hgap: 15px;
+}
+.propertyName {
+    -fx-font-size: 12px;
+    -fx-font-family: "Sofia Pro";
+    -fx-text-fill: white;
+}
+.propertyValue {
+    -fx-padding: 5 15 5 15;
+    -fx-text-fill: white;
+    -fx-background-radius: 100px;
+    -fx-background-color: black;
+    -fx-border-color: transparent;
+    -fx-border-radius: 100px;
+    -fx-effect: none;
+}
+.propertyValueLarge {
+    -fx-min-height: 100px;
+    -fx-padding: 5 15 5 15;
+    -fx-text-fill: white;
+    -fx-background-radius: 25px;
+    -fx-background-color: black;
+    -fx-border-color: transparent;
+    -fx-border-radius: 25px;
+    -fx-effect: none;
+    -fx-wrap-text: true;
+}
+.button{
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+    -fx-background-color: GHOSTWHITE;
+    -fx-text-fill: black;
+    -fx-background-radius: 20 20 20 20;
+    -fx-font-family: "Bebas Kai";
+    -fx-effect: dropshadow( gaussian , GHOSTWHITE , 0,0,0,2 );
+    -fx-spacing: 5;
+    -fx-cursor: hand;
+}
+.buttonWide {
+    -fx-min-height: 25px;
+    -fx-max-height: 25px;
+    -fx-min-width: 450px;
+    -fx-background-color: GHOSTWHITE;
+    -fx-text-fill: black;
+    -fx-background-radius: 20 20 20 20;
+    -fx-font-family: "Bebas Kai";
+    -fx-effect: dropshadow( gaussian , GHOSTWHITE , 0,0,0,2 );
+    -fx-spacing: 5;
+    -fx-cursor: hand;
+}
+.propertyValueTwo {
+    -fx-padding: 5 15 5 15;
+    -fx-text-fill: white;
+    -fx-max-width: 150px;
+    -fx-background-radius: 100px;
+    -fx-background-color: black;
+    -fx-border-color: transparent;
+    -fx-border-radius: 100px;
+    -fx-effect: none;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+}
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+.text-area .scroll-bar:vertical:disabled {
+    -fx-opacity: 0;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+.propertyValue:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.8), 10, 0, 0, 0);
+}
+
+.propertyValueLarge:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.8), 10, 0, 0, 0);
+}
+
+.propertyValue:disabled {
+    -fx-background-color: #555555;
+}

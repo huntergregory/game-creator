@@ -1,12 +1,9 @@
 package hud;
 
-import Player.Features.Sliders.LivesSlider;
-import Player.Features.Sliders.TimeSlider;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -38,12 +35,6 @@ public class HUDView {
     private Plotter myPlotter;
     private boolean myPlotsIncluded = false;
     private Button myPlotToggleButton;
-    private Button myPauseButton;
-    private Button myResumeButton;
-    private Button mySaveButton;
-    private LivesSlider myLivesSlider;
-    private TimeSlider myTimeSlider;
-    private int gamePaused = 0;
 
     /**
      * Create a HUDView
@@ -56,9 +47,6 @@ public class HUDView {
     public HUDView(double width, double height, String title, boolean includePlots, DataTracker ... trackers) {
         myTrackers = trackers;
         createVBoxes();
-        addGameButtons();
-        addLivesSlider();
-        addTimeSlider();
         addToggle();
         addLabels(title);
         createScrollPane(width, height);
@@ -84,9 +72,9 @@ public class HUDView {
             String value = tracker.size() == 0 ? "" : tracker.getLatestValue().toString();
             myDataLabels[k].setText(tracker.getDataName() + ": " + value);
         }
-
-        if (myPlotter != null)
+        if (myPlotter != null) {
             myPlotter.updateGraph();
+        }
     }
 
     /**
@@ -106,58 +94,6 @@ public class HUDView {
         myHudValuesBox.setSpacing(INTER_VALUES_SPACING);
         myPlotAndValuesBox = new VBox(myHudValuesBox);
         myPlotAndValuesBox.setSpacing(PLOT_VALUES_SPACING);
-    }
-
-    private void addGameButtons() {
-        HBox myBox = new HBox();
-        myPauseButton = new Button("PAUSE");
-        myPauseButton.setOnAction(e -> pauseGame());
-        myResumeButton = new Button("RESUME");
-        myResumeButton.setOnAction(e -> resumeGame());
-        mySaveButton = new Button("SAVE");
-        mySaveButton.setOnAction(e -> saveGame());
-        myBox.getChildren().add(myPauseButton);
-        myBox.getChildren().add(myResumeButton);
-        myBox.getChildren().add(mySaveButton);
-        myPlotAndValuesBox.getChildren().add(myBox);
-    }
-
-    private void pauseGame() {
-        gamePaused = 1;
-    }
-
-    private void resumeGame() {
-        gamePaused = 0;
-    }
-
-    /**
-     * Return whether the game is paused or active
-     * @return
-     */
-    public int getGamePaused() {
-        return gamePaused;
-    }
-
-    private void saveGame() {
-
-    }
-
-    private void addLivesSlider() {
-        Label label = new Label("Select Lives");
-        HBox myBox = new HBox();
-        myBox.getChildren().add(label);
-        myLivesSlider = new LivesSlider();
-        myBox.getChildren().add(myLivesSlider.getMainComponent());
-        myPlotAndValuesBox.getChildren().add(myBox);
-    }
-
-    private void addTimeSlider() {
-        Label label = new Label("Select Time");
-        HBox myBox = new HBox();
-        myBox.getChildren().add(label);
-        myTimeSlider = new TimeSlider();
-        myBox.getChildren().add(myTimeSlider.getMainComponent());
-        myPlotAndValuesBox.getChildren().add(myBox);
     }
 
     private void addToggle() {

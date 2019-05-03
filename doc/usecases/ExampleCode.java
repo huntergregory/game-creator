@@ -1,6 +1,5 @@
 package usecases;
 
-import java.util.List;
 import java.util.ArrayList;
 
 /**

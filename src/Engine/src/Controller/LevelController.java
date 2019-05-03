@@ -149,7 +149,7 @@ public class LevelController {
             if (userY <= .5 * screenHeight - .5 * userHeight) {
                 offsetY = 0;
             } else {
-                offsetY = userY + .5 * userHeight - .5 * screenHeight; // this puts the user 3/4 the way dow the screen
+                offsetY = userY + .5 * userHeight - .75 * screenHeight; // this puts the user 3/4 the way dow the screen
             }
         }
 

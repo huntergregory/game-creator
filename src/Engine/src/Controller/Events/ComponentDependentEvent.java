@@ -42,7 +42,6 @@ public abstract class ComponentDependentEvent extends InstanceDependentEvent {
 
     protected void shoot(EngineInstance shooterEngineInstance, String missile, AimComponent aim){
         EngineInstance missileInstance = createFromInstance(missile, shooterEngineInstance);
-        System.out.println(myEngineInstances.size());
         MotionComponent motion = missileInstance.getComponent(MotionComponent.class);
         double velocity = motion.getVelocity();
         motion.setXVelocity(aim.getXAim() * velocity);

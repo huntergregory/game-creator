@@ -27,17 +27,12 @@ public abstract class ComponentContainer {
 
     public void addComponent(Component ... components) {
         for (Component component : components) myComponents.put(component.getClass(), component);
-        //System.out.println(myComponents.size());
     }
 
     public <T extends Component> T getComponent(Class<T> componentClass) throws NoComponentException {
         if (myComponents.containsKey(componentClass))
             return (T) myComponents.get(componentClass);
         throw new NoComponentException(myID);
-        /*for (Class<?> clazz : myComponents.keySet()) {
-            if (clazz.equals(componentClass))
-                return (T) myComponents.get(componentClass);
-        }*/
     }
 
     public <T extends Component> void removeComponent(Class<T> componentClass) throws BasicComponentException {

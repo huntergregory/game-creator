@@ -94,15 +94,12 @@ public class CollisionHandler {
     }
 
     private void setDefaultMotion(EngineInstance i) {
-        try {
+        if(i.hasComponent(MotionComponent.class)) {
             var motion = i.getComponent(MotionComponent.class);
             motion.resetXAccel();
             motion.resetYAccel();
             motion.resetMovementXVel();
             motion.resetMovementYVel();
-        }
-        catch(NoComponentException e) {
-            System.out.println("No motion component");
         }
     }
 
@@ -125,53 +122,43 @@ public class CollisionHandler {
     }
 
     private void correctClipping(EngineInstance toAdjust, EngineInstance other) {
-        try {
-            var environmentComponent = other.getComponent(EnvironmentComponent.class);
-        }
-        catch (NoComponentException e) {
-            try {
-                var impassableComponent = other.getComponent(ImpassableComponent.class);
-                var motionComponent = toAdjust.getComponent(MotionComponent.class);
-                var adjBasic = toAdjust.getComponent(BasicComponent.class);
-                var otherBasic = other.getComponent(BasicComponent.class);
-                Map<String, Double> shortestClipping = new HashMap<>();
-                if (myCollisionDetector.collideFromTop(toAdjust, other)) {
-                    shortestClipping.put("top", otherBasic.getY() - adjBasic.getHeight() - adjBasic.getY());
-                }
-                if (myCollisionDetector.collideFromTop(other, toAdjust)) {
-                    shortestClipping.put("bottom", otherBasic.getY() + otherBasic.getHeight() - adjBasic.getY());
-                }
-                if (myCollisionDetector.collideFromLeft(toAdjust, other)) {
-                    shortestClipping.put("left", otherBasic.getX() - adjBasic.getWidth() - adjBasic.getX());
-                }
-                if (myCollisionDetector.collideFromLeft(other, toAdjust)) {
-                    shortestClipping.put("right", otherBasic.getX() + otherBasic.getWidth() - adjBasic.getX());
-                }
-                Map.Entry<String, Double> min = null;
-                for (Map.Entry<String, Double> entry : shortestClipping.entrySet()) {
-                    if (min == null || abs(min.getValue()) > abs(entry.getValue())) {
-                        min = entry;
-                    }
-                }
-                if (min != null) {
-                    if (min.getKey().equals("top") || min.getKey().equals("bottom")) {
-                        adjBasic.setY(adjBasic.getY() + min.getValue());
-                    }
-                    else if (min.getKey().equals("left") || min.getKey().equals("right")) {
-                        adjBasic.setX(adjBasic.getX() + min.getValue());
-                    }
+        if (!other.hasComponent(EnvironmentComponent.class)) {
+            var adjBasic = toAdjust.getComponent(BasicComponent.class);
+            var otherBasic = other.getComponent(BasicComponent.class);
+            Map<String, Double> shortestClipping = new HashMap<>();
+            if (myCollisionDetector.collideFromTop(toAdjust, other)) {
+                shortestClipping.put("top", otherBasic.getY() - adjBasic.getHeight() - adjBasic.getY());
+            }
+            if (myCollisionDetector.collideFromTop(other, toAdjust)) {
+                shortestClipping.put("bottom", otherBasic.getY() + otherBasic.getHeight() - adjBasic.getY());
+            }
+            if (myCollisionDetector.collideFromLeft(toAdjust, other)) {
+                shortestClipping.put("left", otherBasic.getX() - adjBasic.getWidth() - adjBasic.getX());
+            }
+            if (myCollisionDetector.collideFromLeft(other, toAdjust)) {
+                shortestClipping.put("right", otherBasic.getX() + otherBasic.getWidth() - adjBasic.getX());
+            }
+            Map.Entry<String, Double> min = null;
+            for (Map.Entry<String, Double> entry : shortestClipping.entrySet()) {
+                if (min == null || abs(min.getValue()) > abs(entry.getValue())) {
+                    min = entry;
                 }
             }
-            catch(NoComponentException e2) {
-                //System.out.println("Correct Clipping cannot be done");
+            if (min != null) {
+                if (min.getKey().equals("top") || min.getKey().equals("bottom")) {
+                    adjBasic.setY(adjBasic.getY() + min.getValue());
+                }
+                else if (min.getKey().equals("left") || min.getKey().equals("right")) {
+                    adjBasic.setX(adjBasic.getX() + min.getValue());
+                }
             }
         }
     }
 
     private void dealWithImpassable(EngineInstance mover, EngineInstance impassable) {
-        try {
+        if(impassable.hasComponent(ImpassableComponent.class)) {
             var impassableComponent = impassable.getComponent(ImpassableComponent.class);
-            if (impassableComponent != null && impassableComponent.getImpassable()) {
+            if (impassableComponent.getImpassable()) {
                 var motion = mover.getComponent(MotionComponent.class);
                 if (motion == null)
                     return;
@@ -184,9 +171,6 @@ public class CollisionHandler {
                     motion.setXVelocity(0);
                 }
             }
-        }
-        catch (NoComponentException e) {
-            //System.out.println("No impassable to deal with");
         }
     }
 
@@ -205,14 +189,11 @@ public class CollisionHandler {
     private void addCollisionAndHandleEnvironments(EngineInstance current, EngineInstance other) {
         myCurrentCollisions.putIfAbsent(current, new HashMap<>());
         myCurrentCollisions.get(current).put(other.getID(), other);
-        try {
+        if (current.hasComponent(MotionComponent.class) && other.hasComponent(EnvironmentComponent.class)) {
             var currentMotionComponent = current.getComponent(MotionComponent.class);
             var otherEnvironmentComponent = other.getComponent(EnvironmentComponent.class);
             if (myPreviousCollisions.containsKey(current) && !myPreviousCollisions.get(current).containsKey(other.getID()))
                 setInEnvironment(current, currentMotionComponent, otherEnvironmentComponent);
-        }
-        catch (NoComponentException e) {
-            System.out.println("No environment component OR no motion component");
         }
     }
 
@@ -227,15 +208,10 @@ public class CollisionHandler {
         }
     }
 
-    //TODO fix if Timers.Events are changed
     private void activateEvents(EngineInstance engineInstance1, EngineInstance engineInstance2, String responses) {
-        //FIXME delegate rest of method to ObjectEvent/GameEvent and uncomment code above
-
         GroovyShell shell = new GroovyShell(mySetter);
         mySetter.setProperty(COLLISION_KEYWORD1, engineInstance1);
         mySetter.setProperty(COLLISION_KEYWORD2, engineInstance2);
-        System.out.println(mySetter.getProperty("manager"));
-        System.out.println(responses);
         Script script = shell.parse(responses);
         script.run();
 

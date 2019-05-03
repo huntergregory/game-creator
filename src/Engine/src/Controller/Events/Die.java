@@ -1,17 +1,14 @@
 package Engine.src.Controller.Events;
 
 import Engine.src.Controller.BinderHelper;
-import Engine.src.Controller.ClassGrabber;
 import Engine.src.EngineData.Components.BasicComponent;
-import Engine.src.EngineData.Components.Component;
-import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.Components.LivesComponent;
+import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 

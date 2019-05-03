@@ -1,10 +1,9 @@
 package Engine.src.Controller.Events.Motion;
 
 import Engine.src.ECS.CollisionDetector;
+import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.MotionComponent;
 import Engine.src.EngineData.EngineInstance;
-import Engine.src.EngineData.Components.BasicComponent;
-import Engine.src.EngineData.Components.Component;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 
 import java.util.ArrayList;

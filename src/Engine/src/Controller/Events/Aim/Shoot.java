@@ -2,8 +2,6 @@ package Engine.src.Controller.Events.Aim;
 
 import Engine.src.Controller.Events.ComponentDependentEvent;
 import Engine.src.EngineData.Components.AimComponent;
-import Engine.src.EngineData.Components.LogicComponent;
-import Engine.src.EngineData.Components.StateComponent;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.EngineData.UnmodifiableEngineGameObject;
 

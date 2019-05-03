@@ -13,7 +13,7 @@ public class AimComponent extends Component{
     public AimComponent(String xAim, String yAim, String rotationRate, String shootRate){
         myXAim = parseDouble(xAim);
         myYAim = parseDouble(yAim);
-        myRotationRate = Double.parseDouble(rotationRate);
+        myRotationRate = Math.PI / 10;
         myShootRate = Integer.parseInt(shootRate);
         myTracker = 0;
     }

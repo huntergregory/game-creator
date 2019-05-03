@@ -9,8 +9,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
-import static auth.Dimensions.CANVAS_HEIGHT;
-import static auth.Dimensions.CANVAS_WIDTH;
 import static auth.helpers.DataHelpers.*;
 import static auth.helpers.ScreenHelpers.initialiseObjectsGrid;
 import static auth.helpers.ScreenHelpers.refreshCanvas;

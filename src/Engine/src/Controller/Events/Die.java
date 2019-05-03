@@ -12,6 +12,7 @@ import groovy.lang.Script;
 import java.util.Map;
 import java.util.Set;
 
+//FIXME
 public class Die extends InstanceDependentEvent {
 
     public Die(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {
@@ -20,13 +21,14 @@ public class Die extends InstanceDependentEvent {
 
     @Override
     protected void modifyInstance(EngineInstance engineInstance, double stepTime, Object... args) {
+
         if(engineInstance.hasComponent(LivesComponent.class)){
             LivesComponent lives = engineInstance.getComponent(LivesComponent.class);
-            lives.removeLife();
             if (lives.expired())
                 die(engineInstance);
             else {
                 respawn(engineInstance, lives.getRespawnInstructions());
+                lives.removeLife();
             }
         }
         else
@@ -39,6 +41,7 @@ public class Die extends InstanceDependentEvent {
         basic.kill();
     }
 
+    //FIXME - should be another event
     private void respawn(EngineInstance engineInstance, String respawnInstructions){
         Binding binding = new Binding();
         BinderHelper binderHelper = new BinderHelper();

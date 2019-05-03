@@ -9,7 +9,7 @@ import java.util.Set;
 public class Flee extends AIEvent{
 
     public Flee(Map<String, EngineInstance> engineInstanceSet, Set<UnmodifiableEngineGameObject> engineObjects) {
-        super(engineInstanceSet, engineObjects, String.class);
+        super(engineInstanceSet, engineObjects, EngineInstance.class, Double.class);
     }
 
     @Override

@@ -56,7 +56,6 @@ import static auth.Styles.CANVAS_STYLE;
 import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.centreVertical;
 import static auth.helpers.RectangleHelpers.createScrollingRectangle;
-import static auth.helpers.RectangleHelpers.createStyledRectangle;
 
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";
@@ -507,7 +506,7 @@ public class ScreenHelpers {
             var newInstance = new Instance();
             newInstance.bgImage = instanceOf.bgImage; newInstance.bgColor = instanceOf.bgColor; newInstance.instanceOf = instanceOf.objectID;
             newInstance.instanceID = "instance_"+(game.scenes.get(context.getCurrentScene()).instances.size()+1);
-            newInstance.instanceLogic = "// Type your Groovy scripts for " + newInstance.instanceID + " here";
+//            newInstance.instanceLogic = "// Type your Groovy scripts for " + newInstance.instanceID + " here";
             newInstance.zIndex = 1;
             newInstance.width = (instanceOf.width > 0 ? instanceOf.width : 60);
             newInstance.height = (instanceOf.height > 0 ? instanceOf.height : 60);

@@ -18,7 +18,7 @@ public class Manager {
 
     private EngineParser myParser;
     private TimerController myTimerController;
-    private boolean levelPassed;
+    boolean levelPassed;
     private double myStepTime;
 
     public Manager(EngineParser parser, TimerController timerController, double stepTime) {

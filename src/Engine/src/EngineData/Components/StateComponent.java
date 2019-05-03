@@ -1,13 +1,16 @@
 package Engine.src.EngineData.Components;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StateComponent extends Component {
     private List<String> myStates;
 
     public StateComponent(String ... states) {
         myStates = new ArrayList<>();
-        myStates.addAll(Arrays.asList(states));
+        for(String state: states) {
+            myStates.add(state);
+        }
     }
 
     public StateComponent(List<String> states) {

@@ -150,7 +150,11 @@ public class EngineParser {
                 Script instanceInitializer = shell.parse(instanceLogic);
                 instanceInitializer.run();
                 myEngineInstances.put(instanceID, engineInstance);
+                System.out.println(instanceID + " " + myEngineInstances.get(instanceID).getComponent(BasicComponent.class).getX());
             }
+        }
+        for (String ID: myEngineInstances.keySet()) {
+            System.out.println(ID + " " + myEngineInstances.get(ID).getComponent(BasicComponent.class).getX());
         }
     }
 

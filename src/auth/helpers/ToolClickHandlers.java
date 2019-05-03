@@ -199,7 +199,7 @@ public class ToolClickHandlers {
     public static void handleNewObject (CanvasScreen context) {
         var object = new GameObject();
         object.objectID = "object_"+(context.getGame().gameObjects.size()+1);
-//        object.objectLogic = "// Type your Groovy scripts for " + object.objectID + " here";
+        object.objectLogic = "// Type your Groovy scripts for " + object.objectID + " here";
         context.getGame().gameObjects.add(object);
         initialiseObjectsGrid(context);
         System.out.println("Created new object");

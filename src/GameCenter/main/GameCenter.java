@@ -1,6 +1,5 @@
 package GameCenter.main;
 
-import auth.RunAuth;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,11 +51,11 @@ public class GameCenter extends Application {
 
         this.myRoot = loader.load();
         this.myGCC = loader.getController();
-        myGCC.identity = myIdentity;
-        System.out.println(myGCC.identity.getName());
+        myGCC.myIdentity = myIdentity;
+        System.out.println(myGCC.myIdentity.getName());
 
         myRoot.getStylesheets().add(this.getClass().getResource("/GUI/GUIStyle.css").toString());
-        myGCC.initGameCenter();
+        myGCC.initGameCenter(myIdentity);
 
         for(String s:myIdentity.getFriends()){
             Label friendName = new Label(s);

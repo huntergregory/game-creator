@@ -7,6 +7,8 @@ public class BasicComponent extends Component {
     private double myXPos;
     private double myYPos;
     private String myFilename;
+    private String myColor;
+    private String myID;
     private int myZIndex;
     private String myLogic;
     private boolean alive;

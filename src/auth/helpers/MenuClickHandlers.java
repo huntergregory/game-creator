@@ -24,14 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 import uiutils.panes.BottomPane;
 import uiutils.panes.Pane;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-
-import static auth.Strings.CONSOLE_PANE_ID;
 import java.io.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import static auth.Strings.CONSOLE_PANE_ID;
@@ -95,7 +91,7 @@ public class MenuClickHandlers {
             List<GameObject> gameObjects = o.gameObjects;
             for(GameObject go:gameObjects){
                 if(go.objectID.equals(controller.objID)){
-                    go.objectLogic = go.objectLogic + "\n" + controller.script;
+                    go.objectLogic = go.objectLogic + controller.script;
                     System.out.print(go.objectID + " " + go.objectLogic);
                 }
             }
@@ -110,8 +106,7 @@ public class MenuClickHandlers {
             CollisionController controller = loader.getController();
             Game o = context.getGame();
             Scene scene = o.scenes.get(context.getCurrentScene());
-            scene.sceneLogic = scene.sceneLogic + "\n" + controller.script;
-            ScreenHelpers.populateConsolePane(context, (BottomPane)context.getUIElementById(CONSOLE_PANE_ID));
+            scene.sceneLogic = scene.sceneLogic + controller.script;
         } catch (IOException e) {
             System.out.println("Error loading the components fxml");
         }

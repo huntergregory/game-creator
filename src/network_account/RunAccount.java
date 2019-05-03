@@ -1,6 +1,5 @@
 package network_account;
 
-import auth.RunAuth;
 import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;

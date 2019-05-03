@@ -38,8 +38,6 @@ import static auth.Colors.BG_COLOR;
 import static auth.Dimensions.ENV_WINDOW_HEIGHT;
 import static auth.Dimensions.ENV_WINDOW_WIDTH;
 import static auth.Strings.*;
-import static auth.Strings.CONSOLE_PANE_ID;
-import static auth.Strings.DEFAULT_TITLE;
 import static auth.helpers.DataHelpers.SERVICE_ACCOUNT_JSON_PATH;
 import static auth.helpers.MenuClickHandlers.*;
 import static auth.helpers.ScreenHelpers.*;
@@ -249,7 +247,6 @@ public class CanvasScreen extends Screen {
     public void removeUIElement(UIElement... elements) {
         for (UIElement element : elements) {
             this.container.getChildren().remove(element.getView());
-            ((Pane)((ScrollPane)getUIElementById(CANVAS_ID).getView()).getContent()).getChildren().remove(element.getView());
             this.possessedElements.remove(element);
         }
     }

@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 import network_account.RunAccount;
 import network_account.UserIdentity;
 
-import java.util.UUID;
-
 /**
  *
  */

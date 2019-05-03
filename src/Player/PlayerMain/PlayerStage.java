@@ -104,7 +104,6 @@ public class PlayerStage {
     public void load(String fileName, boolean debug) {
         myGameID = fileName;
         debugMode = debug;
-        System.out.println(fileName);
         String contents = new Scanner(fileName).useDelimiter("\\Z").next();
         myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
         myGameController = new GameController(STEP_TIME, ST_WIDTH, ST_HEIGHT, myGame);

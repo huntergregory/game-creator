@@ -1,18 +1,20 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
+import Engine.src.ECS.CollisionHandler;
 import Engine.src.EngineData.Components.AimComponent;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
 import Engine.src.EngineData.Components.ScoreComponent;
 import Engine.src.EngineData.EngineInstance;
 import gamedata.Game;
-import Engine.src.ECS.CollisionHandler;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LevelController {
     private static final String LOGIC_COMPONENT_KEYWORD = "instance";

@@ -326,6 +326,9 @@ public class PlayerStage {
 
     private void updateDataTrackers() {
         initComponents();
+        if (userEngineInstance == null) {
+            return;
+        }
         storeData();
     }
 

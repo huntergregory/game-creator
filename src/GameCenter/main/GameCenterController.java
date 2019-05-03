@@ -25,6 +25,9 @@ import network_account.IdentityManager;
 import network_account.UserIdentity;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +46,7 @@ public class GameCenterController {
     private int myIndex;
     private Number ratingVal;
     private ImageView activeGameImageView;
+    UserIdentity identity;
 
     @FXML
     public Pane socialPane, newGamePane, descriptionPane, ratingPane;
@@ -236,7 +240,17 @@ public class GameCenterController {
         gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
     }
 
-    public void setHighScore(IdentityManager IM, String gameID, String highScore) {
-        IM.addHighScore(gameID, highScore);
+    public void setHighScore(String gameID, String highScore) {
+        if(!identity.getName().equals("")){
+            String scoreString = "http://tmtp-spec.appspot.com/newHighScore?username=" + identity.getUsername() +
+                    "&gameID=" + gameID + "&score=" + highScore;
+            try {
+                URL url = new URL(scoreString);
+                URLConnection request = url.openConnection();
+                request.connect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

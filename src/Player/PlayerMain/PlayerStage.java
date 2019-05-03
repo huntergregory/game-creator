@@ -84,6 +84,7 @@ public class PlayerStage {
     private int gamePaused;
     private Boolean debugMode;
     private int myLevelNumber;
+    private String myGameID;
 
     public PlayerStage(GameCenterController gameCenterController) {
         myGameCenterController = gameCenterController;
@@ -97,6 +98,7 @@ public class PlayerStage {
     }
 
     public void load(String fileName, boolean debug) {
+        myGameID = fileName;
         debugMode = debug;
         String contents = new Scanner(fileName).useDelimiter("\\Z").next();
         myGame = new Gson().fromJson(contents, new TypeToken<Game>() {}.getType());
@@ -382,7 +384,7 @@ public class PlayerStage {
 
     public void storeScore() {
         String myFinalScore = (String) myScoreTracker.getLatestValue();
-        myGameCenterController.setHighScore();
+        myGameCenterController.setHighScore(myGameID, myFinalScore);
     }
 
     private void checkLevelOver() {

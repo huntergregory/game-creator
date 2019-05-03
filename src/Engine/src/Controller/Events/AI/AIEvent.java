@@ -91,7 +91,8 @@ public abstract class AIEvent extends ComponentDependentEvent {
         }
     }
 
-    public void flee(EngineInstance referenceEngineInstance, EngineInstance targetEngineInstance, double stepTime){
+    public void flee(EngineInstance referenceEngineInstance, String target, double stepTime){
+        EngineInstance targetEngineInstance = getInstanceByID(target);
         movementResponse(referenceEngineInstance, targetEngineInstance, "FLEE", stepTime);
     }
 
@@ -103,36 +104,56 @@ public abstract class AIEvent extends ComponentDependentEvent {
     public void patrol(EngineInstance engineInstance, List<List<Double>> patrolRoute, double stepTime) {
         int patrolStage = findPatrolStage(engineInstance, patrolRoute);
         BasicComponent basic = engineInstance.getComponent(BasicComponent.class);
-        System.out.println(basic.getX() + "  " + basic.getY());
-        double[] distance = findDistanceVector(new double[]{basic.getX(), basic.getY()}, patrolRoute.get(patrolStage));
-        moveInDirection(engineInstance, findDirection(distance), stepTime);
+        MotionComponent motion = engineInstance.getComponent(MotionComponent.class);
+        Double[] center = {basic.getX() + .5 * basic.getWidth(), basic.getY() + .5 * basic.getHeight()};
+        Double[] dest = {patrolRoute.get(patrolStage).get(0), patrolRoute.get(patrolStage).get(1)};
+        double[] direction = findDirection(findDistanceVector(center, dest));
+        motion.setXVelocity(direction[0] * motion.getMovementXVelocity());
+        motion.setYVelocity(direction[1] * motion.getMovementYVelocity());
     }
 
     private int findPatrolStage(EngineInstance engineInstance, List<List<Double>> patrolRoute) {
-        return new Random().nextInt(patrolRoute.size());
-        /*
         BasicComponent basic = engineInstance.getComponent(BasicComponent.class);
-        double[] topLeftCorner = {basic.getX(), basic.getY()};
-        double[] bottomRightCorner = {basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight()};
-        Double[] earlierPoint;
+        MotionComponent motion = engineInstance.getComponent(MotionComponent.class);
+        Double[] topLeftCorner = {basic.getX(), basic.getY()};
+        Double[] bottomRightCorner = {basic.getX() + basic.getWidth(), basic.getY() + basic.getHeight()};
+        Line lineInstance = new Line(topLeftCorner[0], topLeftCorner[1], bottomRightCorner[0], bottomRightCorner[1]);
+        Double[] center = {topLeftCorner[0] + .5 * basic.getWidth(), topLeftCorner[1] + .5 * basic.getHeight()};
+        Double[] prevPoint;
         Double[] nextPoint;
 
         for (int currentPatrolPathIndex = 0; currentPatrolPathIndex < patrolRoute.size() - 1; currentPatrolPathIndex++) {
-            earlierPoint = new Double[]{patrolRoute.get(currentPatrolPathIndex).get(0), patrolRoute.get(currentPatrolPathIndex).get(1)};
+            prevPoint = new Double[]{patrolRoute.get(currentPatrolPathIndex).get(0), patrolRoute.get(currentPatrolPathIndex).get(1)};
             nextPoint = new Double[]{patrolRoute.get(currentPatrolPathIndex + 1).get(0), patrolRoute.get(currentPatrolPathIndex + 1).get(1)};
-            Line line1 = new Line(earlierPoint[0], earlierPoint[1], nextPoint[0], nextPoint[1]);
-            Line line2 = new Line(topLeftCorner[0], topLeftCorner[1], bottomRightCorner[0], bottomRightCorner[1]);
+            Line path = new Line(prevPoint[0], prevPoint[1], nextPoint[0], nextPoint[1]);
 
-            if (line1.intersects(line2)) {
-                return currentPatrolPathIndex + 1;
+            if (path.intersects(lineInstance)) {
+                double[] distanceVectorPrev = findDistanceVector(center, prevPoint);
+                double[] distanceVectorNext = findDistanceVector(center, nextPoint);
+                if (Math.round(motion.getXVelocity() * distanceVectorPrev[0]) >= 0 && Math.round(motion.getYVelocity() * distanceVectorPrev[1]) >= 0) {
+                    return currentPatrolPathIndex;
+                }
+                else {
+                    return  currentPatrolPathIndex + 1;
+                }
             }
         }
-        return 0;
-        */
+        Double[] firstPoint = new Double[]{patrolRoute.get(0).get(0), patrolRoute.get(0).get(1)};
+        Double[] lastPoint = new Double[]{patrolRoute.get(patrolRoute.size() -1).get(0), patrolRoute.get(patrolRoute.size() -1 ).get(1)};
+        if (findDistanceMagnitude(firstPoint, center) > findDistanceMagnitude(lastPoint, center)) {
+            return 0;
+        }
+        else {
+            return patrolRoute.size() - 1;
+        }
     }
 
     private boolean isInLOS(EngineInstance targetEngineInstance, EngineInstance referenceEngineInstance, double distance, double LOS) {
         return (LOS > distance && !targetEntityObscured(targetEngineInstance, referenceEngineInstance));
+    }
+
+    private double findDistanceMagnitude(Double[] a, Double[] b) {
+        return Math.pow(Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2), .5);
     }
 
     private double[] findDistanceVector(EngineInstance referenceEngineInstance, EngineInstance targetEngineInstance) {
@@ -144,9 +165,9 @@ public abstract class AIEvent extends ComponentDependentEvent {
         return vector;
     }
 
-    private double[] findDistanceVector(double[] referencePoint, List<Double> targetPoint) {
-        double deltaX = targetPoint.get(0) - referencePoint[0];
-        double deltaY = targetPoint.get(1) - referencePoint[1];
+    private double[] findDistanceVector(Double[] referencePoint, Double[] targetPoint) {
+        double deltaX = targetPoint[0] - referencePoint[0];
+        double deltaY = targetPoint[1] - referencePoint[1];
         return new double[]{deltaX, deltaY};
     }
 

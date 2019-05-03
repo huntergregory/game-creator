@@ -2,6 +2,7 @@ package auth.helpers;
 
 import auth.auth_ui_components.SimpleMessageDialog;
 import auth.screens.CanvasScreen;
+import auth.screens.ExportScreen;
 import gamedata.Game;
 import gamedata.GameObject;
 import gamedata.Instance;
@@ -216,7 +217,7 @@ public class ToolClickHandlers {
     }
 
     public static void handleExportGame (CanvasScreen context) {
-
+        new ExportScreen(context.getGame()).run();
     }
 
 }

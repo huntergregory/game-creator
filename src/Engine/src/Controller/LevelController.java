@@ -1,7 +1,6 @@
 package Engine.src.Controller;
 
 import Engine.src.ECS.CollisionDetector;
-import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.AimComponent;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.LogicComponent;
@@ -103,14 +102,11 @@ public class LevelController {
         for (String ID : instancesCopy.keySet()) {
             EngineInstance engineInstance = instancesCopy.get(ID);
 
-            try {
+            if(engineInstance.hasComponent(LogicComponent.class)) {
                 LogicComponent logicComponent = engineInstance.getComponent(LogicComponent.class);
                 String logic = logicComponent.getLogic();
                 myBinding.setProperty(LOGIC_COMPONENT_KEYWORD, myParser.getEngineInstances().get(ID));
                 myShell.evaluate(logic);
-            }
-            catch(NoComponentException e) {
-                //System.out.println("No Component");
             }
             if(engineInstance.hasComponent(AimComponent.class)){
                 AimComponent aim = engineInstance.getComponent(AimComponent.class);

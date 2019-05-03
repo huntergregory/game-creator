@@ -2,9 +2,7 @@ package Engine.src.Controller.Events.AI;
 
 import Engine.src.ECS.Line;
 import Engine.src.ECS.Pair;
-import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.*;
-import Engine.src.EngineData.EngineGameObject;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Controller.Events.ComponentDependentEvent;
 import Engine.src.Controller.Events.Motion.SetXPosition;
@@ -61,10 +59,10 @@ public abstract class AIEvent extends ComponentDependentEvent {
 
     private void movementResponse(EngineInstance referenceEngineInstance, EngineInstance targetEngineInstance, String movementType, double stepTime) {
         LOSComponent LOSComp;
-        try {
+        if(referenceEngineInstance.hasComponent(LOSComponent.class)) {
             LOSComp = referenceEngineInstance.getComponent(LOSComponent.class);
         }
-        catch (NoComponentException e) {
+        else {
             LOSComp = null;
         }
         double[] distanceVec = findDistanceVector(referenceEngineInstance, targetEngineInstance);

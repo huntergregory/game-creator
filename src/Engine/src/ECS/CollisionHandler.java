@@ -1,6 +1,5 @@
 package Engine.src.ECS;
 
-import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.*;
 import Engine.src.EngineData.EngineInstance;
 import Engine.src.Controller.Manager;
@@ -66,12 +65,10 @@ public class CollisionHandler {
     private void moveThenUpdateVelocities(Map<String, EngineInstance> allEntities) {
         for (String ID : allEntities.keySet()){
             EngineInstance i = allEntities.get(ID);
-            try {
+            if(i.hasComponent(MotionComponent.class)) {
                 var motionComponent = i.getComponent(MotionComponent.class);
                 myManager.call("Move", i);
                 myManager.call("UpdateVelocity", i);
-            }
-            catch(NoComponentException e) {
             }
         }
     }
@@ -81,13 +78,7 @@ public class CollisionHandler {
             Map<String, EngineInstance> possibleEnvironments = myCurrentCollisions.get(i);
             for (String ID : possibleEnvironments.keySet()) {
                 EngineInstance possibleEnvironment = possibleEnvironments.get(ID);
-                try {
-                    var envComponent = possibleEnvironment.getComponent(EnvironmentComponent.class);
-                    return true;
-                }
-                catch(NoComponentException e) {
-                    continue;
-                }
+                return possibleEnvironment.hasComponent(EnvironmentComponent.class);
             }
         }
         return false;

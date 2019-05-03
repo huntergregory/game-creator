@@ -96,18 +96,6 @@ public class PlayerStage {
         myScene.getStylesheets().add(STYLESHEET);
     }
 
-    public void save (File file){
-        String contents = new Gson().toJson(myGame, new TypeToken<Game>(){}.getType());
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
-            writer.write(contents);
-            writer.close();
-        }
-        catch (IOException e){
-            System.out.println(FILE_NOT_FOUND);
-        }
-    }
-
     public void load(String fileName, boolean debug) {
         debugMode = debug;
         String contents = new Scanner(fileName).useDelimiter("\\Z").next();
@@ -380,9 +368,21 @@ public class PlayerStage {
         save(potentialFile);
     }
 
+    private void save (File file){
+        String contents = new Gson().toJson(myGame, new TypeToken<Game>(){}.getType());
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
+            writer.write(contents);
+            writer.close();
+        }
+        catch (IOException e) {
+            System.out.println(FILE_NOT_FOUND);
+        }
+    }
+
     public void storeScore() {
         String myFinalScore = (String) myScoreTracker.getLatestValue();
-        //myGameCenterController.setHighScore();
+        myGameCenterController.setHighScore();
     }
 
     private void checkLevelOver() {

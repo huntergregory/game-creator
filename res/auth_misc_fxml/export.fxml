@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          styleClass="gridPane"
+          fx:controller="auth.auth_fxml_controllers.ExportController"
+          prefHeight="400.0" prefWidth="500.0">
+    <columnConstraints>
+        <ColumnConstraints percentWidth="40"  />
+        <ColumnConstraints percentWidth="60" />
+    </columnConstraints>
+    <padding><Insets left="15" right="15" /></padding>
+    <Label text="Choose a game title"
+           GridPane.columnIndex="0" GridPane.rowIndex="0"
+           styleClass="propertyName"/>
+    <TextField styleClass="propertyValue" fx:id="titleField"
+               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <Label text="Choose a game description"
+           GridPane.columnIndex="0" GridPane.rowIndex="1"
+           styleClass="propertyName"/>
+    <TextArea styleClass="propertyValueLarge" fx:id="descField"
+               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <Label text="Choose a game picture"
+           GridPane.columnIndex="0" GridPane.rowIndex="2"
+           styleClass="propertyName"/>
+    <GridPane styleClass="gp2"
+            GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <Button fx:id="imagePickerButton" text="Choose image file"
+                GridPane.columnIndex="0" GridPane.rowIndex="1"
+                onMouseClicked="#pickImage"
+                styleClass="button"/>
+        <TextField styleClass="propertyValueTwo" fx:id="fileShower"
+                  text="No file chosen"
+                  disable="true"
+                  GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    </GridPane>
+
+    <Button fx:id="exportButton" text="Export game"
+            GridPane.columnIndex="0" GridPane.rowIndex="3"
+            GridPane.columnSpan="2"
+            onMouseClicked="#export"
+            styleClass="buttonWide"/>
+    <stylesheets>
+        <URL value="@export.css" />
+    </stylesheets>
+</GridPane>

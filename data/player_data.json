@@ -5,7 +5,7 @@
       "name": "Doodle Jump",
       "rating": "4.5",
       "game_source": "",
-      "favorite": "false",
+      "favorite": "true",
       "desc": "A game where you have a doodle on the screen, and you make it jump. Nothing more than the name conveys."
     },
     {
@@ -19,9 +19,9 @@
     {
       "img": "/img/mario.jpg",
       "name": "Mario",
-      "rating": "5.0",
+      "rating": "0.0",
       "game_source": "",
-      "favorite": "true",
+      "favorite": "false",
       "desc": "Really? You need a description for Mario?"
     },
     {

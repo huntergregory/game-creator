@@ -15,7 +15,7 @@ import network_account.UserIdentity;
  *
  * GameCenter.java works in conjunction with GameCenter.fxml and GUIStyle.css, both found in the resources folder, as
  * well as GameCenterController.
- *
+ *i
  * GameCenter.java, GameCenter.fxml & GUIStyle.css, and GameCenterController.java are the model, view, and controller,
  * respectively. Keep this in mind when refactoring/writing new code.
  *
@@ -45,14 +45,17 @@ public class GameCenter extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+//        new RunAuth(myIdentity).start(new Stage());
+
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/GameCenter.fxml"));
 
         this.myRoot = loader.load();
         this.myGCC = loader.getController();
+        myGCC.myIdentity = myIdentity;
+        System.out.println(myGCC.myIdentity.getName());
 
         myRoot.getStylesheets().add(this.getClass().getResource("/GUI/GUIStyle.css").toString());
-        myGCC.initGameCenter();
-        myGCC.username.setText(myIdentity.getName());
+        myGCC.initGameCenter(myIdentity);
 
         for(String s:myIdentity.getFriends()){
             Label friendName = new Label(s);

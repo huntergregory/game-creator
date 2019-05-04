@@ -21,16 +21,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import network_account.IdentityManager;
 import network_account.UserIdentity;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import static GameCenter.utilities.Constants.NUM_HIGH_SCORES;
+import static GameCenter.utilities.Strings.GC_SCORE_EXCEPTIONS;
+import static GameCenter.utilities.Strings.GC_SOCIAL_LABEL_STYLE;
 
 /**
- * The Controller for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
+ * The LevelController for the GameCenter. Works in conjunction with GameCenter.java and GameCenter.fxml, which can be found
  * under the resources folder.
  *
  * This controller defines all actions that occur when a user interacts with the GUI. It also defines several parts of
@@ -43,6 +48,7 @@ public class GameCenterController {
     private int myIndex;
     private Number ratingVal;
     private ImageView activeGameImageView;
+    UserIdentity myIdentity;
 
     @FXML
     public Pane socialPane, newGamePane, descriptionPane, ratingPane;
@@ -55,10 +61,20 @@ public class GameCenterController {
     public Button newGameButton, playButton, editButton, rateButton, returnButton, favoriteButton;
     public Label score1, score2, score3;
 
-    void initGameCenter() {
+    /**
+     * Initializes several things that cannot be done through fxml alone such as importing thumbnails and setting
+     * listeners for the rating. Takes a userIdentity parameter, which will later be passed to the authoring
+     * environment so that the user is logged in throughout the program.
+     *
+     * @param userIdentity user Identity
+     */
+    public void initGameCenter(UserIdentity userIdentity) {
+        this.myIdentity = userIdentity;
         initListeners();
         favoriteGames = new ArrayList<>();
         placeThumbnails();
+        addSocialAspect();
+        username.setText(myIdentity.getName());
     }
 
     private void initListeners() {
@@ -69,6 +85,14 @@ public class GameCenterController {
                 ratingText.setText(String.format("%.2f", ratingVal));
             }
         });
+    }
+
+    private void addSocialAspect() {
+        for(String s:myIdentity.getFriends()){
+            Label friendName = new Label(s);
+            friendName.getStyleClass().add(GC_SOCIAL_LABEL_STYLE);
+            friendPane.getChildren().add(friendName);
+        }
     }
 
     private void placeThumbnails() {
@@ -144,7 +168,6 @@ public class GameCenterController {
 
     private void thumbnailClicked(int index) {
         this.myIndex = index;
-
         if (activeThumbnail == myIndex) {
             activeThumbnail = -1;
             titleText.setText("Game Center");
@@ -175,6 +198,15 @@ public class GameCenterController {
         loadGameFavorite();
         descriptionPane.setVisible(true);
         ratingPane.setVisible(false);
+        Label[] scores = new Label[]{score1, score2, score3};
+        for (int k = 0; k < NUM_HIGH_SCORES; k++) {
+            try {
+                scores[k].setText(myIdentity.getHighScores(gameData.get(myIndex).getName()).get(k));
+            }
+            catch(Exception e){
+                scores[k].setText(GC_SCORE_EXCEPTIONS);
+            }
+        }
     }
 
     private void loadGameImage() {
@@ -213,12 +245,12 @@ public class GameCenterController {
 
     @FXML
     private void launchAuthEnv() {
-        new RunAuth().start(new Stage());
+        new RunAuth(new UserIdentity()).start(new Stage());
     }
 
     @FXML
-    private void launchPlayer() {
-        new PlayerStage().run(gameData.get(myIndex).getSourcePath());
+    public void launchPlayer() {
+        new PlayerStage(this).load(gameData.get(myIndex).getSourcePath(), true);
     }
 
     @FXML
@@ -236,7 +268,18 @@ public class GameCenterController {
         gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
     }
 
-    public void setHighScore(IdentityManager IM, String gameID, String highScore) {
-        IM.addHighScore(gameID, highScore);
+    public void setHighScore(String gameID, String highScore) {
+        if (!myIdentity.getName().equals("")) {
+            String scoreString = "http://tmtp-spec.appspot.com/newHighScore?username=" + myIdentity.getUsername() +
+                    "&gameID=" + gameID + "&score=" + highScore;
+            try {
+                URL url = new URL(scoreString);
+                URLConnection request = url.openConnection();
+                request.connect();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

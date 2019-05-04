@@ -38,7 +38,7 @@ import java.util.Map;
 
 
 /**
- * FXML Controller for the user login pane (res/network_fxml/login.fxml), allowing user's to connect with the
+ * FXML LevelController for the user login pane (res/network_fxml/login.fxml), allowing user's to connect with the
  * Google App Engine backend to login and load information such as display name and personal high scores
  */
 public class LoginController {
@@ -91,8 +91,9 @@ public class LoginController {
                 gameCenter.setIdentity(myIdentity);
                 try {
                     gameCenter.start(new Stage());
-                    ((Node) event.getSource()).getScene().getWindow().hide();
+                    //((Node) event.getSource()).getScene().getWindow().hide();
                 } catch(Exception e) {
+                    e.printStackTrace();
                     System.out.println("Could not open GameCenter");
                 }
             }

@@ -14,7 +14,6 @@ public class UserIdentity {
     private String myName;
     private List<String> myFriends;
 
-    //TODO: Reformat UserIdentity class to reflect only users top score, along with universal top scores
 
     /**
      * Constructor for the UserIdentity object that contains all of the information unique to the current user after
@@ -31,6 +30,9 @@ public class UserIdentity {
         myFriends = friends;
     }
 
+    /**
+     * Default constructor for the UserIdentity
+     */
     public UserIdentity(){
         myUsername = "";
         myHighScores = null;

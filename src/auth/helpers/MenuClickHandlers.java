@@ -83,6 +83,10 @@ public class MenuClickHandlers {
         }
     }
 
+    /**
+     * Adds the object script to the correct object using the popup
+     * @param context is the CanvasScreen where the game is being created
+     */
     public static void handleAddObjectScript(CanvasScreen context){
         try{
             FXMLLoader loader = addPopup("/auth_components_fxml/objectScript.fxml");
@@ -100,6 +104,10 @@ public class MenuClickHandlers {
         }
     }
 
+    /**
+     * Adds the collision event with the correct engine syntax to the scene logic
+     * @param context is the CanvasScreen where the game is being created
+     */
     public static void handleAddCollision(CanvasScreen context){
         try{
             FXMLLoader loader = addPopup("/auth_components_fxml/collision.fxml");
@@ -112,7 +120,10 @@ public class MenuClickHandlers {
         }
     }
 
-
+    /**
+     * Adds a key event for the user using the correct engine syntax
+     * @param context is the CanvasScreen where the game is being created
+     */
     public static void handleAddKeyEvent(CanvasScreen context){
         try{
             FXMLLoader loader = addPopup("/auth_components_fxml/keyEvent.fxml");
@@ -126,6 +137,10 @@ public class MenuClickHandlers {
         }
     }
 
+    /**
+     *  Adds anything that the user wants to the scene logic
+     * @param context is the CanvasScreen where the game is being created
+     */
     public static void handleAddSceneScript(CanvasScreen context){
         try{
             FXMLLoader loader = addPopup("/auth_components_fxml/sceneScript.fxml");

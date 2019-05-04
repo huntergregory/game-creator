@@ -27,22 +27,4 @@ public class IdentityController {
         myCurrentGame = "mygame1";
     }
 
-    public void updateSocial(){
-//        updateIdentity(myCurrentGame);
-    }
-
-//    private void updateIdentity(String gameName){
-//        List<String> highScores = userIdentity.getHighScores(gameName);
-//        for(int k = 0; k < 3; k++) {
-//            try {
-//                myScores.get(k).setText(highScores.get(k));
-//            } catch (NullPointerException e){
-//                myScores.get(k).setText("");
-//            }
-//        }
-//    }
-//
-//    public void setGame(String game){
-//        myCurrentGame = game;
-//    }
 }

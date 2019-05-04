@@ -4,12 +4,19 @@ import javafx.application.Application;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * Allows the user to run the login stage
+ */
 public class RunAccount extends Application {
     public static void main(String[] args){
         launch(args);
     }
     public static  Font sofiaPro, sofiaProSmall, bebasKai, bebasKaiMedium;
 
+    /**
+     * Starts on the login stage, and moves onto the gamecenter when the user logs in successfully
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage){
         IdentityManager identityManager = new IdentityManager();
@@ -22,7 +29,5 @@ public class RunAccount extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        System.out.println(identityManager.getIdentity().getName());
-//        System.out.println("Past identity stage");
     }
 }

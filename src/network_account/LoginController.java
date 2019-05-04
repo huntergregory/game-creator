@@ -83,7 +83,6 @@ public class LoginController {
                 myHighScores.putIfAbsent(game, new ArrayList<>());
                 myHighScores.get(game).add(highScore);
             }
-            //TODO: Include friends list instead of empty arraylist
             myIdentity = new UserIdentity(username, displayName, myHighScores, new ArrayList<>());
             String possibleSuccess= names.get("resultDesc").toString().replaceAll("^\"|\"$", "");
             if(possibleSuccess.equals("Success")){

@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
+@Deprecated
 public class Launcher extends Application {
     private Stage myLauncherStage;
     private Stage myPlayerStage;

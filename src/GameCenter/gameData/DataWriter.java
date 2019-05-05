@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * DataWrites can write to the player_data.json file and update it. First, it loads the information that is already in
+ * DataWriter can write to the player_data.json file and update it. First, it loads the information that is already in
  * the .json file and updates it with the new information based on what parameters and methods are called.
  *
  * For example, if the rating of game is to be changed, the new rating and gameIndex should be passed to writeRating(),

@@ -12,12 +12,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * DataWrites can write to the player_data.json file and update it. First, it loads the information that is already in
+ * the .json file and updates it with the new information based on what parameters and methods are called.
+ *
+ * For example, if the rating of game is to be changed, the new rating and gameIndex should be passed to writeRating(),
+ * which will then use the writeToFile() and writeValue() methods to update that specific game's rating to the new value.
+ */
 public class DataWriter {
     private Gson myGson;
     private final String filePath = "data/player_data.json";
     private final String JsonObjectName = "games";
     private File jsonFile = new File(filePath);
 
+    /**
+     * Initializes GsonBuilder() with pretty printing so that output is easily readable by humans.
+     */
     public DataWriter(){
         try {
             myGson = new GsonBuilder().setPrettyPrinting().create();
@@ -60,10 +70,24 @@ public class DataWriter {
         return jo;
     }
 
+    /**
+     * Updates game's rating with new value given by rating parameter.
+     *
+     * @param rating double as a string
+     * @param gameIndex unique game index
+     * @throws FileNotFoundException if player_data.json is not where it should be
+     */
     public void writeRating (String rating, int gameIndex) throws FileNotFoundException {
         writeToFile(writeValue("rating", rating, gameIndex));
     }
 
+    /**
+     * Update's game's favorite field with string representing a true or false boolean
+     *
+     * @param favorite boolean as a string
+     * @param gameIndex unique game index
+     * @throws FileNotFoundException if player_data.json is not where it should be
+     */
     public void writeFavorite (String favorite, int gameIndex) throws FileNotFoundException {
         writeToFile(writeValue("favorite", favorite, gameIndex));
     }

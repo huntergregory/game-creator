@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-
+@Deprecated
 public class LauncherController {
     public Button createAccountButton;
     public Button forgotPasswordButton;

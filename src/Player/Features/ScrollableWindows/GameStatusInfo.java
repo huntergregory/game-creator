@@ -1,5 +1,8 @@
 package Player.Features.ScrollableWindows;
 
+/**
+ * @deprecated
+ */
 public class GameStatusInfo extends ScrollableWindow {
 
     String gameStatus = "";

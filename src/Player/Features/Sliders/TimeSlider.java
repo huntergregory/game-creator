@@ -10,6 +10,10 @@ public class TimeSlider extends PlayerSlider {
 
     private static final String TITLE = "Time";
 
+    /**
+     * Constructor for the TimeSlider object
+     * @param playerStage
+     */
     public TimeSlider(PlayerStage playerStage) {
         super(playerStage);
     }

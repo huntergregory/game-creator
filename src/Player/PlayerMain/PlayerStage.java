@@ -37,6 +37,11 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.*;
 
+/**
+ * This class is used to play games and collect game data that is displayed and visualized in the HUD. The game loop
+ * for updating the game state is housed in this class.
+ * @author Carter Gay
+ */
 public class PlayerStage {
     private static final double OFFSET_THRESHOLD = 200;
     private final String STYLESHEET = "style.css";
@@ -90,6 +95,10 @@ public class PlayerStage {
     private int myLevelNumber;
     private String myGameID;
 
+    /**
+     * Constructor for PlayerStage object. The GameCenterController is required to restart the Player and set high scores
+     * @param gameCenterController
+     */
     public PlayerStage(GameCenterController gameCenterController) {
         myGameCenterController = gameCenterController;
         myVisualRoot = new GridPane();
@@ -101,6 +110,11 @@ public class PlayerStage {
         myScene.getStylesheets().add(STYLESHEET);
     }
 
+    /**
+     * This method is called to start playing a game in the Player. The boolean debug is set to display the DebugConsole
+     * @param fileName
+     * @param debug
+     */
     public void load(String fileName, boolean debug) {
         myGameID = fileName;
         debugMode = debug;
@@ -349,10 +363,17 @@ public class PlayerStage {
         myScoreTracker.storeData(scoreComponent.getScore());
     }
 
+    /**
+     * This method was intended to be called by PlayerButtons to alter the number of lives for a game
+     * @param lives
+     */
     public void updateLives(int lives) {
         livesComponent.setLives(lives);
     }
 
+    /**
+     * This method is called by PlayerButtons when the restart buttons is clicked to restart the current game
+     */
     public void restartGame() {
         myGameStage.close();
         myGameCenterController.launchPlayer();
@@ -363,10 +384,17 @@ public class PlayerStage {
         gamePaused = myPlayerButtons.getGamePaused();
     }
 
+    /**
+     * This method can be called to determine if the game is paused
+     * @return
+     */
     public int getGamePaused() {
         return gamePaused;
     }
 
+    /**
+     * This method is called by PlayerButtons when the saved button is clicked to save the game to a file
+     */
     public void saveGame() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text doc(*.txt)", "*.txt"));
@@ -386,6 +414,9 @@ public class PlayerStage {
         }
     }
 
+    /**
+     * This method is called to store the high score in an account
+     */
     public void storeScore() {
         String myFinalScore = (String) myScoreTracker.getLatestValue();
         myGameCenterController.setHighScore(myGameID, myFinalScore);

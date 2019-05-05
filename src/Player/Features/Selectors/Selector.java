@@ -5,6 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 
+/**
+ * @deprecated
+ */
 public abstract class Selector extends Feature {
     private static final int NUM_OPTIONS_SHOWN = 4;
 

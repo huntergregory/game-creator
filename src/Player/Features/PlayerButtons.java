@@ -8,6 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * This class is used to create buttons for pausing, resuming, restarting, and saving the game. This class also has sliders
+ * for altering the time and number of lives for a game, although these were not fully integrated with other components
+ * @author Carter Gay
+ */
 public class PlayerButtons {
 
     private PlayerStage myPlayerStage;
@@ -28,6 +33,10 @@ public class PlayerButtons {
     private static final String RESTART = "RESTART";
     private static final String SAVE = "SAVE";
 
+    /**
+     * Constructor for the PlayerButtons object
+     * @param stage
+     */
     public PlayerButtons(PlayerStage stage) {
         myPlayerStage = stage;
         createVBox();
@@ -113,6 +122,10 @@ public class PlayerButtons {
         myPlayerStage.saveGame();
     }
 
+    /**
+     * Getter for the VBox holding the various PlayerButtons
+     * @return
+     */
     public Node getNode() {
         return myVBox;
     }

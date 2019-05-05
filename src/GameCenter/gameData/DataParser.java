@@ -8,8 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static GameCenter.utilities.Strings.*;
+
+/**
+ * Parses a json file and returns data as a list of DataStruct objects.
+ *
+ * @author Januario Carreiro and Anshu Dwibhashi
+ */
 public class DataParser {
-    public static List<DataStruct> parseConfig (String path) throws FileNotFoundException {
+    /**
+     * Parses a json file and returns data as a list of DataStruct objects.
+     *
+     * @param path path of json file
+     * @return List of DataStruct objects
+     * @throws FileNotFoundException if .json file does not exist at specified path
+     */
+    public static List<DataStruct> parseConfig(String path) throws FileNotFoundException {
         var gamesList = new ArrayList<DataStruct>();
         JSONObject obj = new JSONObject(new Scanner(new File(path)).useDelimiter("\\Z").next());
         var games = obj.getJSONArray("games");

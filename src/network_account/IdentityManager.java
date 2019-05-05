@@ -12,7 +12,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: add game cycling functionality for the identity pane
 
 /**
  * Class made to manage the identity of the user and hold all of the information of the player

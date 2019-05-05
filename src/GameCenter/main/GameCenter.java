@@ -19,9 +19,6 @@ import network_account.UserIdentity;
  * GameCenter.java, GameCenter.fxml & GUIStyle.css, and GameCenterController.java are the model, view, and controller,
  * respectively. Keep this in mind when refactoring/writing new code.
  *
- * TODO: Implement Social Hub
- * TODO: Add login items/user picture in conjunction with the data team
- *
  * @author Januario Carreiro
  * 14 April 2019
  */
@@ -45,8 +42,6 @@ public class GameCenter extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-//        new RunAuth(myIdentity).start(new Stage());
-
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/GUI/GameCenter.fxml"));
 
         this.myRoot = loader.load();
@@ -78,6 +73,12 @@ public class GameCenter extends Application {
         stage.show();
     }
 
+    /**
+     * Sets user's identity. Generally called from RunAccount class in network_account package, where user logs in.
+     * IMPORTANT: Must be called before start() or error will occur.
+     *
+     * @param userIdentity user identity
+     */
     public void setIdentity(UserIdentity userIdentity){
         myIdentity = userIdentity;
     }

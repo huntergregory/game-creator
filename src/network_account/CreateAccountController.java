@@ -93,6 +93,10 @@ public class CreateAccountController {
         }
     }
 
+    /**
+     * Returns to the login screen from the create account screen
+     * @param event
+     */
     public void returnToLogin(ActionEvent event){
         try {
             new RunAccount().start(new Stage());

@@ -1,5 +1,8 @@
 package Player.PlayerMain;
 
+/**
+ * This class is not implemented
+ */
 public class GameLoop {
 
     //public Stage getStage() {

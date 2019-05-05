@@ -1,5 +1,8 @@
 package Player.Features.ScrollableWindows;
 
+/**
+ * @deprecated
+ */
 public class CommentSection extends ScrollableWindow {
 
     String commentHistory;

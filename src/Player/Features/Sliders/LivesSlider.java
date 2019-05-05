@@ -10,6 +10,10 @@ public class LivesSlider extends PlayerSlider {
 
     private static final String TITLE = "Lives";
 
+    /**
+     * Constructor for the LivesSlider class
+     * @param playerStage
+     */
     public LivesSlider(PlayerStage playerStage) {
         super(playerStage);
     }

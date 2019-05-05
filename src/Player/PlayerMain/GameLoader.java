@@ -2,6 +2,9 @@ package Player.PlayerMain;
 
 import java.util.List;
 
+/**
+ * @deprecated
+ */
 public class GameLoader {
 
     private int myLevelNumber;

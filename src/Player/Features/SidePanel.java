@@ -10,8 +10,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 /**
- *
- * @author Carter Gay
+ * This class can be used to add side panels to a scene
  */
 public class SidePanel {
     public static final double V_GAP = 30;
@@ -23,7 +22,10 @@ public class SidePanel {
     private double myNormalWidth;
     private int myNumRows;
 
-
+    /**
+     * Constructor for a SidePanel object
+     * @param width
+     */
     public SidePanel(double width) {
         initializeGridPane();
         myNormalWidth = width;
@@ -32,12 +34,19 @@ public class SidePanel {
         updatePanelSize();
     }
 
-
+    /**
+     * Get the Pane of the SidePanel
+     * @return
+     */
     public Pane getPane() {
         return myPane;
     }
 
 
+    /**
+     * Add a row for a new feature to the SidePanel
+     * @param node
+     */
     public void addRow(Node node) {
         myPane.addRow(myNumRows, node);
         myChildren.add(node);
@@ -45,6 +54,10 @@ public class SidePanel {
         updatePanelSize();
     }
 
+    /**
+     * Remove a feature in a row from the SidePanel
+     * @param index
+     */
     public void removeRow(int index) {
         myPane.getChildren().remove(index);
         myNumRows -= 1;

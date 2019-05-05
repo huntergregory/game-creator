@@ -5,11 +5,19 @@ import Player.PlayerMain.PlayerStage;
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
 
+/**
+ * This class can be used to add any type of slider to a GUI
+ * @author Carter Gay
+ */
 public abstract class PlayerSlider extends Feature {
     static final double[] DEFAULT_MIN_MAX_CURRENT = {0, 5, 1};
     public PlayerStage myPlayerStage;
     private Slider mySlider;
 
+    /**
+     * Constructor for the PlayerSlider object
+     * @param playerStage
+     */
     PlayerSlider(PlayerStage playerStage) {
         myPlayerStage = playerStage;
         double[] minMaxCurrent = getMinMaxCurrentVals();
@@ -29,6 +37,9 @@ public abstract class PlayerSlider extends Feature {
     abstract protected double[] getMinMaxCurrentVals();
 
     @Override
+    /**
+     * Get the slider
+     */
     public Node getMainComponent() {
         return mySlider;
     }

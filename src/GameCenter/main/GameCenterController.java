@@ -146,13 +146,13 @@ public class GameCenterController {
         favoriteButton.setGraphic(heart);
     }
 
-    public void editFavorites(int gameInt) {
-        if (favoriteGames.contains(gameInt)) {
-            favoriteGames.remove(gameInt);
-        } else {
-            favoriteGames.add(gameInt);
-        }
-    }
+//    public void editFavorites(int gameInt) {
+//        if (favoriteGames.contains(gameInt)) {
+//            favoriteGames.remove(gameInt);
+//        } else {
+//            favoriteGames.add(gameInt);
+//        }
+//    }
 
     @FXML
     private void favoriteGame() {
@@ -268,6 +268,11 @@ public class GameCenterController {
         gameData.get(myIndex).setRating(ratingVal.doubleValue(), myIndex);
     }
 
+    /**
+     * Add a new high score for a certain game under the current user's ID
+     * @param gameID is the name of the game
+     * @param highScore is the score for that certain game
+     */
     public void setHighScore(String gameID, String highScore) {
         if (!myIdentity.getName().equals("")) {
             String scoreString = "http://tmtp-spec.appspot.com/newHighScore?username=" + myIdentity.getUsername() +

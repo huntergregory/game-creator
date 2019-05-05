@@ -8,6 +8,10 @@ import javafx.scene.layout.HBox;
 
 import java.util.LinkedList;
 
+/**
+ * This class can be used to add a scrollable window to a GUI
+ * @author Carter Gay
+ */
 public abstract class ScrollableWindow extends Feature {
     private HBox myHBox;
     private ScrollPane myScrollPane;

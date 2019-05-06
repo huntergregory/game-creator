@@ -8,6 +8,10 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to move an instance down by key event based on it's MotionComponent
+ * @author David Liu
+ */
 public class KeyMoveDown extends MotionEvent {
 
     public KeyMoveDown(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {

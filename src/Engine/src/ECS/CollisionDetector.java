@@ -7,18 +7,13 @@ import Engine.src.EngineData.EngineInstance;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This is a class used to detect collisions from all four sides and get a list of impassable colliders
+ * @author David Liu and Jonathan Yu
+ */
 public class CollisionDetector {
-
-    /**
-     * Used for more precise directional collision detection when colliding at a corner (avoid colliding from two
-     * directions at the same time)
-     */
     private final double BUFFER_HORIZ = 6;
     private final double BUFFER_VERT = 10;
-
-    /**
-     * Position and dimension data for a specific collision, where 1 is the collider and 2 is the target
-     */
     private double x1;
     private double x2;
     private double y1;
@@ -28,6 +23,12 @@ public class CollisionDetector {
     private double height1;
     private double height2;
 
+    /**
+     * Gives the list of other impassable colliders for a specific EngineInstance, not including itself
+     * @param entity an EngineInstance object
+     * @param allEntities Map of EngineInstance ids (Strings) with the EngineInstances themselves
+     * @return list of impassable colliders not including the entity that it is compared to
+     */
     public ArrayList<EngineInstance> getImpassableColliders(EngineInstance entity, Map<String, EngineInstance> allEntities) {
         ArrayList<EngineInstance> impassables = new ArrayList<>();
 
@@ -44,6 +45,12 @@ public class CollisionDetector {
         return impassables;
     }
 
+    /**
+     * Gives the result of whether the EngineInstances are colliding
+     * @param collider an EngineInstance object that is initiating colliding
+     * @param target an EngineInstance object that is the one colliding with
+     * @return the boolean of whether the EngineInstances are colliding
+     */
     public boolean collides(EngineInstance collider, EngineInstance target) {
         return collideFromLeft(collider, target) ||
                 collideFromLeft(target, collider) ||
@@ -51,6 +58,12 @@ public class CollisionDetector {
                 collideFromTop(target, collider);
     }
 
+    /**
+     * Gives the result of whether the collider is colliding from the left of the target
+     * @param collider an EngineInstance object that is initiating colliding
+     * @param target an EngineInstance object that is the one colliding with
+     * @return the boolean of whether the collider is colliding from the left of the target
+     */
     public boolean collideFromLeft(EngineInstance collider, EngineInstance target) {
         setCurrCollisionValues(collider, target);
 
@@ -59,6 +72,12 @@ public class CollisionDetector {
         return overlapsFromLeft && overlapsVertically;
     }
 
+    /**
+     * Gives the result of whether the collider is colliding from the top of the target
+     * @param collider an EngineInstance object that is initiating colliding
+     * @param target an EngineInstance object that is the one colliding with
+     * @return the boolean of whether the collider is colliding from the top of the target
+     */
     public boolean collideFromTop(EngineInstance collider, EngineInstance target) {
         setCurrCollisionValues(collider, target);
 

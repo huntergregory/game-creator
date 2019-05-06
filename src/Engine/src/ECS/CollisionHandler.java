@@ -17,10 +17,14 @@ import java.util.Map;
 
 import static java.lang.Math.abs;
 
+/**
+ * This is a class used to handle collisions and provide the appropriate response in each case through the form of
+ * events called by the manager with groovy scripting
+ * @author David Liu and Jonathan Yu
+ */
 public class CollisionHandler {
     private static final String COLLISION_KEYWORD1 = "object1";
     private static final String COLLISION_KEYWORD2 = "object2";
-
     private Manager myManager;
     private CollisionDetector myCollisionDetector;
     private Map<Pair<String>, String> myCollisionResponses;
@@ -28,6 +32,11 @@ public class CollisionHandler {
     private Map<EngineInstance, Map<String, EngineInstance>> myCurrentCollisions;
     private Binding mySetter;
 
+    /**
+     * Set up of the CollisionHandler to handle collisions and provide the appropriate response which includes setting up
+     * the bindings with the manager and collision detector objects in preparation for groovy and creating the appropriate data types to use
+     * @param manager Manager object used to bind to make calls for events in case of an event activating
+     */
     public CollisionHandler(Manager manager) {
         myManager = manager;
         myCollisionResponses = new HashMap<>();
@@ -39,6 +48,13 @@ public class CollisionHandler {
         mySetter.setProperty("collisionDetector", myCollisionDetector);
     }
 
+    /**
+     * Method that handles all collisions in a specific order, which is moving all the entities based on their MotionComponent
+     * if they have one, updating their MotionComponent velocities, checking collisions between all pairs of entities in the
+     * list once, and setting each entity to it's default motion if necessary following the collision.
+     * @param allEntities Map of EngineInstance ids (Strings) with the EngineInstances themselves
+     * @param collisionResponses Map of collision responses between pairs of GameObject types based on what the author desires
+     */
     public void handleCollisions(Map<String, EngineInstance> allEntities, Map<Pair<String>, String> collisionResponses) {
         myCollisionResponses = collisionResponses;
         myCurrentCollisions = new HashMap<>();
@@ -214,6 +230,12 @@ public class CollisionHandler {
 
     }
 
+    /**
+     * Method to add a collision to the map of collision responses that the collision handler should consider
+     * @param type1 GameObject type
+     * @param type2 GameObject type
+     * @param responses String response for groovy to parse
+     */
     public void addCollision(String type1, String type2, String responses){
         myCollisionResponses.put(new Pair<>(type1, type2), responses);
     }

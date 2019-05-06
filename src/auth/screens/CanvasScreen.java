@@ -247,6 +247,7 @@ public class CanvasScreen extends Screen {
     public void removeUIElement(UIElement... elements) {
         for (UIElement element : elements) {
             this.container.getChildren().remove(element.getView());
+            ((Pane)((ScrollPane)getUIElementById(CANVAS_ID).getView()).getContent()).getChildren().remove(element.getView());
             this.possessedElements.remove(element);
         }
     }

@@ -8,6 +8,10 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to move an instance in a specific input direction based on it's MotionComponent
+ * @author David Liu
+ */
 public class MoveInDirection extends MotionEvent {
 
     public MoveInDirection(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {

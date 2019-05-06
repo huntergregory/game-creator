@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to set an instance's x position based on it's MotionComponent
+ * @author David Liu
+ */
 public class SetXPosition extends MotionEvent {
 
     public SetXPosition(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {

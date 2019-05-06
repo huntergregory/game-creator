@@ -7,6 +7,10 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to update an instance's x and y velocity based on it's MotionComponent
+ * @author David Liu
+ */
 public class UpdateVelocity extends MotionEvent {
     public UpdateVelocity(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {
         super(engineInstances, engineObjects, new Class[]{MotionComponent.class});

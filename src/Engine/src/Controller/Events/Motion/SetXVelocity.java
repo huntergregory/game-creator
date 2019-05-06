@@ -7,6 +7,10 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to set the x velocity of an instance based on it's MotionComponent
+ * @author David Liu
+ */
 public class SetXVelocity extends MotionEvent {
     public SetXVelocity(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {
         super(engineInstances, engineObjects, new Class[]{MotionComponent.class}, Double.class);

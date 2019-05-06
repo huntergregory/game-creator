@@ -57,6 +57,12 @@ import static auth.auth_ui_components.ToolIcon.BG_CIRCLE_RADIUS;
 import static auth.helpers.DimensionCalculator.centreVertical;
 import static auth.helpers.RectangleHelpers.createScrollingRectangle;
 
+/**
+ * Contains various methods that are needed to initialize the Authoring Environment.
+ *
+ * @author Anshu Dwibhashi
+ * @author Duc Tran
+ */
 public class ScreenHelpers {
     private static final String STYLE_SHEET = "authoring.css";
     public static final String DRAGGING_CLONE = "DRAGGING_CLONE";

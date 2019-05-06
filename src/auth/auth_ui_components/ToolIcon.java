@@ -2,6 +2,11 @@ package auth.auth_ui_components;
 
 import auth.Callback;
 
+/**
+ * Represents the icons on the Tools panel.
+ *
+ * @author Anshu Dwibhashi
+ */
 public class ToolIcon extends Icon{
     @Override
     public void select() {

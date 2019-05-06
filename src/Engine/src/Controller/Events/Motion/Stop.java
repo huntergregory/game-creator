@@ -7,6 +7,10 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to stop an instance from moving based on it's MotionComponent
+ * @author David Liu
+ */
 public class Stop extends MotionEvent {
     public Stop(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {
         super(engineInstances, engineObjects, new Class[]{MotionComponent.class});

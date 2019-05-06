@@ -12,6 +12,12 @@ import javafx.scene.shape.Circle;
 import static auth.helpers.ScreenHelpers.makeShadow;
 import static auth.helpers.ScreenHelpers.makeShadowSelected;
 
+/**
+ * Represents an icon in the Authoring Environment's object library. Contains both the visual aspect and the virtual aspect. To use this class,
+ * call the constructor and feed it the right parameters and a selectable icon should be made.
+ *
+ * @author Anshu Dwibhashi
+ */
 public abstract class Icon implements Selectable {
 
     private Group view;
@@ -24,6 +30,10 @@ public abstract class Icon implements Selectable {
         this.selectable = selectable;
     }
 
+    /**
+     * This method sets the state of the class to being selected. Then it also visually represents that selection like with
+     * a highlight.
+     */
     @Override
     public void select() {
         if (selectable) {
@@ -37,6 +47,10 @@ public abstract class Icon implements Selectable {
         }
     }
 
+    /**
+     * This method sets the state of the class to being deselected. Then it also visually represents that deselection by
+     * removing the effect of the select().
+     */
     @Override
     public void deselect() {
         if (selectable) {

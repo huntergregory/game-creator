@@ -8,6 +8,10 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to move an instance not from key inputs based on it's MotionComponent
+ * @author David Liu
+ */
 public class Move extends MotionEvent {
 
     public Move(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {

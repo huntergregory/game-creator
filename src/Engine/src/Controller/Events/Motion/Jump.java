@@ -8,6 +8,10 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to make an instance jump based on it's MotionComponent
+ * @author David Liu
+ */
 public class Jump extends MotionEvent {
 
     public Jump(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {

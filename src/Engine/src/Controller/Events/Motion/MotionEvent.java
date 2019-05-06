@@ -9,6 +9,11 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to change an instance's motion based on it's MotionComponent and a specific event to which it is
+ * referred to
+ * @author David Liu
+ */
 public abstract class MotionEvent extends ComponentDependentEvent {
     public MotionEvent(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects, Class<? extends Component>[] componentClasses, Class<?>... parameterTypes) {
         super(engineInstances, engineObjects, componentClasses, parameterTypes);

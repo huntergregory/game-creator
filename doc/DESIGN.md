@@ -62,7 +62,15 @@ Abstract events can be created for events that use similar methods or modify the
 ###### Player
 
 ###### Game Center
+Adding a new feature to the frontend is done by adding a component to `GameCenter.fxml`. If you want the component to be interactive, it needs to 
+be referenced in the controller. This is done by giving the component a unique ID using the `fx:id` property
+and referencing the component in `GameCenterController.java`. In order to set an action associated with the component, a private method
+annotated with `@FXML` must be added to the controller class and setting the `onAction` property of the object to `#<methodNamer>`. If you want
+to style the component, you can set the components `id` property and add a style with the same id to `GUIStyle.css`. 
 
+If the feature to be added is dynamic, which is to say that it needs to be initialized and cannot be done through just an FXML document, then one
+can follow all the instructions above, but also add a method with a reasonable name (`init<Feature>()`) and call that method from `initGameCenter()` in
+the `GameCenterController` class. That way, when `start()` is called from `GameCenter.java`, whatever is needed for the feature will also be initialized.
 
 #### Design Decisions & Trade-offs
 
@@ -71,4 +79,10 @@ Abstract events can be created for events that use similar methods or modify the
 One large assumption is that key events processed in the engine only affect the defined user. This prevented the author from 
 having to specify the user for key events, which we believed would only ever impact the user in a scroller.
 
+In order to properly add features to the Game Center, the user must be familiar with the MVC pattern and how it is applied to the quartet of
+`GameCenter.java`, `GameCenterController.java`, `GameCenter.fxml`, and `GUISyle.css`. To add a feature to the Game Center, the view 
+for the feature must be added in the fxml doc first, and then referenced in the controller class, which, of course, assumes that the
+component it is acting on exists. Furthermore, to adding intractability to components involves adding an `onAction` (or similar) property
+to a component in the fxml and creating a method in the controller with an `@FXML` annotation. Of course, for an action to be added, the
+fxml must assume the method for the action exists in the controller.
 

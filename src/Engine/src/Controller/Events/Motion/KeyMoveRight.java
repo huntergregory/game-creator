@@ -8,6 +8,10 @@ import Engine.src.EngineData.UnmodifiableEngineGameObject;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class is used to move an instance right by key event based on it's MotionComponent
+ * @author David Liu
+ */
 public class KeyMoveRight extends MotionEvent {
 
     public KeyMoveRight(Map<String, EngineInstance> engineInstances, Set<UnmodifiableEngineGameObject> engineObjects) {

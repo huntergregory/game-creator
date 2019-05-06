@@ -5,7 +5,7 @@ import static java.lang.Double.parseDouble;
 /**
  * A component representing score.
  * @author Hunter Gregory
- * @author Daniel Kingsbury
+ * @author David Liu
  */
 public class ScoreComponent extends Component{
 

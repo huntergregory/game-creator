@@ -17,6 +17,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+/**
+ * This class handles the interactions between a user and the export menu. This class contains all of the methods that a
+ * JavaFXML file uses when a JavaFX node is interacted with, for example the export() method is linked to an export button.
+ *
+ * @author Anshu Dwibhashi
+ * @author Duc Tran
+ */
 public class ExportController {
     @FXML
     public TextField titleField, fileShower;
@@ -30,10 +37,21 @@ public class ExportController {
 
     private Game game; private ExportScreen screen;
 
+    /**
+     * Sets the game parameter and screen paramter to this class's game and screen variables.
+     *
+     * @param game The Game object that contains all of the necessary information for the game.
+     * @param screen The ExportScreen object that displays the export menu.
+     */
     public void initGame(Game game, ExportScreen screen) {
         this.game = game; this.screen = screen;
     }
 
+    /**
+     * This method opens a file explorer to allow the user to select an image to set it as the game's thumbnail.
+     *
+     * @param action The MouseEvent lets the File Chooser know where the mouse is and what information is selected.
+     */
     @FXML
     public void pickImage(MouseEvent action) {
         FileChooser fileChooser = new FileChooser();
@@ -46,6 +64,11 @@ public class ExportController {
         fileShower.setText(src);
     }
 
+    /**
+     * This method opens up a file explorer so the user can select the name and location of the game file.
+     *
+     * @param action The MouseEvent objects allow the file explorer to know where the mouse is located.
+     */
     @FXML
     public void export(MouseEvent action) {
         String contents = new Gson().toJson(game, new TypeToken<Game>(){}.getType());

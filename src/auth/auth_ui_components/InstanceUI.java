@@ -13,6 +13,11 @@ import static auth.Dimensions.CANVAS_VERTICAL_OFFSET;
 import static auth.Dimensions.CONSOLE_HORIZONTAL_OFFSET;
 import static auth.helpers.ScreenHelpers.*;
 
+/**
+ * Represents an Instance object in the Authoring Environment's Canvas
+ *
+ * @author Anshu Dwibhashi
+ */
 public class InstanceUI implements Selectable {
     private Instance instance; private Game game;
     private Node view;

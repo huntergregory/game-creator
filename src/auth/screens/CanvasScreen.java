@@ -42,6 +42,12 @@ import static auth.helpers.DataHelpers.SERVICE_ACCOUNT_JSON_PATH;
 import static auth.helpers.MenuClickHandlers.*;
 import static auth.helpers.ScreenHelpers.*;
 
+/**
+ * Class that contained all of the information to make and set up the Authoring Environment UI.
+ *
+ * @author Anshu Dwibhashi
+ * @author Duc Tran
+ */
 public class CanvasScreen extends Screen {
 
     private RunAuth context;

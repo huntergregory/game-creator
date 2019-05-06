@@ -13,6 +13,13 @@ import static auth.helpers.DataHelpers.*;
 import static auth.helpers.ScreenHelpers.initialiseObjectsGrid;
 import static auth.helpers.ScreenHelpers.refreshCanvas;
 
+/**
+ * This class controls what happens when a user interacts with the Instance property panel after selecting an object.
+ * To use this class, have a JavaFXML file and then right a method to link it to a JavaFX element.
+ *
+ * @author Anshu Dwibhashi
+ * @author Duc Tran
+ */
 public class InsPropsController extends JXMLController {
     private Game game;
     private Instance selectedInstance;
@@ -22,6 +29,12 @@ public class InsPropsController extends JXMLController {
     zIndexField, xField, yField, instanceOfField;
 
 
+    /**
+     * Gets the correct instance of an object so that its information can be properly placed in the panel.
+     *
+     * @param propsPane The JavaFX Pane that contains all of the Nodes that make up the panel.
+     * @param context The current scene that is being worked on.
+     */
     @Override
     public void initData(Pane propsPane, CanvasScreen context) {
         super.initData(propsPane, context);
@@ -30,6 +43,11 @@ public class InsPropsController extends JXMLController {
         populateFormUsingInstanceInfo(selectedInstance);
     }
 
+    /**
+     * Fills in the instance panel with the information obtained from the Instance object.
+     *
+     * @param object An Instance of a game object. Contains all of the information it needs to created by the player.
+     */
     private void populateFormUsingInstanceInfo(Instance object) {
         instanceIDField.setText(object.instanceID);
         instanceOfField.setText(object.instanceOf);
@@ -42,6 +60,11 @@ public class InsPropsController extends JXMLController {
         bgColorField.setText(object.bgColor);
     }
 
+    /**
+     * Changes the instance ID of a selected Instance when the enter key is pressed.
+     *
+     * @param The key being pressed currently.
+     */
     @FXML
     public void instanceIDKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
@@ -53,6 +76,11 @@ public class InsPropsController extends JXMLController {
         }
     }
 
+    /**
+     * Changes the width of a selected instance when the enter key is pressed and refreshes the canvas to show the change.
+     *
+     * @param e The current key being pressed.
+     */
     @FXML
     public void widthKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
@@ -68,6 +96,11 @@ public class InsPropsController extends JXMLController {
         }
     }
 
+    /**
+     * Changes the height of a selected instance when the enter key is pressed and refreshes the canvas to show the change.
+     *
+     * @param e The current key being pressed.
+     */
     @FXML
     public void heightKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
@@ -83,6 +116,12 @@ public class InsPropsController extends JXMLController {
         }
     }
 
+    /**
+     * Changes the current image of a selected instance if the image exists and once the enter key is pressed. Then
+     * refreshes the canvas to show the change.
+     *
+     * @param e The current key being pressed.
+     */
     @FXML
     public void bgImageKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
@@ -98,6 +137,12 @@ public class InsPropsController extends JXMLController {
         }
     }
 
+    /**
+     * Changes the background color of a selected instance once the enter key is pressed and if the color exists. Then
+     * refreshes the canvas to show the change.
+     *
+     * @param e The curren key being pressed.
+     */
     @FXML
     public void bgColorKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
@@ -113,6 +158,12 @@ public class InsPropsController extends JXMLController {
         }
     }
 
+    /**
+     * Changes the y-location of an instance once the enter key is pressed and if the location is valid. Then refreshes
+     * the canvas to show the change.
+     *
+     * @param e The current key being pressed.
+     */
     @FXML
     public void yKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
@@ -129,6 +180,12 @@ public class InsPropsController extends JXMLController {
         }
     }
 
+    /**
+     * Changes the x-location of an instance once the enter key is pressed and if the location is valid. Then refreshes
+     * the canvas to show the change.
+     *
+     * @param e The current key being pressed.
+     */
     @FXML
     public void xKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
@@ -145,6 +202,12 @@ public class InsPropsController extends JXMLController {
         }
     }
 
+    /**
+     * Changes Changes the y-location of an instance once the enter key is pressed and if the location is valid. Then refreshes
+     * the canvas to show the change.
+     *
+     * @param e The current key being pressed.
+     */
     @FXML
     public void zIndexKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {

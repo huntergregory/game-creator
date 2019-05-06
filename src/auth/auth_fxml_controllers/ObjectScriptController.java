@@ -12,7 +12,7 @@ public class ObjectScriptController {
 
     public void addObjectScript(){
         objID = objectID.getText();
-        script = "." + objectScript.getText() + ";";
+        script = objectScript.getText() + ";";
         objectScript.getScene().getWindow().hide();
     }
 }

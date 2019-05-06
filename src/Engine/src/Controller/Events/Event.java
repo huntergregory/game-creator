@@ -10,6 +10,12 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * General Event that modifies a given EngineInstance.
+ *
+ * @author Hunter Gregory
+ * @author Daniel Kingsbury
+ */
 public abstract class Event {
     private static final String ERROR_MESSAGE = "Not the correct number of arguments.";
 

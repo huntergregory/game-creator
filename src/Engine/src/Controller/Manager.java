@@ -7,7 +7,9 @@ import reflection.Reflection;
 import reflection.ReflectionException;
 
 /**
- * Combines the old LevelManager and EntityManager
+ * Provides a means for the author to not only set the current level to complete, but most importantly, call on any given default Event class within a script. Combines the old LevelManager and EntityManager.
+ *
+ * @author Hunter Gregory
  */
 public class Manager {
     private static final String REFLECTION_ERROR = "Event doesn't exist.";
@@ -21,6 +23,12 @@ public class Manager {
     boolean levelPassed;
     private double myStepTime;
 
+    /**
+     * Create a Manager
+     * @param parser
+     * @param timerController
+     * @param stepTime
+     */
     public Manager(EngineParser parser, TimerController timerController, double stepTime) {
         myParser = parser;
         myTimerController = timerController;
@@ -28,6 +36,12 @@ public class Manager {
         myStepTime = stepTime;
     }
 
+    /**
+     * Use in groovy scripts to call an event with a given name on an EngineInstance. Include any extra parameters that the Event needs.
+     * @param eventClass
+     * @param engineInstance
+     * @param args
+     */
     public void call(String eventClass, EngineInstance engineInstance, Object ... args) {
         try {
             for(String subfolder : SUBFOLDERS) {
@@ -61,6 +75,11 @@ public class Manager {
         }
     }
 
+    /**
+     * Get the EngineInstance for the user-defined entity.
+     * @return
+     * @throws NoInstanceException
+     */
     public EngineInstance getUser() throws NoInstanceException {
         var user = myParser.getUserEngineInstance();
         if (user == null)
@@ -68,14 +87,24 @@ public class Manager {
         return user;
     }
 
+    /**
+     * Add a timer to the logic.
+     * @param timer
+     */
     public void addTimer(Timer timer) {
         myTimerController.addTimer(timer);
     }
 
+    /**
+     * Set the level to be completed.
+     */
     public void setLevelPass() {
         levelPassed = true;
     }
 
+    /**
+     * @return true if the level is passed
+     */
     public boolean levelPassed() {
         return levelPassed;
     }

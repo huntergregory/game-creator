@@ -17,6 +17,12 @@ import groovy.lang.Sequence;
 
 import java.util.*;
 
+/**
+ * Converts String game data used in the author into data types of the engine (some of which - the components - are shared with the player)
+ *
+ * @author Daniel Kingsbury
+ * @author Hunter Gregory
+ */
 public class EngineParser {
 
     private Map<String, String> myHotKeys;
@@ -51,19 +57,40 @@ public class EngineParser {
 
     ////// Groovy API   ////////
 
+    /**
+     * Add a groovy script response for a collision between two different object types. The keywords for the types are respectively, object1 and object2
+     * @param type1
+     * @param type2
+     * @param response
+     */
     public void addCollision(String type1, String type2, String response){
         myCollisionResponses.put(new Pair<>(type1, type2), response);
     }
 
+    /**
+     * Add a groovy script response that affects the user for a key input. The keyword is user.
+     * @param key
+     * @param entry
+     */
     public void addKey(String key, String entry) {
         myHotKeys.put(key, entry);
     }
 
+    /**
+     * Add groovy scripts that run every game loop
+     * @param rules
+     */
     public void addLevelRules(String rules){
         myLevelRules += rules;
     }
 
 
+    /**
+     * Add a timer that has groovy-scripted events while on, groovy-scripted events to be done after, and a duration.
+     * @param eventsWhileOn
+     * @param eventsAfter
+     * @param duration
+     */
     public void addTimer(String eventsWhileOn, String eventsAfter, double duration) {
         int max = 0;
         for(int ID : myTimers.keySet()){

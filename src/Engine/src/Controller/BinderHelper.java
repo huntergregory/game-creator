@@ -5,8 +5,17 @@ import groovy.lang.Binding;
 
 import java.io.IOException;
 
+/**
+ * Uses ClassGrabber and applies extra functionality to bind component classes to a binding, or to get the component import statements to append to a groovy script.
+ * @author Hunter Gregory
+ * @author David Liu
+ */
 public class BinderHelper {
 
+    /**
+     * Bind each class' simple name to the actual component's class
+     * @param binding
+     */
     public void bindComponentClasses(Binding binding) {
         try {
             var classGrabber = new ClassGrabber();
@@ -18,6 +27,9 @@ public class BinderHelper {
         }
     }
 
+    /**
+     * @return the import statements for all components
+     */
     public String getComponentImportStatements() {
         String result = "";
         try {

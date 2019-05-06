@@ -1,5 +1,9 @@
 package Engine.src.EngineData;
 
+/**
+ * Engine Game Object that you cannot modify.
+ * @author Hunter Gregory
+ */
 public class UnmodifiableEngineGameObject {
 
     private EngineGameObject myEngineGameObject;

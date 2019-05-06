@@ -124,11 +124,11 @@ public class HUDView {
     }
 
     private void addLabels(String title) {
-        myTitle = new Label(title);
-        myTitle.setStyle(DATA_LABEL_CLASS_CSS);
-        myTitle.setId(TITLE_ID_CSS);
-        myHudValuesBox.getChildren().add(myTitle);
+        addTitle(title);
+        addDataLabels();
+    }
 
+    private void addDataLabels() {
         myDataLabels = new Label[myTrackers.length];
         for (int k = 0; k< myDataLabels.length; k++) {
             var label = new Label();
@@ -136,6 +136,13 @@ public class HUDView {
             myHudValuesBox.getChildren().add(label);
             myDataLabels[k] = label;
         }
+    }
+
+    private void addTitle(String title) {
+        myTitle = new Label(title);
+        myTitle.setStyle(DATA_LABEL_CLASS_CSS);
+        myTitle.setId(TITLE_ID_CSS);
+        myHudValuesBox.getChildren().add(myTitle);
     }
 
     private void createScrollPane(double width, double height) {

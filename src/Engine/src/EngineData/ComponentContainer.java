@@ -5,54 +5,73 @@ import Engine.src.EngineData.ComponentExceptions.NoComponentException;
 import Engine.src.EngineData.Components.BasicComponent;
 import Engine.src.EngineData.Components.Component;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Allows one to maintain components in an easily accessible way.
+ * @author Hunter Gregory
+ */
 public abstract class ComponentContainer {
     private String myID;
-    public Map<Class<? extends Component>, Component> myComponents;
+    Map<Class<? extends Component>, Component> myComponents;
 
+    /**
+     * Create a ComponentContainer
+     * @param id
+     */
     ComponentContainer(String id) {
         myID = id;
         myComponents = new HashMap<>();
     }
 
-    ComponentContainer(String id, Map<Class<? extends Component>, Component> components) {
-        this(id);
-        if (components != null)
-            myComponents = components;
-    }
-
+    /**
+     * Add any number of comma delineated components. If a component class is duplicated, then the later one will replace the former one.
+     * @param components
+     */
     public void addComponent(Component ... components) {
-        for (Component component : components) myComponents.put(component.getClass(), component);
+        Arrays.stream(components).forEach(component -> myComponents.put(component.getClass(), component));
     }
 
+    /**
+     * Get a given component by component class
+     * @param componentClass
+     * @param <T>
+     * @return Component
+     * @throws NoComponentException if the ComponentContainer doesn't contain the Component
+     */
     public <T extends Component> T getComponent(Class<T> componentClass) throws NoComponentException {
         if (myComponents.containsKey(componentClass))
             return (T) myComponents.get(componentClass);
         throw new NoComponentException(myID);
     }
 
-    public <T extends Component> void removeComponent(Class<T> componentClass) throws BasicComponentException {
+    /**
+     * Remove a given component by its class
+     * @param componentClass
+     * @throws BasicComponentException if you try to remove the essential BasicComponent
+     */
+    public void removeComponent(Class<? extends Component> componentClass) throws BasicComponentException {
         if (componentClass.equals(BasicComponent.class))
             throw new BasicComponentException();
         myComponents.remove(componentClass);
     }
 
+    /**
+     * Check to prevent NoComponentExceptions when using getComponent
+     * @param componentClass
+     * @return true if ComponentContainer has the component
+     */
     public boolean hasComponent(Class<? extends Component> componentClass) {
         return myComponents.containsKey(componentClass);
     }
 
+    /**
+     * @return String id
+     */
     public String getID() {
         return myID;
-    }
-
-    protected Map<Class<? extends Component>, Component> copyComponents() {
-        Map<Class<? extends Component>, Component> components = new HashMap<>();
-        for(Class clazz: myComponents.keySet()){
-            components.put(clazz, myComponents.get(clazz).copy());
-        }
-        return components;
     }
 
 }

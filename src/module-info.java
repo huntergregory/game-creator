@@ -13,7 +13,6 @@ module voogasalad.crackingopen {
 
     requires java.scripting;
     requires org.apache.commons.lang3;
-    requires gson;
 
     requires google.cloud.storage;
     requires google.oauth.client;
@@ -47,7 +46,6 @@ module voogasalad.crackingopen {
     opens dummy_player to org.codehaus.groovy, java.scripting;
 
     exports auth;
-    exports GameCenter;
     exports auth.screens;
     exports network_account;
     exports GameCenter.main;

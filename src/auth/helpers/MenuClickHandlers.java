@@ -34,6 +34,12 @@ import static auth.Strings.CONSOLE_PANE_ID;
 import static auth.helpers.DataHelpers.SERVICE_ACCOUNT_JSON_PATH;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+/**
+ * Handles interactions with the popup menus that popup from clicking the options of the hamburger menu.
+ *
+ * @author Ian Hanus
+ * @author Duc Tran
+ */
 public class MenuClickHandlers {
     public static uiutils.panes.Pane paneA;
     public static Pane paneB;

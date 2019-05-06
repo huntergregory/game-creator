@@ -18,6 +18,13 @@ import static auth.helpers.DataHelpers.*;
 import static auth.helpers.ScreenHelpers.*;
 import static java.util.Map.entry;
 
+/**
+ * This Class manages the interactions between the user and the resource pane. To use this class, write a method that should
+ * be called when a JavaFX element in interacted with and then link it to that interaction.
+ *
+ * @author Anshu Dwibhashi
+ * @author Duc Tran
+ */
 public class ResPropsController extends JXMLController{
     private Game game;
     private String selectedID;
@@ -34,6 +41,13 @@ public class ResPropsController extends JXMLController{
 
     private Resource selectedResource;
 
+    /**
+     * Calls the JXMLController's initData method, then this method selects the correct Resource object to display the
+     * correct information in the resource info panel.
+     *
+     * @param propsPane The Pane to be in focus.
+     * @param context The current canvas being displayed.
+     */
     @Override
     public void initData(Pane propsPane, CanvasScreen context) {
         super.initData(propsPane, context);
@@ -44,6 +58,11 @@ public class ResPropsController extends JXMLController{
         populateFormUsingResourceInfo(selectedResource);
     }
 
+    /**
+     * Populates the resource information panel with the information from the resource parameter.
+     *
+     * @param resource The Resource object that was selected.
+     */
     private void populateFormUsingResourceInfo(Resource resource) {
         resourceIDField.setText(resource.resourceID);
         if (resource.src.startsWith("0x")) {
@@ -58,6 +77,11 @@ public class ResPropsController extends JXMLController{
         }
     }
 
+    /**
+     * Changes the resourceID of the selected resource to the current string in the text field once the enter key is pressed.
+     *
+     * @param e The current key being pressed.
+     */
     @FXML
     public void resourceIDKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
